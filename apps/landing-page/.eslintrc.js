@@ -1,9 +1,7 @@
 module.exports = {
   extends: ["custom/next"],
   rules: {
-    "import/no-extraneous-dependencies": [
-      "error",
-      {dependency: true, devDependencies: true},
-    ],
+    "import/no-extraneous-dependencies": ["error", {devDependencies: true}],
+    "jsx-a11y/anchor-is-valid": ["off"],
   },
 };
