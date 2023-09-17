@@ -19,7 +19,7 @@ export function CallToAction(): JSX.Element {
               className="h-8 w-8 rounded-full object-cover"
               height="400"
               loading="lazy"
-              src="./images/avatars/avatar.webp"
+              src="/images/avatars/avatar.webp"
               width="400"
             />
             <Image
@@ -27,7 +27,7 @@ export function CallToAction(): JSX.Element {
               className="h-12 w-12 rounded-full object-cover"
               height="200"
               loading="lazy"
-              src="./images/avatars/avatar-2.webp"
+              src="/images/avatars/avatar-2.webp"
               width="200"
             />
             <Image
@@ -35,7 +35,7 @@ export function CallToAction(): JSX.Element {
               className="z-10 h-16 w-16 rounded-full object-cover"
               height="200"
               loading="lazy"
-              src="./images/avatars/avatar-3.webp"
+              src="/images/avatars/avatar-3.webp"
               width="200"
             />
             <Image
@@ -43,7 +43,7 @@ export function CallToAction(): JSX.Element {
               className="relative h-12 w-12 rounded-full object-cover"
               height="200"
               loading="lazy"
-              src="./images/avatars/avatar-4.webp"
+              src="/images/avatars/avatar-4.webp"
               width="200"
             />
             <Image
@@ -51,7 +51,7 @@ export function CallToAction(): JSX.Element {
               className="h-8 w-8 rounded-full object-cover"
               height="200"
               loading="lazy"
-              src="./images/avatars/avatar-1.webp"
+              src="/images/avatars/avatar-1.webp"
               width="200"
             />
           </div>

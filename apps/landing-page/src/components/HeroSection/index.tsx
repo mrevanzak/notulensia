@@ -71,7 +71,7 @@ export function HeroSection(): JSX.Element {
                 alt="client logo"
                 className="h-12 w-auto mx-auto"
                 loading="lazy"
-                src="./images/clients/microsoft.svg"
+                src="/images/clients/microsoft.svg"
               />
             </div>
             <div className="p-4 grayscale transition duration-200 hover:grayscale-0">
@@ -79,7 +79,7 @@ export function HeroSection(): JSX.Element {
                 alt="client logo"
                 className="h-12 w-auto mx-auto"
                 loading="lazy"
-                src="./images/clients/airbnb.svg"
+                src="/images/clients/airbnb.svg"
               />
             </div>
             <div className="p-4 flex grayscale transition duration-200 hover:grayscale-0">
@@ -87,7 +87,7 @@ export function HeroSection(): JSX.Element {
                 alt="client logo"
                 className="h-9 w-auto m-auto"
                 loading="lazy"
-                src="./images/clients/google.svg"
+                src="/images/clients/google.svg"
               />
             </div>
             <div className="p-4 grayscale transition duration-200 hover:grayscale-0">
@@ -95,7 +95,7 @@ export function HeroSection(): JSX.Element {
                 alt="client logo"
                 className="h-12 w-auto mx-auto"
                 loading="lazy"
-                src="./images/clients/ge.svg"
+                src="/images/clients/ge.svg"
               />
             </div>
             <div className="p-4 flex grayscale transition duration-200 hover:grayscale-0">
@@ -103,7 +103,7 @@ export function HeroSection(): JSX.Element {
                 alt="client logo"
                 className="h-8 w-auto m-auto"
                 loading="lazy"
-                src="./images/clients/netflix.svg"
+                src="/images/clients/netflix.svg"
               />
             </div>
             <div className="p-4 grayscale transition duration-200 hover:grayscale-0">
@@ -111,7 +111,7 @@ export function HeroSection(): JSX.Element {
                 alt="client logo"
                 className="h-12 w-auto mx-auto"
                 loading="lazy"
-                src="./images/clients/google-cloud.svg"
+                src="/images/clients/google-cloud.svg"
               />
             </div>
           </div>
