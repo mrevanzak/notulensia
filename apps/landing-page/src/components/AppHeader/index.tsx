@@ -23,40 +23,41 @@ const onLoad = () => {
   const navlinks = document.querySelector("#navlinks");
   const hamburger = document.querySelector("#hamburger");
   const layer = document.querySelector("#navLayer");
-  if (navlinks) {
-    const links = [...navlinks.querySelector("ul").children];
-    const toggleNavlinks = function (): void {
-      if (isToggled) {
-        navlinks?.classList.add(
-          "!visible",
-          "!scale-100",
-          "!opacity-100",
-          "!lg:translate-y-0"
-        );
-        hamburger?.classList.add("toggled");
-        layer?.classList.add("origin-top", "scale-y-100");
-      } else {
-        navlinks?.classList.remove(
-          "!visible",
-          "!scale-100",
-          "!opacity-100",
-          "!lg:translate-y-0"
-        );
-        hamburger?.classList.remove("toggled");
-        layer?.classList.remove("origin-top", "scale-y-100");
-      }
-    };
-    hamburger?.addEventListener("click", () => {
+
+  const toggleNavlinks = function (): void {
+    if (isToggled) {
+      navlinks?.classList.add(
+        "!visible",
+        "!scale-100",
+        "!opacity-100",
+        "!lg:translate-y-0"
+      );
+      hamburger?.classList.add("toggled");
+      layer?.classList.add("origin-top", "scale-y-100");
+    } else {
+      navlinks?.classList.remove(
+        "!visible",
+        "!scale-100",
+        "!opacity-100",
+        "!lg:translate-y-0"
+      );
+      hamburger?.classList.remove("toggled");
+      layer?.classList.remove("origin-top", "scale-y-100");
+    }
+  };
+
+  hamburger?.addEventListener("click", () => {
+    isToggled = !isToggled;
+    toggleNavlinks();
+  });
+
+  const links = [...navlinks!.querySelector("ul")!.children];
+  links.forEach((link) => {
+    link.addEventListener("click", () => {
       isToggled = !isToggled;
       toggleNavlinks();
     });
-    links.forEach((link) => {
-      link.addEventListener("click", () => {
-        isToggled = !isToggled;
-        toggleNavlinks();
-      });
-    });
-  }
+  });
 };
 
 export function AppHeader({
