@@ -11,7 +11,7 @@ COPY --chown=nextjs:nodejs /out/full/apps/landing-page/.next/static ./apps/landi
 COPY --chown=nextjs:nodejs /out/full/apps/landing-page/public ./apps/landing-page/public
 COPY --chown=nextjs:nodejs /out/full/apps/landing-page/.next ./apps/landing-page/.next
 COPY --chown=nextjs:nodejs /out/full/apps/landing-page/next.config.js ./apps/landing-page/next.config.js
-COPY --chown=nextjs:nodejs /out/full/apps/landing-page/next-i18next.config.js ./apps/landing-page/next-i18next.config.js
+# COPY --chown=nextjs:nodejs /out/full/apps/landing-page/next-i18next.config.js ./apps/landing-page/next-i18next.config.js
 
 EXPOSE 3000
 
