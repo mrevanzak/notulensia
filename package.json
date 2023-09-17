@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "turbo run build --parallel",
+    "dev": "turbo run dev --parallel",
+    "dev:web": "turbo run dev --filter=web --parallel",
+    "dev:landing-page": "turbo run dev --filter=landing-page --parallel",
+    "lint": "turbo run lint --parallel",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "eslint": "^8.48.0",
+    "prettier": "^3.0.3",
+    "tsconfig": "*",
+    "turbo": "^1.10.14"
+  },
+  "name": "platform-web-apps",
+  "packageManager": "npm@8.19.3",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
