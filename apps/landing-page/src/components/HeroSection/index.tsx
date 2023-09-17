@@ -70,48 +70,60 @@ export function HeroSection(): JSX.Element {
               <Image
                 alt="client logo"
                 className="h-12 w-auto mx-auto"
+                height={0}
                 loading="lazy"
                 src="/images/clients/microsoft.svg"
+                width={0}
               />
             </div>
             <div className="p-4 grayscale transition duration-200 hover:grayscale-0">
               <Image
                 alt="client logo"
                 className="h-12 w-auto mx-auto"
+                height={0}
                 loading="lazy"
                 src="/images/clients/airbnb.svg"
+                width={0}
               />
             </div>
             <div className="p-4 flex grayscale transition duration-200 hover:grayscale-0">
               <Image
                 alt="client logo"
                 className="h-9 w-auto m-auto"
+                height={0}
                 loading="lazy"
                 src="/images/clients/google.svg"
+                width={0}
               />
             </div>
             <div className="p-4 grayscale transition duration-200 hover:grayscale-0">
               <Image
                 alt="client logo"
                 className="h-12 w-auto mx-auto"
+                height={0}
                 loading="lazy"
                 src="/images/clients/ge.svg"
+                width={0}
               />
             </div>
             <div className="p-4 flex grayscale transition duration-200 hover:grayscale-0">
               <Image
                 alt="client logo"
                 className="h-8 w-auto m-auto"
+                height={0}
                 loading="lazy"
                 src="/images/clients/netflix.svg"
+                width={0}
               />
             </div>
             <div className="p-4 grayscale transition duration-200 hover:grayscale-0">
               <Image
                 alt="client logo"
                 className="h-12 w-auto mx-auto"
+                height={0}
                 loading="lazy"
                 src="/images/clients/google-cloud.svg"
+                width={0}
               />
             </div>
           </div>

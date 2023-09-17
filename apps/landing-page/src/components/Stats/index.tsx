@@ -28,8 +28,10 @@ export function Stats(): JSX.Element {
             <Image
               alt="image"
               className="w-full"
+              height={0}
               loading="lazy"
               src="/images/pie.svg"
+              width={0}
             />
           </div>
           <div className="md:7/12 lg:w-1/2">
