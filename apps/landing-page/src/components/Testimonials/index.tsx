@@ -18,7 +18,7 @@ export function Testimonials(): JSX.Element {
                 className="w-12 h-12 rounded-full"
                 height="400"
                 loading="lazy"
-                src="./images/avatars/avatar.webp"
+                src="/images/avatars/avatar.webp"
                 width="400"
               />
               <div>
@@ -47,7 +47,7 @@ export function Testimonials(): JSX.Element {
                 className="w-12 h-12 rounded-full"
                 height="200"
                 loading="lazy"
-                src="./images/avatars/avatar-1.webp"
+                src="/images/avatars/avatar-1.webp"
                 width="200"
               />
               <div>
@@ -73,7 +73,7 @@ export function Testimonials(): JSX.Element {
                 className="w-12 h-12 rounded-full"
                 height="200"
                 loading="lazy"
-                src="./images/avatars/avatar-2.webp"
+                src="/images/avatars/avatar-2.webp"
                 width="200"
               />
               <div>
@@ -99,7 +99,7 @@ export function Testimonials(): JSX.Element {
                 className="w-12 h-12 rounded-full"
                 height="200"
                 loading="lazy"
-                src="./images/avatars/avatar-3.webp"
+                src="/images/avatars/avatar-3.webp"
                 width="200"
               />
               <div>
@@ -125,7 +125,7 @@ export function Testimonials(): JSX.Element {
                 className="w-12 h-12 rounded-full"
                 height="200"
                 loading="lazy"
-                src="./images/avatars/avatar-4.webp"
+                src="/images/avatars/avatar-4.webp"
                 width="200"
               />
               <div>
@@ -152,7 +152,7 @@ export function Testimonials(): JSX.Element {
                 className="w-12 h-12 rounded-full"
                 height="400"
                 loading="lazy"
-                src="./images/avatars/avatar-2.webp"
+                src="/images/avatars/avatar-2.webp"
                 width="400"
               />
               <div>
