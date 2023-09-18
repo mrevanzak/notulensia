@@ -22,6 +22,7 @@ config.theme = {
       800: "#293041",
       900: "#0f172a",
     },
+    cyan: colors.cyan,
     sky: colors.sky,
   }),
   transitionDelay: {
