@@ -1,7 +1,11 @@
 "use client";
 
-import Script from "next/script";
+import {useRef} from "react";
+import {useToggle} from "usehooks-ts";
 import {Container} from "../Container";
+import {nanoid} from "nanoid";
+
+import "./index.css";
 
 const links = [
   {
@@ -18,86 +22,14 @@ const links = [
   },
 ];
 
-const uuid = (): string => {
-  const hashTable = [
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-  ];
-  const arr = [] as string[];
-  for (let i = 0; i < 36; i++) {
-    if (i === 8 || i === 13 || i === 18 || i === 23) {
-      arr[i] = "-";
-    } else {
-      arr[i] = hashTable[Math.ceil(Math.random() * hashTable.length - 1)];
-    }
-  }
-  return arr.join("");
-};
-
-const onLoad = (): void => {
-  let isToggled = false;
-  const navlinks = document.querySelector("#navlinks");
-  const hamburger = document.querySelector("#hamburger");
-  const layer = document.querySelector("#navLayer");
-
-  const toggleNavlinks = function (): void {
-    if (isToggled) {
-      navlinks?.classList.add(
-        "!visible",
-        "!scale-100",
-        "!opacity-100",
-        "!lg:translate-y-0"
-      );
-      hamburger?.classList.add("toggled");
-      layer?.classList.add("origin-top", "scale-y-100");
-    } else {
-      navlinks?.classList.remove(
-        "!visible",
-        "!scale-100",
-        "!opacity-100",
-        "!lg:translate-y-0"
-      );
-      hamburger?.classList.remove("toggled");
-      layer?.classList.remove("origin-top", "scale-y-100");
-    }
-  };
-
-  hamburger?.addEventListener("click", () => {
-    isToggled = !isToggled;
-    toggleNavlinks();
-  });
-
-  if (navlinks) {
-    const x = navlinks.querySelector("ul");
-    const y: HTMLCollection | undefined = x?.children;
-    const _links = [...[y]];
-    _links.forEach((link) => {
-      (link as unknown as Element).addEventListener("click", () => {
-        isToggled = !isToggled;
-        toggleNavlinks();
-      });
-    });
-  }
-};
-
 export function AppHeader(): JSX.Element {
+  const navLinksRef = useRef<HTMLDivElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const navLayerRef = useRef<HTMLDivElement>(null);
+  const [value, toggle, _] = useToggle();
+
   return (
     <>
-      <Script onLoad={onLoad} />
       <header>
         <nav className="absolute z-10 w-full border-b border-black/5 dark:border-white/5 lg:border-transparent">
           <Container>
@@ -120,8 +52,14 @@ export function AppHeader(): JSX.Element {
                 <div className="relative flex max-h-10 items-center lg:hidden">
                   <button
                     aria-label="humburger"
-                    className="relative -mr-6 p-6"
+                    className={
+                      value
+                        ? "relative -mr-6 p-6 toggled"
+                        : "relative -mr-6 p-6"
+                    }
                     id="hamburger"
+                    onClick={toggle}
+                    ref={hamburgerRef}
                     type="button"
                   >
                     <div
@@ -139,20 +77,31 @@ export function AppHeader(): JSX.Element {
               </div>
               <div
                 aria-hidden="true"
-                className="fixed inset-0 z-10 h-screen w-screen origin-bottom scale-y-0 bg-white/70 backdrop-blur-2xl transition duration-500 dark:bg-gray-900/70 lg:hidden"
+                className={
+                  value
+                    ? "fixed inset-0 z-10 h-screen w-screen origin-bottom scale-y-0 bg-white/70 backdrop-blur-2xl transition duration-500 dark:bg-gray-900/70 lg:hidden origin-top scale-y-100"
+                    : "fixed inset-0 z-10 h-screen w-screen origin-bottom scale-y-0 bg-white/70 backdrop-blur-2xl transition duration-500 dark:bg-gray-900/70 lg:hidden"
+                }
                 id="navLayer"
+                ref={navLayerRef}
               />
               <div
-                className="invisible absolute top-full left-0 z-20 w-full origin-top-right translate-y-1 scale-90 flex-col flex-wrap justify-end gap-6 rounded-3xl border border-gray-100 bg-white p-8 opacity-0 shadow-2xl shadow-gray-600/10 transition-all duration-300 dark:border-gray-700 dark:bg-gray-800 dark:shadow-none lg:visible lg:relative lg:flex lg:w-7/12 lg:translate-y-0 lg:scale-100 lg:flex-row lg:items-center lg:gap-0 lg:border-none lg:bg-transparent lg:p-0 lg:opacity-100 lg:shadow-none"
+                className={
+                  value
+                    ? "invisible absolute top-full left-0 z-20 w-full origin-top-right translate-y-1 scale-90 flex-col flex-wrap justify-end gap-6 rounded-3xl border border-gray-100 bg-white p-8 opacity-0 shadow-2xl shadow-gray-600/10 transition-all duration-300 dark:border-gray-700 dark:bg-gray-800 dark:shadow-none lg:visible lg:relative lg:flex lg:w-7/12 lg:translate-y-0 lg:scale-100 lg:flex-row lg:items-center lg:gap-0 lg:border-none lg:bg-transparent lg:p-0 lg:opacity-100 lg:shadow-none !visible !scale-100 !opacity-100 !lg:translate-y-0"
+                    : "invisible absolute top-full left-0 z-20 w-full origin-top-right translate-y-1 scale-90 flex-col flex-wrap justify-end gap-6 rounded-3xl border border-gray-100 bg-white p-8 opacity-0 shadow-2xl shadow-gray-600/10 transition-all duration-300 dark:border-gray-700 dark:bg-gray-800 dark:shadow-none lg:visible lg:relative lg:flex lg:w-7/12 lg:translate-y-0 lg:scale-100 lg:flex-row lg:items-center lg:gap-0 lg:border-none lg:bg-transparent lg:p-0 lg:opacity-100 lg:shadow-none"
+                }
                 id="navlinks"
+                ref={navLinksRef}
               >
                 <div className="w-full text-gray-600 dark:text-gray-200 lg:w-auto lg:pr-4 lg:pt-0">
                   <ul className="flex flex-col gap-6 tracking-wide lg:flex-row lg:gap-0 lg:text-sm">
                     {links.map((link) => (
-                      <li key={uuid()}>
+                      <li key={nanoid()}>
                         <a
                           className="hover:text-primary block transition dark:hover:text-white md:px-4"
                           href={link.to}
+                          onClick={toggle}
                         >
                           <span>{link.label}</span>
                         </a>

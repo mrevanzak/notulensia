@@ -210,7 +210,7 @@ export function AppFooter(): JSX.Element {
           </div>
         </Container>
       </footer>
-      <div className="fixed inset-x-6 bottom-6 z-40 mx-auto w-max">
+      {/* <div className="fixed inset-x-6 bottom-6 z-40 mx-auto w-max">
         <a
           className="flex gap-3 rounded-2xl border border-yellow-900/30 bg-gradient-to-br from-white/50 to-yellow-100 p-3 shadow-2xl shadow-yellow-900/50 backdrop-blur-xl dark:border-white/10 dark:from-gray-800 dark:to-black/70 dark:shadow-primary/50"
           href="https://tailus.gumroad.com/l/astls-premium"
@@ -234,7 +234,7 @@ export function AppFooter(): JSX.Element {
             Upgrade to Premium
           </span>
         </a>
-      </div>
+      </div> */}
     </>
   );
 }
