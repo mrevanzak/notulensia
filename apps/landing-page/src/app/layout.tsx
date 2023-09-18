@@ -24,6 +24,12 @@ export default function RootLayout({
         scrollBehavior: "smooth",
       }}
     >
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>{children}</body>
     </html>
   );
