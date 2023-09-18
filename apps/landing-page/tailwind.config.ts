@@ -1,5 +1,6 @@
 import {config} from "tailwind-config/tailwind.config";
 
+config.darkMode = "class";
 config.theme = {
   colors: ({colors}) => ({
     transparent: colors.transparent,
