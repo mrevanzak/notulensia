@@ -21,6 +21,7 @@ config.theme = {
       800: "#293041",
       900: "#0f172a",
     },
+    sky: colors.sky,
   }),
   transitionDelay: {
     75: "75ms",
