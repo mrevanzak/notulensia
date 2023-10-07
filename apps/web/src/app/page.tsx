@@ -1,6 +1,7 @@
 import Image from "next/image";
 // import {Card} from "ui";
 import styles from "./page.module.css";
+import {ReactElement} from "react";
 
 function Gradient({
   conic,
@@ -10,7 +11,7 @@ function Gradient({
   small?: boolean;
   conic?: boolean;
   className?: string;
-}): JSX.Element {
+}): ReactElement {
   return (
     <span
       className={[
@@ -49,7 +50,7 @@ const LINKS = [
   },
 ];
 
-export default function Page(): JSX.Element {
+export default function Page(): ReactElement {
   return (
     <main className={styles.main}>
       <div className={styles.description}>

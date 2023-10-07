@@ -10,6 +10,10 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "dev:agenda": {
+      "cache": false,
+      "persistent": true
     }
   }
 }
