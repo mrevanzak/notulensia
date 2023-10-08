@@ -20,11 +20,8 @@ export default function Files(): ReactElement {
   const [files, setFiles] = useState<Demo.File[]>([]);
   const [metrics, setMetrics] = useState<Demo.Metric[]>([]);
   const [folders, setFolders] = useState<Demo.BaseFolder[]>([]);
-  const [chartData, setChartData] = useState<ChartData<"doughnut"> | null>(
-    null
-  );
-  const [chartOptions, setChartOptions] =
-    useState<ChartOptions<"doughnut"> | null>(null);
+  const [chartData, setChartData] = useState({});
+  const [chartOptions, setChartOptions] = useState({});
   const [chartPlugin, setChartPlugin] = useState({});
   const layoutConfig = useContext(LayoutContext);
   const fileUploader = useRef<FileUpload>(null);
@@ -174,6 +171,7 @@ export default function Files(): ReactElement {
     const _chartPlugin: Plugin<"doughnut"> = {
       id: "chartPlugin",
       beforeDraw(chart) {
+        if (chart.config.data.datasets.length <= 0) return;
         const ctx = chart.ctx;
         const width = chart.width;
         const height = chart.height;
@@ -192,7 +190,7 @@ export default function Files(): ReactElement {
         const text2X = Math.round((width - ctx.measureText(text).width) / 2.1);
         const text2Y = (height + chart.chartArea.top) / 1.75;
 
-        ctx.fillStyle = chart.config.data.datasets[0].backgroundColor[0];
+        ctx.fillStyle = chart.config.data.datasets[0].backgroundColor as string;
         ctx.fillText(text, textX, textY);
         ctx.fillText(text2, text2X, text2Y);
         ctx.fillStyle = oldFill;
