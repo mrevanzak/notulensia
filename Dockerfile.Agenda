@@ -1,0 +1,19 @@
+FROM node:alpine
+WORKDIR /app
+
+# Don't run production as root
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+USER nextjs
+
+COPY --chown=nextjs:nodejs out/full/apps/agenda/.next/standalone ./
+COPY --chown=nextjs:nodejs out/full/apps/agenda/.next/static ./apps/agenda/.next/static
+COPY --chown=nextjs:nodejs out/full/apps/agenda/public ./apps/agenda/public
+COPY --chown=nextjs:nodejs out/full/apps/agenda/.next ./apps/agenda/.next
+COPY --chown=nextjs:nodejs out/full/apps/agenda/next.config.js ./apps/agenda/next.config.js
+# COPY --chown=nextjs:nodejs out/full/apps/agenda/next-i18next.config.js ./apps/agenda/next-i18next.config.js
+
+EXPOSE 3000
+
+CMD node apps/agenda/server.js
+
