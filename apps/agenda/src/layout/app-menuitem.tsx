@@ -4,11 +4,11 @@ import {Ripple} from "primereact/ripple";
 import {classNames} from "primereact/utils";
 import type {ReactElement} from "react";
 import {useContext, useEffect, useRef} from "react";
-import {usePathname, useSearchParams} from "next/navigation";
-import type {AppMenuItemProps} from "@/types/types";
 import {LayoutContext} from "./context/layout-context";
 import {MenuContext} from "./context/menu-context";
+import type {AppMenuItemProps} from "@/types/types";
 import {useSubmenuOverlayPosition} from "./hooks/use-submenu-overlay-position";
+import {usePathname, useSearchParams} from "next/navigation";
 
 function AppMenuitem(props: AppMenuItemProps): ReactElement {
   const {activeMenu, setActiveMenu} = useContext(MenuContext);
@@ -31,14 +31,12 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
     : String(props.index);
   const isActiveRoute = item?.to && pathname === item?.to;
   const active =
-    activeMenu === key || Boolean(activeMenu.startsWith(`${key}-`));
+    activeMenu === key || Boolean(activeMenu?.startsWith(`${key}-`));
 
   useSubmenuOverlayPosition({
     target: menuitemRef.current,
     overlay: submenuRef.current,
-    container: menuitemRef.current
-      ? menuitemRef.current?.closest(".layout-menu-container")
-      : null,
+    container: menuitemRef.current?.closest(".layout-menu-container"),
     when:
       props.root &&
       active &&
@@ -54,7 +52,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
         resetMenu: false,
       }));
     }
-  }, [layoutState.resetMenu, setActiveMenu, setLayoutState]);
+  }, [layoutState.resetMenu]);
 
   useEffect(() => {
     if (!(isSlim() || isSlimPlus() || isHorizontal()) && isActiveRoute) {
@@ -67,18 +65,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
       }
     };
     onRouteChange();
-  }, [
-    pathname,
-    searchParams,
-    layoutConfig,
-    isSlim,
-    isSlimPlus,
-    isHorizontal,
-    isActiveRoute,
-    setActiveMenu,
-    key,
-    item?.to,
-  ]);
+  }, [pathname, searchParams, layoutConfig]);
 
   const itemClick = (event: React.MouseEvent<HTMLAnchorElement>): void => {
     //avoid processing disabled items
@@ -107,7 +94,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
 
     //execute command
     if (item?.command) {
-      item.command({originalEvent: event, item});
+      item?.command({originalEvent: event, item});
     }
 
     // toggle active state
@@ -157,12 +144,12 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
   };
 
   const subMenu =
-    item?.items && item.visible !== false ? (
+    item?.items && item?.visible !== false ? (
       <ul
         className={classNames({"layout-root-submenulist": props.root})}
         ref={submenuRef}
       >
-        {item.items.map((child, i) => {
+        {item?.items.map((child, i) => {
           return (
             <AppMenuitem
               className={child.badgeClass}
@@ -190,7 +177,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
           <i className="layout-menuitem-root-icon pi pi-fw pi-ellipsis-h" />
         </div>
       ) : null}
-      {(!item?.to || item.items) && item?.visible !== false ? (
+      {(!item?.to || item?.items) && item?.visible !== false ? (
         <a
           className={classNames(item?.class, "p-ripple tooltip-target")}
           data-pr-disabled={
@@ -214,23 +201,23 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
         </a>
       ) : null}
 
-      {item?.to && !item.items && item.visible !== false ? (
+      {item?.to && !item?.items && item?.visible !== false ? (
         <Link
-          className={classNames(item.class, "p-ripple ", {
+          className={classNames(item?.class, "p-ripple ", {
             "active-route": isActiveRoute,
           })}
-          href={item.to}
+          href={item?.to}
           onClick={(e) => {
             itemClick(e);
           }}
           onMouseEnter={onMouseEnter}
-          replace={item.replaceUrl}
+          replace={item?.replaceUrl}
           tabIndex={0}
         >
-          <i className={classNames("layout-menuitem-icon", item.icon)} />
-          <span className="layout-menuitem-text">{item.label}</span>
+          <i className={classNames("layout-menuitem-icon", item?.icon)} />
+          <span className="layout-menuitem-text">{item?.label}</span>
           {/* {badge} */}
-          {item.items ? (
+          {item?.items ? (
             <i className="pi pi-fw pi-angle-down layout-submenu-toggler" />
           ) : null}
           <Ripple />

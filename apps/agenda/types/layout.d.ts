@@ -189,7 +189,7 @@ export interface MenuModel {
 export interface UseSubmenuOverlayPositionProps {
   target: HTMLElement | null;
   overlay: HTMLElement | null;
-  container: HTMLElement | null;
+  container?: HTMLElement | null;
   when?: any;
 }
 
