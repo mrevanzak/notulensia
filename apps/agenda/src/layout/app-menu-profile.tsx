@@ -2,8 +2,12 @@ import { classNames } from "primereact/utils";
 import type { ReactElement } from "react";
 import React, { useContext, useEffect, useRef } from "react";
 import { Tooltip } from "primereact/tooltip";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import { LayoutContext } from "./context/layout-context";
+import Link from "next/link";
+import { IoMdLogOut } from "react-icons/io";
+import { FaRegUser } from "react-icons/fa";
+import Image from "next/image";
 
 function AppMenuProfile(): ReactElement {
   const {
@@ -13,7 +17,6 @@ function AppMenuProfile(): ReactElement {
     isHorizontal,
     onMenuProfileToggle,
   } = useContext(LayoutContext);
-  const router = useRouter();
   const ulRef = useRef<HTMLUListElement | null>(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -54,87 +57,65 @@ function AppMenuProfile(): ReactElement {
   };
 
   return (
-    <div className="layout-menu-profile border-0">
+    <div className="layout-menu-profile border-0 relative overflow-visible">
       <Tooltip content={tooltipValue("Profile")!} target=".avatar-button" />
       <button
-        className="avatar-button p-link border-noround pl-8"
+        className="avatar-button p-link shadow-none border-noround pl-8"
         onClick={toggleMenu}
         type="button"
       >
-        <img
+        <Image
           alt="avatar"
+          height={56}
           src="/layout/images/avatar/amyelsner.png"
-          style={{ width: "32px", height: "32px" }}
+          width={56}
         />
         <span>
-          <strong>Amy Elsner</strong>
-          <small>Webmaster</small>
+          <h3>Amy Elsner</h3>
+          <p className="text-xs">Webmaster</p>
         </span>
         <i
-          className={classNames("layout-menu-profile-toggler pi pi-fw", {
-            "pi-angle-down":
-              layoutConfig.menuProfilePosition === "start" || isHorizontal(),
-            "pi-angle-up":
-              layoutConfig.menuProfilePosition === "end" && !isHorizontal(),
-          })}
+          className={classNames(
+            "layout-menu-profile-toggler pi pi-fw text-[#4343BF] font-bold text-xl",
+            {
+              "pi-angle-down":
+                layoutConfig.menuProfilePosition === "start" || isHorizontal(),
+              "pi-angle-up":
+                layoutConfig.menuProfilePosition === "end" && !isHorizontal(),
+            },
+          )}
         />
       </button>
 
       <ul
-        className={classNames("menu-transition", { overlay: isHorizontal() })}
+        className={classNames(
+          "menu-transition rounded-2xl ml-8 mr-4 border-2 border-[#334798] absolute inset-x-0 top-20",
+          {
+            overlay: isHorizontal(),
+          },
+        )}
         ref={ulRef}
         style={{ overflow: "hidden", maxHeight: 0, opacity: 0 }}
       >
         {layoutState.menuProfileActive ? (
           <>
-            <li>
-              <button
-                className="p-link"
-                onClick={() => {
-                  router.push("/profile/create");
-                }}
-                type="button"
+            <li className="border-b-2 p-3 border-[#334798] hover:bg-[--menuitem-hover-bg]">
+              <Link
+                className="p-link flex space-x-4 text-base shadow-none"
+                href="/profile"
               >
-                <i className="pi pi-cog pi-fw" />
-                <span className={hiddenClassName}>Settings</span>
-              </button>
-            </li>
-
-            <li>
-              <button
-                className="p-link"
-                onClick={() => {
-                  router.push("/profile/list");
-                }}
-                type="button"
-              >
-                <i className="pi pi-file-o pi-fw" />
+                <FaRegUser color="#4343BF" size={22} />
                 <span className={hiddenClassName}>Profile</span>
-              </button>
+              </Link>
             </li>
-            <li>
-              <button
-                className="p-link"
-                onClick={() => {
-                  router.push("/documentation");
-                }}
-                type="button"
+            <li className="p-3 hover:bg-[--menuitem-hover-bg]">
+              <Link
+                className="p-link flex space-x-4 text-base shadow-none"
+                href="/"
               >
-                <i className="pi pi-compass pi-fw" />
-                <span className={hiddenClassName}>Support</span>
-              </button>
-            </li>
-            <li>
-              <button
-                className="p-link"
-                onClick={() => {
-                  router.push("/auth/login2");
-                }}
-                type="button"
-              >
-                <i className="pi pi-power-off pi-fw" />
+                <IoMdLogOut color="#4343BF" size={24} />
                 <span className={hiddenClassName}>Logout</span>
-              </button>
+              </Link>
             </li>
           </>
         ) : null}

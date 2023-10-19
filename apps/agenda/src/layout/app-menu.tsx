@@ -14,27 +14,27 @@ function AppMenu(): ReactElement {
       items: [
         {
           label: "Home",
-          icon: <TbHomeDot size={40} />,
+          icon: <TbHomeDot color="#4343BF" size={40} />,
           to: "/",
         },
         {
           label: "Events",
-          icon: <TbListDetails size={40} />,
+          icon: <TbListDetails color="#4343BF" size={40} />,
           to: "/events",
         },
         {
           label: "Calendar",
-          icon: <RxCalendar size={40} />,
+          icon: <RxCalendar color="#4343BF" size={40} />,
           to: "/calendar",
         },
         {
           label: "Settings",
-          icon: <MdOutlineSettings size={40} />,
+          icon: <MdOutlineSettings color="#4343BF" size={40} />,
           to: "/settings",
         },
         {
           label: "Help",
-          icon: <LuBadgeHelp size={40} />,
+          icon: <LuBadgeHelp color="#4343BF" size={40} />,
           to: "/help",
         },
       ],
