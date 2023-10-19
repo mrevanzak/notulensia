@@ -174,7 +174,7 @@ export interface MenuProps {
 
 export interface MenuModel {
   label: string;
-  icon?: string;
+  icon?: ReactNode;
   items?: MenuModel[];
   badge?: number;
   to?: string;

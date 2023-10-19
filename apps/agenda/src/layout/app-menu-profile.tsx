@@ -1,13 +1,18 @@
-import {classNames} from "primereact/utils";
-import type {ReactElement} from "react";
-import React, {useContext, useEffect, useRef} from "react";
-import {Tooltip} from "primereact/tooltip";
-import {useRouter, useSearchParams, usePathname} from "next/navigation";
-import {LayoutContext} from "./context/layout-context";
+import { classNames } from "primereact/utils";
+import type { ReactElement } from "react";
+import React, { useContext, useEffect, useRef } from "react";
+import { Tooltip } from "primereact/tooltip";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { LayoutContext } from "./context/layout-context";
 
 function AppMenuProfile(): ReactElement {
-  const {layoutState, layoutConfig, isSlim, isHorizontal, onMenuProfileToggle} =
-    useContext(LayoutContext);
+  const {
+    layoutState,
+    layoutConfig,
+    isSlim,
+    isHorizontal,
+    onMenuProfileToggle,
+  } = useContext(LayoutContext);
   const router = useRouter();
   const ulRef = useRef<HTMLUListElement | null>(null);
   const pathname = usePathname();
@@ -49,17 +54,17 @@ function AppMenuProfile(): ReactElement {
   };
 
   return (
-    <div className="layout-menu-profile">
+    <div className="layout-menu-profile border-0">
       <Tooltip content={tooltipValue("Profile")!} target=".avatar-button" />
       <button
-        className="avatar-button p-link border-noround"
+        className="avatar-button p-link border-noround pl-8"
         onClick={toggleMenu}
         type="button"
       >
         <img
           alt="avatar"
           src="/layout/images/avatar/amyelsner.png"
-          style={{width: "32px", height: "32px"}}
+          style={{ width: "32px", height: "32px" }}
         />
         <span>
           <strong>Amy Elsner</strong>
@@ -76,9 +81,9 @@ function AppMenuProfile(): ReactElement {
       </button>
 
       <ul
-        className={classNames("menu-transition", {overlay: isHorizontal()})}
+        className={classNames("menu-transition", { overlay: isHorizontal() })}
         ref={ulRef}
-        style={{overflow: "hidden", maxHeight: 0, opacity: 0}}
+        style={{ overflow: "hidden", maxHeight: 0, opacity: 0 }}
       >
         {layoutState.menuProfileActive ? (
           <>
