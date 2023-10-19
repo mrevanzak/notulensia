@@ -179,7 +179,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
       {/* ) : null} */}
       {item?.to && !item?.items && item?.visible !== false ? (
         <Link
-          className={classNames(item?.class, "p-ripple space-x-8 text-xl px-8", {
+          className={classNames(item?.class, "p-ripple tw-space-x-8 tw-text-xl px-8", {
             "active-route": isActiveRoute,
           })}
           href={item?.to}

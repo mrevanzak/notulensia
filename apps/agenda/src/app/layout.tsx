@@ -6,20 +6,14 @@ import "primeicons/primeicons.css";
 import "primereact/resources/primereact.min.css";
 import "@/styles/demo/Demos.scss";
 import "@/styles/globals.css";
+import "~/theme/theme-light/purple/theme.scss";
 import type { ReactElement } from "react";
 import { LayoutProvider } from "@/src/layout/context/layout-context";
-import Tailwind from 'primereact/passthrough/tailwind';
+import Tailwind from "primereact/passthrough/tailwind";
 
 export default function RootLayout({ children }): ReactElement {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link
-          href="/theme/theme-light/purple/theme.css"
-          id="theme-link"
-          rel="stylesheet"
-        />
-      </head>
       <body>
         <PrimeReactProvider value={{ pt: Tailwind }}>
           <LayoutProvider>{children}</LayoutProvider>

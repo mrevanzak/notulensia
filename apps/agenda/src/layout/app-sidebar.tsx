@@ -6,8 +6,8 @@ import AppMenuProfile from "./app-menu-profile";
 
 function AppSidebar(): ReactElement {
   return (
-    <div className="layout-menu-container flex flex-col">
-      <div className="my-10 ml-16">
+    <div className="layout-menu-container tw-flex tw-flex-col">
+      <div className="tw-my-10 tw-ml-16">
         <svg
           fill="none"
           height="65"
@@ -40,7 +40,7 @@ function AppSidebar(): ReactElement {
         </svg>
       </div>
 
-      <div className="flex flex-col flex-1">
+      <div className="tw-flex tw-flex-col tw-flex-1">
         <AppMenuProfile />
         <MenuProvider>
           <AppMenu />

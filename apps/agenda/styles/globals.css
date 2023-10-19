@@ -3,9 +3,13 @@
 @layer tailwind-base {
   @tailwind base;
 
+  html {
+    font-size: 16px !important;
+  }
+
   .layout {
     background: linear-gradient(180deg, #1e1d5d 0%, rgba(30, 29, 93, 0.9) 100%);
-    @apply h-screen w-screen;
+    @apply tw-h-screen tw-w-full;
   }
 
   .layout::before {
@@ -32,32 +36,33 @@
 
   /* #region  /**=========== Typography =========== */
   .h0 {
-    @apply text-3xl font-bold md:text-5xl;
+    @apply tw-text-dark-purple tw-text-3xl tw-font-bold md:tw-text-5xl;
   }
 
   h1,
   .h1 {
-    @apply text-2xl font-bold md:text-4xl;
+    @apply tw-text-dark-purple tw-text-2xl tw-font-bold md:tw-text-4xl;
   }
 
   h2,
   .h2 {
-    @apply text-xl font-bold md:text-3xl;
+    @apply tw-text-dark-purple tw-text-xl tw-font-bold md:tw-text-3xl;
   }
 
   h3,
   .h3 {
-    @apply text-lg font-bold md:text-2xl;
+    @apply tw-text-dark-purple tw-text-lg tw-font-bold md:tw-text-2xl;
   }
 
   h4,
   .h4 {
-    @apply text-base font-bold md:text-lg;
+    @apply tw-text-dark-purple tw-text-base tw-font-bold md:tw-text-lg;
   }
 
   body,
+  p,
   .p {
-    @apply text-sm md:text-base;
+    @apply tw-text-dark-purple tw-text-sm md:tw-text-base;
   }
 
   /* #endregion  /**======== Typography =========== */

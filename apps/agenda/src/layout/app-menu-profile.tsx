@@ -57,10 +57,10 @@ function AppMenuProfile(): ReactElement {
   };
 
   return (
-    <div className="layout-menu-profile border-0 relative overflow-visible">
+    <div className="layout-menu-profile border-none tw-relative overflow-visible">
       <Tooltip content={tooltipValue("Profile")!} target=".avatar-button" />
       <button
-        className="avatar-button p-link shadow-none border-noround pl-8"
+        className="avatar-button p-link shadow-none pl-8"
         onClick={toggleMenu}
         type="button"
       >
@@ -72,11 +72,11 @@ function AppMenuProfile(): ReactElement {
         />
         <span>
           <h3>Amy Elsner</h3>
-          <p className="text-xs">Webmaster</p>
+          <p className="tw-text-xs">Webmaster</p>
         </span>
         <i
           className={classNames(
-            "layout-menu-profile-toggler pi pi-fw text-[#4343BF] font-bold text-xl",
+            "layout-menu-profile-toggler pi pi-fw tw-text-[#4343BF] tw-font-bold tw-text-xl",
             {
               "pi-angle-down":
                 layoutConfig.menuProfilePosition === "start" || isHorizontal(),
@@ -89,7 +89,7 @@ function AppMenuProfile(): ReactElement {
 
       <ul
         className={classNames(
-          "menu-transition rounded-2xl ml-8 mr-4 border-2 border-[#334798] absolute inset-x-0 top-20",
+          "menu-transition tw-border-2 tw-border-[#334798] tw-rounded-2xl ml-8 mr-4 tw-absolute tw-inset-x-0 tw-top-20",
           {
             overlay: isHorizontal(),
           },
@@ -99,18 +99,18 @@ function AppMenuProfile(): ReactElement {
       >
         {layoutState.menuProfileActive ? (
           <>
-            <li className="border-b-2 p-3 border-[#334798] hover:bg-[--menuitem-hover-bg]">
+            <li className="tw-border-b-2 tw-p-3 tw-border-[#334798] hover:tw-bg-[--menuitem-hover-bg]">
               <Link
-                className="p-link flex space-x-4 text-base shadow-none"
+                className="p-link tw-flex tw-space-x-4 tw-text-base tw-shadow-none"
                 href="/profile"
               >
                 <FaRegUser color="#4343BF" size={22} />
                 <span className={hiddenClassName}>Profile</span>
               </Link>
             </li>
-            <li className="p-3 hover:bg-[--menuitem-hover-bg]">
+            <li className="tw-p-3 hover:tw-bg-[--menuitem-hover-bg]">
               <Link
-                className="p-link flex space-x-4 text-base shadow-none"
+                className="p-link tw-flex tw-space-x-4 tw-text-base tw-shadow-none"
                 href="/"
               >
                 <IoMdLogOut color="#4343BF" size={24} />
