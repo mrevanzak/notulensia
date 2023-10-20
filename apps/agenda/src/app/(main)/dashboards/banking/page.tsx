@@ -1,22 +1,22 @@
 "use client";
-import {Chart} from "primereact/chart";
-import {Button} from "primereact/button";
-import {Column} from "primereact/column";
-import {DataTable} from "primereact/datatable";
-import {ProgressBar} from "primereact/progressbar";
-import {Tag} from "primereact/tag";
-import type {ReactElement} from "react";
-import React, {useState, useEffect, useContext} from "react";
-import type {ChartData, ChartOptions} from "chart.js";
-import {useRouter} from "next/navigation";
-import {classNames} from "primereact/utils";
-import {LayoutContext} from "@/src/layout/context/layout-context";
+import { Chart } from "primereact/chart";
+import { Button } from "primereact/button";
+import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
+import { ProgressBar } from "primereact/progressbar";
+import { Tag } from "primereact/tag";
+import type { ReactElement } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import type { ChartData, ChartOptions } from "chart.js";
+import { useRouter } from "next/navigation";
+import { classNames } from "primereact/utils";
+import { LayoutContext } from "@/src/context/layout-context";
 
 let visitorChart: ChartData;
 let visitorChartOptions: ChartOptions;
 
 function Banking(): ReactElement {
-  const {layoutConfig} = useContext(LayoutContext);
+  const { layoutConfig } = useContext(LayoutContext);
   const router = useRouter();
   const navigateToDashboard = (): void => {
     router.push("/");
@@ -104,12 +104,12 @@ function Banking(): ReactElement {
   };
 
   const [payments, setPayments] = useState([
-    {name: "Electric Bill", amount: 75.6, paid: true, date: "06/04/2022"},
-    {name: "Water Bill", amount: 45.5, paid: true, date: "07/04/2022"},
-    {name: "Gas Bill", amount: 45.2, paid: false, date: "12/04/2022"},
-    {name: "Internet Bill", amount: 25.9, paid: true, date: "17/04/2022"},
-    {name: "Streaming", amount: 40.9, paid: false, date: "20/04/2022"},
-    {name: "Phone Bill", amount: 32.9, paid: false, date: "23/04/2022"},
+    { name: "Electric Bill", amount: 75.6, paid: true, date: "06/04/2022" },
+    { name: "Water Bill", amount: 45.5, paid: true, date: "07/04/2022" },
+    { name: "Gas Bill", amount: 45.2, paid: false, date: "12/04/2022" },
+    { name: "Internet Bill", amount: 25.9, paid: true, date: "17/04/2022" },
+    { name: "Streaming", amount: 40.9, paid: false, date: "20/04/2022" },
+    { name: "Phone Bill", amount: 32.9, paid: false, date: "23/04/2022" },
   ]);
 
   useEffect(() => {
@@ -140,7 +140,7 @@ function Banking(): ReactElement {
           <div
             className={classNames(
               "p-3 flex justify-content-center align-items-center border-circle bg-primary-50 text-primary mr-2",
-              {"bg-primary-900": layoutConfig.colorScheme === "dark"}
+              { "bg-primary-900": layoutConfig.colorScheme === "dark" }
             )}
           >
             <i className="pi pi-send text-xl" />
@@ -157,7 +157,7 @@ function Banking(): ReactElement {
           <div
             className={classNames(
               "p-3 flex justify-content-center align-items-center border-circle bg-primary-50 text-primary mr-2",
-              {"bg-primary-900": layoutConfig.colorScheme === "dark"}
+              { "bg-primary-900": layoutConfig.colorScheme === "dark" }
             )}
           >
             <i className="pi pi-money-bill text-xl" />
@@ -173,7 +173,7 @@ function Banking(): ReactElement {
           <div
             className={classNames(
               "p-3 flex justify-content-center align-items-center border-circle bg-primary-50 text-primary mr-2",
-              {"bg-primary-900": layoutConfig.colorScheme === "dark"}
+              { "bg-primary-900": layoutConfig.colorScheme === "dark" }
             )}
           >
             {" "}
@@ -190,7 +190,7 @@ function Banking(): ReactElement {
           <div
             className={classNames(
               "p-3 flex justify-content-center align-items-center border-circle bg-primary-50 text-primary mr-2",
-              {"bg-primary-900": layoutConfig.colorScheme === "dark"}
+              { "bg-primary-900": layoutConfig.colorScheme === "dark" }
             )}
           >
             <i className="pi pi-download text-xl" />
@@ -206,7 +206,7 @@ function Banking(): ReactElement {
           <div
             className={classNames(
               "p-3 flex justify-content-center align-items-center border-circle bg-primary-50 text-primary mr-2",
-              {"bg-primary-900": layoutConfig.colorScheme === "dark"}
+              { "bg-primary-900": layoutConfig.colorScheme === "dark" }
             )}
           >
             <i className="pi pi-arrow-right-arrow-left text-xl" />
@@ -222,7 +222,7 @@ function Banking(): ReactElement {
           <div
             className={classNames(
               "p-3 flex justify-content-center align-items-center border-circle bg-primary-50 text-primary mr-2",
-              {"bg-primary-900": layoutConfig.colorScheme === "dark"}
+              { "bg-primary-900": layoutConfig.colorScheme === "dark" }
             )}
           >
             <i className="pi pi-prime text-xl" />
@@ -239,7 +239,7 @@ function Banking(): ReactElement {
             <div
               className={classNames(
                 "p-2 flex justify-content-center align-items-center border-circle bg-primary text-0 mr-2",
-                {"bg-primary-900 text-900": layoutConfig.colorScheme === "dark"}
+                { "bg-primary-900 text-900": layoutConfig.colorScheme === "dark" }
               )}
             >
               <i className="pi pi-dollar text-2xl" />
@@ -267,7 +267,7 @@ function Banking(): ReactElement {
             <div
               className={classNames(
                 "p-2 flex justify-content-center align-items-center border-circle bg-primary text-0 mr-2",
-                {"bg-primary-900 text-900": layoutConfig.colorScheme === "dark"}
+                { "bg-primary-900 text-900": layoutConfig.colorScheme === "dark" }
               )}
             >
               <i className="pi pi-euro text-2xl" />
@@ -295,7 +295,7 @@ function Banking(): ReactElement {
             <div
               className={classNames(
                 "p-2 flex justify-content-center align-items-center border-circle bg-primary text-0 mr-2",
-                {"bg-primary-900 text-900": layoutConfig.colorScheme === "dark"}
+                { "bg-primary-900 text-900": layoutConfig.colorScheme === "dark" }
               )}
             >
               <i className="pi pi-pound text-2xl" />
@@ -319,15 +319,14 @@ function Banking(): ReactElement {
       </div>
       <div className="col-12 md:col-6 xl:col-3">
         <div
-          className={`py-4 px-2 border-round-md surface-card flex flex-wrap h-full align-items-center justify-content-between gap-3 border-1 surface-border ${
-            layoutConfig.colorScheme === "dark" ? "border-primary-900" : ""
-          }`}
+          className={`py-4 px-2 border-round-md surface-card flex flex-wrap h-full align-items-center justify-content-between gap-3 border-1 surface-border ${layoutConfig.colorScheme === "dark" ? "border-primary-900" : ""
+            }`}
         >
           <div className="flex gap-3 align-items-center">
             <div
               className={classNames(
                 "p-2 flex justify-content-center align-items-center border-circle bg-primary text-0 mr-2",
-                {"bg-primary-900 text-900": layoutConfig.colorScheme === "dark"}
+                { "bg-primary-900 text-900": layoutConfig.colorScheme === "dark" }
               )}
             >
               <i className="pi pi-bitcoin text-2xl" />
@@ -497,7 +496,7 @@ function Banking(): ReactElement {
               <ProgressBar
                 className="border-round"
                 showValue={false}
-                style={{height: ".5rem"}}
+                style={{ height: ".5rem" }}
                 value={30}
               />
             </div>

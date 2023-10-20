@@ -1,20 +1,20 @@
-import type {ReactElement} from "react";
-import React, {useState, useEffect, useContext} from "react";
-import {Button} from "primereact/button";
-import {Ripple} from "primereact/ripple";
-import {classNames} from "primereact/utils";
-import {usePathname, useRouter} from "next/navigation";
-import {nanoid} from "nanoid";
-import type {AppMailSidebarItem, Demo} from "@/types/types";
-import {LayoutContext} from "@/src/layout/context/layout-context";
-import {MailContext} from "./context/mail-context";
+import type { ReactElement } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Button } from "primereact/button";
+import { Ripple } from "primereact/ripple";
+import { classNames } from "primereact/utils";
+import { usePathname, useRouter } from "next/navigation";
+import { nanoid } from "nanoid";
+import type { AppMailSidebarItem, Demo } from "@/types/types";
+import { LayoutContext } from "@/src/context/layout-context";
+import { MailContext } from "./context/mail-context";
 
 export default function AppMailSidebar(): ReactElement {
   const [items, setItems] = useState<AppMailSidebarItem[]>([]);
-  const {layoutConfig} = useContext(LayoutContext);
+  const { layoutConfig } = useContext(LayoutContext);
   const router = useRouter();
   const pathname = usePathname();
-  const {mails} = useContext(MailContext);
+  const { mails } = useContext(MailContext);
 
   const isDark = layoutConfig.colorScheme === "dark";
 
@@ -173,14 +173,14 @@ export default function AppMailSidebar(): ReactElement {
                 {item.badge ? (
                   <span
                     className="ml-auto text-sm font-semibold bg-primary-50 text-primary-900 px-2 py-1 hidden md:inline"
-                    style={{borderRadius: "2rem"}}
+                    style={{ borderRadius: "2rem" }}
                   >
                     {item.badge}
                   </span>
                 ) : (
                   <span
                     className="ml-auto text-sm font-semibold bg-primary-50 text-primary-900 px-2 py-1 hidden md:inline"
-                    style={{borderRadius: "2rem"}}
+                    style={{ borderRadius: "2rem" }}
                   >
                     0
                   </span>

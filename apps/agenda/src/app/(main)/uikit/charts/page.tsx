@@ -1,15 +1,15 @@
 "use client";
-import type {ChartData, ChartOptions} from "chart.js";
-import {Chart} from "primereact/chart";
-import type {ReactElement} from "react";
-import React, {useContext, useEffect, useState} from "react";
-import {LayoutContext} from "@/src/layout/context/layout-context";
-import type {ChartDataState, ChartOptionsState} from "@/types/types";
+import type { ChartData, ChartOptions } from "chart.js";
+import { Chart } from "primereact/chart";
+import type { ReactElement } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { LayoutContext } from "@/src/context/layout-context";
+import type { ChartDataState, ChartOptionsState } from "@/types/types";
 
 function ChartDemo(): ReactElement {
   const [options, setOptions] = useState<ChartOptionsState>({});
   const [chartData, setChartData] = useState<ChartDataState>({});
-  const {layoutConfig} = useContext(LayoutContext);
+  const { layoutConfig } = useContext(LayoutContext);
 
   useEffect(() => {
     const documentStyle = getComputedStyle(document.documentElement);

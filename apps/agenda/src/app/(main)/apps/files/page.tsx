@@ -1,20 +1,20 @@
 "use client";
-import {Button} from "primereact/button";
-import {Chart} from "primereact/chart";
-import {Column} from "primereact/column";
-import {DataTable} from "primereact/datatable";
-import type {ItemTemplateOptions} from "primereact/fileupload";
-import {FileUpload} from "primereact/fileupload";
-import {Menu} from "primereact/menu";
-import {Toast} from "primereact/toast";
-import {classNames} from "primereact/utils";
-import type {ReactElement} from "react";
-import React, {createRef, useContext, useEffect, useRef, useState} from "react";
-import type {ChartData, ChartOptions, Plugin} from "chart.js";
-import {nanoid} from "nanoid";
-import {FileService} from "@/src/demo/service/file-service";
-import {LayoutContext} from "@/src/layout/context/layout-context";
-import type {Demo} from "@/types/types";
+import { Button } from "primereact/button";
+import { Chart } from "primereact/chart";
+import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
+import type { ItemTemplateOptions } from "primereact/fileupload";
+import { FileUpload } from "primereact/fileupload";
+import { Menu } from "primereact/menu";
+import { Toast } from "primereact/toast";
+import { classNames } from "primereact/utils";
+import type { ReactElement } from "react";
+import React, { createRef, useContext, useEffect, useRef, useState } from "react";
+import type { ChartData, ChartOptions, Plugin } from "chart.js";
+import { nanoid } from "nanoid";
+import { FileService } from "@/src/demo/service/file-service";
+import { LayoutContext } from "@/src/context/layout-context";
+import type { Demo } from "@/types/types";
 
 export default function Files(): ReactElement {
   const [files, setFiles] = useState<Demo.File[]>([]);
@@ -30,8 +30,8 @@ export default function Files(): ReactElement {
   const dt = useRef<DataTable<Demo.File[]>>(null);
 
   const menuItems = [
-    {label: "View", icon: "pi pi-search"},
-    {label: "Refresh", icon: "pi pi-refresh"},
+    { label: "View", icon: "pi pi-search" },
+    { label: "Refresh", icon: "pi pi-refresh" },
   ];
 
   const nameBodyTemplate = (rowData): ReactElement => {
@@ -97,7 +97,7 @@ export default function Files(): ReactElement {
       <div
         className="w-full py-3"
         onClick={onFileUploadClick}
-        style={{cursor: "copy"}}
+        style={{ cursor: "copy" }}
       >
         <div
           className="h-full relative w-7rem h-7rem border-3 border-transparent border-round hover:bg-primary transition-duration-100 cursor-auto"
@@ -107,7 +107,7 @@ export default function Files(): ReactElement {
           onMouseLeave={() => {
             onImageMouseLeave(buttonEl);
           }}
-          style={{padding: "1px"}}
+          style={{ padding: "1px" }}
         >
           <img
             alt={fileObject.name}
@@ -124,7 +124,7 @@ export default function Files(): ReactElement {
             }}
             ref={buttonEl}
             rounded
-            style={{top: "-10px", right: "-10px", display: "none"}}
+            style={{ top: "-10px", right: "-10px", display: "none" }}
             type="button"
           />
         </div>
@@ -137,7 +137,7 @@ export default function Files(): ReactElement {
       <div
         className="w-full py-3"
         onClick={onFileUploadClick}
-        style={{cursor: "copy"}}
+        style={{ cursor: "copy" }}
       >
         <div className="h-full flex flex-column justify-content-center align-items-center">
           <i className="pi pi-upload text-900 text-2xl mb-3" />
@@ -260,14 +260,14 @@ export default function Files(): ReactElement {
               <div>
                 <div
                   className={classNames("border-round", metric.color)}
-                  style={{height: "6px"}}
+                  style={{ height: "6px" }}
                 >
                   <div
                     className={classNames(
                       "h-full border-round",
                       metric.fieldColor
                     )}
-                    style={{width: "34%"}}
+                    style={{ width: "34%" }}
                   />
                 </div>
                 <div className="flex align-item-center justify-content-between">
@@ -294,7 +294,7 @@ export default function Files(): ReactElement {
               id="country-chart"
               options={chartOptions}
               plugins={[chartPlugin]}
-              style={{width: "75%"}}
+              style={{ width: "75%" }}
               type="doughnut"
             />
           </div>
@@ -395,7 +395,7 @@ export default function Files(): ReactElement {
               body={nameBodyTemplate}
               field="name"
               header="Name"
-              headerStyle={{minWidth: "12rem"}}
+              headerStyle={{ minWidth: "12rem" }}
               sortable
             />
             <Column
@@ -403,16 +403,16 @@ export default function Files(): ReactElement {
               field="date"
               header="Date"
               headerClassName="white-space-nowrap"
-              headerStyle={{minWidth: "12rem"}}
+              headerStyle={{ minWidth: "12rem" }}
             />
             <Column
               body={fileSizeBodyTemplate}
               field="fileSize"
               header="File Size"
-              headerStyle={{minWidth: "12rem"}}
+              headerStyle={{ minWidth: "12rem" }}
               sortable
             />
-            <Column body={uploadBodyCenter} style={{width: "10rem"}} />
+            <Column body={uploadBodyCenter} style={{ width: "10rem" }} />
           </DataTable>
         </div>
       </div>

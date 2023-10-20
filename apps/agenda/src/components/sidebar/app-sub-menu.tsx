@@ -1,6 +1,6 @@
-import {Tooltip} from "primereact/tooltip";
-import type {ReactElement} from "react";
-import {useContext, useEffect, useRef} from "react";
+import { Tooltip } from "primereact/tooltip";
+import type { ReactElement } from "react";
+import { useContext, useEffect, useRef } from "react";
 import type {
   MenuProps,
   MenuModel,
@@ -8,12 +8,12 @@ import type {
   BreadcrumbItem,
 } from "@/types/types";
 import AppMenuitem from "./app-menuitem";
-import {LayoutContext} from "./context/layout-context";
-import {MenuProvider} from "./context/menu-context";
-import type {AppMenuItem} from "@/types/layout";
+import { LayoutContext } from "../../context/layout-context";
+import { MenuProvider } from "../../context/menu-context";
+import type { AppMenuItem } from "@/types/layout";
 
 function AppSubMenu(props: MenuProps): ReactElement {
-  const {layoutState, setBreadcrumbs} = useContext(LayoutContext);
+  const { layoutState, setBreadcrumbs } = useContext(LayoutContext);
   const tooltipRef = useRef<Tooltip | null>(null);
 
   useEffect(() => {
@@ -29,15 +29,15 @@ function AppSubMenu(props: MenuProps): ReactElement {
 
       const getBreadcrumb = (
         item: BreadcrumbItem,
-        labels: string[] = []
+        labels: string[] = [],
       ): void => {
-        const {label, to, items} = item;
+        const { label, to, items } = item;
 
         label && labels.push(label);
         items?.forEach((_item) => {
           getBreadcrumb(_item, labels.slice());
         });
-        to && breadcrumbs.push({labels, to});
+        to && breadcrumbs.push({ labels, to });
       };
 
       model.forEach((item) => {
@@ -51,14 +51,13 @@ function AppSubMenu(props: MenuProps): ReactElement {
 
   return (
     <MenuProvider>
-      <ul className="layout-menu">
+      <ul className="layout-menu my-auto">
         {props.model.map((item, i) => {
           return !item.seperator ? (
             <AppMenuitem
               index={i}
               item={item as AppMenuItem}
               key={item.label}
-              root
             />
           ) : (
             <li className="menu-separator" />

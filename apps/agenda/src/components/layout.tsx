@@ -1,22 +1,18 @@
 "use client";
-import type {ReactElement} from "react";
-import React, {useCallback, useContext, useEffect, useRef} from "react";
-import {usePathname, useSearchParams} from "next/navigation";
-import {classNames, DomHandler} from "primereact/utils";
+import type { ReactElement } from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { classNames, DomHandler } from "primereact/utils";
 import {
   useEventListener,
   useMountEffect,
   useResizeListener,
   useUnmountEffect,
 } from "primereact/hooks";
-import {PrimeReactContext} from "primereact/api";
-import type {AppTopbarRef, ChildContainerProps} from "@/types/types";
-import {LayoutContext} from "./context/layout-context";
-import AppConfig from "./app-config";
-import AppSidebar from "./app-sidebar";
-import AppTopbar from "./app-topbar";
-import AppBreadcrumb from "./app-bread-crumb";
-import AppFooter from "./app-footer";
+import { PrimeReactContext } from "primereact/api";
+import type { AppTopbarRef, ChildContainerProps } from "@/types/types";
+import { LayoutContext } from "../context/layout-context";
+import AppSidebar from "./sidebar/app-sidebar";
 
 function Layout(props: ChildContainerProps): ReactElement {
   const {
@@ -30,7 +26,7 @@ function Layout(props: ChildContainerProps): ReactElement {
     isDesktop,
     isSidebarActive,
   } = useContext(LayoutContext);
-  const {setRipple} = useContext(PrimeReactContext);
+  const { setRipple } = useContext(PrimeReactContext);
   const topbarRef = useRef<AppTopbarRef>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -89,14 +85,14 @@ function Layout(props: ChildContainerProps): ReactElement {
       document.body.className = document.body.className.replace(
         new RegExp(
           `(^|\\b)${"blocked-scroll".split(" ").join("|")}(\\b|$)`,
-          "gi"
+          "gi",
         ),
-        " "
+        " ",
       );
     }
   };
   useMountEffect(() => {
-    setRipple(layoutConfig.ripple);
+    setRipple && setRipple(layoutConfig.ripple);
   });
 
   const onMouseEnter = (): void => {
@@ -128,7 +124,7 @@ function Layout(props: ChildContainerProps): ReactElement {
   useEffect(() => {
     const onRouteChange = (): void => {
       if (layoutConfig.colorScheme === "dark") {
-        setLayoutConfig((prevState) => ({...prevState, menuTheme: "dark"}));
+        setLayoutConfig((prevState) => ({ ...prevState, menuTheme: "dark" }));
       }
     };
     onRouteChange();
@@ -168,7 +164,6 @@ function Layout(props: ChildContainerProps): ReactElement {
   });
 
   const containerClassName = classNames(
-    `layout-topbar-${layoutConfig.topbarTheme}`,
     `layout-menu-${layoutConfig.menuTheme}`,
     `layout-menu-profile-${layoutConfig.menuProfilePosition}`,
     {
@@ -191,29 +186,30 @@ function Layout(props: ChildContainerProps): ReactElement {
       "layout-menu-profile-active": layoutState.menuProfileActive,
       "layout-sidebar-active": layoutState.sidebarActive,
       "layout-sidebar-anchored": layoutState.anchored,
-    }
+    },
   );
 
   return (
-    <div className={classNames("layout-container", containerClassName)}>
-      <AppTopbar ref={topbarRef} />
+    <div className="layout">
       <div
-        className="layout-sidebar"
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        ref={sidebarRef}
+        className={classNames(
+          "layout-container tw-z-10 tw-relative",
+          containerClassName,
+        )}
       >
-        <AppSidebar />
-      </div>
-      <div className="layout-content-wrapper">
-        <div>
-          <AppBreadcrumb />
-          <div className="layout-content">{props.children}</div>
+        <div
+          className="layout-sidebar !tw-w-[29rem] h-full top-0 tw-rounded-r-2xl"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          ref={sidebarRef}
+        >
+          <AppSidebar />
         </div>
-        <AppFooter />
+        <div className="layout-content-wrapper pt-0">
+          <div className="layout-content w-full">{props.children}</div>
+        </div>
+        <div className="layout-mask" />
       </div>
-      <AppConfig />
-      <div className="layout-mask" />
     </div>
   );
 }
