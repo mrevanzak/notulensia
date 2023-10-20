@@ -1,10 +1,10 @@
 "use client";
-import type {ReactElement} from "react";
-import React, {useEffect, useState} from "react";
+import type { ReactElement } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import {InputText} from "primereact/inputtext";
-import {IconService} from "@/src/demo/service/icon-service";
-import type {Demo} from "@/types/types";
+import { InputText } from "primereact/inputtext";
+import { IconService } from "@/demo/service/icon-service";
+import type { Demo } from "@/types/types";
 
 export default function IconsDemo(): ReactElement {
   const [icons, setIcons] = useState<Demo.Icon[]>([]);
@@ -93,7 +93,7 @@ export default function IconsDemo(): ReactElement {
         <code>{`<i className="pi pi-check" style={{ fontSize: '2rem' }}></i>`}</code>
       </pre>
 
-      <i className="pi pi-check" style={{fontSize: "2rem"}} />
+      <i className="pi pi-check" style={{ fontSize: "2rem" }} />
 
       <h4>Spinning Animation</h4>
       <p>Special pi-spin class applies continuous rotation to an icon.</p>
@@ -101,7 +101,7 @@ export default function IconsDemo(): ReactElement {
         <code>{`<i className="pi pi-spin pi-spinner" style={{ fontSize: '2rem' }}></i>`}</code>
       </pre>
 
-      <i className="pi pi-spin pi-spinner" style={{fontSize: "2rem"}} />
+      <i className="pi pi-spin pi-spinner" style={{ fontSize: "2rem" }} />
 
       <h4>List of Icons</h4>
       <p>
@@ -128,20 +128,20 @@ export default function IconsDemo(): ReactElement {
       <div className="grid icons-list text-center">
         {filteredIcons.length > 0
           ? filteredIcons.map((iconMeta) => {
-              const {icon, properties} = iconMeta;
+            const { icon, properties } = iconMeta;
 
-              return (
-                icon?.tags?.includes("deprecate") && (
-                  <div
-                    className="col-6 sm:col-4 lg:col-3 xl:col-2 pb-5"
-                    key={properties?.name}
-                  >
-                    <i className={`text-2xl mb-2 pi pi-${properties?.name}`} />
-                    <div>pi-{properties?.name}</div>
-                  </div>
-                )
-              );
-            })
+            return (
+              icon?.tags?.includes("deprecate") && (
+                <div
+                  className="col-6 sm:col-4 lg:col-3 xl:col-2 pb-5"
+                  key={properties?.name}
+                >
+                  <i className={`text-2xl mb-2 pi pi-${properties?.name}`} />
+                  <div>pi-{properties?.name}</div>
+                </div>
+              )
+            );
+          })
           : null}
       </div>
     </div>

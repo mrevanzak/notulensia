@@ -1,33 +1,33 @@
 "use client";
-import type {AutoCompleteCompleteEvent} from "primereact/autocomplete";
-import {AutoComplete} from "primereact/autocomplete";
-import {Button} from "primereact/button";
-import {Calendar} from "primereact/calendar";
-import type {CheckboxChangeEvent} from "primereact/checkbox";
-import {Checkbox} from "primereact/checkbox";
-import {Chips} from "primereact/chips";
+import type { AutoCompleteCompleteEvent } from "primereact/autocomplete";
+import { AutoComplete } from "primereact/autocomplete";
+import { Button } from "primereact/button";
+import { Calendar } from "primereact/calendar";
+import type { CheckboxChangeEvent } from "primereact/checkbox";
+import { Checkbox } from "primereact/checkbox";
+import { Chips } from "primereact/chips";
 import type {
   ColorPickerHSBType,
   ColorPickerRGBType,
 } from "primereact/colorpicker";
-import {ColorPicker} from "primereact/colorpicker";
-import {Dropdown} from "primereact/dropdown";
-import {InputNumber} from "primereact/inputnumber";
-import {InputSwitch} from "primereact/inputswitch";
-import {InputText} from "primereact/inputtext";
-import {InputTextarea} from "primereact/inputtextarea";
-import {Knob} from "primereact/knob";
-import {ListBox} from "primereact/listbox";
-import {MultiSelect} from "primereact/multiselect";
-import {RadioButton} from "primereact/radiobutton";
-import {Rating} from "primereact/rating";
-import {SelectButton} from "primereact/selectbutton";
-import {Slider} from "primereact/slider";
-import {ToggleButton} from "primereact/togglebutton";
-import type {ReactElement} from "react";
-import React, {useEffect, useState} from "react";
-import {CountryService} from "@/src/demo/service/country-service";
-import type {Demo} from "@/types/types";
+import { ColorPicker } from "primereact/colorpicker";
+import { Dropdown } from "primereact/dropdown";
+import { InputNumber } from "primereact/inputnumber";
+import { InputSwitch } from "primereact/inputswitch";
+import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
+import { Knob } from "primereact/knob";
+import { ListBox } from "primereact/listbox";
+import { MultiSelect } from "primereact/multiselect";
+import { RadioButton } from "primereact/radiobutton";
+import { Rating } from "primereact/rating";
+import { SelectButton } from "primereact/selectbutton";
+import { Slider } from "primereact/slider";
+import { ToggleButton } from "primereact/togglebutton";
+import type { ReactElement } from "react";
+import React, { useEffect, useState } from "react";
+import { CountryService } from "@/demo/service/country-service";
+import type { Demo } from "@/types/types";
 
 interface InputValue {
   name: string;
@@ -64,44 +64,44 @@ function InputDemo(): ReactElement {
   const [inputGroupValue, setInputGroupValue] = useState(false);
 
   const listboxValues: InputValue[] = [
-    {name: "New York", code: "NY"},
-    {name: "Rome", code: "RM"},
-    {name: "London", code: "LDN"},
-    {name: "Istanbul", code: "IST"},
-    {name: "Paris", code: "PRS"},
+    { name: "New York", code: "NY" },
+    { name: "Rome", code: "RM" },
+    { name: "London", code: "LDN" },
+    { name: "Istanbul", code: "IST" },
+    { name: "Paris", code: "PRS" },
   ];
 
   const dropdownValues: InputValue[] = [
-    {name: "New York", code: "NY"},
-    {name: "Rome", code: "RM"},
-    {name: "London", code: "LDN"},
-    {name: "Istanbul", code: "IST"},
-    {name: "Paris", code: "PRS"},
+    { name: "New York", code: "NY" },
+    { name: "Rome", code: "RM" },
+    { name: "London", code: "LDN" },
+    { name: "Istanbul", code: "IST" },
+    { name: "Paris", code: "PRS" },
   ];
 
   const multiselectValues: InputValue[] = [
-    {name: "Australia", code: "AU"},
-    {name: "Brazil", code: "BR"},
-    {name: "China", code: "CN"},
-    {name: "Egypt", code: "EG"},
-    {name: "France", code: "FR"},
-    {name: "Germany", code: "DE"},
-    {name: "India", code: "IN"},
-    {name: "Japan", code: "JP"},
-    {name: "Spain", code: "ES"},
-    {name: "United States", code: "US"},
+    { name: "Australia", code: "AU" },
+    { name: "Brazil", code: "BR" },
+    { name: "China", code: "CN" },
+    { name: "Egypt", code: "EG" },
+    { name: "France", code: "FR" },
+    { name: "Germany", code: "DE" },
+    { name: "India", code: "IN" },
+    { name: "Japan", code: "JP" },
+    { name: "Spain", code: "ES" },
+    { name: "United States", code: "US" },
   ];
 
   const selectButtonValues1: InputValue[] = [
-    {name: "Option 1", code: "O1"},
-    {name: "Option 2", code: "O2"},
-    {name: "Option 3", code: "O3"},
+    { name: "Option 1", code: "O1" },
+    { name: "Option 2", code: "O2" },
+    { name: "Option 3", code: "O3" },
   ];
 
   const selectButtonValues2: InputValue[] = [
-    {name: "Option 1", code: "O1"},
-    {name: "Option 2", code: "O2"},
-    {name: "Option 3", code: "O3"},
+    { name: "Option 1", code: "O1" },
+    { name: "Option 2", code: "O2" },
+    { name: "Option 3", code: "O3" },
   ];
 
   useEffect(() => {
@@ -143,11 +143,11 @@ function InputDemo(): ReactElement {
           alt={option.name}
           className={`flag flag-${option.code.toLowerCase()}`}
           onError={(e) =>
-            (e.currentTarget.src =
-              "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
+          (e.currentTarget.src =
+            "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
           }
           src="/demo/images/flag/flag_placeholder.png"
-          style={{width: "21px"}}
+          style={{ width: "21px" }}
         />
         <span className="ml-2">{option.name}</span>
       </div>
@@ -230,14 +230,14 @@ function InputDemo(): ReactElement {
           />
 
           <h5>Calendar</h5>
-          <Calendar
+          {/* <Calendar
             onChange={(e) => {
               setCalendarValue(e.value ?? null);
             }}
             showButtonBar
             showIcon
             value={calendarValue}
-          />
+          /> */}
 
           <h5>InputNumber</h5>
           <InputNumber
@@ -290,7 +290,7 @@ function InputDemo(): ReactElement {
                 onChange={(e) => {
                   setColorValue(e.value ?? "");
                 }}
-                style={{width: "2rem"}}
+                style={{ width: "2rem" }}
                 value={colorValue}
               />
             </div>

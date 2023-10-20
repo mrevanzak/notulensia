@@ -177,7 +177,7 @@ function CheckoutForm(): ReactElement {
               </div>
               <div className="text-600 text-sm mb-3">Black | Large</div>
               <div className="flex flex-auto justify-content-between align-items-center">
-                <InputNumber
+                {/* <InputNumber
                   buttonLayout="horizontal"
                   className="border-1 surface-border border-round"
                   decrementButtonClassName="p-button-text text-600 hover:text-primary py-1 px-1"
@@ -188,7 +188,7 @@ function CheckoutForm(): ReactElement {
                   min={0}
                   showButtons
                   value={quantities[0]}
-                />
+                /> */}
                 <Button icon="pi pi-trash" rounded text />
               </div>
             </div>

@@ -1,12 +1,12 @@
 "use client";
 
-import {Button} from "primereact/button";
-import {Checkbox} from "primereact/checkbox";
-import {Chip} from "primereact/chip";
-import {InputText} from "primereact/inputtext";
-import type {ReactElement} from "react";
-import React, {useState} from "react";
-import BlockViewer from "@/src/demo/components/block-viewer";
+import { Button } from "primereact/button";
+import { Checkbox } from "primereact/checkbox";
+import { Chip } from "primereact/chip";
+import { InputText } from "primereact/inputtext";
+import type { ReactElement } from "react";
+import React, { useState } from "react";
+import BlockViewer from "@/demo/components/block-viewer";
 
 export default function BlocksDemo(): ReactElement {
   const [checked, setChecked] = useState(false);
@@ -447,7 +447,7 @@ export default function BlocksDemo(): ReactElement {
               alt="hero-1"
               className="md:ml-auto block md:h-full"
               src="/demo/images/blocks/hero/hero-1.png"
-              style={{clipPath: "polygon(8% 0, 100% 0%, 100% 100%, 0 100%)"}}
+              style={{ clipPath: "polygon(8% 0, 100% 0%, 100% 100%, 0 100%)" }}
             />
           </div>
         </div>
@@ -467,7 +467,7 @@ export default function BlocksDemo(): ReactElement {
             <div className="col-12 md:col-4 mb-4 px-5">
               <span
                 className="p-3 shadow-2 mb-3 inline-block surface-card"
-                style={{borderRadius: "10px"}}
+                style={{ borderRadius: "10px" }}
               >
                 <i className="pi pi-desktop text-4xl text-blue-500" />
               </span>
@@ -482,7 +482,7 @@ export default function BlocksDemo(): ReactElement {
             <div className="col-12 md:col-4 mb-4 px-5">
               <span
                 className="p-3 shadow-2 mb-3 inline-block surface-card"
-                style={{borderRadius: "10px"}}
+                style={{ borderRadius: "10px" }}
               >
                 <i className="pi pi-lock text-4xl text-blue-500" />
               </span>
@@ -497,7 +497,7 @@ export default function BlocksDemo(): ReactElement {
             <div className="col-12 md:col-4 mb-4 px-5">
               <span
                 className="p-3 shadow-2 mb-3 inline-block surface-card"
-                style={{borderRadius: "10px"}}
+                style={{ borderRadius: "10px" }}
               >
                 <i className="pi pi-check-circle text-4xl text-blue-500" />
               </span>
@@ -512,7 +512,7 @@ export default function BlocksDemo(): ReactElement {
             <div className="col-12 md:col-4 mb-4 px-5">
               <span
                 className="p-3 shadow-2 mb-3 inline-block surface-card"
-                style={{borderRadius: "10px"}}
+                style={{ borderRadius: "10px" }}
               >
                 <i className="pi pi-globe text-4xl text-blue-500" />
               </span>
@@ -527,7 +527,7 @@ export default function BlocksDemo(): ReactElement {
             <div className="col-12 md:col-4 mb-4 px-5">
               <span
                 className="p-3 shadow-2 mb-3 inline-block surface-card"
-                style={{borderRadius: "10px"}}
+                style={{ borderRadius: "10px" }}
               >
                 <i className="pi pi-github text-4xl text-blue-500" />
               </span>
@@ -542,7 +542,7 @@ export default function BlocksDemo(): ReactElement {
             <div className="col-12 md:col-4 md:mb-4 mb-0 px-3">
               <span
                 className="p-3 shadow-2 mb-3 inline-block surface-card"
-                style={{borderRadius: "10px"}}
+                style={{ borderRadius: "10px" }}
               >
                 <i className="pi pi-shield text-4xl text-blue-500" />
               </span>
@@ -573,7 +573,7 @@ export default function BlocksDemo(): ReactElement {
               <div className="p-3 h-full">
                 <div
                   className="shadow-2 p-3 h-full flex flex-column surface-card"
-                  style={{borderRadius: "6px"}}
+                  style={{ borderRadius: "6px" }}
                 >
                   <div className="text-900 font-medium text-xl mb-2">Basic</div>
                   <div className="text-600">Plan description</div>
@@ -607,7 +607,7 @@ export default function BlocksDemo(): ReactElement {
               <div className="p-3 h-full">
                 <div
                   className="shadow-2 p-3 h-full flex flex-column surface-card"
-                  style={{borderRadius: "6px"}}
+                  style={{ borderRadius: "6px" }}
                 >
                   <div className="text-900 font-medium text-xl mb-2">
                     Premium
@@ -647,7 +647,7 @@ export default function BlocksDemo(): ReactElement {
               <div className="p-3 h-full">
                 <div
                   className="shadow-2 p-3 flex flex-column surface-card"
-                  style={{borderRadius: "6px"}}
+                  style={{ borderRadius: "6px" }}
                 >
                   <div className="text-900 font-medium text-xl mb-2">
                     Enterprise
@@ -740,7 +740,7 @@ export default function BlocksDemo(): ReactElement {
           </a>
           <a
             className="flex align-items-center no-underline justify-content-center border-circle text-100 hover:bg-bluegray-700 cursor-pointer transition-colors transition-duration-150"
-            style={{width: "2rem", height: "2rem"}}
+            style={{ width: "2rem", height: "2rem" }}
           >
             <i className="pi pi-times" />
           </a>
@@ -817,7 +817,7 @@ export default function BlocksDemo(): ReactElement {
                 </div>
                 <div
                   className="flex align-items-center justify-content-center bg-blue-100 border-round"
-                  style={{width: "2.5rem", height: "2.5rem"}}
+                  style={{ width: "2.5rem", height: "2.5rem" }}
                 >
                   <i className="pi pi-shopping-cart text-blue-500 text-xl" />
                 </div>
@@ -837,7 +837,7 @@ export default function BlocksDemo(): ReactElement {
                 </div>
                 <div
                   className="flex align-items-center justify-content-center bg-orange-100 border-round"
-                  style={{width: "2.5rem", height: "2.5rem"}}
+                  style={{ width: "2.5rem", height: "2.5rem" }}
                 >
                   <i className="pi pi-map-marker text-orange-500 text-xl" />
                 </div>
@@ -857,7 +857,7 @@ export default function BlocksDemo(): ReactElement {
                 </div>
                 <div
                   className="flex align-items-center justify-content-center bg-cyan-100 border-round"
-                  style={{width: "2.5rem", height: "2.5rem"}}
+                  style={{ width: "2.5rem", height: "2.5rem" }}
                 >
                   <i className="pi pi-inbox text-cyan-500 text-xl" />
                 </div>
@@ -877,7 +877,7 @@ export default function BlocksDemo(): ReactElement {
                 </div>
                 <div
                   className="flex align-items-center justify-content-center bg-purple-100 border-round"
-                  style={{width: "2.5rem", height: "2.5rem"}}
+                  style={{ width: "2.5rem", height: "2.5rem" }}
                 >
                   <i className="pi pi-comment text-purple-500 text-xl" />
                 </div>
@@ -1047,7 +1047,7 @@ export default function BlocksDemo(): ReactElement {
           </div>
           <div
             className="border-2 border-dashed border-300"
-            style={{height: "150px"}}
+            style={{ height: "150px" }}
           />
         </div>
       </BlockViewer>

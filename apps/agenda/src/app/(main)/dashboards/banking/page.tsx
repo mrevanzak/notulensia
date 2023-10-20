@@ -10,7 +10,7 @@ import React, { useState, useEffect, useContext } from "react";
 import type { ChartData, ChartOptions } from "chart.js";
 import { useRouter } from "next/navigation";
 import { classNames } from "primereact/utils";
-import { LayoutContext } from "@/src/context/layout-context";
+import { LayoutContext } from "@/context/layout-context";
 
 let visitorChart: ChartData;
 let visitorChartOptions: ChartOptions;

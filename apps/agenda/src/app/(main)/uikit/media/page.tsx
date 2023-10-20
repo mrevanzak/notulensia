@@ -1,14 +1,14 @@
 "use client";
 
-import {Button} from "primereact/button";
-import {Carousel} from "primereact/carousel";
-import {Galleria} from "primereact/galleria";
-import {Image} from "primereact/image";
-import type {ReactElement} from "react";
-import React, {useEffect, useState} from "react";
-import {PhotoService} from "@/src/demo/service/photo-service";
-import {ProductService} from "@/src/demo/service/product-service";
-import type {Demo} from "@/types/types";
+import { Button } from "primereact/button";
+import { Carousel } from "primereact/carousel";
+import { Galleria } from "primereact/galleria";
+import { Image } from "primereact/image";
+import type { ReactElement } from "react";
+import React, { useEffect, useState } from "react";
+import { PhotoService } from "@/demo/service/photo-service";
+import { ProductService } from "@/demo/service/product-service";
+import type { Demo } from "@/types/types";
 
 export default function MediaDemo(): ReactElement {
   const [products, setProducts] = useState<Demo.Product[]>([]);
@@ -107,14 +107,14 @@ export default function MediaDemo(): ReactElement {
     <img
       alt={item.alt}
       src={`/${item.itemImageSrc}`}
-      style={{width: "100%", display: "block"}}
+      style={{ width: "100%", display: "block" }}
     />
   );
   const galleriaThumbnailTemplate = (item: Demo.Photo): ReactElement => (
     <img
       alt={item.alt}
       src={`/${item.thumbnailImageSrc}`}
-      style={{width: "100%", display: "block"}}
+      style={{ width: "100%", display: "block" }}
     />
   );
 
@@ -155,7 +155,7 @@ export default function MediaDemo(): ReactElement {
             item={galleriaItemTemplate}
             numVisible={7}
             responsiveOptions={galleriaResponsiveOptions}
-            style={{maxWidth: "800px", margin: "auto"}}
+            style={{ maxWidth: "800px", margin: "auto" }}
             thumbnail={galleriaThumbnailTemplate}
             value={images}
           />

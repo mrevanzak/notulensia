@@ -1,7 +1,6 @@
-import type {Metadata} from "next";
-import type {ReactElement} from "react";
+import type { Metadata } from "next";
+import type { ReactElement } from "react";
 import React from "react";
-import AppConfig from "@/src/layout/app-config";
 
 interface LandingLayoutProps {
   children: React.ReactNode;
@@ -18,7 +17,6 @@ export default function LandingLayout({
 }: LandingLayoutProps): ReactElement {
   return (
     <>
-      <AppConfig minimal />
       {children}
     </>
   );

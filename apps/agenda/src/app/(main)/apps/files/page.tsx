@@ -12,8 +12,8 @@ import type { ReactElement } from "react";
 import React, { createRef, useContext, useEffect, useRef, useState } from "react";
 import type { ChartData, ChartOptions, Plugin } from "chart.js";
 import { nanoid } from "nanoid";
-import { FileService } from "@/src/demo/service/file-service";
-import { LayoutContext } from "@/src/context/layout-context";
+import { FileService } from "@/demo/service/file-service";
+import { LayoutContext } from "@/context/layout-context";
 import type { Demo } from "@/types/types";
 
 export default function Files(): ReactElement {

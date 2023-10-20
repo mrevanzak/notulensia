@@ -1,23 +1,23 @@
 "use client";
-import {Button} from "primereact/button";
-import {Column} from "primereact/column";
-import {DataTable} from "primereact/datatable";
-import {Dialog} from "primereact/dialog";
-import {FileUpload} from "primereact/fileupload";
-import type {InputNumberValueChangeEvent} from "primereact/inputnumber";
-import {InputNumber} from "primereact/inputnumber";
-import {InputText} from "primereact/inputtext";
-import {InputTextarea} from "primereact/inputtextarea";
-import type {RadioButtonChangeEvent} from "primereact/radiobutton";
-import {RadioButton} from "primereact/radiobutton";
-import {Rating} from "primereact/rating";
-import {Toast} from "primereact/toast";
-import {Toolbar} from "primereact/toolbar";
-import {classNames} from "primereact/utils";
-import type {ReactElement} from "react";
-import React, {useEffect, useRef, useState} from "react";
-import {ProductService} from "@/src/demo/service/product-service";
-import type {Demo} from "@/types/types";
+import { Button } from "primereact/button";
+import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
+import { Dialog } from "primereact/dialog";
+import { FileUpload } from "primereact/fileupload";
+import type { InputNumberValueChangeEvent } from "primereact/inputnumber";
+import { InputNumber } from "primereact/inputnumber";
+import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
+import type { RadioButtonChangeEvent } from "primereact/radiobutton";
+import { RadioButton } from "primereact/radiobutton";
+import { Rating } from "primereact/rating";
+import { Toast } from "primereact/toast";
+import { Toolbar } from "primereact/toolbar";
+import { classNames } from "primereact/utils";
+import type { ReactElement } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { ProductService } from "@/demo/service/product-service";
+import type { Demo } from "@/types/types";
 
 function Crud(): ReactElement {
   const emptyProduct: Demo.Product = {
@@ -82,7 +82,7 @@ function Crud(): ReactElement {
 
     if (product.name.trim()) {
       const _products = [...products];
-      const _product = {...product};
+      const _product = { ...product };
       if (product.id) {
         const index = findIndexById(product.id);
 
@@ -113,7 +113,7 @@ function Crud(): ReactElement {
   };
 
   const editProduct = (product: Demo.Product): void => {
-    setProduct({...product});
+    setProduct({ ...product });
     setProductDialog(true);
   };
 
@@ -179,7 +179,7 @@ function Crud(): ReactElement {
   };
 
   const onCategoryChange = (e: RadioButtonChangeEvent): void => {
-    const _product = {...product};
+    const _product = { ...product };
     _product.category = e.value;
     setProduct(_product);
   };
@@ -189,7 +189,7 @@ function Crud(): ReactElement {
     name: string
   ): void => {
     const val = (e.target && e.target.value) || "";
-    const _product = {...product};
+    const _product = { ...product };
     _product[`${name}`] = val;
 
     setProduct(_product);
@@ -200,7 +200,7 @@ function Crud(): ReactElement {
     name: string
   ): void => {
     const val = e.value || 0;
-    const _product = {...product};
+    const _product = { ...product };
     _product[`${name}`] = val;
 
     setProduct(_product);
@@ -423,19 +423,19 @@ function Crud(): ReactElement {
             selection={selectedProducts}
             value={products}
           >
-            <Column headerStyle={{width: "4rem"}} selectionMode="multiple" />
+            <Column headerStyle={{ width: "4rem" }} selectionMode="multiple" />
             <Column
               body={codeBodyTemplate}
               field="code"
               header="Code"
-              headerStyle={{minWidth: "15rem"}}
+              headerStyle={{ minWidth: "15rem" }}
               sortable
             />
             <Column
               body={nameBodyTemplate}
               field="name"
               header="Name"
-              headerStyle={{minWidth: "15rem"}}
+              headerStyle={{ minWidth: "15rem" }}
               sortable
             />
             <Column body={imageBodyTemplate} header="Image" />
@@ -449,7 +449,7 @@ function Crud(): ReactElement {
               body={categoryBodyTemplate}
               field="category"
               header="Category"
-              headerStyle={{minWidth: "10rem"}}
+              headerStyle={{ minWidth: "10rem" }}
               sortable
             />
             <Column
@@ -462,12 +462,12 @@ function Crud(): ReactElement {
               body={statusBodyTemplate}
               field="inventoryStatus"
               header="Status"
-              headerStyle={{minWidth: "10rem"}}
+              headerStyle={{ minWidth: "10rem" }}
               sortable
             />
             <Column
               body={actionBodyTemplate}
-              headerStyle={{minWidth: "10rem"}}
+              headerStyle={{ minWidth: "10rem" }}
             />
           </DataTable>
 
@@ -477,7 +477,7 @@ function Crud(): ReactElement {
             header="Product Details"
             modal
             onHide={hideDialog}
-            style={{width: "450px"}}
+            style={{ width: "450px" }}
             visible={productDialog}
           >
             {product.image ? (
@@ -597,13 +597,13 @@ function Crud(): ReactElement {
             header="Confirm"
             modal
             onHide={hideDeleteProductDialog}
-            style={{width: "450px"}}
+            style={{ width: "450px" }}
             visible={deleteProductDialog}
           >
             <div className="flex align-items-center justify-content-center">
               <i
                 className="pi pi-exclamation-triangle mr-3"
-                style={{fontSize: "2rem"}}
+                style={{ fontSize: "2rem" }}
               />
               {product ? (
                 <span>
@@ -618,13 +618,13 @@ function Crud(): ReactElement {
             header="Confirm"
             modal
             onHide={hideDeleteProductsDialog}
-            style={{width: "450px"}}
+            style={{ width: "450px" }}
             visible={deleteProductsDialog}
           >
             <div className="flex align-items-center justify-content-center">
               <i
                 className="pi pi-exclamation-triangle mr-3"
-                style={{fontSize: "2rem"}}
+                style={{ fontSize: "2rem" }}
               />
               {product ? (
                 <span>

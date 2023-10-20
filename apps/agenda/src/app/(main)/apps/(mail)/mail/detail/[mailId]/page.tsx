@@ -1,19 +1,19 @@
 "use client";
 
-import type {ReactElement} from "react";
-import React, {useContext, useEffect, useRef, useState} from "react";
-import {useRouter, useSearchParams} from "next/navigation";
-import {Avatar} from "primereact/avatar";
-import {Button} from "primereact/button";
-import {Editor} from "primereact/editor";
-import {Toast} from "primereact/toast";
-import {MailContext} from "@/src/demo/components/apps/mail/context/mail-context";
-import type {Demo} from "@/types/types";
+import type { ReactElement } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Avatar } from "primereact/avatar";
+import { Button } from "primereact/button";
+import { Editor } from "primereact/editor";
+import { Toast } from "primereact/toast";
+import type { Demo } from "@/types/types";
+import { MailContext } from "@/demo/components/apps/mail/context/mail-context";
 
 export default function AppMailDetail({
   params,
 }: {
-  params: {mailId: string};
+  params: { mailId: string };
 }): ReactElement {
   const searchParams = useSearchParams();
 
@@ -37,8 +37,8 @@ export default function AppMailDetail({
   });
 
   const router = useRouter();
-  const {mailId} = params;
-  const {mails, onSend} = useContext(MailContext);
+  const { mailId } = params;
+  const { mails, onSend } = useContext(MailContext);
 
   const sendMail = (): void => {
     if (!mail) return;
@@ -137,7 +137,7 @@ export default function AppMailDetail({
                   message: e.textValue,
                 }));
               }}
-              style={{height: "250px"}}
+              style={{ height: "250px" }}
               value={newMail.message}
             />
             <div className="flex column-gap-3 justify-content-end p-5 border-top-1 surface-border">

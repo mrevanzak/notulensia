@@ -1,7 +1,7 @@
 "use client";
 import type { ReactElement } from "react";
 import React, { useContext, useEffect, useState } from "react";
-import { LayoutContext } from "@/src/context/layout-context";
+import { LayoutContext } from "@/context/layout-context";
 import { nanoid } from "nanoid";
 
 function Colors(): ReactElement {

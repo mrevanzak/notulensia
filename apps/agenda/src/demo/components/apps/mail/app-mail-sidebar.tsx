@@ -6,7 +6,7 @@ import { classNames } from "primereact/utils";
 import { usePathname, useRouter } from "next/navigation";
 import { nanoid } from "nanoid";
 import type { AppMailSidebarItem, Demo } from "@/types/types";
-import { LayoutContext } from "@/src/context/layout-context";
+import { LayoutContext } from "@/context/layout-context";
 import { MailContext } from "./context/mail-context";
 
 export default function AppMailSidebar(): ReactElement {

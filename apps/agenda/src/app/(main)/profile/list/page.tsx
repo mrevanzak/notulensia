@@ -1,16 +1,16 @@
 "use client";
-import {useRouter} from "next/navigation";
-import {FilterMatchMode, FilterOperator} from "primereact/api";
-import {Button} from "primereact/button";
-import {Column} from "primereact/column";
-import type {DataTableFilterMeta} from "primereact/datatable";
-import {DataTable} from "primereact/datatable";
-import {InputText} from "primereact/inputtext";
-import {ProgressBar} from "primereact/progressbar";
-import type {ReactElement} from "react";
-import React, {useEffect, useRef, useState} from "react";
-import {CustomerService} from "@/src/demo/service/customer-service";
-import type {Demo} from "@/types/types";
+import { useRouter } from "next/navigation";
+import { FilterMatchMode, FilterOperator } from "primereact/api";
+import { Button } from "primereact/button";
+import { Column } from "primereact/column";
+import type { DataTableFilterMeta } from "primereact/datatable";
+import { DataTable } from "primereact/datatable";
+import { InputText } from "primereact/inputtext";
+import { ProgressBar } from "primereact/progressbar";
+import type { ReactElement } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { CustomerService } from "@/demo/service/customer-service";
+import type { Demo } from "@/types/types";
 
 function List(): ReactElement {
   const [customers, setCustomers] = useState<Demo.Customer[]>([]);
@@ -40,21 +40,21 @@ function List(): ReactElement {
 
   const initFilters = (): void => {
     setFilters({
-      global: {value: null, matchMode: FilterMatchMode.CONTAINS},
+      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
       name: {
         operator: FilterOperator.AND,
-        constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}],
+        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
       },
       "country.name": {
         operator: FilterOperator.AND,
-        constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}],
+        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
       },
-      representative: {value: null, matchMode: FilterMatchMode.IN},
+      representative: { value: null, matchMode: FilterMatchMode.IN },
       date: {
         operator: FilterOperator.AND,
-        constraints: [{value: null, matchMode: FilterMatchMode.DATE_IS}],
+        constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
       },
-      activity: {value: null, matchMode: FilterMatchMode.BETWEEN},
+      activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
     });
     setGlobalFilterValue("");
   };
@@ -72,8 +72,8 @@ function List(): ReactElement {
   const onGlobalFilterChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    const {value} = e.target;
-    const _filters = {...filters};
+    const { value } = e.target;
+    const _filters = { ...filters };
     (_filters.global as any).value = value;
     setFilters(_filters);
     setGlobalFilterValue(value);
@@ -148,7 +148,7 @@ function List(): ReactElement {
     return (
       <ProgressBar
         showValue={false}
-        style={{height: ".5rem"}}
+        style={{ height: ".5rem" }}
         value={customer.activity}
       />
     );
@@ -176,7 +176,7 @@ function List(): ReactElement {
           header="Name"
           headerClassName="white-space-nowrap"
           sortable
-          style={{width: "25%"}}
+          style={{ width: "25%" }}
         />
         <Column
           body={countryBodyTemplate}
@@ -184,7 +184,7 @@ function List(): ReactElement {
           header="Country"
           headerClassName="white-space-nowrap"
           sortable
-          style={{width: "25%"}}
+          style={{ width: "25%" }}
         />
         <Column
           body={dateBodyTemplate}
@@ -192,7 +192,7 @@ function List(): ReactElement {
           header="Join Date"
           headerClassName="white-space-nowrap"
           sortable
-          style={{width: "25%"}}
+          style={{ width: "25%" }}
         />
         <Column
           body={createdByBodyTemplate}
@@ -200,7 +200,7 @@ function List(): ReactElement {
           header="Created By"
           headerClassName="white-space-nowrap"
           sortable
-          style={{width: "25%"}}
+          style={{ width: "25%" }}
         />
         <Column
           body={activityBodyTemplate}
@@ -208,7 +208,7 @@ function List(): ReactElement {
           header="Activity"
           headerClassName="white-space-nowrap"
           sortable
-          style={{width: "25%"}}
+          style={{ width: "25%" }}
         />
       </DataTable>
     </div>

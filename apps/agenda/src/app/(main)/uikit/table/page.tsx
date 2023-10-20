@@ -1,33 +1,33 @@
 "use client";
-import {FilterMatchMode, FilterOperator} from "primereact/api";
-import {Button} from "primereact/button";
-import {Calendar} from "primereact/calendar";
+import { FilterMatchMode, FilterOperator } from "primereact/api";
+import { Button } from "primereact/button";
+import { Calendar } from "primereact/calendar";
 import type {
   ColumnFilterApplyTemplateOptions,
   ColumnFilterClearTemplateOptions,
   ColumnFilterElementTemplateOptions,
 } from "primereact/column";
-import {Column} from "primereact/column";
+import { Column } from "primereact/column";
 import type {
   DataTableExpandedRows,
   DataTableFilterMeta,
 } from "primereact/datatable";
-import {DataTable} from "primereact/datatable";
-import {Dropdown} from "primereact/dropdown";
-import {InputNumber} from "primereact/inputnumber";
-import {InputText} from "primereact/inputtext";
-import {MultiSelect} from "primereact/multiselect";
-import {ProgressBar} from "primereact/progressbar";
-import {Rating} from "primereact/rating";
-import {Slider} from "primereact/slider";
-import {ToggleButton} from "primereact/togglebutton";
-import {TriStateCheckbox} from "primereact/tristatecheckbox";
-import {classNames} from "primereact/utils";
-import type {ReactElement} from "react";
-import React, {useEffect, useState} from "react";
-import {ProductService} from "@/src/demo/service/product-service";
-import {CustomerService} from "@/src/demo/service/customer-service";
-import type {Demo} from "@/types/types";
+import { DataTable } from "primereact/datatable";
+import { Dropdown } from "primereact/dropdown";
+import { InputNumber } from "primereact/inputnumber";
+import { InputText } from "primereact/inputtext";
+import { MultiSelect } from "primereact/multiselect";
+import { ProgressBar } from "primereact/progressbar";
+import { Rating } from "primereact/rating";
+import { Slider } from "primereact/slider";
+import { ToggleButton } from "primereact/togglebutton";
+import { TriStateCheckbox } from "primereact/tristatecheckbox";
+import { classNames } from "primereact/utils";
+import type { ReactElement } from "react";
+import React, { useEffect, useState } from "react";
+import { ProductService } from "@/demo/service/product-service";
+import { CustomerService } from "@/demo/service/customer-service";
+import type { Demo } from "@/types/types";
 
 function TableDemo(): ReactElement {
   const [customers1, setCustomers1] = useState<Demo.Customer[]>([]);
@@ -45,16 +45,16 @@ function TableDemo(): ReactElement {
   const [allExpanded, setAllExpanded] = useState(false);
 
   const representatives = [
-    {name: "Amy Elsner", image: "amyelsner.png"},
-    {name: "Anna Fali", image: "annafali.png"},
-    {name: "Asiya Javayant", image: "asiyajavayant.png"},
-    {name: "Bernardo Dominic", image: "bernardodominic.png"},
-    {name: "Elwin Sharvill", image: "elwinsharvill.png"},
-    {name: "Ioni Bowcher", image: "ionibowcher.png"},
-    {name: "Ivan Magalhaes", image: "ivanmagalhaes.png"},
-    {name: "Onyama Limba", image: "onyamalimba.png"},
-    {name: "Stephen Shaw", image: "stephenshaw.png"},
-    {name: "XuXue Feng", image: "xuxuefeng.png"},
+    { name: "Amy Elsner", image: "amyelsner.png" },
+    { name: "Anna Fali", image: "annafali.png" },
+    { name: "Asiya Javayant", image: "asiyajavayant.png" },
+    { name: "Bernardo Dominic", image: "bernardodominic.png" },
+    { name: "Elwin Sharvill", image: "elwinsharvill.png" },
+    { name: "Ioni Bowcher", image: "ionibowcher.png" },
+    { name: "Ivan Magalhaes", image: "ivanmagalhaes.png" },
+    { name: "Onyama Limba", image: "onyamalimba.png" },
+    { name: "Stephen Shaw", image: "stephenshaw.png" },
+    { name: "XuXue Feng", image: "xuxuefeng.png" },
   ];
 
   const statuses = [
@@ -74,7 +74,7 @@ function TableDemo(): ReactElement {
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const value = e.target.value;
-    const _filters1 = {...filters1};
+    const _filters1 = { ...filters1 };
     (_filters1.global as any).value = value;
 
     setFilters1(_filters1);
@@ -166,30 +166,30 @@ function TableDemo(): ReactElement {
 
   const initFilters1 = (): void => {
     setFilters1({
-      global: {value: null, matchMode: FilterMatchMode.CONTAINS},
+      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
       name: {
         operator: FilterOperator.AND,
-        constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}],
+        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
       },
       "country.name": {
         operator: FilterOperator.AND,
-        constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}],
+        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
       },
-      representative: {value: null, matchMode: FilterMatchMode.IN},
+      representative: { value: null, matchMode: FilterMatchMode.IN },
       date: {
         operator: FilterOperator.AND,
-        constraints: [{value: null, matchMode: FilterMatchMode.DATE_IS}],
+        constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
       },
       balance: {
         operator: FilterOperator.AND,
-        constraints: [{value: null, matchMode: FilterMatchMode.EQUALS}],
+        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
       },
       status: {
         operator: FilterOperator.OR,
-        constraints: [{value: null, matchMode: FilterMatchMode.EQUALS}],
+        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
       },
-      activity: {value: null, matchMode: FilterMatchMode.BETWEEN},
-      verified: {value: null, matchMode: FilterMatchMode.EQUALS},
+      activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
+      verified: { value: null, matchMode: FilterMatchMode.EQUALS },
     });
     setGlobalFilterValue1("");
   };
@@ -203,7 +203,7 @@ function TableDemo(): ReactElement {
           src="/demo/images/flag/flag_placeholder.png"
           width={30}
         />
-        <span style={{marginLeft: ".5em", verticalAlign: "middle"}}>
+        <span style={{ marginLeft: ".5em", verticalAlign: "middle" }}>
           {rowData?.country?.name}
         </span>
       </>
@@ -243,14 +243,14 @@ function TableDemo(): ReactElement {
         <img
           alt={representative.name}
           onError={(e) =>
-            ((e.target as HTMLImageElement).src =
-              "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
+          ((e.target as HTMLImageElement).src =
+            "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
           }
           src={`/demo/images/avatar/${representative.image}`}
-          style={{verticalAlign: "middle"}}
+          style={{ verticalAlign: "middle" }}
           width={32}
         />
-        <span style={{marginLeft: ".5em", verticalAlign: "middle"}}>
+        <span style={{ marginLeft: ".5em", verticalAlign: "middle" }}>
           {representative.name}
         </span>
       </>
@@ -284,10 +284,10 @@ function TableDemo(): ReactElement {
         <img
           alt={option.name}
           src={`/demo/images/avatar/${option.image}`}
-          style={{verticalAlign: "middle"}}
+          style={{ verticalAlign: "middle" }}
           width={32}
         />
-        <span style={{marginLeft: ".5em", verticalAlign: "middle"}}>
+        <span style={{ marginLeft: ".5em", verticalAlign: "middle" }}>
           {option.name}
         </span>
       </div>
@@ -368,7 +368,7 @@ function TableDemo(): ReactElement {
     return (
       <ProgressBar
         showValue={false}
-        style={{height: ".5rem"}}
+        style={{ height: ".5rem" }}
         value={rowData.activity}
       />
     );
@@ -459,8 +459,8 @@ function TableDemo(): ReactElement {
         alt={rowData.image}
         className="shadow-2"
         onError={(e) =>
-          ((e.target as HTMLImageElement).src =
-            "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
+        ((e.target as HTMLImageElement).src =
+          "https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png")
         }
         src={`/demo/images/product/${rowData.image}`}
         width={100}
@@ -506,7 +506,7 @@ function TableDemo(): ReactElement {
             header="Status"
             sortable
           />
-          <Column body={searchBodyTemplate} headerStyle={{width: "4rem"}} />
+          <Column body={searchBodyTemplate} headerStyle={{ width: "4rem" }} />
         </DataTable>
       </div>
     );
@@ -527,7 +527,7 @@ function TableDemo(): ReactElement {
         <img
           alt={data.representative.name}
           src={`/demo/images/avatar/${data.representative.image}`}
-          style={{verticalAlign: "middle"}}
+          style={{ verticalAlign: "middle" }}
           width="32"
         />
         <span className="font-bold ml-2">{data.representative.name}</span>
@@ -538,7 +538,7 @@ function TableDemo(): ReactElement {
   const footerTemplate = (data: Demo.Customer): ReactElement => {
     return (
       <>
-        <td className="text-bold pr-6" colSpan={4} style={{textAlign: "right"}}>
+        <td className="text-bold pr-6" colSpan={4} style={{ textAlign: "right" }}>
           Total Customers
         </td>
         <td>{calculateCustomerTotal(data.representative.name)}</td>
@@ -586,7 +586,7 @@ function TableDemo(): ReactElement {
               filter
               filterPlaceholder="Search by name"
               header="Name"
-              style={{minWidth: "12rem"}}
+              style={{ minWidth: "12rem" }}
             />
             <Column
               body={countryBodyTemplate}
@@ -596,17 +596,17 @@ function TableDemo(): ReactElement {
               filterField="country.name"
               filterPlaceholder="Search by country"
               header="Country"
-              style={{minWidth: "12rem"}}
+              style={{ minWidth: "12rem" }}
             />
             <Column
               body={representativeBodyTemplate}
               filter
               filterElement={representativeFilterTemplate}
               filterField="representative"
-              filterMenuStyle={{width: "14rem"}}
+              filterMenuStyle={{ width: "14rem" }}
               header="Agent"
               showFilterMatchModes={false}
-              style={{minWidth: "14rem"}}
+              style={{ minWidth: "14rem" }}
             />
             <Column
               body={dateBodyTemplate}
@@ -615,7 +615,7 @@ function TableDemo(): ReactElement {
               filterElement={dateFilterTemplate}
               filterField="date"
               header="Date"
-              style={{minWidth: "10rem"}}
+              style={{ minWidth: "10rem" }}
             />
             <Column
               body={balanceBodyTemplate}
@@ -624,16 +624,16 @@ function TableDemo(): ReactElement {
               filterElement={balanceFilterTemplate}
               filterField="balance"
               header="Balance"
-              style={{minWidth: "10rem"}}
+              style={{ minWidth: "10rem" }}
             />
             <Column
               body={statusBodyTemplate}
               field="status"
               filter
               filterElement={statusFilterTemplate}
-              filterMenuStyle={{width: "14rem"}}
+              filterMenuStyle={{ width: "14rem" }}
               header="Status"
-              style={{minWidth: "12rem"}}
+              style={{ minWidth: "12rem" }}
             />
             <Column
               body={activityBodyTemplate}
@@ -642,7 +642,7 @@ function TableDemo(): ReactElement {
               filterElement={activityFilterTemplate}
               header="Activity"
               showFilterMatchModes={false}
-              style={{minWidth: "12rem"}}
+              style={{ minWidth: "12rem" }}
             />
             <Column
               body={verifiedBodyTemplate}
@@ -652,7 +652,7 @@ function TableDemo(): ReactElement {
               filter
               filterElement={verifiedFilterTemplate}
               header="Verified"
-              style={{minWidth: "8rem"}}
+              style={{ minWidth: "8rem" }}
             />
           </DataTable>
         </div>
@@ -670,7 +670,7 @@ function TableDemo(): ReactElement {
             }}
             onIcon="pi pi-lock"
             onLabel="Unfreeze Id"
-            style={{width: "10rem"}}
+            style={{ width: "10rem" }}
           />
 
           <DataTable
@@ -685,49 +685,49 @@ function TableDemo(): ReactElement {
               field="name"
               frozen
               header="Name"
-              style={{flexGrow: 1, flexBasis: "160px"}}
+              style={{ flexGrow: 1, flexBasis: "160px" }}
             />
             <Column
               alignFrozen="left"
-              bodyClassName={classNames({"font-bold": idFrozen})}
+              bodyClassName={classNames({ "font-bold": idFrozen })}
               field="id"
               frozen={idFrozen}
               header="Id"
-              style={{flexGrow: 1, flexBasis: "100px"}}
+              style={{ flexGrow: 1, flexBasis: "100px" }}
             />
             <Column
               body={countryBodyTemplate}
               field="country.name"
               header="Country"
-              style={{flexGrow: 1, flexBasis: "200px"}}
+              style={{ flexGrow: 1, flexBasis: "200px" }}
             />
             <Column
               body={dateBodyTemplate}
               field="date"
               header="Date"
-              style={{flexGrow: 1, flexBasis: "200px"}}
+              style={{ flexGrow: 1, flexBasis: "200px" }}
             />
             <Column
               field="company"
               header="Company"
-              style={{flexGrow: 1, flexBasis: "200px"}}
+              style={{ flexGrow: 1, flexBasis: "200px" }}
             />
             <Column
               body={statusBodyTemplate}
               field="status"
               header="Status"
-              style={{flexGrow: 1, flexBasis: "200px"}}
+              style={{ flexGrow: 1, flexBasis: "200px" }}
             />
             <Column
               field="activity"
               header="Activity"
-              style={{flexGrow: 1, flexBasis: "200px"}}
+              style={{ flexGrow: 1, flexBasis: "200px" }}
             />
             <Column
               body={representativeBodyTemplate}
               field="representative.name"
               header="Representative"
-              style={{flexGrow: 1, flexBasis: "200px"}}
+              style={{ flexGrow: 1, flexBasis: "200px" }}
             />
             <Column
               alignFrozen="right"
@@ -736,7 +736,7 @@ function TableDemo(): ReactElement {
               field="balance"
               frozen
               header="Balance"
-              style={{flexGrow: 1, flexBasis: "120px"}}
+              style={{ flexGrow: 1, flexBasis: "120px" }}
             />
           </DataTable>
         </div>
@@ -756,7 +756,7 @@ function TableDemo(): ReactElement {
             rowExpansionTemplate={rowExpansionTemplate}
             value={products}
           >
-            <Column expander style={{width: "3em"}} />
+            <Column expander style={{ width: "3em" }} />
             <Column field="name" header="Name" sortable />
             <Column body={imageBodyTemplate} header="Image" />
             <Column
@@ -798,25 +798,25 @@ function TableDemo(): ReactElement {
             sortOrder={1}
             value={customers3}
           >
-            <Column field="name" header="Name" style={{minWidth: "200px"}} />
+            <Column field="name" header="Name" style={{ minWidth: "200px" }} />
             <Column
               body={countryBodyTemplate}
               field="country"
               header="Country"
-              style={{minWidth: "200px"}}
+              style={{ minWidth: "200px" }}
             />
             <Column
               field="company"
               header="Company"
-              style={{minWidth: "200px"}}
+              style={{ minWidth: "200px" }}
             />
             <Column
               body={statusBodyTemplate}
               field="status"
               header="Status"
-              style={{minWidth: "200px"}}
+              style={{ minWidth: "200px" }}
             />
-            <Column field="date" header="Date" style={{minWidth: "200px"}} />
+            <Column field="date" header="Date" style={{ minWidth: "200px" }} />
           </DataTable>
         </div>
       </div>

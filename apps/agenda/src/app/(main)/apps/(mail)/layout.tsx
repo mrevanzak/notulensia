@@ -1,6 +1,6 @@
 "use client";
+import AppMailLayout from "@/demo/components/apps/mail/app-mail-layout";
 import type {ReactElement} from "react";
-import AppMailLayout from "@/src/demo/components/apps/mail/app-mail-layout";
 
 interface AppMailLayoutProps {
   children: React.ReactNode;
