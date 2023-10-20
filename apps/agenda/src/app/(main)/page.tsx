@@ -1,82 +1,11 @@
-"use client";
 import type { ReactElement } from "react";
-import React, { useState } from "react";
+import React from "react";
 import { InputText } from "primereact/inputtext";
 import TimeManagement from "~/svg/time-management.svg";
-import { Calendar } from "primereact/calendar";
-import type { Nullable } from "primereact/ts-helpers";
-import { Chart } from "primereact/chart";
-import type { ChartData, ChartOptions, ScriptableContext } from "chart.js";
+import LineChart from "@/components/dashboard/line-chart";
+import Calendar from "@/components/dashboard/calendar";
 
 function Dashboard(): ReactElement {
-  const [date, setDate] = useState<Nullable<Date>>(null);
-
-  const lineData: ChartData = {
-    labels: [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ],
-    datasets: [
-      {
-        label: "Total Tasks",
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: true,
-        backgroundColor: (context: ScriptableContext<"line">) => {
-          const { ctx, chartArea } = context.chart;
-
-          if (!chartArea) {
-            return;
-          }
-
-          const gradient = ctx.createLinearGradient(
-            0,
-            chartArea.bottom,
-            0,
-            chartArea.top,
-          );
-          gradient.addColorStop(0, "#F1EDFF00");
-          gradient.addColorStop(1, "#F3F0FF");
-          return gradient;
-        },
-        borderColor: "#9854CB",
-        tension: 0.4,
-      },
-    ],
-  };
-
-  const lineOptions: ChartOptions = {
-    maintainAspectRatio: false,
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        border: {
-          display: true,
-        },
-      },
-      y: {
-        grid: {
-          display: false,
-        },
-        border: {
-          display: true,
-        },
-      },
-    },
-  };
-
   return (
     <div className="grid">
       <div className="col-12 mb-4">
@@ -157,22 +86,10 @@ function Dashboard(): ReactElement {
         {/* ))} */}
         <div className="card tw-col-span-3 tw-row-span-2 !tw-p-8 tw-space-y-4 tw-flex tw-flex-col mb-0">
           <h4>Tasks Completed</h4>
-          <Chart
-            className="tw-w-full tw-flex-1"
-            data={lineData}
-            options={lineOptions}
-            type="line"
-          />
+          <LineChart />
         </div>
         <div className="card tw-col-span-2 tw-row-span-2">
-          <Calendar
-            className="w-full"
-            inline
-            onChange={(e) => {
-              setDate(e.value);
-            }}
-            value={date}
-          />
+          <Calendar />
         </div>
       </div>
     </div>
