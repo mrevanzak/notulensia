@@ -8,7 +8,6 @@ import "@/styles/demo/Demos.scss";
 import "@/styles/globals.css";
 import "~/theme/theme-light/purple/theme.scss";
 import type { ReactElement } from "react";
-import Tailwind from "primereact/passthrough/tailwind";
 import { LayoutProvider } from "@/context/layout-context";
 
 export default function RootLayout({ children }): ReactElement {
