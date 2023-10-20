@@ -1,17 +1,17 @@
 "use client";
 import Link from "next/link";
-import {Ripple} from "primereact/ripple";
-import {classNames} from "primereact/utils";
-import type {ReactElement} from "react";
-import {useContext, useEffect, useRef} from "react";
-import {LayoutContext} from "./context/layout-context";
-import {MenuContext} from "./context/menu-context";
-import type {AppMenuItemProps} from "@/types/types";
-import {useSubmenuOverlayPosition} from "./hooks/use-submenu-overlay-position";
-import {usePathname, useSearchParams} from "next/navigation";
+import { Ripple } from "primereact/ripple";
+import { classNames } from "primereact/utils";
+import type { ReactElement } from "react";
+import { useContext, useEffect, useRef } from "react";
+import { LayoutContext } from "../../context/layout-context";
+import { MenuContext } from "../../context/menu-context"
+import { usePathname, useSearchParams } from "next/navigation";
+import { useSubmenuOverlayPosition } from "@/hooks/use-submenu-overlay-position";
+import type { AppMenuItemProps } from "@/types/layout";
 
 function AppMenuitem(props: AppMenuItemProps): ReactElement {
-  const {activeMenu, setActiveMenu} = useContext(MenuContext);
+  const { activeMenu, setActiveMenu } = useContext(MenuContext);
   const {
     isSlim,
     isSlimPlus,
@@ -78,7 +78,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
     if (props.root && (isSlim() || isHorizontal() || isSlimPlus())) {
       const isSubmenu =
         event.currentTarget.closest(
-          ".layout-root-menuitem.active-menuitem > ul"
+          ".layout-root-menuitem.active-menuitem > ul",
         ) !== null;
       if (isSubmenu)
         setLayoutState((prevLayoutState) => ({
@@ -94,7 +94,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
 
     //execute command
     if (item?.command) {
-      item?.command({originalEvent: event, item});
+      item?.command({ originalEvent: event, item });
     }
 
     // toggle active state
@@ -146,7 +146,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
   const subMenu =
     item?.items && item?.visible !== false ? (
       <ul
-        className={classNames({"layout-root-submenulist": props.root})}
+        className={classNames({ "layout-root-submenulist": props.root })}
         ref={submenuRef}
       >
         {item?.items.map((child, i) => {
@@ -171,39 +171,15 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
       })}
       ref={menuitemRef}
     >
-      {props.root && item?.visible !== false ? (
-        <div className="layout-menuitem-root-text">
-          <span>{item?.label}</span>
-          <i className="layout-menuitem-root-icon pi pi-fw pi-ellipsis-h" />
-        </div>
-      ) : null}
-      {(!item?.to || item?.items) && item?.visible !== false ? (
-        <a
-          className={classNames(item?.class, "p-ripple tooltip-target")}
-          data-pr-disabled={
-            !(isSlim() && props.root && !layoutState.menuHoverActive)
-          }
-          data-pr-tooltip={item?.label}
-          href={item?.url}
-          onClick={(e) => {
-            itemClick(e);
-          }}
-          onMouseEnter={onMouseEnter}
-          tabIndex={0}
-          target={item?.target}
-        >
-          <i className={classNames("layout-menuitem-icon", item?.icon)} />
-          <span className="layout-menuitem-text">{item?.label}</span>
-          {item?.items ? (
-            <i className="pi pi-fw pi-angle-down layout-submenu-toggler" />
-          ) : null}
-          <Ripple />
-        </a>
-      ) : null}
-
+      {/* {props.root && item?.visible !== false ? ( */}
+      {/*   <div className="layout-menuitem-root-text"> */}
+      {/*     <span>{item?.label}</span> */}
+      {/*     <i className="layout-menuitem-root-icon pi pi-fw pi-ellipsis-h" /> */}
+      {/*   </div> */}
+      {/* ) : null} */}
       {item?.to && !item?.items && item?.visible !== false ? (
         <Link
-          className={classNames(item?.class, "p-ripple ", {
+          className={classNames(item?.class, "p-ripple tw-space-x-8 tw-text-xl px-8", {
             "active-route": isActiveRoute,
           })}
           href={item?.to}
@@ -214,7 +190,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
           replace={item?.replaceUrl}
           tabIndex={0}
         >
-          <i className={classNames("layout-menuitem-icon", item?.icon)} />
+          {item?.icon}
           <span className="layout-menuitem-text">{item?.label}</span>
           {/* {badge} */}
           {item?.items ? (

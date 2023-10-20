@@ -1,13 +1,13 @@
 "use client";
-import type {ReactElement} from "react";
-import React, {useContext, useEffect, useState} from "react";
-import {LayoutContext} from "@/src/layout/context/layout-context";
-import {nanoid} from "nanoid";
+import type { ReactElement } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { LayoutContext } from "@/src/context/layout-context";
+import { nanoid } from "nanoid";
 
 function Colors(): ReactElement {
   const [colors, setColors] = useState<string[]>([]);
   const [shades, setShades] = useState<number[]>([]);
-  const {layoutConfig} = useContext(LayoutContext);
+  const { layoutConfig } = useContext(LayoutContext);
   const dark = layoutConfig.colorScheme !== "light";
   const s = (shade: number): string => {
     if (dark) {

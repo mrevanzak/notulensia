@@ -1,6 +1,6 @@
-import type {Metadata} from "next";
-import type {ReactElement} from "react";
-import Layout from "@/src/layout/layout";
+import Layout from "@/components/layout";
+import type { Metadata } from "next";
+import type { ReactElement } from "react";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   title: "PrimeReact Avalon",
   description:
     "The ultimate collection of design-agnostic, flexible and accessible React UI Components.",
-  robots: {index: false, follow: false},
-  viewport: {initialScale: 1, width: "device-width"},
+  robots: { index: false, follow: false },
+  viewport: { initialScale: 1, width: "device-width" },
   openGraph: {
     type: "website",
     title: "PrimeReact AVALON-REACT",
@@ -25,6 +25,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function MainLayout({children}: MainLayoutProps): ReactElement {
+export default function MainLayout({ children }: MainLayoutProps): ReactElement {
   return <Layout>{children}</Layout>;
 }
