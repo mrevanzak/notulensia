@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import React from "react";
 import AppMenu from "./app-menu";
-import { MenuProvider } from "./context/menu-context";
+import { MenuProvider } from "../../context/menu-context";
 import AppMenuProfile from "./app-menu-profile";
 
 function AppSidebar(): ReactElement {

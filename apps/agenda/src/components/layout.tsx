@@ -11,8 +11,8 @@ import {
 } from "primereact/hooks";
 import { PrimeReactContext } from "primereact/api";
 import type { AppTopbarRef, ChildContainerProps } from "@/types/types";
-import { LayoutContext } from "./context/layout-context";
-import AppSidebar from "./app-sidebar";
+import { LayoutContext } from "../context/layout-context";
+import AppSidebar from "./sidebar/app-sidebar";
 
 function Layout(props: ChildContainerProps): ReactElement {
   const {
@@ -191,7 +191,7 @@ function Layout(props: ChildContainerProps): ReactElement {
 
   return (
     <div className="layout">
-      <div className={classNames("layout-container tw-absolute tw-z-10", containerClassName)}>
+      <div className={classNames("layout-container tw-z-10", containerClassName)}>
         <div
           className="layout-sidebar !tw-w-[29rem] h-full top-0 tw-rounded-r-2xl"
           onMouseEnter={onMouseEnter}

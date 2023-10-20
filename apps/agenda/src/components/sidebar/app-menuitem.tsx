@@ -4,11 +4,11 @@ import { Ripple } from "primereact/ripple";
 import { classNames } from "primereact/utils";
 import type { ReactElement } from "react";
 import { useContext, useEffect, useRef } from "react";
-import { LayoutContext } from "./context/layout-context";
-import { MenuContext } from "./context/menu-context";
-import type { AppMenuItemProps } from "@/types/types";
-import { useSubmenuOverlayPosition } from "./hooks/use-submenu-overlay-position";
+import { LayoutContext } from "../../context/layout-context";
+import { MenuContext } from "../../context/menu-context"
 import { usePathname, useSearchParams } from "next/navigation";
+import { useSubmenuOverlayPosition } from "@/hooks/use-submenu-overlay-position";
+import type { AppMenuItemProps } from "@/types/layout";
 
 function AppMenuitem(props: AppMenuItemProps): ReactElement {
   const { activeMenu, setActiveMenu } = useContext(MenuContext);

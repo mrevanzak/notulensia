@@ -3,11 +3,11 @@ import type { ReactElement } from "react";
 import React, { useContext, useEffect, useRef } from "react";
 import { Tooltip } from "primereact/tooltip";
 import { useSearchParams, usePathname } from "next/navigation";
-import { LayoutContext } from "./context/layout-context";
 import Link from "next/link";
 import { IoMdLogOut } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import Image from "next/image";
+import { LayoutContext } from "@/context/layout-context";
 
 function AppMenuProfile(): ReactElement {
   const {

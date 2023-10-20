@@ -8,8 +8,8 @@ import type {
   BreadcrumbItem,
 } from "@/types/types";
 import AppMenuitem from "./app-menuitem";
-import { LayoutContext } from "./context/layout-context";
-import { MenuProvider } from "./context/menu-context";
+import { LayoutContext } from "../../context/layout-context";
+import { MenuProvider } from "../../context/menu-context";
 import type { AppMenuItem } from "@/types/layout";
 
 function AppSubMenu(props: MenuProps): ReactElement {
