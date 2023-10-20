@@ -4,6 +4,7 @@ import { InputText } from "primereact/inputtext";
 import TimeManagement from "~/svg/time-management.svg";
 import LineChart from "@/components/dashboard/line-chart";
 import Calendar from "@/components/dashboard/calendar";
+import { Button } from "primereact/button";
 
 function Dashboard(): ReactElement {
   return (
@@ -24,12 +25,9 @@ function Dashboard(): ReactElement {
           <div className="tw-space-y-4 tw-flex tw-flex-col tw-min-h-full tw-w-1/2 tw-min-w-max tw-p-6">
             <p className="h0">Today Task</p>
             <h4 className="font-light">Check your daily tasks and schedules</h4>
-            <button
-              className="mt-auto w-12rem tw-justify-center p-button p-component"
-              type="button"
-            >
+            <Button className="mt-auto w-12rem tw-justify-center">
               Today&apos;s schedule
-            </button>
+            </Button>
           </div>
           <TimeManagement className="tw-max-w-xs" />
         </div>

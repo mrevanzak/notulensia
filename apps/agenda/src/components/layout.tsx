@@ -191,12 +191,7 @@ function Layout(props: ChildContainerProps): ReactElement {
 
   return (
     <div className="layout">
-      <div
-        className={classNames(
-          "layout-container tw-z-10 tw-relative",
-          containerClassName,
-        )}
-      >
+      <div className={classNames("layout-container", containerClassName)}>
         <div
           className="layout-sidebar !tw-w-[29rem] h-full top-0 tw-rounded-r-2xl"
           onMouseEnter={onMouseEnter}
