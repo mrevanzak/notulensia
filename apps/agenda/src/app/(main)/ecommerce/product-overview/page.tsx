@@ -187,7 +187,7 @@ function ProductOverview(): ReactElement {
 
           <div className="font-bold text-900 mb-3">Quantity</div>
           <div className="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between">
-            <InputNumber
+            {/* <InputNumber
               buttonLayout="horizontal"
               decrementButtonClassName="p-button-text"
               decrementButtonIcon="pi pi-minus"
@@ -200,7 +200,7 @@ function ProductOverview(): ReactElement {
               }}
               showButtons
               value={quantity}
-            />
+            /> */}
             <div className="flex align-items-center flex-1 mt-3 sm:mt-0 ml-0 sm:ml-5">
               <Button className="flex-1 mr-5" label="Add to Cart" />
               <i

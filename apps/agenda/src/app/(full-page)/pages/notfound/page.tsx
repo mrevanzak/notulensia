@@ -5,7 +5,7 @@ import type { ReactElement } from "react";
 import React, { useContext, useEffect } from "react";
 import { PrimeReactContext } from "primereact/api";
 import type { ColorScheme } from "@/types/types";
-import { LayoutContext } from "@/src/context/layout-context";
+import { LayoutContext } from "@/context/layout-context";
 
 export default function NotFound(): ReactElement {
   const router = useRouter();

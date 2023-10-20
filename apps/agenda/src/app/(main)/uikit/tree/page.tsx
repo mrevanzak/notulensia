@@ -1,16 +1,16 @@
 "use client";
-import type {ReactElement} from "react";
-import React, {useState, useEffect} from "react";
+import type { ReactElement } from "react";
+import React, { useState, useEffect } from "react";
 import type {
   TreeCheckboxSelectionKeys,
   TreeMultipleSelectionKeys,
 } from "primereact/tree";
-import {Tree} from "primereact/tree";
-import type {TreeTableSelectionKeysType} from "primereact/treetable";
-import {TreeTable} from "primereact/treetable";
-import {Column} from "primereact/column";
-import type {TreeNode} from "primereact/treenode";
-import {NodeService} from "@/src/demo/service/node-service";
+import { Tree } from "primereact/tree";
+import type { TreeTableSelectionKeysType } from "primereact/treetable";
+import { TreeTable } from "primereact/treetable";
+import { Column } from "primereact/column";
+import type { TreeNode } from "primereact/treenode";
+import { NodeService } from "@/demo/service/node-service";
 
 export default function TreeDemo(): ReactElement {
   const [files, setFiles] = useState<TreeNode[]>([]);

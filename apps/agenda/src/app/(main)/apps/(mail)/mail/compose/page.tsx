@@ -1,16 +1,16 @@
 "use client";
 
-import {useRouter} from "next/navigation";
-import {Button} from "primereact/button";
-import {Editor} from "primereact/editor";
-import {InputText} from "primereact/inputtext";
-import type {ReactElement} from "react";
-import React, {useContext, useState} from "react";
-import {MailContext} from "@/src/demo/components/apps/mail/context/mail-context";
-import type {Demo} from "@/types/types";
+import { useRouter } from "next/navigation";
+import { Button } from "primereact/button";
+import { Editor } from "primereact/editor";
+import { InputText } from "primereact/inputtext";
+import type { ReactElement } from "react";
+import React, { useContext, useState } from "react";
+import type { Demo } from "@/types/types";
+import { MailContext } from "@/demo/components/apps/mail/context/mail-context";
 
 export default function AppMailCompose(): ReactElement {
-  const {onSend, toastRef} = useContext(MailContext);
+  const { onSend, toastRef } = useContext(MailContext);
   const router = useRouter();
   const generateId = (): string => {
     let text = "";
@@ -84,8 +84,8 @@ export default function AppMailCompose(): ReactElement {
           <label className="text-900 font-semibold" htmlFor="to">
             To
           </label>
-          <span className="p-input-icon-left w-full" style={{height: "3.5rem"}}>
-            <i className="pi pi-user" style={{left: "1.5rem"}} />
+          <span className="p-input-icon-left w-full" style={{ height: "3.5rem" }}>
+            <i className="pi pi-user" style={{ left: "1.5rem" }} />
             <InputText
               className="w-full pl-7 text-900 font-semibold"
               id="to"
@@ -96,7 +96,7 @@ export default function AppMailCompose(): ReactElement {
                 }));
               }}
               placeholder="To"
-              style={{height: "3.5rem"}}
+              style={{ height: "3.5rem" }}
               value={newMail.to}
             />
           </span>
@@ -105,8 +105,8 @@ export default function AppMailCompose(): ReactElement {
           <label className="text-900 font-semibold" htmlFor="Subject">
             Subject
           </label>
-          <span className="p-input-icon-left w-full" style={{height: "3.5rem"}}>
-            <i className="pi pi-pencil" style={{left: "1.5rem"}} />
+          <span className="p-input-icon-left w-full" style={{ height: "3.5rem" }}>
+            <i className="pi pi-pencil" style={{ left: "1.5rem" }} />
             <InputText
               className="w-full pl-7 text-900 font-semibold"
               id="subject"
@@ -117,7 +117,7 @@ export default function AppMailCompose(): ReactElement {
                 }));
               }}
               placeholder="Subject"
-              style={{height: "3.5rem"}}
+              style={{ height: "3.5rem" }}
               value={newMail.title}
             />
           </span>
@@ -130,7 +130,7 @@ export default function AppMailCompose(): ReactElement {
                 message: e.textValue,
               }));
             }}
-            style={{height: "250px"}}
+            style={{ height: "250px" }}
             value={newMail.message}
           />
         </div>

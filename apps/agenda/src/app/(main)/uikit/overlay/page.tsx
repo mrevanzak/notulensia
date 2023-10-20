@@ -1,19 +1,19 @@
 "use client";
 
-import {Button} from "primereact/button";
-import {Column} from "primereact/column";
-import {confirmPopup, ConfirmPopup} from "primereact/confirmpopup";
-import type {DataTableSelectEvent} from "primereact/datatable";
-import {DataTable} from "primereact/datatable";
-import {Dialog} from "primereact/dialog";
-import {InputText} from "primereact/inputtext";
-import {OverlayPanel} from "primereact/overlaypanel";
-import {Sidebar} from "primereact/sidebar";
-import {Toast} from "primereact/toast";
-import type {ReactElement} from "react";
-import React, {useEffect, useRef, useState} from "react";
-import {ProductService} from "@/src/demo/service/product-service";
-import type {Demo} from "@/types/types";
+import { Button } from "primereact/button";
+import { Column } from "primereact/column";
+import { confirmPopup, ConfirmPopup } from "primereact/confirmpopup";
+import type { DataTableSelectEvent } from "primereact/datatable";
+import { DataTable } from "primereact/datatable";
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+import { OverlayPanel } from "primereact/overlaypanel";
+import { Sidebar } from "primereact/sidebar";
+import { Toast } from "primereact/toast";
+import type { ReactElement } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { ProductService } from "@/demo/service/product-service";
+import type { Demo } from "@/types/types";
 
 type ButtonEvent = React.MouseEvent<HTMLButtonElement>;
 function OverlayDemo(): ReactElement {
@@ -159,7 +159,7 @@ function OverlayDemo(): ReactElement {
               onHide={() => {
                 setDisplayBasic(false);
               }}
-              style={{width: "30vw"}}
+              style={{ width: "30vw" }}
               visible={displayBasic}
             >
               <p>
@@ -215,7 +215,7 @@ function OverlayDemo(): ReactElement {
                   id="overlay_panel"
                   ref={op2}
                   showCloseIcon
-                  style={{width: "450px"}}
+                  style={{ width: "450px" }}
                 >
                   <DataTable
                     onRowSelect={onProductSelect}
@@ -230,19 +230,19 @@ function OverlayDemo(): ReactElement {
                     <Column
                       field="name"
                       header="Name"
-                      headerStyle={{minWidth: "10rem"}}
+                      headerStyle={{ minWidth: "10rem" }}
                       sortable
                     />
                     <Column
                       body={imageBodyTemplate}
                       header="Image"
-                      headerStyle={{minWidth: "10rem"}}
+                      headerStyle={{ minWidth: "10rem" }}
                     />
                     <Column
                       body={priceBodyTemplate}
                       field="price"
                       header="Price"
-                      headerStyle={{minWidth: "8rem"}}
+                      headerStyle={{ minWidth: "8rem" }}
                       sortable
                     />
                   </DataTable>
@@ -270,13 +270,13 @@ function OverlayDemo(): ReactElement {
               onHide={() => {
                 setDisplayConfirmation(false);
               }}
-              style={{width: "350px"}}
+              style={{ width: "350px" }}
               visible={displayConfirmation}
             >
               <div className="flex align-items-center justify-content-center">
                 <i
                   className="pi pi-exclamation-triangle mr-3"
-                  style={{fontSize: "2rem"}}
+                  style={{ fontSize: "2rem" }}
                 />
                 <span>Are you sure you want to proceed?</span>
               </div>
@@ -291,7 +291,7 @@ function OverlayDemo(): ReactElement {
               }}
               visible={visibleLeft}
             >
-              <h1 style={{fontWeight: "normal"}}>Left Sidebar</h1>
+              <h1 style={{ fontWeight: "normal" }}>Left Sidebar</h1>
             </Sidebar>
 
             <Sidebar
@@ -302,7 +302,7 @@ function OverlayDemo(): ReactElement {
               position="right"
               visible={visibleRight}
             >
-              <h1 style={{fontWeight: "normal"}}>Right Sidebar</h1>
+              <h1 style={{ fontWeight: "normal" }}>Right Sidebar</h1>
             </Sidebar>
 
             <Sidebar
@@ -313,7 +313,7 @@ function OverlayDemo(): ReactElement {
               position="top"
               visible={visibleTop}
             >
-              <h1 style={{fontWeight: "normal"}}>Top Sidebar</h1>
+              <h1 style={{ fontWeight: "normal" }}>Top Sidebar</h1>
             </Sidebar>
 
             <Sidebar
@@ -324,7 +324,7 @@ function OverlayDemo(): ReactElement {
               position="bottom"
               visible={visibleBottom}
             >
-              <h1 style={{fontWeight: "normal"}}>Bottom Sidebar</h1>
+              <h1 style={{ fontWeight: "normal" }}>Bottom Sidebar</h1>
             </Sidebar>
 
             <Sidebar
@@ -335,7 +335,7 @@ function OverlayDemo(): ReactElement {
               }}
               visible={visibleFullScreen}
             >
-              <h1 style={{fontWeight: "normal"}}>Full Screen</h1>
+              <h1 style={{ fontWeight: "normal" }}>Full Screen</h1>
             </Sidebar>
 
             <Button
@@ -344,7 +344,7 @@ function OverlayDemo(): ReactElement {
                 setVisibleLeft(true);
               }}
               severity="warning"
-              style={{marginRight: ".25em"}}
+              style={{ marginRight: ".25em" }}
               type="button"
             />
             <Button
@@ -353,7 +353,7 @@ function OverlayDemo(): ReactElement {
                 setVisibleRight(true);
               }}
               severity="warning"
-              style={{marginRight: ".25em"}}
+              style={{ marginRight: ".25em" }}
               type="button"
             />
             <Button
@@ -362,7 +362,7 @@ function OverlayDemo(): ReactElement {
                 setVisibleTop(true);
               }}
               severity="warning"
-              style={{marginRight: ".25em"}}
+              style={{ marginRight: ".25em" }}
               type="button"
             />
             <Button
@@ -371,7 +371,7 @@ function OverlayDemo(): ReactElement {
                 setVisibleBottom(true);
               }}
               severity="warning"
-              style={{marginRight: ".25em"}}
+              style={{ marginRight: ".25em" }}
               type="button"
             />
             <Button

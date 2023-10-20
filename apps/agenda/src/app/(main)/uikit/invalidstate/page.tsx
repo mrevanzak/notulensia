@@ -1,21 +1,20 @@
 "use client";
 
-import type {ReactElement} from "react";
-import React, {useState, useEffect} from "react";
-import {InputText} from "primereact/inputtext";
-import {InputTextarea} from "primereact/inputtextarea";
-import {InputMask} from "primereact/inputmask";
-import {InputNumber} from "primereact/inputnumber";
-import type {AutoCompleteCompleteEvent} from "primereact/autocomplete";
-import {AutoComplete} from "primereact/autocomplete";
-import type {CalendarChangeEvent} from "primereact/calendar";
-import {Calendar} from "primereact/calendar";
-import {Chips} from "primereact/chips";
-import {Dropdown} from "primereact/dropdown";
-import {MultiSelect} from "primereact/multiselect";
-import {Password} from "primereact/password";
-import {CountryService} from "@/src/demo/service/country-service";
-import type {Demo} from "@/types/types";
+import type { ReactElement } from "react";
+import React, { useState, useEffect } from "react";
+import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
+import { InputMask } from "primereact/inputmask";
+import { InputNumber } from "primereact/inputnumber";
+import type { AutoCompleteCompleteEvent } from "primereact/autocomplete";
+import { AutoComplete } from "primereact/autocomplete";
+import { Calendar } from "primereact/calendar";
+import { Chips } from "primereact/chips";
+import { Dropdown } from "primereact/dropdown";
+import { MultiSelect } from "primereact/multiselect";
+import { Password } from "primereact/password";
+import { CountryService } from "@/demo/service/country-service";
+import type { Demo } from "@/types/types";
 
 function InvalidStateDemo(): ReactElement {
   const [countries, setCountries] = useState<Demo.Country[]>([]);
@@ -34,11 +33,11 @@ function InvalidStateDemo(): ReactElement {
   const [value10, setValue10] = useState("");
 
   const cities = [
-    {name: "New York", code: "NY"},
-    {name: "Rome", code: "RM"},
-    {name: "London", code: "LDN"},
-    {name: "Istanbul", code: "IST"},
-    {name: "Paris", code: "PRS"},
+    { name: "New York", code: "NY" },
+    { name: "Rome", code: "RM" },
+    { name: "London", code: "LDN" },
+    { name: "Istanbul", code: "IST" },
+    { name: "Paris", code: "PRS" },
   ];
 
   useEffect(() => {
@@ -62,9 +61,9 @@ function InvalidStateDemo(): ReactElement {
     setFilteredCountries(filtered);
   };
 
-  const onCalendarChange = (e: CalendarChangeEvent): void => {
-    setValue3(e.value!);
-  };
+  // const onCalendarChange = (e: CalendarChangeEvent): void => {
+  //   setValue3(e.value!);
+  // };
 
   return (
     <div className="card">
@@ -99,13 +98,13 @@ function InvalidStateDemo(): ReactElement {
           </div>
           <div className="field">
             <label htmlFor="calendar">Calendar</label>
-            <Calendar
+            {/* <Calendar
               className="p-invalid"
               inputId="calendar"
               onChange={onCalendarChange}
               showIcon
               value={value3}
-            />
+            /> */}
           </div>
           <div className="field">
             <label htmlFor="chips">Chips</label>

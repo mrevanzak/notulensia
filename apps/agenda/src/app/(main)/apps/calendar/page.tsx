@@ -5,17 +5,17 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import {Button} from "primereact/button";
-import {Calendar as PRCalendar} from "primereact/calendar";
-import {Dialog} from "primereact/dialog";
-import {Dropdown} from "primereact/dropdown";
-import {InputText} from "primereact/inputtext";
-import {InputTextarea} from "primereact/inputtextarea";
-import type {ReactElement} from "react";
-import React, {useEffect, useState} from "react";
-import type {DateSelectArg, EventClickArg, DateInput} from "@fullcalendar/core";
-import {EventService} from "@/src/demo/service/event-service";
-import type {Demo} from "@/types/types";
+import { Button } from "primereact/button";
+import { Calendar as PRCalendar } from "primereact/calendar";
+import { Dialog } from "primereact/dialog";
+import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
+import type { ReactElement } from "react";
+import React, { useEffect, useState } from "react";
+import type { DateSelectArg, EventClickArg, DateInput } from "@fullcalendar/core";
+import { EventService } from "@/demo/service/event-service";
+import type { Demo } from "@/types/types";
 
 export default function CalendarDemo(): ReactElement {
   const [events, setEvents] = useState<Demo.Event[]>([]);
@@ -37,7 +37,7 @@ export default function CalendarDemo(): ReactElement {
     },
   });
   const onEventClick = (e: EventClickArg): void => {
-    const {start, end} = e.event;
+    const { start, end } = e.event;
     const plainEvent = e.event.toPlainObject({
       collapseExtendedProps: true,
       collapseColor: true,
@@ -92,7 +92,7 @@ export default function CalendarDemo(): ReactElement {
   };
 
   const validate = (): string | 0 | undefined => {
-    const {start, end, title} = changedEvent;
+    const { start, end, title } = changedEvent;
     return start && end && title;
   };
 
@@ -122,7 +122,7 @@ export default function CalendarDemo(): ReactElement {
       <div className="flex align-items-center">
         <div
           className="flex-shrink-0 w-1rem h-1rem mr-2 border-circle"
-          style={{backgroundColor: changedEvent.tag?.color || "#FFB6B6"}}
+          style={{ backgroundColor: changedEvent.tag?.color || "#FFB6B6" }}
         />
         <div>{changedEvent.tag?.name || "Company A"}</div>
       </div>
@@ -134,7 +134,7 @@ export default function CalendarDemo(): ReactElement {
       <div className="flex align-items-center">
         <div
           className="flex-shrink-0 w-1rem h-1rem mr-2 border-circle"
-          style={{backgroundColor: tag?.color}}
+          style={{ backgroundColor: tag?.color }}
         />
         <div>{tag?.name}</div>
       </div>
@@ -195,7 +195,7 @@ export default function CalendarDemo(): ReactElement {
           />
 
           <Dialog
-            breakpoints={{"960px": "75vw", "640px": "90vw"}}
+            breakpoints={{ "960px": "75vw", "640px": "90vw" }}
             closable
             footer={footer}
             header={header}
@@ -204,7 +204,7 @@ export default function CalendarDemo(): ReactElement {
             onHide={() => {
               setShowDialog(false);
             }}
-            style={{width: "36rem"}}
+            style={{ width: "36rem" }}
             visible={showDialog}
           >
             <>
@@ -246,7 +246,7 @@ export default function CalendarDemo(): ReactElement {
                       <p className="flex align-items-center m-0">
                         <span
                           className="inline-flex flex-shrink-0 w-1rem h-1rem mr-2 border-circle"
-                          style={{backgroundColor: changedEvent.tag?.color}}
+                          style={{ backgroundColor: changedEvent.tag?.color }}
                         />
                         <span>{changedEvent.tag?.name}</span>
                       </p>
@@ -314,7 +314,7 @@ export default function CalendarDemo(): ReactElement {
                         }));
                       }}
                       rows={5}
-                      style={{resize: "none"}}
+                      style={{ resize: "none" }}
                       value={changedEvent.description}
                     />
                   </div>
@@ -368,7 +368,7 @@ export default function CalendarDemo(): ReactElement {
                       onChange={(e) => {
                         setChangedEvent((prevState) => ({
                           ...prevState,
-                          tag: e.value as {name: string; color: string},
+                          tag: e.value as { name: string; color: string },
                         }));
                       }}
                       optionLabel="name"

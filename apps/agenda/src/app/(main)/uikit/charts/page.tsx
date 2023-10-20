@@ -3,7 +3,7 @@ import type { ChartData, ChartOptions } from "chart.js";
 import { Chart } from "primereact/chart";
 import type { ReactElement } from "react";
 import React, { useContext, useEffect, useState } from "react";
-import { LayoutContext } from "@/src/context/layout-context";
+import { LayoutContext } from "@/context/layout-context";
 import type { ChartDataState, ChartOptionsState } from "@/types/types";
 
 function ChartDemo(): ReactElement {

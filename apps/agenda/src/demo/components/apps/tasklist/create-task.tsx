@@ -157,7 +157,7 @@ export default function CreateTask(): ReactElement {
               <label className="text-900 font-semibold" htmlFor="start">
                 Start Date
               </label>
-              <Calendar
+              {/* <Calendar
                 dateFormat="yy-mm-dd"
                 inputId="start"
                 onChange={(e) => {
@@ -169,13 +169,13 @@ export default function CreateTask(): ReactElement {
                 placeholder="Start Date"
                 showTime={false}
                 value={task?.startDate}
-              />
+              /> */}
             </div>
             <div className="col-6 field mt-0">
               <label className="text-900 font-semibold" htmlFor="end">
                 Due Date
               </label>
-              <Calendar
+              {/* <Calendar
                 dateFormat="yy-mm-dd"
                 inputId="end"
                 onChange={(e) => {
@@ -187,7 +187,7 @@ export default function CreateTask(): ReactElement {
                 placeholder="End Date"
                 showTime={false}
                 value={task?.endDate}
-              />
+              /> */}
             </div>
             <div className="col-12 field">
               <label className="text-900 font-semibold" htmlFor="members">

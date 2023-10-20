@@ -5,7 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { classNames } from "primereact/utils";
-import { LayoutContext } from "@/src/context/layout-context";
+import { LayoutContext } from "@/context/layout-context";
 import { nanoid } from "nanoid";
 
 function Contact(): ReactElement {

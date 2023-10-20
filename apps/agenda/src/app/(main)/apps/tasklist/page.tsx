@@ -1,16 +1,16 @@
 "use client";
-import {Button} from "primereact/button";
-import type {ReactElement} from "react";
-import React, {useContext, useEffect, useState} from "react";
-import {TaskContext} from "@/src/demo/components/apps/tasklist/context/task-context";
-import CreateTask from "@/src/demo/components/apps/tasklist/create-task";
-import TaskList from "@/src/demo/components/apps/tasklist/task-list";
-import type {Demo} from "@/types/types";
+import { Button } from "primereact/button";
+import type { ReactElement } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { TaskContext } from "@/demo/components/apps/tasklist/context/task-context";
+import CreateTask from "@/demo/components/apps/tasklist/create-task";
+import TaskList from "@/demo/components/apps/tasklist/task-list";
+import type { Demo } from "@/types/types";
 
 export default function TaskListDemo(): ReactElement {
   const [todo, setTodo] = useState<Demo.Task[]>([]);
   const [completed, setCompleted] = useState<Demo.Task[]>([]);
-  const {showDialog, tasks} = useContext(TaskContext);
+  const { showDialog, tasks } = useContext(TaskContext);
 
   useEffect(() => {
     setTodo(tasks.filter((t) => t.completed !== true));

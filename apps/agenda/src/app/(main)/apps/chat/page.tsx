@@ -1,19 +1,19 @@
 "use client";
-import type {ReactElement} from "react";
-import React, {useContext, useEffect, useRef, useState} from "react";
-import {Button} from "primereact/button";
-import {InputText} from "primereact/inputtext";
-import {OverlayPanel} from "primereact/overlaypanel";
-import {classNames} from "primereact/utils";
-import {nanoid} from "nanoid";
-import UserCard from "@/src/demo/components/apps/chat/user-card";
-import type {Demo} from "@/types/types";
-import {ChatContext} from "@/src/demo/components/apps/chat/context/chat-context";
+import type { ReactElement } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+import { OverlayPanel } from "primereact/overlaypanel";
+import { classNames } from "primereact/utils";
+import { nanoid } from "nanoid";
+import UserCard from "@/demo/components/apps/chat/user-card";
+import type { Demo } from "@/types/types";
+import { ChatContext } from "@/demo/components/apps/chat/context/chat-context";
 
 function ChatSidebar(): ReactElement {
   const [filteredUsers, setFilteredUsers] = useState<Demo.User[]>([]);
   const [searchValue, setSearchValue] = useState("");
-  const {getChatData, users, setUsers} = useContext(ChatContext);
+  const { getChatData, users, setUsers } = useContext(ChatContext);
 
   const filter = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const filtered: Demo.User[] = [];
@@ -82,17 +82,17 @@ interface ChatBoxProps {
 
 function ChatBox(props: ChatBoxProps): ReactElement {
   const [textContent, setTextContent] = useState("");
-  const {sendMessage, users} = useContext(ChatContext);
+  const { sendMessage, users } = useContext(ChatContext);
   const op = useRef<OverlayPanel>(null);
   const chatWindow = useRef<HTMLDivElement>(null);
   const user = props.user;
   const defaultUserId = 123;
   //prettier-ignore
   const emojis = [
-        '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😇', '😉', '😊', '🙂', '🙃', '😋', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '🤪', '😜', '😝', '😛',
-        '🤑', '😎', '🤓', '🧐', '🤠', '🥳', '🤗', '🤡', '😏', '😶', '😐', '😑', '😒', '🙄', '🤨', '🤔', '🤫', '🤭', '🤥', '😳', '😞', '😟', '😠', '😡', '🤬', '😔',
-        '😟', '😠', '😡', '🤬', '😔', '😕', '🙁', '😬', '🥺', '😣', '😖', '😫', '😩', '🥱', '😤', '😮', '😱', '😨', '😰', '😯', '😦', '😧', '😢', '😥', '😪', '🤤'
-    ];
+    '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😇', '😉', '😊', '🙂', '🙃', '😋', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '🤪', '😜', '😝', '😛',
+    '🤑', '😎', '🤓', '🧐', '🤠', '🥳', '🤗', '🤡', '😏', '😶', '😐', '😑', '😒', '🙄', '🤨', '🤔', '🤫', '🤭', '🤥', '😳', '😞', '😟', '😠', '😡', '🤬', '😔',
+    '😟', '😠', '😡', '🤬', '😔', '😕', '🙁', '😬', '🥺', '😣', '😖', '😫', '😩', '🥱', '😤', '😮', '😱', '😨', '😰', '😯', '😦', '😧', '😢', '😥', '😪', '🤤'
+  ];
 
   const _sendMessage = (): void => {
     if (!(textContent === "" || textContent === " ")) {
@@ -126,7 +126,7 @@ function ChatBox(props: ChatBoxProps): ReactElement {
       chatWindow.current.addEventListener("DOMNodeInserted", (event) => {
         const target = event.currentTarget as HTMLDivElement | null;
         if (target) {
-          target.scroll({top: target.scrollHeight});
+          target.scroll({ top: target.scrollHeight });
         }
       });
     }
@@ -180,7 +180,7 @@ function ChatBox(props: ChatBoxProps): ReactElement {
         <div
           className="p-3 md:px-4 lg:px-6 lg:py-4 mt-2 overflow-y-auto"
           ref={chatWindow}
-          style={{maxHeight: "53vh"}}
+          style={{ maxHeight: "53vh" }}
         >
           {props.user.messages.map((message) => {
             return (
@@ -190,7 +190,7 @@ function ChatBox(props: ChatBoxProps): ReactElement {
                     <div className="col mt-3 text-right">
                       <span
                         className="inline-block text-left font-medium border-1 surface-border bg-primary-100 text-primary-900 p-3 white-space-normal border-round"
-                        style={{wordBreak: "break-word", maxWidth: "80%"}}
+                        style={{ wordBreak: "break-word", maxWidth: "80%" }}
                       >
                         {message.text}
                       </span>
@@ -213,7 +213,7 @@ function ChatBox(props: ChatBoxProps): ReactElement {
                       <p className="text-900 font-semibold mb-3">{user.name}</p>
                       <span
                         className="text-700 inline-block font-medium border-1 surface-border p-3 white-space-normal border-round"
-                        style={{wordBreak: "break-word", maxWidth: "80%"}}
+                        style={{ wordBreak: "break-word", maxWidth: "80%" }}
                       >
                         {message.text}
                       </span>
@@ -282,11 +282,11 @@ function ChatBox(props: ChatBoxProps): ReactElement {
 }
 
 export default function Chat(): ReactElement {
-  const {activeUser} = useContext(ChatContext);
+  const { activeUser } = useContext(ChatContext);
   return (
     <div
       className="flex flex-column md:flex-row gap-5"
-      style={{minHeight: "81vh"}}
+      style={{ minHeight: "81vh" }}
     >
       <div className="md:w-25rem card p-0">
         <ChatSidebar />

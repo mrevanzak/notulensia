@@ -1,5 +1,7 @@
-import React, { ReactNode } from 'react';
-import {
+import type { ReactNode } from 'react';
+import React from 'react';
+
+import type {
     Page,
     AppBreadcrumbProps,
     Breadcrumb,
@@ -7,11 +9,8 @@ import {
     ColorScheme,
     MenuProps,
     MenuModel,
-    AppSubMenuProps,
     LayoutConfig,
     LayoutState,
-    AppBreadcrumbState,
-    Breadcrumb,
     LayoutContextProps,
     MailContextProps,
     MenuContextProps,
@@ -20,13 +19,13 @@ import {
     AppConfigProps,
     NodeRef,
     AppTopbarRef,
-    MenuModelItem,
     AppMenuItemProps,
     UseSubmenuOverlayPositionProps
 } from './layout';
+
 import type { Demo, LayoutType, SortOrderType, CustomEvent, ChartDataState, ChartOptionsState, AppMailSidebarItem, AppMailReplyProps, AppMailProps, MailKeys } from './demo';
 
-type ChildContainerProps = {
+interface ChildContainerProps {
     children: ReactNode;
 };
 
@@ -41,7 +40,6 @@ export type {
     MailKeys,
     LayoutConfig,
     LayoutState,
-    Breadcrumb,
     LayoutContextProps,
     MailContextProps,
     MenuContextProps,

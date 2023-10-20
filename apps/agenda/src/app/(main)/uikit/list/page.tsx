@@ -1,27 +1,27 @@
 "use client";
 
-import type {ReactElement} from "react";
-import React, {useState, useEffect} from "react";
-import {DataView, DataViewLayoutOptions} from "primereact/dataview";
-import {Button} from "primereact/button";
-import type {DropdownChangeEvent} from "primereact/dropdown";
-import {Dropdown} from "primereact/dropdown";
-import {Rating} from "primereact/rating";
-import {PickList} from "primereact/picklist";
-import {OrderList} from "primereact/orderlist";
-import {InputText} from "primereact/inputtext";
-import {ProductService} from "@/src/demo/service/product-service";
-import type {Demo} from "@/types/types";
+import type { ReactElement } from "react";
+import React, { useState, useEffect } from "react";
+import { DataView, DataViewLayoutOptions } from "primereact/dataview";
+import { Button } from "primereact/button";
+import type { DropdownChangeEvent } from "primereact/dropdown";
+import { Dropdown } from "primereact/dropdown";
+import { Rating } from "primereact/rating";
+import { PickList } from "primereact/picklist";
+import { OrderList } from "primereact/orderlist";
+import { InputText } from "primereact/inputtext";
+import { ProductService } from "@/demo/service/product-service";
+import type { Demo } from "@/types/types";
 
 function ListDemo(): ReactElement {
   const listValue = [
-    {name: "San Francisco", code: "SF"},
-    {name: "London", code: "LDN"},
-    {name: "Paris", code: "PRS"},
-    {name: "Istanbul", code: "IST"},
-    {name: "Berlin", code: "BRL"},
-    {name: "Barcelona", code: "BRC"},
-    {name: "Rome", code: "RM"},
+    { name: "San Francisco", code: "SF" },
+    { name: "London", code: "LDN" },
+    { name: "Paris", code: "PRS" },
+    { name: "Istanbul", code: "IST" },
+    { name: "Berlin", code: "BRL" },
+    { name: "Barcelona", code: "BRC" },
+    { name: "Rome", code: "RM" },
   ];
 
   const [picklistSourceValue, setPicklistSourceValue] = useState(listValue);
@@ -40,8 +40,8 @@ function ListDemo(): ReactElement {
   const [sortField, setSortField] = useState("");
 
   const sortOptions = [
-    {label: "Price High to Low", value: "!price"},
-    {label: "Price Low to High", value: "price"},
+    { label: "Price High to Low", value: "!price" },
+    { label: "Price Low to High", value: "price" },
   ];
 
   useEffect(() => {
@@ -248,10 +248,10 @@ function ListDemo(): ReactElement {
             }}
             source={picklistSourceValue}
             sourceHeader="From"
-            sourceStyle={{height: "200px"}}
+            sourceStyle={{ height: "200px" }}
             target={picklistTargetValue}
             targetHeader="To"
-            targetStyle={{height: "200px"}}
+            targetStyle={{ height: "200px" }}
           />
         </div>
       </div>
@@ -263,7 +263,7 @@ function ListDemo(): ReactElement {
             className="p-orderlist-responsive"
             header="Cities"
             itemTemplate={orderListItemTemplate}
-            listStyle={{height: "200px"}}
+            listStyle={{ height: "200px" }}
             onChange={(e) => {
               setOrderlistValue(e.value);
             }}
