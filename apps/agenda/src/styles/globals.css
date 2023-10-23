@@ -34,6 +34,43 @@
     height: 453px;
   }
 
+  .layout > div {
+    @apply tw-relative tw-z-10;
+  }
+
+  .landing-button {
+    @apply !tw-px-16 !tw-py-5 tw-w-full lg:tw-w-auto !tw-rounded-xl !tw-bg-blue tw-shadow-[7px_7px_7px_0px_#00000040] tw-shadow-[0px_0px_4px_4px_#00000033_inset] !tw-border-none;
+  }
+
+  .landing-button:focus {
+    box-shadow: 0 0 0 0.2rem rgb(67 67 191 / 50%) !important;
+  }
+
+  .hero {
+    background: rgb(114, 194, 217);
+    background: -moz-linear-gradient(
+      90deg,
+      rgba(114, 194, 217, 1) 33%,
+      rgba(106, 160, 243, 1) 66%,
+      rgba(105, 155, 247, 1) 100%
+    );
+    background: -webkit-linear-gradient(
+      90deg,
+      rgba(114, 194, 217, 1) 33%,
+      rgba(106, 160, 243, 1) 66%,
+      rgba(105, 155, 247, 1) 100%
+    );
+    background: linear-gradient(
+      90deg,
+      rgba(114, 194, 217, 1) 33%,
+      rgba(106, 160, 243, 1) 66%,
+      rgba(105, 155, 247, 1) 100%
+    );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#72c2d9",endColorstr="#699bf7",GradientType=1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   /* #region  /**=========== Typography =========== */
   .h0 {
     @apply tw-text-dark-purple tw-text-3xl tw-font-bold md:tw-text-5xl;
