@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import type { ReactElement } from "react";
 import React from "react";
 import Logo from "~/svg/logo.svg";
@@ -19,7 +20,9 @@ export default function LandingLayout({
   return (
     <div className="layout tw-flex tw-flex-col">
       <div className="tw-p-10">
-        <Logo className="tw-w-56" />
+        <Link href="/landing">
+          <Logo className="tw-w-56" />
+        </Link>
       </div>
       {children}
     </div>

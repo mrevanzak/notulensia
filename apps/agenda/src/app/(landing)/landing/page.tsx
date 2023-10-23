@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "primereact/button";
 import type { ReactElement } from "react";
 import React from "react";
@@ -15,13 +16,15 @@ export default function LandingPage(): ReactElement {
           This website streamlines your meeting scheduling, making it easy to
           plan meetings, invite participants, and manage schedules efficiently.
         </p>
-        <Button
-          className="landing-button !tw-mt-16"
-          label="Get Started"
-          pt={{
-            label: { className: "tw-text-lg lg:tw-text-2xl" },
-          }}
-        />
+        <Link href="/auth/sign-in">
+          <Button
+            className="landing-button !tw-mt-16"
+            label="Get Started"
+            pt={{
+              label: { className: "tw-text-lg lg:tw-text-2xl" },
+            }}
+          />
+        </Link>
       </div>
       <LandingHero className="" />
     </div>
