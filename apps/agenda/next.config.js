@@ -3,7 +3,7 @@ module.exports = {
   transpilePackages: ["ui"],
   output: "standalone",
   images: {
-    domains: [],
+    domains: ["source.unsplash.com"],
     formats: [],
   },
   webpack(config) {

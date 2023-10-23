@@ -2,7 +2,7 @@ module.exports = {
   globals: {
     NodeJS: true,
   },
-  extends: ["custom/next"],
+  extends: ["custom/next", "plugin:@tanstack/eslint-plugin-query/recommended"],
   rules: {
     "import/no-extraneous-dependencies": ["off"],
     "jsx-a11y/img-redundant-alt": ["off"],
@@ -22,6 +22,7 @@ module.exports = {
     "@typescript-eslint/no-unsafe-member-access": ["off"],
     "@typescript-eslint/no-unsafe-argument": ["off"],
     "@typescript-eslint/unbound-method": ["off"],
+    "@typescript-eslint/consistent-type-definitions": ["off"],
     "no-unused-vars": ["off"],
     "no-bitwise": ["off"],
     "no-shadow": "off",
