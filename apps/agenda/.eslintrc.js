@@ -2,7 +2,7 @@ module.exports = {
   globals: {
     NodeJS: true,
   },
-  extends: ["custom/next", "plugin:@tanstack/eslint-plugin-query/recommended"],
+  extends: ["custom/next"],
   rules: {
     "import/no-extraneous-dependencies": ["off"],
     "jsx-a11y/img-redundant-alt": ["off"],
