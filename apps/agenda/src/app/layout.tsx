@@ -9,13 +9,27 @@ import "@/styles/globals.css";
 import "~/theme/theme-light/purple/theme.scss";
 import type { ReactElement } from "react";
 import { LayoutProvider } from "@/context/layout-context";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 3,
+    },
+  },
+});
 
 export default function RootLayout({ children }): ReactElement {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
         <PrimeReactProvider>
-          <LayoutProvider>{children}</LayoutProvider>
+          <QueryClientProvider client={queryClient}>
+            <LayoutProvider>{children}</LayoutProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
         </PrimeReactProvider>
       </body>
     </html>

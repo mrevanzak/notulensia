@@ -1,3 +1,4 @@
+"use client";
 import { classNames } from "primereact/utils";
 import type { ReactElement } from "react";
 import React, { useContext, useEffect, useRef } from "react";
@@ -8,8 +9,13 @@ import { IoMdLogOut } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import Image from "next/image";
 import { LayoutContext } from "@/context/layout-context";
+import { useAuthStore } from "@/stores/use-auth-store";
+import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
 
 function AppMenuProfile(): ReactElement {
+  const logout = useAuthStore((state) => state.logout);
+  const { data } = useGetUserDetail();
+
   const {
     layoutState,
     layoutConfig,
@@ -66,13 +72,14 @@ function AppMenuProfile(): ReactElement {
       >
         <Image
           alt="avatar"
+          className="tw-rounded-full"
           height={56}
-          src="/layout/images/avatar/amyelsner.png"
+          src={data?.imgUrl ?? "/layout/images/avatar/amyelsner.png"}
           width={56}
         />
         <span>
-          <h3>Amy Elsner</h3>
-          <p className="tw-text-xs">Webmaster</p>
+          <h3>{data?.name}</h3>
+          <p className="tw-text-xs">{data?.phoneNumber}</p>
         </span>
         <i
           className={classNames(
@@ -109,13 +116,15 @@ function AppMenuProfile(): ReactElement {
               </Link>
             </li>
             <li className="tw-p-3 hover:tw-bg-[--menuitem-hover-bg]">
-              <Link
+              <div
                 className="p-link tw-flex tw-space-x-4 tw-text-base tw-shadow-none"
-                href="/"
+                onClick={() => {
+                  logout();
+                }}
               >
                 <IoMdLogOut color="#4343BF" size={24} />
                 <span className={hiddenClassName}>Logout</span>
-              </Link>
+              </div>
             </li>
           </>
         ) : null}
