@@ -1,3 +1,4 @@
+import AuthProvider from "@/components/auth-provider";
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactElement } from "react";
@@ -24,7 +25,7 @@ export default function LandingLayout({
           <Logo className="tw-w-56" />
         </Link>
       </div>
-      {children}
+      <AuthProvider route="public">{children}</AuthProvider>
     </div>
   );
 }

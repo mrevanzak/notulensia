@@ -6,7 +6,7 @@ import LineChart from "@/components/dashboard/line-chart";
 import Calendar from "@/components/dashboard/calendar";
 import { Button } from "primereact/button";
 
-function Dashboard(): ReactElement {
+export default function Dashboard(): ReactElement {
   return (
     <div className="grid">
       <div className="col-12 mb-4">
@@ -93,5 +93,3 @@ function Dashboard(): ReactElement {
     </div>
   );
 }
-
-export default Dashboard;
