@@ -21,7 +21,7 @@ export default function LandingLayout({
   return (
     <div className="layout tw-flex tw-flex-col">
       <div className="tw-p-10">
-        <Link href="/landing">
+        <Link href="/">
           <Logo className="tw-w-56" />
         </Link>
       </div>
