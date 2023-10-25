@@ -1,3 +1,4 @@
+import AuthProvider from "@/components/auth-provider";
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactElement } from "react";
@@ -20,11 +21,11 @@ export default function LandingLayout({
   return (
     <div className="layout tw-flex tw-flex-col">
       <div className="tw-p-10">
-        <Link href="/landing">
+        <Link href="/">
           <Logo className="tw-w-56" />
         </Link>
       </div>
-      {children}
+      <AuthProvider route="public">{children}</AuthProvider>
     </div>
   );
 }

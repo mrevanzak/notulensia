@@ -8,24 +8,18 @@ import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
-import { ApiError } from "@/types/api";
 import { useSignIn } from "@/lib/api/auth/sign-in";
-import { v4 } from "uuid";
+import { errorMessages } from "@/lib/error";
 
 export default function SignInForm(): ReactElement {
   const { mutate, isPending, isError, error } = useSignIn();
-  const errorMessages = (): string | undefined => {
-    if (error instanceof ApiError) {
-      return error.stringify();
-    }
-  };
 
   const methods = useForm<SignInFormValues>({
     resolver: zodResolver(authSchema),
   });
   const { handleSubmit } = methods;
   const onSubmit = handleSubmit((data) => {
-    mutate({ ...data, deviceId: v4() });
+    mutate({ ...data });
   });
 
   return (
@@ -39,7 +33,7 @@ export default function SignInForm(): ReactElement {
     >
       <h2 className="tw-text-white tw-text-center">Sign In</h2>
       <p className="p-error tw-text-center tw-mt-1">
-        {isError ? errorMessages() : null}
+        {isError ? errorMessages(error) : null}
       </p>
       <FormProvider {...methods}>
         <form

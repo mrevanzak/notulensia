@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/stores/use-auth-store";
-import { ApiError } from "@/types/api";
 import axios from "axios";
+import { ApiError } from "@/lib/error";
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 

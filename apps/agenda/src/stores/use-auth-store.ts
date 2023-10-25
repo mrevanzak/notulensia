@@ -1,5 +1,10 @@
 import { create } from "zustand";
-import { persist, createJSONStorage, devtools } from "zustand/middleware";
+import {
+  persist,
+  createJSONStorage,
+  devtools,
+  subscribeWithSelector,
+} from "zustand/middleware";
 
 export type AuthResponse = {
   refresh_token: string;
@@ -15,29 +20,31 @@ export type AuthState = Partial<AuthResponse> & {
 
 export const useAuthStore = create<AuthState>()(
   devtools(
-    persist(
-      (set) => ({
-        login: (auth) => {
-          set(() => ({
-            refresh_token: auth.refresh_token,
-            token_type: auth.token_type,
-            access_token: auth.access_token,
-            expires_in: auth.expires_in,
-          }));
+    subscribeWithSelector(
+      persist(
+        (set) => ({
+          login: (auth) => {
+            set(() => ({
+              refresh_token: auth.refresh_token,
+              token_type: auth.token_type,
+              access_token: auth.access_token,
+              expires_in: auth.expires_in,
+            }));
+          },
+          logout: () => {
+            set(() => ({
+              refresh_token: undefined,
+              token_type: undefined,
+              access_token: undefined,
+              expires_in: undefined,
+            }));
+          },
+        }),
+        {
+          name: "bear-storage",
+          storage: createJSONStorage(() => sessionStorage),
         },
-        logout: () => {
-          set(() => ({
-            refresh_token: undefined,
-            token_type: undefined,
-            access_token: undefined,
-            expires_in: undefined,
-          }));
-        },
-      }),
-      {
-        name: "bear-storage",
-        storage: createJSONStorage(() => sessionStorage),
-      },
+      ),
     ),
   ),
 );

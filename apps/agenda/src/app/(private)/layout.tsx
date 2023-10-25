@@ -1,3 +1,4 @@
+import AuthProvider from "@/components/auth-provider";
 import Layout from "@/components/layout";
 import type { Metadata } from "next";
 import type { ReactElement } from "react";
@@ -25,6 +26,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function MainLayout({ children }: MainLayoutProps): ReactElement {
-  return <Layout>{children}</Layout>;
+export default function MainLayout({
+  children,
+}: MainLayoutProps): ReactElement {
+  return (
+    <Layout>
+      <AuthProvider route="private"> {children}</AuthProvider>
+    </Layout>
+  );
 }
