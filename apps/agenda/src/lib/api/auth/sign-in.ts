@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/use-auth-store";
 import { v4 } from "uuid";
 
-export const useSignIn = (): ReturnType<typeof useMutation> => {
+export const useSignIn = () => {
   const router = useRouter();
   const login = useAuthStore((state) => state.login);
 

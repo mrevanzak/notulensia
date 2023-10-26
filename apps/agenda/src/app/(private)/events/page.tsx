@@ -1,13 +1,17 @@
 "use client";
 import type { ReactElement } from "react";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { useGetEventList } from "@/lib/api/event/get-event-list";
+import type { Event } from "@/lib/validations/event";
 
 export default function Events(): ReactElement {
-  const [products, setProducts] = useState([]);
+  const { data, isLoading } = useGetEventList();
+  const dataTable = data?.data;
+
   const columns = [
     { field: "action", header: "Action" },
     { field: "date", header: "Date" },
@@ -16,7 +20,7 @@ export default function Events(): ReactElement {
     { field: "start", header: "Start" },
     { field: "end", header: "End" },
   ];
-  const dt = useRef<DataTable<typeof products>>(null);
+  const dt = useRef<DataTable<Event[]>>(null);
   const exportCSV = (selectionOnly: boolean): void => {
     dt?.current?.exportCSV({ selectionOnly });
   };
@@ -50,12 +54,17 @@ export default function Events(): ReactElement {
             </span>
           </div>
           <DataTable
+            loading={isLoading}
+            // onPage={(e) => {
+            //   e.pageCount = data?.numberOfPages;
+            //   e.page = data?.pageIndex;
+            // }}
             paginator
             ref={dt}
             rows={5}
             rowsPerPageOptions={[5, 10, 25, 50]}
             tableStyle={{ minWidth: "50rem" }}
-            value={products}
+            value={dataTable}
           >
             {columns.map((col) => (
               <Column field={col.field} header={col.header} key={col.field} />

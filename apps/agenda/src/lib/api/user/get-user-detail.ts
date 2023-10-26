@@ -1,14 +1,10 @@
 import { httpClient } from "@/lib/http";
 import { profileSchema } from "@/lib/validations/user";
-import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
-import type { z } from "zod";
 
 export const getUserDetailKey = "getUserDetail";
 
-export const useGetUserDetail = (): UseQueryResult<
-  z.infer<typeof profileSchema>
-> => {
+export const useGetUserDetail = () => {
   return useQuery({
     queryKey: [getUserDetailKey],
     queryFn: async () => {
