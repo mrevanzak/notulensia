@@ -1,12 +1,10 @@
-"use client";
-import { InputText } from "primereact/inputtext";
+import { Calendar } from "primereact/calendar";
 import { classNames } from "primereact/utils";
-import type { ReactElement } from "react";
-import React, { useState } from "react";
+import React from "react";
 import type { RegisterOptions } from "react-hook-form";
 import { Controller, get, useFormContext } from "react-hook-form";
 
-export type InputProps = {
+type CalendarProps = {
   /** Input label */
   label: string;
   /**
@@ -17,39 +15,30 @@ export type InputProps = {
   /** Input placeholder */
   placeholder?: string;
   /** Icon */
-  icon?: string;
+  icon?: boolean;
   /** Float label */
   float?: boolean;
-  /**
-   * Input type
-   * @example text, email, password
-   */
-  type?: React.HTMLInputTypeAttribute;
   /** Disables the input and shows defaultValue (can be set from React Hook Form) */
   readOnly?: boolean;
   /** Manual validation using RHF, it is encouraged to use yup resolver instead */
   validation?: RegisterOptions;
-} & React.ComponentPropsWithoutRef<"input">;
+};
 
-export default function Input({
+export default function CalendarInput({
   label,
   id,
-  icon,
-  type = "text",
+  float,
   validation,
-  float = false,
-}: InputProps): ReactElement {
+  icon,
+}: CalendarProps) {
   const {
     formState: { errors },
     control,
   } = useFormContext();
   const error = get(errors, id);
 
-  const isPassword = type === "password";
-  const [showPassword, setShowPassword] = useState(false);
-
   return (
-    <>
+    <div className="w-full">
       {!float && (
         <p
           className={classNames("block mb-2 tw-text-white", {
@@ -63,35 +52,19 @@ export default function Input({
         control={control}
         name={id}
         render={({ field, fieldState }) => (
-          <span
-            className={classNames("p-input-icon-right block", {
-              "p-float-label": float,
-            })}
-          >
-            <i
-              className={classNames(
-                "pi",
-                icon,
-                isPassword && "tw-cursor-pointer",
-                showPassword && isPassword && "pi-eye",
-                !showPassword && isPassword && "pi-eye-slash",
-              )}
-              onClick={() => {
-                if (isPassword) {
-                  setShowPassword(!showPassword);
-                }
-              }}
-            />
-            <InputText
+          <span className={classNames({ "p-float-label": float })}>
+            <Calendar
               className={classNames(
                 { "p-invalid": fieldState.error },
                 "w-full",
               )}
-              id={field.name}
-              onChange={(e) => {
-                field.onChange(e.target.value);
+              inputId={field.name}
+              onChange={field.onChange}
+              pt={{
+                input: { root: { className: "border-noround-right" } },
+                dropdownButton: { root: { className: "border-noround-left" } },
               }}
-              type={isPassword && !showPassword ? "password" : "text"}
+              showIcon={icon}
               value={field.value}
             />
             {float ? (
@@ -111,6 +84,6 @@ export default function Input({
       {error ? (
         <small className="p-error">{error.message?.toString()}</small>
       ) : null}
-    </>
+    </div>
   );
 }

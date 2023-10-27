@@ -7,6 +7,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { useGetEventList } from "@/lib/api/event/get-event-list";
 import type { Event } from "@/lib/validations/event";
+import Link from "next/link";
 
 export default function Events(): ReactElement {
   const { data, isLoading } = useGetEventList();
@@ -15,10 +16,10 @@ export default function Events(): ReactElement {
   const columns = [
     { field: "action", header: "Action" },
     { field: "date", header: "Date" },
-    { field: "event_name", header: "Event Name" },
-    { field: "total_audience", header: "Total Audience" },
-    { field: "start", header: "Start" },
-    { field: "end", header: "End" },
+    { field: "eventName", header: "Event Name" },
+    { field: "audienceGroup", header: "Audience Group" },
+    { field: "startAt", header: "Start" },
+    { field: "endAt", header: "End" },
   ];
   const dt = useRef<DataTable<Event[]>>(null);
   const exportCSV = (selectionOnly: boolean): void => {
@@ -31,9 +32,11 @@ export default function Events(): ReactElement {
         <div className="card bg-purple-50 tw-space-y-3">
           <div className="tw-flex tw-justify-between">
             <div className="tw-space-x-6">
-              <Button className="border-round-sm" outlined>
-                Add Events
-              </Button>
+              <Link href="/events/add">
+                <Button className="border-round-sm" outlined>
+                  Add Events
+                </Button>
+              </Link>
               <Button
                 className="border-round-sm"
                 onClick={() => {
@@ -67,7 +70,12 @@ export default function Events(): ReactElement {
             value={dataTable}
           >
             {columns.map((col) => (
-              <Column field={col.field} header={col.header} key={col.field} />
+              <Column
+                // body={bodyTemplate}
+                field={col.field}
+                header={col.header}
+                key={col.field}
+              />
             ))}
           </DataTable>
         </div>

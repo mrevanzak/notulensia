@@ -4,13 +4,13 @@ import { createPaginatedResponseSchema } from "@/lib/validations/pagination";
 import type { QueryParams } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 
-export const getEventListKey = "getEventList";
+export const getEventCategoryList = "getEventList";
 
-export const useGetEventList = (query?: QueryParams) => {
+export const useGetEventCategoryList = (query?: QueryParams) => {
   return useQuery({
-    queryKey: [getEventListKey],
+    queryKey: [getEventCategoryList],
     queryFn: async () => {
-      const response = await httpClient.get("/event", {
+      const response = await httpClient.get("/event/category", {
         params: query,
       });
 
