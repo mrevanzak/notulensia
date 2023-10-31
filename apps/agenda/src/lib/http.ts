@@ -1,6 +1,6 @@
-import {useAuthStore} from "@/stores/use-auth-store";
+import { useAuthStore } from "@/stores/use-auth-store";
 import axios from "axios";
-import {ApiError} from "@/lib/error";
+import { ApiError } from "@/lib/error";
 
 export const API_URL = process.env.API_URL;
 
@@ -26,5 +26,5 @@ httpClient.interceptors.response.use(
       return Promise.reject(new ApiError(error.response?.data));
     }
     return Promise.reject(error);
-  }
+  },
 );
