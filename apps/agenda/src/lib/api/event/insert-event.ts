@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import type { EventFormValues } from "@/lib/validations/event";
 import { getEventKey } from "./get-event";
-import { ScheduleProgram } from "@/lib/validations/schedule-program";
+import type { ScheduleProgram } from "@/lib/validations/schedule-program";
 
 type InsertEventParams = Omit<EventFormValues, "province" | "district"> & {
   provinceCode?: number;

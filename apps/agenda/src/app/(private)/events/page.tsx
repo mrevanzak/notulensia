@@ -8,19 +8,40 @@ import { Column } from "primereact/column";
 import type { Event } from "@/lib/validations/event";
 import Link from "next/link";
 import { useGetEvent } from "@/lib/api/event/get-event";
+import { useDeleteEvent } from "@/lib/api/event/delete-event";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 
 export default function Events(): ReactElement {
   const { data, isLoading } = useGetEvent();
   const dataTable = data?.data;
+  const deleteEvent = useDeleteEvent();
 
   const columns = [
-    { field: "action", header: "Action" },
     { field: "date", header: "Date" },
     { field: "eventName", header: "Event Name" },
     { field: "audienceGroup", header: "Audience Group" },
     { field: "startAt", header: "Start" },
     { field: "endAt", header: "End" },
+    { field: "action", header: "Action" },
   ];
+
+  const actionBodyTemplate = (rowData: Event) => {
+    const confirm = () => {
+      confirmDialog({
+        resizable: false,
+        contentClassName: "border-noround-top",
+        message: "Do you want to delete this record?",
+        header: "Delete Confirmation",
+        icon: "pi pi-info-circle",
+        acceptClassName: "p-button-danger",
+        accept: () => {
+          deleteEvent.mutate(rowData.id);
+        },
+      });
+    };
+    return <Button icon="pi pi-trash" onClick={confirm} severity="danger" />;
+  };
+
   const dt = useRef<DataTable<Event[]>>(null);
   const exportCSV = (selectionOnly: boolean): void => {
     dt?.current?.exportCSV({ selectionOnly });
@@ -71,13 +92,14 @@ export default function Events(): ReactElement {
           >
             {columns.map((col) => (
               <Column
-                // body={bodyTemplate}
+                body={col.field === "action" && actionBodyTemplate}
                 field={col.field}
                 header={col.header}
                 key={col.field}
               />
             ))}
           </DataTable>
+          <ConfirmDialog />
         </div>
       </div>
     </div>
