@@ -22,6 +22,7 @@ import { useScheduleProgramStore } from "@/stores/use-schedule-program-store";
 import { Dialog } from "primereact/dialog";
 import AddScheduleProgramForm from "./add-schedule-program-form";
 import type { ScheduleProgram } from "@/lib/validations/schedule-program";
+import { FileUpload } from "primereact/fileupload";
 
 export default function AddEventForm(): ReactElement {
   const [showDialog, setShowDialog] = useState(false);
@@ -87,7 +88,7 @@ export default function AddEventForm(): ReactElement {
   return (
     <FormProvider {...methods}>
       <form
-        className="tw-space-y-8 !tw-mt-8"
+        className="tw-space-y-8 !tw-my-8"
         onSubmit={(event) => {
           event.preventDefault();
           void onSubmit();
@@ -187,14 +188,27 @@ export default function AddEventForm(): ReactElement {
           id="audienceGroup"
           label="Audience Group"
         />
-
-        <Button
-          className="w-full !tw-p-4 !tw-mt-8"
-          label="Login"
-          loading={insertEvent.isPending}
-          severity="secondary"
-          type="submit"
+        <FileUpload
+          accept="image/*"
+          emptyTemplate={
+            <p className="m-0">Drag and drop files to here to upload.</p>
+          }
+          maxFileSize={1000000}
+          multiple
+          name="demo[]"
+          url="/api/upload"
         />
+
+        <div className="tw-flex tw-justify-between">
+          <div className="tw-flex tw-gap-4">
+            <Button label="Draft" outlined />
+            <Button label="Send Notif" />
+          </div>
+          <div className="tw-flex tw-gap-4">
+            <Button label="Save" outlined type="submit" />
+            <Button label="Cancel" />
+          </div>
+        </div>
       </form>
     </FormProvider>
   );
