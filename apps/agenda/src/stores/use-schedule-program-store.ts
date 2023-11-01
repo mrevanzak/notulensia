@@ -1,33 +1,40 @@
+import type { ScheduleProgram } from "@/lib/validations/schedule-program";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-type ScheduleProgram = {
-  startTime: string;
-  endTime: string;
-  position: number;
-  activity: string;
-  picName: string;
-  date: string;
-  note: string;
-};
-
 type ScheduleProgramState = {
+  counter: number;
   scheduleProgram: ScheduleProgram[];
   addScheduleProgram: (scheduleProgram: ScheduleProgram) => void;
   reset: () => void;
+  remove: (position?: number) => void;
 };
 
 export const useScheduleProgramStore = create<ScheduleProgramState>()(
-  devtools((set) => ({
+  devtools((set, get) => ({
     scheduleProgram: [],
+    counter: 1,
     addScheduleProgram: (scheduleProgram) => {
+      const position = get().counter;
       set((state) => ({
-        scheduleProgram: [...state.scheduleProgram, scheduleProgram],
+        scheduleProgram: [
+          ...state.scheduleProgram,
+          { ...scheduleProgram, position },
+        ],
+        counter: state.counter + 1,
       }));
     },
     reset: () => {
       set(() => ({
         scheduleProgram: [],
+      }));
+    },
+    remove: (position) => {
+      set((state) => ({
+        scheduleProgram: state.scheduleProgram.filter(
+          (scheduleProgram) => scheduleProgram.position !== position,
+        ),
+        counter: state.counter - 1,
       }));
     },
   })),

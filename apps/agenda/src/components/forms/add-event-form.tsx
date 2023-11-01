@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import type { ReactElement } from "react";
-import { useShallow } from "zustand/react/shallow";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
@@ -22,6 +21,7 @@ import { Column } from "primereact/column";
 import { useScheduleProgramStore } from "@/stores/use-schedule-program-store";
 import { Dialog } from "primereact/dialog";
 import AddScheduleProgramForm from "./add-schedule-program-form";
+import type { ScheduleProgram } from "@/lib/validations/schedule-program";
 
 export default function AddEventForm(): ReactElement {
   const [showDialog, setShowDialog] = useState(false);
@@ -50,8 +50,12 @@ export default function AddEventForm(): ReactElement {
   const province = useGetProvince();
   const district = useGetDistrict(watch("province")?.province);
 
-  const [scheduleProgram, reset] = useScheduleProgramStore(
-    useShallow((state) => [state.scheduleProgram, state.reset]),
+  const scheduleProgram = useScheduleProgramStore(
+    (state) => state.scheduleProgram,
+  );
+  const reset = useScheduleProgramStore((state) => state.reset);
+  const removeScheduleProgram = useScheduleProgramStore(
+    (state) => state.remove,
   );
 
   useEffect(() => {
@@ -65,7 +69,20 @@ export default function AddEventForm(): ReactElement {
     { field: "endTime", header: "End Time" },
     { field: "picName", header: "PIC Name" },
     { field: "note", header: "Note" },
+    { field: "action", header: "Action" },
   ];
+
+  const actionBodyTemplate = (rowData: ScheduleProgram) => {
+    return (
+      <Button
+        icon="pi pi-trash"
+        onClick={() => {
+          removeScheduleProgram(rowData.position);
+        }}
+        severity="danger"
+      />
+    );
+  };
 
   return (
     <FormProvider {...methods}>
@@ -122,6 +139,7 @@ export default function AddEventForm(): ReactElement {
         <Input float id="locationValue" label="Location" />
         <div className="card tw-space-y-3">
           <Dialog
+            className="tw-min-w-fit"
             draggable={false}
             header="Add Schedule Program"
             onHide={() => {
@@ -132,7 +150,6 @@ export default function AddEventForm(): ReactElement {
                 className: "border-noround-top pt-5 tw-space-y-8",
               },
             }}
-            style={{ width: "50vw" }}
             visible={showDialog}
           >
             <AddScheduleProgramForm setShowDialog={setShowDialog} />
@@ -150,12 +167,12 @@ export default function AddEventForm(): ReactElement {
           </div>
           <DataTable
             emptyMessage="Please add schedule program"
-            tableStyle={{ minWidth: "50rem" }}
             value={scheduleProgram}
           >
             {columns.map((col) => (
               <Column
                 // body={bodyTemplate}
+                body={col.field === "action" && actionBodyTemplate}
                 field={col.field}
                 header={col.header}
                 key={col.field}
