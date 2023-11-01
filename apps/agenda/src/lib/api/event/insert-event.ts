@@ -2,20 +2,28 @@ import { httpClient } from "@/lib/http";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import type { EventFormValues } from "@/lib/validations/event";
-import { getEventListKey } from "./get-event-list";
+import { getEventKey } from "./get-event";
+import { ScheduleProgram } from "@/lib/validations/schedule-program";
+
+type InsertEventParams = Omit<EventFormValues, "province" | "district"> & {
+  provinceCode?: number;
+  province?: string;
+  districtCode?: number;
+  district?: string;
+  schedules?: ScheduleProgram[];
+};
 
 export const useInsertEvent = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   return useMutation({
-    mutationFn: async (data: EventFormValues) => {
-      const response = await httpClient.post("/event", data);
-      return response.data;
+    mutationFn: async (data: InsertEventParams) => {
+      await httpClient.post("/event", data);
     },
-    onSuccess: (data) => {
-      void queryClient.invalidateQueries({ queryKey: [getEventListKey] });
-      router.push("/event");
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: [getEventKey] });
+      router.push("/events");
     },
   });
 };

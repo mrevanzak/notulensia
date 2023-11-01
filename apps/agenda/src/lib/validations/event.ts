@@ -1,4 +1,8 @@
+import moment from "moment";
 import { z } from "zod";
+import { districtSchema } from "./district";
+import { provinceSchema } from "./province";
+import { scheduleProgramSchema } from "./schedule-program";
 
 export const eventSchema = z.object({
   id: z.string().uuid(),
@@ -27,10 +31,18 @@ export const eventFormSchema = z.object({
   topic: z.string(),
   purpose: z.string(),
   preparationNotes: z.string(),
+  startAt: z
+    .date()
+    .transform((value) => moment(value).format("YYYY-MM-DD HH:mm:ss")),
+  endAt: z
+    .date()
+    .transform((value) => moment(value).format("YYYY-MM-DD HH:mm:ss")),
   isOnline: z.boolean(),
+  linkUrl: z.string().url().optional(),
   locationValue: z.string(),
-  startAt: z.date(),
-  endAt: z.date(),
+  province: provinceSchema.optional(),
+  district: districtSchema.optional(),
+  audienceGroup: z.string().array(),
 });
 
 export type EventFormValues = z.infer<typeof eventFormSchema>;

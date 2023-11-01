@@ -1,5 +1,5 @@
+import type { DropdownProps as PrimeDropdownProps } from "primereact/dropdown";
 import { Dropdown as PrimeDropdown } from "primereact/dropdown";
-import type { SelectItemOptionsType } from "primereact/selectitem";
 
 import { classNames } from "primereact/utils";
 import type { ReactElement } from "react";
@@ -19,13 +19,13 @@ export type DropdownProps = {
   placeholder?: string;
   /** Float label */
   float?: boolean;
-  /** Options for the dropdown */
-  options?: SelectItemOptionsType;
+  /** Disables the input and shows loading indicator */
+  loading?: boolean;
   /** Disables the input and shows defaultValue (can be set from React Hook Form) */
   readOnly?: boolean;
   /** Manual validation using RHF, it is encouraged to use yup resolver instead */
   validation?: RegisterOptions;
-};
+} & PrimeDropdownProps;
 
 export default function Dropdown({
   label,
@@ -33,6 +33,8 @@ export default function Dropdown({
   validation,
   float = false,
   options,
+  loading,
+  ...props
 }: DropdownProps): ReactElement {
   const {
     formState: { errors },
@@ -61,11 +63,12 @@ export default function Dropdown({
                 { "p-invalid": fieldState.error },
                 "w-full",
               )}
-              editable
+              emptyMessage={loading ? "Loading..." : "No results found"}
               id={field.name}
               onChange={field.onChange}
               options={options}
               value={field.value}
+              {...props}
             />
             {float ? (
               <label

@@ -5,12 +5,12 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { useGetEventList } from "@/lib/api/event/get-event-list";
 import type { Event } from "@/lib/validations/event";
 import Link from "next/link";
+import { useGetEvent } from "@/lib/api/event/get-event";
 
 export default function Events(): ReactElement {
-  const { data, isLoading } = useGetEventList();
+  const { data, isLoading } = useGetEvent();
   const dataTable = data?.data;
 
   const columns = [

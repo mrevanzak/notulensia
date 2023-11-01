@@ -1,11 +1,13 @@
-import type { CalendarProps as PrimeCalendarProps } from "primereact/calendar";
-import { Calendar } from "primereact/calendar";
+import type { ChipsProps as PrimeChipsProps } from "primereact/chips";
+import { Chips as PrimeChips } from "primereact/chips";
+
 import { classNames } from "primereact/utils";
+import type { ReactElement } from "react";
 import React from "react";
 import type { RegisterOptions } from "react-hook-form";
 import { Controller, get, useFormContext } from "react-hook-form";
 
-type CalendarProps = {
+export type ChipsProps = {
   /** Input label */
   label: string;
   /**
@@ -15,24 +17,24 @@ type CalendarProps = {
   id: string;
   /** Input placeholder */
   placeholder?: string;
-  /** Icon */
-  icon?: boolean;
   /** Float label */
   float?: boolean;
+  /** Small text below input, useful for additional information */
+  helperText?: string;
   /** Disables the input and shows defaultValue (can be set from React Hook Form) */
   readOnly?: boolean;
   /** Manual validation using RHF, it is encouraged to use yup resolver instead */
   validation?: RegisterOptions;
-} & PrimeCalendarProps;
+} & PrimeChipsProps;
 
-export default function CalendarInput({
+export default function Chips({
   label,
   id,
-  float,
   validation,
-  icon,
+  float = false,
+  helperText,
   ...props
-}: CalendarProps) {
+}: ChipsProps): ReactElement {
   const {
     formState: { errors },
     control,
@@ -40,7 +42,7 @@ export default function CalendarInput({
   const error = get(errors, id);
 
   return (
-    <div className="w-full">
+    <div className="tw-flex tw-flex-col">
       {!float && (
         <p
           className={classNames("block mb-2 tw-text-white", {
@@ -55,20 +57,14 @@ export default function CalendarInput({
         name={id}
         render={({ field, fieldState }) => (
           <span className={classNames({ "p-float-label": float })}>
-            <Calendar
+            <PrimeChips
               className={classNames(
                 { "p-invalid": fieldState.error },
-                "w-full",
+                "w-full block",
               )}
-              dateFormat="yy-mm-dd"
-              hourFormat="24"
-              inputId={field.name}
+              id={field.name}
               onChange={field.onChange}
-              pt={{
-                input: { root: { className: "border-noround-right" } },
-                dropdownButton: { root: { className: "border-noround-left" } },
-              }}
-              showIcon={icon}
+              separator=","
               value={field.value}
               {...props}
             />
@@ -88,6 +84,9 @@ export default function CalendarInput({
       />
       {error ? (
         <small className="p-error">{error.message?.toString()}</small>
+      ) : null}
+      {helperText ? (
+        <small className="tw-text-gray-500">{helperText}</small>
       ) : null}
     </div>
   );
