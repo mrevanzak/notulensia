@@ -1,6 +1,7 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import type { ReactElement } from "react";
-import React, { useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
@@ -49,9 +50,13 @@ export default function AddEventForm(): ReactElement {
   const province = useGetProvince();
   const district = useGetDistrict(watch("province")?.province);
 
-  const scheduleProgram = useScheduleProgramStore(
-    (state) => state.scheduleProgram,
+  const [scheduleProgram, reset] = useScheduleProgramStore(
+    useShallow((state) => [state.scheduleProgram, state.reset]),
   );
+
+  useEffect(() => {
+    reset();
+  }, []);
 
   const columns = [
     { field: "date", header: "Date" },

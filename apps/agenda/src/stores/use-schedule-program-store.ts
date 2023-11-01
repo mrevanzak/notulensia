@@ -14,6 +14,7 @@ type ScheduleProgram = {
 type ScheduleProgramState = {
   scheduleProgram: ScheduleProgram[];
   addScheduleProgram: (scheduleProgram: ScheduleProgram) => void;
+  reset: () => void;
 };
 
 export const useScheduleProgramStore = create<ScheduleProgramState>()(
@@ -22,6 +23,11 @@ export const useScheduleProgramStore = create<ScheduleProgramState>()(
     addScheduleProgram: (scheduleProgram) => {
       set((state) => ({
         scheduleProgram: [...state.scheduleProgram, scheduleProgram],
+      }));
+    },
+    reset: () => {
+      set(() => ({
+        scheduleProgram: [],
       }));
     },
   })),
