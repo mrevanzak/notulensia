@@ -5,7 +5,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
 import type { EventFormValues } from "@/lib/validations/event";
-import { eventFormSchema } from "@/lib/validations/event";
+import { insertEventFormSchema } from "@/lib/validations/event";
 import TextArea from "@/components/ui/textarea";
 import { Button } from "primereact/button";
 import Checkbox from "@/components/ui/checkbox";
@@ -38,7 +38,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
   const insertEvent = useInsertEvent();
   const updateEvent = useUpdateEvent();
   const methods = useForm<EventFormValues>({
-    resolver: zodResolver(eventFormSchema),
+    resolver: zodResolver(insertEventFormSchema),
     defaultValues: {
       isOnline: false,
     },
@@ -186,7 +186,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
             }}
             visible={showDialog}
           >
-            <AddScheduleProgramForm setShowDialog={setShowDialog} />
+            {/* <AddScheduleProgramForm setShowDialog={setShowDialog} /> */}
           </Dialog>
           <div className="tw-flex tw-justify-between tw-items-center">
             <h4>Schedule Program</h4>
@@ -218,7 +218,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
         <Chips
           float
           helperText="Use comma (,) as separator"
-          id="audienceGroup"
+          id="audienceNames"
           label="Audience Group"
         />
         <FileUpload

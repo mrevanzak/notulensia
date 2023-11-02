@@ -41,13 +41,13 @@ export const eventFormSchema = z.object({
   isOnline: z.boolean(),
   linkUrl: z.string().url().optional().nullable(),
   locationValue: z.string(),
-  audienceGroup: z.string().array().optional(),
   schedules: scheduleProgramSchema.array().optional(),
 });
 
 export const insertEventFormSchema = eventFormSchema.extend({
   province: provinceSchema.optional().nullable(),
   district: districtSchema.optional().nullable(),
+  audienceNames: z.string().array().optional(),
 });
 
 export const updateEventFormSchema = eventFormSchema.extend({
