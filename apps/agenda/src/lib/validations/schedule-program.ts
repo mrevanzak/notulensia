@@ -3,11 +3,17 @@ import { z } from "zod";
 
 export const scheduleProgramSchema = z
   .object({
-    startTime: z.date().transform((value) => moment(value).format("HH:mm:ss")),
-    endTime: z.date().transform((value) => moment(value).format("HH:mm:ss")),
+    startTime: z.coerce
+      .date()
+      .transform((value) => moment(value).format("HH:mm:ss")),
+    endTime: z.coerce
+      .date()
+      .transform((value) => moment(value).format("HH:mm:ss")),
     activity: z.string(),
     picName: z.string(),
-    date: z.date().transform((value) => moment(value).format("YYYY-MM-DD")),
+    date: z.coerce
+      .date()
+      .transform((value) => moment(value).format("YYYY-MM-DD")),
     note: z.string().optional(),
     position: z.number().optional(),
   })

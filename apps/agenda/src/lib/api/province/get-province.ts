@@ -5,13 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 export const getProvinceKey = "getProvince";
 
 export const useGetProvince = () => {
-    return useQuery({
-        queryKey: [getProvinceKey],
-        queryFn: async () => {
-            const response = await httpClient.get("/province");
+  return useQuery({
+    queryKey: [getProvinceKey],
+    queryFn: async () => {
+      const response = await httpClient.get("/province");
 
-            return provinceSchema.array().parse(response.data);
-        },
-        staleTime: 1000 * 60 * 60 * 2,
-    });
+      return provinceSchema.array().parse(response.data);
+    },
+    staleTime: Infinity,
+  });
 };

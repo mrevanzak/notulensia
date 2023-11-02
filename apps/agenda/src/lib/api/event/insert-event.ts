@@ -5,12 +5,17 @@ import type { EventFormValues } from "@/lib/validations/event";
 import { getEventKey } from "./get-event";
 import type { ScheduleProgram } from "@/lib/validations/schedule-program";
 
-type InsertEventParams = Omit<EventFormValues, "province" | "district"> & {
+export type InsertEventParams = Omit<
+  EventFormValues,
+  "province" | "district" | "eventCategoryName"
+> & {
   provinceCode?: number;
   province?: string;
   districtCode?: number;
   district?: string;
   schedules?: ScheduleProgram[];
+  eventCategoryName: string;
+  status: "ACTIVE" | "INACTIVE" | "DRAFT";
 };
 
 export const useInsertEvent = () => {

@@ -23,28 +23,61 @@ import { Dialog } from "primereact/dialog";
 import AddScheduleProgramForm from "./add-schedule-program-form";
 import type { ScheduleProgram } from "@/lib/validations/schedule-program";
 import { FileUpload } from "primereact/fileupload";
+import { useGetEventDetail } from "@/lib/api/event/get-event-detail";
+import { useUpdateEvent } from "@/lib/api/event/update-event";
 
-export default function AddEventForm(): ReactElement {
+type EventFormProps = {
+  edit?: string;
+};
+
+export default function EventForm({ edit }: EventFormProps): ReactElement {
+  const { data } = useGetEventDetail(edit);
+
   const [showDialog, setShowDialog] = useState(false);
 
   const insertEvent = useInsertEvent();
+  const updateEvent = useUpdateEvent();
   const methods = useForm<EventFormValues>({
     resolver: zodResolver(eventFormSchema),
     defaultValues: {
       isOnline: false,
     },
+    values: {
+      ...data,
+      startAt: data?.startAt ? new Date(data.startAt) : null,
+      endAt: data?.endAt ? new Date(data.endAt) : null,
+    },
   });
   const { handleSubmit, watch } = methods;
   const onSubmit = handleSubmit((data) => {
-    insertEvent.mutate({
-      ...data,
-      province: data.province?.province,
-      provinceCode: data.province?.code,
-      district: data.district?.district,
-      districtCode: data.district?.code,
-      linkUrl: data.linkUrl,
-      schedules: scheduleProgram,
-    });
+    edit
+      ? updateEvent.mutate({
+          ...data,
+          id: edit,
+          eventCategoryName:
+            typeof data.eventCategoryName === "string"
+              ? data.eventCategoryName
+              : data.eventCategoryName?.eventCategoryName,
+          province: data.province?.province,
+          provinceCode: data.province?.code,
+          district: data.district?.district,
+          districtCode: data.district?.code,
+          schedules: scheduleProgram,
+          status: "ACTIVE",
+        })
+      : insertEvent.mutate({
+          ...data,
+          eventCategoryName:
+            typeof data.eventCategoryName === "string"
+              ? data.eventCategoryName
+              : data.eventCategoryName?.eventCategoryName,
+          province: data.province?.province,
+          provinceCode: data.province?.code,
+          district: data.district?.district,
+          districtCode: data.district?.code,
+          schedules: scheduleProgram,
+          status: "ACTIVE",
+        });
   });
 
   const eventCategory = useGetEventCategoryDropdown();
@@ -100,7 +133,7 @@ export default function AddEventForm(): ReactElement {
           id="eventCategoryName"
           label="Event Category"
           loading={eventCategory.isLoading}
-          optionLabel="name"
+          optionLabel="eventCategoryName"
           options={eventCategory.data}
         />
         <Input float id="name" label="Event Name" />
@@ -168,7 +201,7 @@ export default function AddEventForm(): ReactElement {
           </div>
           <DataTable
             emptyMessage="Please add schedule program"
-            value={scheduleProgram}
+            value={edit ? data?.schedules : scheduleProgram}
           >
             {columns.map((col) => (
               <Column
@@ -205,7 +238,12 @@ export default function AddEventForm(): ReactElement {
             <Button label="Send Notif" />
           </div>
           <div className="tw-flex tw-gap-4">
-            <Button label="Save" outlined type="submit" />
+            <Button
+              label="Save"
+              loading={insertEvent.isPending}
+              outlined
+              type="submit"
+            />
             <Button label="Cancel" />
           </div>
         </div>

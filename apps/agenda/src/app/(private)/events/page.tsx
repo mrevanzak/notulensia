@@ -39,7 +39,14 @@ export default function Events(): ReactElement {
         },
       });
     };
-    return <Button icon="pi pi-trash" onClick={confirm} severity="danger" />;
+    return (
+      <div className="tw-flex tw-space-x-2">
+        <Link href={`/events/edit/${rowData.id}`}>
+          <Button icon="pi pi-pencil" outlined />
+        </Link>
+        <Button icon="pi pi-trash" onClick={confirm} severity="danger" />
+      </div>
+    );
   };
 
   const dt = useRef<DataTable<Event[]>>(null);

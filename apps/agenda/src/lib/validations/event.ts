@@ -1,6 +1,7 @@
 import moment from "moment";
 import { z } from "zod";
 import { districtSchema } from "./district";
+import { eventCategoryDropdownSchema } from "./event-category";
 import { provinceSchema } from "./province";
 import { scheduleProgramSchema } from "./schedule-program";
 
@@ -26,23 +27,34 @@ export const eventSchema = z.object({
 export type Event = z.infer<typeof eventSchema>;
 
 export const eventFormSchema = z.object({
-  eventCategoryName: z.string(),
+  eventCategoryName: z.string().or(eventCategoryDropdownSchema),
   name: z.string(),
   topic: z.string(),
   purpose: z.string(),
   preparationNotes: z.string(),
-  startAt: z
+  startAt: z.coerce
     .date()
     .transform((value) => moment(value).format("YYYY-MM-DD HH:mm:ss")),
-  endAt: z
+  endAt: z.coerce
     .date()
     .transform((value) => moment(value).format("YYYY-MM-DD HH:mm:ss")),
   isOnline: z.boolean(),
-  linkUrl: z.string().url().optional(),
+  linkUrl: z.string().url().optional().nullable(),
   locationValue: z.string(),
-  province: provinceSchema.optional(),
-  district: districtSchema.optional(),
-  audienceGroup: z.string().array(),
+  audienceGroup: z.string().array().optional(),
+  schedules: scheduleProgramSchema.array().optional(),
 });
 
-export type EventFormValues = z.infer<typeof eventFormSchema>;
+export const insertEventFormSchema = eventFormSchema.extend({
+  province: provinceSchema.optional().nullable(),
+  district: districtSchema.optional().nullable(),
+});
+
+export const updateEventFormSchema = eventFormSchema.extend({
+  province: z.string().optional().nullable(),
+  provinceCode: z.number().optional().nullable(),
+  district: z.string().optional().nullable(),
+  districtCode: z.number().optional().nullable(),
+});
+
+export type EventFormValues = z.infer<typeof insertEventFormSchema>;

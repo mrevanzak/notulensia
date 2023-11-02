@@ -5,18 +5,18 @@ import { useQuery } from "@tanstack/react-query";
 export const getDistrictByProvinceKey = "getDistrict";
 
 export const useGetDistrict = (province?: string) => {
-    return useQuery({
-        queryKey: [getDistrictByProvinceKey, province],
-        queryFn: async () => {
-            const response = await httpClient.get("/district", {
-                params: {
-                    province,
-                },
-            });
-
-            return districtSchema.array().parse(response.data);
+  return useQuery({
+    queryKey: [getDistrictByProvinceKey, province],
+    queryFn: async () => {
+      const response = await httpClient.get("/district", {
+        params: {
+          province,
         },
-        enabled: Boolean(province),
-        staleTime: 1000 * 60 * 60 * 2,
-    });
+      });
+
+      return districtSchema.array().parse(response.data);
+    },
+    enabled: Boolean(province),
+    staleTime: Infinity,
+  });
 };

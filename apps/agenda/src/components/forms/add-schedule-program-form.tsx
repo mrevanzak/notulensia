@@ -51,7 +51,7 @@ export default function AddScheduleProgramForm({
           <CalendarInput float icon id="endTime" label="End Time" timeOnly />
         </div>
         <Input float id="picName" label="PIC Name" />
-        <Input float id="note" label="note" />
+        <Input float id="note" label="Note" />
         <Button
           className="px-4 py-2 tw-flex-none tw-w-32 tw-self-center"
           label="Add"
