@@ -46,6 +46,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
       ...data,
       startAt: data?.startAt ? new Date(data.startAt) : null,
       endAt: data?.endAt ? new Date(data.endAt) : null,
+      audienceNames: data?.audiences?.map((audience) => audience.audienceName),
     },
   });
   const { handleSubmit, watch } = methods;

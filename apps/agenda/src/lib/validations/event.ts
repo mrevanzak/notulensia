@@ -55,6 +55,14 @@ export const updateEventFormSchema = eventFormSchema.extend({
   provinceCode: z.number().optional().nullable(),
   district: z.string().optional().nullable(),
   districtCode: z.number().optional().nullable(),
+  audiences: z
+    .object({
+      audienceId: z.string(),
+      audienceName: z.string(),
+    })
+    .array()
+    .optional()
+    .nullable(),
 });
 
 export type EventFormValues = z.infer<typeof insertEventFormSchema>;
