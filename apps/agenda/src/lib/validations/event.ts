@@ -32,15 +32,24 @@ export const eventFormSchema = z.object({
   topic: z.string(),
   purpose: z.string(),
   preparationNotes: z.string(),
-  startAt: z.coerce
+  startAt: z
     .date()
-    .transform((value) => moment(value).format("YYYY-MM-DD HH:mm:ss")),
-  endAt: z.coerce
+    .or(
+      z.coerce
+        .date()
+        .transform((value) => moment(value).format("YYYY-MM-DD HH:mm:ss")),
+    ),
+  endAt: z
     .date()
-    .transform((value) => moment(value).format("YYYY-MM-DD HH:mm:ss")),
+    .or(
+      z.coerce
+        .date()
+        .transform((value) => moment(value).format("YYYY-MM-DD HH:mm:ss")),
+    ),
   isOnline: z.boolean(),
   linkUrl: z.string().url().optional().nullable(),
   locationValue: z.string(),
+  address: z.string(),
   schedules: scheduleProgramSchema.array().optional(),
 });
 

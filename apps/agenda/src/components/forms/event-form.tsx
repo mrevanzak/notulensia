@@ -25,13 +25,15 @@ import type { ScheduleProgram } from "@/lib/validations/schedule-program";
 import { FileUpload } from "primereact/fileupload";
 import { useGetEventDetail } from "@/lib/api/event/get-event-detail";
 import { useUpdateEvent } from "@/lib/api/event/update-event";
+import { useParams } from "next/navigation";
 
 type EventFormProps = {
-  edit?: string;
+  edit?: boolean;
 };
 
 export default function EventForm({ edit }: EventFormProps): ReactElement {
-  const { data } = useGetEventDetail(edit);
+  const { id } = useParams();
+  const { data } = useGetEventDetail(id as string);
 
   const [showDialog, setShowDialog] = useState(false);
 
@@ -43,18 +45,44 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
       isOnline: false,
     },
     values: {
-      ...data,
-      startAt: data?.startAt ? new Date(data.startAt) : null,
-      endAt: data?.endAt ? new Date(data.endAt) : null,
+      eventCategoryName: data?.eventCategoryName ?? "",
+      name: data?.name ?? "",
+      topic: data?.topic ?? "",
+      purpose: data?.purpose ?? "",
+      preparationNotes: data?.preparationNotes ?? "",
+      startAt: new Date(data?.startAt ?? ""),
+      endAt: new Date(data?.endAt ?? ""),
+      isOnline: data?.isOnline ?? false,
+      linkUrl: data?.linkUrl ?? "",
+      province: data?.province
+        ? { id: "", province: data.province, code: data.provinceCode ?? 0 }
+        : undefined,
+      district: data?.district
+        ? {
+            id: "",
+            district: data.district,
+            code: data.districtCode ?? 0,
+            province: data.province ?? "",
+          }
+        : undefined,
+      address: data?.address ?? "",
+      locationValue: data?.locationValue ?? "",
       audienceNames: data?.audiences?.map((audience) => audience.audienceName),
     },
   });
-  const { handleSubmit, watch } = methods;
+  const { handleSubmit, watch, resetField } = methods;
   const onSubmit = handleSubmit((data) => {
+    if (data.isOnline) {
+      resetField("province");
+      resetField("district");
+      resetField("address");
+    } else {
+      resetField("linkUrl");
+    }
     edit
       ? updateEvent.mutate({
           ...data,
-          id: edit,
+          id: id as string,
           eventCategoryName:
             typeof data.eventCategoryName === "string"
               ? data.eventCategoryName
@@ -89,13 +117,19 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
     (state) => state.scheduleProgram,
   );
   const reset = useScheduleProgramStore((state) => state.reset);
+  const setScheduleProgram = useScheduleProgramStore((state) => {
+    return state.set;
+  });
   const removeScheduleProgram = useScheduleProgramStore(
     (state) => state.remove,
   );
 
   useEffect(() => {
     reset();
-  }, []);
+    if (data?.schedules) {
+      setScheduleProgram(data.schedules);
+    }
+  }, [data]);
 
   const columns = [
     { field: "date", header: "Date" },
@@ -187,7 +221,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
             }}
             visible={showDialog}
           >
-            {/* <AddScheduleProgramForm setShowDialog={setShowDialog} /> */}
+            <AddScheduleProgramForm setShowDialog={setShowDialog} />
           </Dialog>
           <div className="tw-flex tw-justify-between tw-items-center">
             <h4>Schedule Program</h4>
@@ -198,15 +232,15 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
               onClick={() => {
                 setShowDialog(true);
               }}
+              type="button"
             />
           </div>
           <DataTable
             emptyMessage="Please add schedule program"
-            value={edit ? data?.schedules : scheduleProgram}
+            value={scheduleProgram}
           >
             {columns.map((col) => (
               <Column
-                // body={bodyTemplate}
                 body={col.field === "action" && actionBodyTemplate}
                 field={col.field}
                 header={col.header}
@@ -235,7 +269,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
 
         <div className="tw-flex tw-justify-between">
           <div className="tw-flex tw-gap-4">
-            <Button label="Draft" outlined />
+            <Button label="Draft" outlined type="submit" />
             <Button label="Send Notif" />
           </div>
           <div className="tw-flex tw-gap-4">

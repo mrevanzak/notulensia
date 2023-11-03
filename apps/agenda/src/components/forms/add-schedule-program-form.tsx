@@ -16,9 +16,7 @@ type AddScheduleProgramFormProps = {
 export default function AddScheduleProgramForm({
   setShowDialog,
 }: AddScheduleProgramFormProps): ReactElement {
-  const addScheduleProgram = useScheduleProgramStore(
-    (state) => state.addScheduleProgram,
-  );
+  const addScheduleProgram = useScheduleProgramStore((state) => state.add);
 
   const methods = useForm<ScheduleProgram>({
     resolver: zodResolver(scheduleProgramSchema),
@@ -32,7 +30,7 @@ export default function AddScheduleProgramForm({
   return (
     <FormProvider {...methods}>
       <form
-        className="tw-space-y-8 !tw-mt-8"
+        className="tw-space-y-8 "
         onSubmit={(event) => {
           event.preventDefault();
           void onSubmit();

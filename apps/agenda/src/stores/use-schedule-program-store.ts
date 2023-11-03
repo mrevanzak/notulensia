@@ -5,7 +5,8 @@ import { devtools } from "zustand/middleware";
 type ScheduleProgramState = {
   counter: number;
   scheduleProgram: ScheduleProgram[];
-  addScheduleProgram: (scheduleProgram: ScheduleProgram) => void;
+  set: (scheduleProgram: ScheduleProgram[]) => void;
+  add: (scheduleProgram: ScheduleProgram) => void;
   reset: () => void;
   remove: (position?: number) => void;
 };
@@ -14,7 +15,7 @@ export const useScheduleProgramStore = create<ScheduleProgramState>()(
   devtools((set, get) => ({
     scheduleProgram: [],
     counter: 1,
-    addScheduleProgram: (scheduleProgram) => {
+    add: (scheduleProgram) => {
       const position = get().counter;
       set((state) => ({
         scheduleProgram: [
@@ -37,5 +38,10 @@ export const useScheduleProgramStore = create<ScheduleProgramState>()(
         counter: state.counter - 1,
       }));
     },
+    set: (scheduleProgram) => {
+      set(() => ({
+        scheduleProgram,
+      }));
+    }
   })),
 );
