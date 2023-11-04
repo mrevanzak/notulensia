@@ -5,7 +5,7 @@ import { ApiError } from "@/lib/error";
 export const API_URL = process.env.API_URL;
 
 export const httpClient = axios.create({
-  baseURL: API_URL,
+  baseURL: `${API_URL}/api/v1`,
   headers: {
     "Content-Type": "application/json",
   },
@@ -24,6 +24,9 @@ httpClient.interceptors.response.use(
   (error) => {
     if (error.response?.status === 400 || error.response?.status === 500) {
       return Promise.reject(new ApiError(error.response?.data));
+    }
+    if (error.response?.status === 401) {
+      useAuthStore.getState().logout();
     }
     return Promise.reject(error);
   },

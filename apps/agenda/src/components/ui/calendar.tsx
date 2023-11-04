@@ -13,6 +13,10 @@ export default function Calendar(): ReactElement {
       onChange={(e) => {
         setDate(e.value);
       }}
+      panelClassName="bg-purple-50"
+      pt={{
+        header: { className: "bg-purple-50" },
+      }}
       value={date}
     />
   );

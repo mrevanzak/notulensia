@@ -1,12 +1,13 @@
-"use client";
-import { InputText } from "primereact/inputtext";
+import type { DropdownProps as PrimeDropdownProps } from "primereact/dropdown";
+import { Dropdown as PrimeDropdown } from "primereact/dropdown";
+
 import { classNames } from "primereact/utils";
 import type { ReactElement } from "react";
-import React, { useState } from "react";
+import React from "react";
 import type { RegisterOptions } from "react-hook-form";
 import { Controller, get, useFormContext } from "react-hook-form";
 
-export type InputProps = {
+export type DropdownProps = {
   /** Input label */
   label: string;
   /**
@@ -16,37 +17,30 @@ export type InputProps = {
   id: string;
   /** Input placeholder */
   placeholder?: string;
-  /** Icon */
-  icon?: string;
   /** Float label */
   float?: boolean;
-  /**
-   * Input type
-   * @example text, email, password
-   */
-  type?: React.HTMLInputTypeAttribute;
+  /** Disables the input and shows loading indicator */
+  loading?: boolean;
   /** Disables the input and shows defaultValue (can be set from React Hook Form) */
   readOnly?: boolean;
   /** Manual validation using RHF, it is encouraged to use yup resolver instead */
   validation?: RegisterOptions;
-} & React.ComponentPropsWithoutRef<"input">;
+} & PrimeDropdownProps;
 
-export default function Input({
+export default function Dropdown({
   label,
   id,
-  icon,
-  type = "text",
   validation,
   float = false,
-}: InputProps): ReactElement {
+  options,
+  loading,
+  ...props
+}: DropdownProps): ReactElement {
   const {
     formState: { errors },
     control,
   } = useFormContext();
   const error = get(errors, id);
-
-  const isPassword = type === "password";
-  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <>
@@ -63,36 +57,18 @@ export default function Input({
         control={control}
         name={id}
         render={({ field, fieldState }) => (
-          <span
-            className={classNames("p-input-icon-right block", {
-              "p-float-label": float,
-            })}
-          >
-            <i
-              className={classNames(
-                "pi",
-                icon,
-                isPassword && "tw-cursor-pointer",
-                showPassword && isPassword && "pi-eye",
-                !showPassword && isPassword && "pi-eye-slash",
-              )}
-              onClick={() => {
-                if (isPassword) {
-                  setShowPassword(!showPassword);
-                }
-              }}
-            />
-            <InputText
+          <span className={classNames({ "p-float-label": float })}>
+            <PrimeDropdown
               className={classNames(
                 { "p-invalid": fieldState.error },
                 "w-full",
               )}
+              emptyMessage={loading ? "Loading..." : "No results found"}
               id={field.name}
-              onChange={(e) => {
-                field.onChange(e.target.value);
-              }}
-              type={isPassword && !showPassword ? "password" : "text"}
+              onChange={field.onChange}
+              options={options}
               value={field.value}
+              {...props}
             />
             {float ? (
               <label

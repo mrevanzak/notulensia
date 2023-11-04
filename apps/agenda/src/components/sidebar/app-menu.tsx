@@ -15,7 +15,7 @@ function AppMenu(): ReactElement {
         {
           label: "Home",
           icon: <TbHomeDot color="#4343BF" size={40} />,
-          to: "/",
+          to: "/dashboard",
         },
         {
           label: "Events",

@@ -3,8 +3,8 @@ import React from "react";
 import { InputText } from "primereact/inputtext";
 import TimeManagement from "~/svg/time-management.svg";
 import LineChart from "@/components/dashboard/line-chart";
-import Calendar from "@/components/dashboard/calendar";
 import { Button } from "primereact/button";
+import Calendar from "@/components/ui/calendar";
 
 export default function Dashboard(): ReactElement {
   return (
@@ -86,7 +86,7 @@ export default function Dashboard(): ReactElement {
           <h4>Tasks Completed</h4>
           <LineChart />
         </div>
-        <div className="card tw-col-span-2 tw-row-span-2">
+        <div className="card tw-col-span-2 tw-row-span-2 bg-purple-50">
           <Calendar />
         </div>
       </div>

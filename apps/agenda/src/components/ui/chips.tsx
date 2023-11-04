@@ -1,12 +1,13 @@
-"use client";
-import { InputText } from "primereact/inputtext";
+import type { ChipsProps as PrimeChipsProps } from "primereact/chips";
+import { Chips as PrimeChips } from "primereact/chips";
+
 import { classNames } from "primereact/utils";
 import type { ReactElement } from "react";
-import React, { useState } from "react";
+import React from "react";
 import type { RegisterOptions } from "react-hook-form";
 import { Controller, get, useFormContext } from "react-hook-form";
 
-export type InputProps = {
+export type ChipsProps = {
   /** Input label */
   label: string;
   /**
@@ -16,40 +17,32 @@ export type InputProps = {
   id: string;
   /** Input placeholder */
   placeholder?: string;
-  /** Icon */
-  icon?: string;
   /** Float label */
   float?: boolean;
-  /**
-   * Input type
-   * @example text, email, password
-   */
-  type?: React.HTMLInputTypeAttribute;
+  /** Small text below input, useful for additional information */
+  helperText?: string;
   /** Disables the input and shows defaultValue (can be set from React Hook Form) */
   readOnly?: boolean;
   /** Manual validation using RHF, it is encouraged to use yup resolver instead */
   validation?: RegisterOptions;
-} & React.ComponentPropsWithoutRef<"input">;
+} & PrimeChipsProps;
 
-export default function Input({
+export default function Chips({
   label,
   id,
-  icon,
-  type = "text",
   validation,
   float = false,
-}: InputProps): ReactElement {
+  helperText,
+  ...props
+}: ChipsProps): ReactElement {
   const {
     formState: { errors },
     control,
   } = useFormContext();
   const error = get(errors, id);
 
-  const isPassword = type === "password";
-  const [showPassword, setShowPassword] = useState(false);
-
   return (
-    <>
+    <div className="tw-flex tw-flex-col">
       {!float && (
         <p
           className={classNames("block mb-2 tw-text-white", {
@@ -63,36 +56,17 @@ export default function Input({
         control={control}
         name={id}
         render={({ field, fieldState }) => (
-          <span
-            className={classNames("p-input-icon-right block", {
-              "p-float-label": float,
-            })}
-          >
-            <i
-              className={classNames(
-                "pi",
-                icon,
-                isPassword && "tw-cursor-pointer",
-                showPassword && isPassword && "pi-eye",
-                !showPassword && isPassword && "pi-eye-slash",
-              )}
-              onClick={() => {
-                if (isPassword) {
-                  setShowPassword(!showPassword);
-                }
-              }}
-            />
-            <InputText
+          <span className={classNames({ "p-float-label": float })}>
+            <PrimeChips
               className={classNames(
                 { "p-invalid": fieldState.error },
-                "w-full",
+                "w-full block",
               )}
               id={field.name}
-              onChange={(e) => {
-                field.onChange(e.target.value);
-              }}
-              type={isPassword && !showPassword ? "password" : "text"}
+              onChange={field.onChange}
+              separator=","
               value={field.value}
+              {...props}
             />
             {float ? (
               <label
@@ -111,6 +85,9 @@ export default function Input({
       {error ? (
         <small className="p-error">{error.message?.toString()}</small>
       ) : null}
-    </>
+      {helperText ? (
+        <small className="tw-text-gray-500">{helperText}</small>
+      ) : null}
+    </div>
   );
 }
