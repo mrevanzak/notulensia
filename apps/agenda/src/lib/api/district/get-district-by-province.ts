@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const getDistrictByProvinceKey = "getDistrict";
 
-export const useGetDistrict = (province?: string) => {
+export const useGetDistrict = (province?: string | null) => {
   return useQuery({
     queryKey: [getDistrictByProvinceKey, province],
     queryFn: async () => {

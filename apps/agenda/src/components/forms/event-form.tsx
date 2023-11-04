@@ -5,7 +5,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
 import type { EventFormValues } from "@/lib/validations/event";
-import { insertEventFormSchema } from "@/lib/validations/event";
+import { eventFormSchema } from "@/lib/validations/event";
 import TextArea from "@/components/ui/textarea";
 import { Button } from "primereact/button";
 import Checkbox from "@/components/ui/checkbox";
@@ -27,6 +27,7 @@ import { useGetEventDetail } from "@/lib/api/event/get-event-detail";
 import { useUpdateEvent } from "@/lib/api/event/update-event";
 import { useParams } from "next/navigation";
 import moment from "moment";
+import Link from "next/link";
 
 type EventFormProps = {
   edit?: boolean;
@@ -34,45 +35,17 @@ type EventFormProps = {
 
 export default function EventForm({ edit }: EventFormProps): ReactElement {
   const { id } = useParams();
-  const { data } = useGetEventDetail(id as string);
+  const { data: values } = useGetEventDetail(id as string);
 
   const [showDialog, setShowDialog] = useState(false);
 
   const insertEvent = useInsertEvent();
   const updateEvent = useUpdateEvent();
   const methods = useForm<EventFormValues>({
-    resolver: zodResolver(insertEventFormSchema),
-    defaultValues: {
-      isOnline: false,
-    },
-    values: {
-      eventCategoryName: data?.eventCategoryName ?? "",
-      name: data?.name ?? "",
-      topic: data?.topic ?? "",
-      purpose: data?.purpose ?? "",
-      preparationNotes: data?.preparationNotes ?? "",
-      startAt: new Date(data?.startAt ?? ""),
-      endAt: new Date(data?.endAt ?? ""),
-      isOnline: data?.isOnline ?? false,
-      linkUrl: data?.linkUrl ?? "",
-      province: data?.province
-        ? {
-            id: "a5f64696-1d73-4ee0-a882-c3f5cef80a67",
-            province: data.province,
-            code: data.provinceCode ?? 0,
-          }
-        : undefined,
-      district: data?.district
-        ? {
-            id: "a5f64696-1d73-4ee0-a882-c3f5cef80a67",
-            district: data.district,
-            code: data.districtCode ?? 0,
-            province: data.province ?? "",
-          }
-        : undefined,
-      address: data?.address ?? "",
-      locationValue: data?.locationValue ?? "",
-      audienceNames: data?.audiences?.map((audience) => audience.audienceName),
+    resolver: zodResolver(eventFormSchema),
+    values,
+    resetOptions: {
+      keepDirtyValues: true,
     },
   });
   const { handleSubmit, watch, resetField } = methods;
@@ -88,27 +61,11 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
       ? updateEvent.mutate({
           ...data,
           id: id as string,
-          eventCategoryName:
-            typeof data.eventCategoryName === "string"
-              ? data.eventCategoryName
-              : data.eventCategoryName?.eventCategoryName,
-          province: data.province?.province,
-          provinceCode: data.province?.code,
-          district: data.district?.district,
-          districtCode: data.district?.code,
           schedules: scheduleProgram,
           status: "ACTIVE",
         })
       : insertEvent.mutate({
           ...data,
-          eventCategoryName:
-            typeof data.eventCategoryName === "string"
-              ? data.eventCategoryName
-              : data.eventCategoryName?.eventCategoryName,
-          province: data.province?.province,
-          provinceCode: data.province?.code,
-          district: data.district?.district,
-          districtCode: data.district?.code,
           schedules: scheduleProgram,
           status: "ACTIVE",
         });
@@ -116,7 +73,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
 
   const eventCategory = useGetEventCategoryDropdown();
   const province = useGetProvince();
-  const district = useGetDistrict(watch("province")?.province);
+  const district = useGetDistrict(watch("province"));
 
   const scheduleProgram = useScheduleProgramStore(
     (state) => state.scheduleProgram,
@@ -131,10 +88,10 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
 
   useEffect(() => {
     reset();
-    if (data?.schedules) {
-      setScheduleProgram(data.schedules);
+    if (values?.schedules) {
+      setScheduleProgram(values.schedules);
     }
-  }, [data]);
+  }, [values]);
 
   const dateBodyTemplate = (rowData: ScheduleProgram) =>
     moment(rowData.date).format("DD-MM-YYYY");
@@ -293,7 +250,9 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
               outlined
               type="submit"
             />
-            <Button label="Cancel" />
+            <Link href="/events">
+              <Button label="Cancel" type="button" />
+            </Link>
           </div>
         </div>
       </form>
