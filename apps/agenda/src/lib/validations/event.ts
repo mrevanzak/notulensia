@@ -1,4 +1,3 @@
-import moment from "moment";
 import { z } from "zod";
 import { districtSchema } from "./district";
 import { eventCategoryDropdownSchema } from "./event-category";
@@ -32,20 +31,8 @@ export const eventFormSchema = z.object({
   topic: z.string(),
   purpose: z.string(),
   preparationNotes: z.string(),
-  startAt: z
-    .date()
-    .or(
-      z.coerce
-        .date()
-        .transform((value) => moment(value).format("YYYY-MM-DD HH:mm:ss")),
-    ),
-  endAt: z
-    .date()
-    .or(
-      z.coerce
-        .date()
-        .transform((value) => moment(value).format("YYYY-MM-DD HH:mm:ss")),
-    ),
+  startAt: z.string().datetime().or(z.date()),
+  endAt: z.string().datetime().or(z.date()),
   isOnline: z.boolean(),
   linkUrl: z.string().url().optional().nullable(),
   locationValue: z.string(),

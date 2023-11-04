@@ -26,6 +26,7 @@ import { FileUpload } from "primereact/fileupload";
 import { useGetEventDetail } from "@/lib/api/event/get-event-detail";
 import { useUpdateEvent } from "@/lib/api/event/update-event";
 import { useParams } from "next/navigation";
+import moment from "moment";
 
 type EventFormProps = {
   edit?: boolean;
@@ -55,11 +56,15 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
       isOnline: data?.isOnline ?? false,
       linkUrl: data?.linkUrl ?? "",
       province: data?.province
-        ? { id: "", province: data.province, code: data.provinceCode ?? 0 }
+        ? {
+            id: "a5f64696-1d73-4ee0-a882-c3f5cef80a67",
+            province: data.province,
+            code: data.provinceCode ?? 0,
+          }
         : undefined,
       district: data?.district
         ? {
-            id: "",
+            id: "a5f64696-1d73-4ee0-a882-c3f5cef80a67",
             district: data.district,
             code: data.districtCode ?? 0,
             province: data.province ?? "",
@@ -131,15 +136,8 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
     }
   }, [data]);
 
-  const columns = [
-    { field: "date", header: "Date" },
-    { field: "activity", header: "Activity" },
-    { field: "startTime", header: "Start Time" },
-    { field: "endTime", header: "End Time" },
-    { field: "picName", header: "PIC Name" },
-    { field: "note", header: "Note" },
-    { field: "action", header: "Action" },
-  ];
+  const dateBodyTemplate = (rowData: ScheduleProgram) =>
+    moment(rowData.date).format("DD-MM-YYYY");
 
   const actionBodyTemplate = (rowData: ScheduleProgram) => {
     return (
@@ -150,6 +148,16 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
         }}
         severity="danger"
       />
+    );
+  };
+
+  const durationBodyTemplate = (rowData: ScheduleProgram) => {
+    const startTime = moment(rowData.startTime).format("HH:mm");
+    const endTime = moment(rowData.endTime).format("HH:mm");
+    return (
+      <span>
+        {startTime} - {endTime}
+      </span>
     );
   };
 
@@ -239,15 +247,21 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
             emptyMessage="Please add schedule program"
             value={scheduleProgram}
           >
-            {columns.map((col) => (
-              <Column
-                body={col.field === "action" && actionBodyTemplate}
-                field={col.field}
-                header={col.header}
-                key={col.field}
-              />
-            ))}
-            <Column rowEditor />
+            <Column
+              body={dateBodyTemplate}
+              field="date"
+              header="Date"
+              style={{ width: "15%" }}
+            />
+            <Column field="activity" header="Activity" />
+            <Column
+              body={durationBodyTemplate}
+              header="Duration"
+              style={{ width: "15%" }}
+            />
+            <Column field="picName" header="PIC Name" />
+            <Column field="note" header="Note" />
+            <Column body={actionBodyTemplate} header="Action" />
           </DataTable>
         </div>
         <Chips

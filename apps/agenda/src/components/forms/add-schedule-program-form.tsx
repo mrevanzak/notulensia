@@ -32,6 +32,7 @@ export default function AddScheduleProgramForm({
       <form
         className="tw-space-y-8 "
         onSubmit={(event) => {
+          event.stopPropagation();
           event.preventDefault();
           void onSubmit();
         }}
