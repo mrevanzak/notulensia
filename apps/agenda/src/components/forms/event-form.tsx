@@ -10,6 +10,7 @@ import TextArea from "@/components/ui/textarea";
 import { Button } from "primereact/button";
 import Checkbox from "@/components/ui/checkbox";
 import CalendarInput from "@/components/ui/calendar-input";
+import type { EventStatus } from "@/lib/api/event/insert-event";
 import { useInsertEvent } from "@/lib/api/event/insert-event";
 import Dropdown from "../ui/dropdown";
 import { useGetProvince } from "@/lib/api/province/get-province";
@@ -38,6 +39,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
   const { data: values } = useGetEventDetail(id as string);
 
   const [showDialog, setShowDialog] = useState(false);
+  const [eventState, setEventState] = useState<EventStatus>("ACTIVE");
 
   const insertEvent = useInsertEvent();
   const updateEvent = useUpdateEvent();
@@ -62,12 +64,12 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
           ...data,
           id: id as string,
           schedules: scheduleProgram,
-          status: "ACTIVE",
+          status: eventState,
         })
       : insertEvent.mutate({
           ...data,
           schedules: scheduleProgram,
-          status: "ACTIVE",
+          status: eventState,
         });
   });
 
@@ -240,7 +242,14 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
 
         <div className="tw-flex tw-justify-between">
           <div className="tw-flex tw-gap-4">
-            <Button label="Draft" outlined type="submit" />
+            <Button
+              label="Draft"
+              onClick={() => {
+                setEventState("DRAFT");
+              }}
+              outlined
+              type="submit"
+            />
             <Button label="Send Notif" />
           </div>
           <div className="tw-flex tw-gap-4">

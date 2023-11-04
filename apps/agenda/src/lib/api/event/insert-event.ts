@@ -7,8 +7,10 @@ import type { ScheduleProgram } from "@/lib/validations/schedule-program";
 
 export type InsertEventParams = EventFormValues & {
   schedules?: ScheduleProgram[];
-  status: "ACTIVE" | "INACTIVE" | "DRAFT";
+  status: EventStatus;
 };
+
+export type EventStatus = "ACTIVE" | "INACTIVE" | "DRAFT";
 
 export const useInsertEvent = () => {
   const queryClient = useQueryClient();
