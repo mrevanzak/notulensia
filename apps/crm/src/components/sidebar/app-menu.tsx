@@ -1,6 +1,13 @@
 import type { ReactElement } from "react";
 import type { MenuModel } from "@/types/types";
 import AppSubMenu from "./app-sub-menu";
+import { RxDashboard } from "react-icons/rx";
+import {
+  MdDataUsage,
+  MdDomain,
+  MdOutlineWorkspacePremium,
+} from "react-icons/md";
+import { LuBellDot } from "react-icons/lu";
 
 function AppMenu(): ReactElement {
   const model: MenuModel[] = [
@@ -8,24 +15,29 @@ function AppMenu(): ReactElement {
       label: "root",
       items: [
         {
-          label: "Home",
-          to: "/",
+          label: "Dashboard",
+          icon: <RxDashboard />,
+          to: "/dashboard",
         },
         {
-          label: "Events",
-          to: "/events",
+          label: "Company",
+          icon: <MdDomain />,
+          to: "/company",
         },
         {
-          label: "Calendar",
-          to: "/calendar",
+          label: "Master Data",
+          icon: <MdDataUsage />,
+          to: "/master-data",
         },
         {
-          label: "Settings",
-          to: "/settings",
+          label: "Features",
+          icon: <MdOutlineWorkspacePremium />,
+          to: "/features",
         },
         {
-          label: "Help",
-          to: "/help",
+          label: "Notifications",
+          icon: <LuBellDot />,
+          to: "/notifications",
         },
       ],
     },

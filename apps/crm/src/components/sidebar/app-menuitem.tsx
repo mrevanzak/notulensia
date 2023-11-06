@@ -5,7 +5,7 @@ import { classNames } from "primereact/utils";
 import type { ReactElement } from "react";
 import { useContext, useEffect, useRef } from "react";
 import { LayoutContext } from "../../context/layout-context";
-import { MenuContext } from "../../context/menu-context"
+import { MenuContext } from "../../context/menu-context";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useSubmenuOverlayPosition } from "@/hooks/use-submenu-overlay-position";
 import type { AppMenuItemProps } from "@/types/layout";
@@ -171,17 +171,15 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
       })}
       ref={menuitemRef}
     >
-      {/* {props.root && item?.visible !== false ? ( */}
-      {/*   <div className="layout-menuitem-root-text"> */}
-      {/*     <span>{item?.label}</span> */}
-      {/*     <i className="layout-menuitem-root-icon pi pi-fw pi-ellipsis-h" /> */}
-      {/*   </div> */}
-      {/* ) : null} */}
       {item?.to && !item?.items && item?.visible !== false ? (
         <Link
-          className={classNames(item?.class, "p-ripple tw-space-x-8 tw-text-xl px-8", {
-            "active-route": isActiveRoute,
-          })}
+          className={classNames(
+            item?.class,
+            "p-ripple tw-space-x-3 tw-text-2xl px-8",
+            {
+              "active-route": isActiveRoute,
+            },
+          )}
           href={item?.to}
           onClick={(e) => {
             itemClick(e);

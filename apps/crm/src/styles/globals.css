@@ -11,9 +11,8 @@
     background: white !important;
   }
 
-  .layout {
-    background: linear-gradient(180deg, #1e1d5d 0%, rgba(30, 29, 93, 0.9) 100%);
-    @apply tw-min-h-screen tw-w-full tw-absolute;
+  .pattern {
+    background-image: url("/svg/pattern.svg");
   }
 
   .layout::before {
@@ -88,3 +87,4 @@
   @tailwind components;
   @tailwind utilities;
 }
+

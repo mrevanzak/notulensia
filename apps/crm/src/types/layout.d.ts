@@ -8,10 +8,10 @@ import type {
   CSSProperties,
 } from "react";
 import type React from "react";
-import type {NextPage} from "next";
-import type {Toast} from "primereact/toast";
-import type {MenuModelItem} from "@/types/types";
-import type {Demo} from "./demo";
+import type { NextPage } from "next";
+import type { Toast } from "primereact/toast";
+import type { MenuModelItem } from "@/types/types";
+import type { Demo } from "./demo";
 
 /* Next & Layout Types */
 type Page<P = object> = NextPage<P> & {
@@ -85,7 +85,6 @@ export interface LayoutContextProps {
   setLayoutConfig: Dispatch<SetStateAction<LayoutConfig>>;
   layoutState: LayoutState;
   setLayoutState: Dispatch<SetStateAction<LayoutState>>;
-  onMenuProfileToggle: () => void;
   onMenuToggle: () => void;
   onTopbarMenuToggle: () => void;
   showRightSidebar: () => void;
@@ -202,7 +201,7 @@ export interface AppMenuItem extends MenuModel {
   visible?: boolean;
   disabled?: boolean;
   replaceUrl?: boolean;
-  command?: ({originalEvent, item}: CommandProps) => void;
+  command?: ({ originalEvent, item }: CommandProps) => void;
 }
 
 export interface AppMenuItemProps {
