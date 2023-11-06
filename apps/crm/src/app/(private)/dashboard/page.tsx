@@ -1,16 +1,17 @@
 import type { ReactElement } from "react";
 import React from "react";
 import { InputText } from "primereact/inputtext";
-import TimeManagement from "~/svg/time-management.svg";
+import { MdHomeWork, MdOutlineEventAvailable } from "react-icons/md";
+import { BsPeopleFill } from "react-icons/bs";
 import LineChart from "@/components/dashboard/line-chart";
-import Calendar from "@/components/dashboard/calendar";
-import { Button } from "primereact/button";
+import Image from "next/image";
 
 export default function Dashboard(): ReactElement {
   return (
     <div className="grid">
-      <div className="col-12 mb-4">
-        <span className="p-input-icon-right tw-w-1/4">
+      <div className="col-12 mb-2 tw-flex tw-flex-row tw-justify-between">
+        <h2>CRM</h2>
+        <span className="p-input-icon-right tw-w-1/2">
           <i className="pi pi-search" />
           <InputText
             placeholder="Search"
@@ -20,74 +21,89 @@ export default function Dashboard(): ReactElement {
           />
         </span>
       </div>
-      <div className="col-12">
-        <div className="card tw-flex tw-justify-between">
-          <div className="tw-space-y-4 tw-flex tw-flex-col tw-min-h-full tw-w-1/2 tw-min-w-max tw-p-6">
-            <p className="h0">Today Task</p>
-            <h4 className="font-light">Check your daily tasks and schedules</h4>
-            <Button className="mt-auto w-12rem tw-justify-center">
-              Today&apos;s schedule
-            </Button>
-          </div>
-          <TimeManagement className="tw-max-w-xs" />
+      <div className="col-4">
+        <div className="card tw-shadow">
+          <h3>Company Total</h3>
+          <p className="tw-text-[#334798] tw-font-bold tw-text-8xl tw-text-center">
+            15
+          </p>
+          <span className="tw-flex tw-justify-end">
+            <MdHomeWork color="#334798" size={48} />
+          </span>
         </div>
       </div>
-      <div className="tw-grid col-12 tw-grid-cols-5 tw-gap-4">
-        {/* {[...Array(3)].map((_, i) => ( */}
-        {/*   <div */}
-        {/*     className={classNames("card tw-space-y-2", i === 0 && "mb-0")} */}
-        {/*     key={Math.random()} */}
-        {/*   > */}
-        {/*     <div className="tw-flex tw-justify-between tw-items-center"> */}
-        {/*       <p className="tw-text-gray-300 tw-font-bold"> */}
-        {/*         {new Date().toLocaleDateString("en-US", { */}
-        {/*           month: "short", */}
-        {/*           day: "numeric", */}
-        {/*           year: "numeric", */}
-        {/*         })} */}
-        {/*       </p> */}
-        {/*       <BiDotsVerticalRounded className="tw-text-gray-300" /> */}
-        {/*     </div> */}
-        {/*     <div className="tw-px-2"> */}
-        {/*       <p className="tw-font-semibold">Title</p> */}
-        {/*       <p className="tw-font-light">Category</p> */}
-        {/*       <ProgressBar */}
-        {/*         className="!tw-h-2 tw-my-2" */}
-        {/*         showValue={false} */}
-        {/*         value={50} */}
-        {/*       /> */}
-        {/*       <div className="tw-flex tw-justify-between"> */}
-        {/*         <p className="tw-text-sm">Progress</p> */}
-        {/*         <p className="tw-text-sm">50%</p> */}
-        {/*       </div> */}
-        {/*     </div> */}
-        {/*     <div className="tw-flex tw-flex-col tw-justify-between tw-items-center tw-border-t"> */}
-        {/*       <div className="tw-flex tw-justify-between tw-items-center tw-w-full tw-p-2"> */}
-        {/*         <div className="tw-flex tw-items-center"> */}
-        {/*           <AvatarGroup> */}
-        {/*             <Avatar */}
-        {/*               image="/layout/images/avatar/avatar.png" */}
-        {/*               shape="circle" */}
-        {/*               size="normal" */}
-        {/*             /> */}
-        {/*             <Avatar */}
-        {/*               image="/layout/images/avatar/avatar1.png" */}
-        {/*               shape="circle" */}
-        {/*               size="normal" */}
-        {/*             /> */}
-        {/*           </AvatarGroup> */}
-        {/*         </div> */}
-        {/*         <Chip label="25 days left" /> */}
-        {/*       </div> */}
-        {/*     </div> */}
-        {/*   </div> */}
-        {/* ))} */}
-        <div className="card tw-col-span-3 tw-row-span-2 !tw-p-8 tw-space-y-4 tw-flex tw-flex-col mb-0">
-          <h4>Tasks Completed</h4>
+      <div className="col-4">
+        <div className="card tw-shadow">
+          <h3>Customer Total Active</h3>
+          <p className="tw-text-[#334798] tw-font-bold tw-text-8xl tw-text-center">
+            25
+          </p>
+          <span className="tw-flex tw-justify-end">
+            <BsPeopleFill color="#334798" size={48} />
+          </span>
+        </div>
+      </div>
+      <div className="col-4">
+        <div className="card tw-shadow">
+          <h3>All Event</h3>
+          <p className="tw-text-[#334798] tw-font-bold tw-text-8xl tw-text-center">
+            30
+          </p>
+          <span className="tw-flex tw-justify-end">
+            <MdOutlineEventAvailable color="#334798" size={48} />
+          </span>
+        </div>
+      </div>
+      <div className="col-8">
+        <div className="card tw-shadow tw-h-96">
+          <h3>Statistik Penggunaan Aplikasi</h3>
           <LineChart />
         </div>
-        <div className="card tw-col-span-2 tw-row-span-2">
-          <Calendar />
+      </div>
+      <div className="col-4">
+        <div className="tw-relative card tw-shadow tw-h-96 tw-space-y-4 tw-flex tw-justify-center tw-flex-col">
+          <h4 className="tw-absolute tw-left-0 tw-top-0 tw-rounded-tl-lg tw-p-1 tw-bg-[#334798] tw-text-white">
+            Customer Near Expired
+          </h4>
+          <div className="tw-flex tw-flex-row tw-space-x-4 tw-w-full">
+            <Image
+              alt="avatar"
+              className="tw-rounded-full"
+              height={56}
+              src="/layout/images/avatar/amyelsner.png"
+              width={56}
+            />
+            <span>
+              <h3>Fia</h3>
+              <p className="tw-text-xs">22 December 2023</p>
+            </span>
+          </div>
+          <div className="tw-flex tw-flex-row tw-space-x-4">
+            <Image
+              alt="avatar"
+              className="tw-rounded-full"
+              height={56}
+              src="/layout/images/avatar/amyelsner.png"
+              width={56}
+            />
+            <span>
+              <h3>Alifia</h3>
+              <p className="tw-text-xs">22 December 2023</p>
+            </span>
+          </div>
+          <div className="tw-flex tw-flex-row tw-space-x-4">
+            <Image
+              alt="avatar"
+              className="tw-rounded-full"
+              height={56}
+              src="/layout/images/avatar/amyelsner.png"
+              width={56}
+            />
+            <span>
+              <h3>Khairunnisa</h3>
+              <p className="tw-text-xs">22 December 2023</p>
+            </span>
+          </div>
         </div>
       </div>
     </div>

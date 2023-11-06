@@ -190,21 +190,19 @@ function Layout(props: ChildContainerProps): ReactElement {
   );
 
   return (
-    <div className="layout">
-      <div className={classNames("layout-container", containerClassName)}>
-        <div
-          className="layout-sidebar w-23rem h-full top-0 border-none"
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          ref={sidebarRef}
-        >
-          <AppSidebar />
-        </div>
-        <div className="layout-content-wrapper pt-0">
-          <div className="layout-content w-full">{props.children}</div>
-        </div>
-        <div className="layout-mask" />
+    <div className={classNames("layout-container", containerClassName)}>
+      <div
+        className="layout-sidebar w-23rem h-full top-0 border-none"
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        ref={sidebarRef}
+      >
+        <AppSidebar />
       </div>
+      <div className="layout-content-wrapper pt-0">
+        <div className="layout-content w-full">{props.children}</div>
+      </div>
+      <div className="layout-mask" />
     </div>
   );
 }

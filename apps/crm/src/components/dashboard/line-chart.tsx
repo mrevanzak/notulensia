@@ -33,11 +33,11 @@ export default function LineChart(): ReactElement {
             0,
             chartArea.top,
           );
-          gradient.addColorStop(0, "#F1EDFF00");
-          gradient.addColorStop(1, "#F3F0FF");
+          gradient.addColorStop(1, "rgba(65, 105, 225, 0.12)");
+          gradient.addColorStop(0, "rgba(65, 105, 225, 0.01)");
           return gradient;
         },
-        borderColor: "#9854CB",
+        borderColor: "#4169E1",
         tension: 0.4,
       },
     ],
@@ -57,12 +57,12 @@ export default function LineChart(): ReactElement {
           display: false,
         },
         border: {
-          display: true,
+          display: false,
         },
       },
       y: {
         grid: {
-          display: false,
+          display: true,
         },
         border: {
           display: true,
@@ -73,7 +73,7 @@ export default function LineChart(): ReactElement {
 
   return (
     <Chart
-      className="tw-w-full tw-flex-1"
+      className="tw-h-[90%] tw-flex-1"
       data={lineData}
       options={lineOptions}
       type="line"
