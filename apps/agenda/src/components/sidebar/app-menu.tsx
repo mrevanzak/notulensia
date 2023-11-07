@@ -23,6 +23,11 @@ function AppMenu(): ReactElement {
           to: "/events",
         },
         {
+          label: "Audience Group",
+          icon: <MdGroups color="#4343BF" size={40} />,
+          to: "/audience-group",
+        },
+        {
           label: "Calendar",
           icon: <RxCalendar color="#4343BF" size={40} />,
           to: "/calendar",
@@ -31,11 +36,6 @@ function AppMenu(): ReactElement {
           label: "Settings",
           icon: <MdOutlineSettings color="#4343BF" size={40} />,
           to: "/settings",
-        },
-        {
-          label: "Audience Group",
-          icon: <MdGroups color="#4343BF" size={40} />,
-          to: "/audience-group",
         },
         {
           label: "Help",
