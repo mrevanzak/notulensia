@@ -2,10 +2,8 @@ import { useAuthStore } from "@/stores/use-auth-store";
 import axios from "axios";
 import { ApiError } from "@/lib/error";
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 export const httpClient = axios.create({
-  baseURL: API_URL,
+  baseURL: "https://agenda.saranaintegrasi.co.id/api/v1/crm",
   headers: {
     "Content-Type": "application/json",
   },
