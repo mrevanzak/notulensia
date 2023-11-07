@@ -14,7 +14,7 @@ export const useInsertAudience = () => {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [getAudienceKey] });
-      router.push("/audience");
+      router.push("/audience-group");
     },
   });
 };

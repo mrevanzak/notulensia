@@ -5,7 +5,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
 import { Button } from "primereact/button";
+import type { DataTableRowEditCompleteEvent } from "primereact/datatable";
 import { DataTable } from "primereact/datatable";
+import type { ColumnEditorOptions, ColumnEvent } from "primereact/column";
 import { Column } from "primereact/column";
 import { Dialog } from "primereact/dialog";
 import { useParams } from "next/navigation";
@@ -18,6 +20,7 @@ import { useGetAudienceDetail } from "@/lib/api/audience/get-audience-detail";
 import { useInsertAudience } from "@/lib/api/audience/insert-audience";
 import { useUpdateAudience } from "@/lib/api/audience/update-audience";
 import AddAudienceForm from "./add-audience-form";
+import { InputText } from "primereact/inputtext";
 
 type AudienceGroupFormProps = {
   edit?: boolean;
@@ -56,10 +59,25 @@ export default function AudienceGroupForm({
 
   const audience = useAudienceStore((state) => state.audience);
   const reset = useAudienceStore((state) => state.reset);
-  const setAudience = useAudienceStore((state) => {
-    return state.set;
-  });
+  const setAudience = useAudienceStore((state) => state.set);
   const removeAudience = useAudienceStore((state) => state.remove);
+
+  const onCellEditComplete = (e: ColumnEvent) => {
+    const { rowData, newValue, field, originalEvent: event } = e;
+    rowData[field] = newValue;
+    event.preventDefault();
+  };
+  const textEditor = (options: ColumnEditorOptions) => {
+    return (
+      <InputText
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          options.editorCallback && options.editorCallback(e.target.value);
+        }}
+        type="text"
+        value={options.value}
+      />
+    );
+  };
 
   useEffect(() => {
     reset();
@@ -123,12 +141,44 @@ export default function AudienceGroupForm({
               <Button outlined>Import</Button>
             </div>
           </div>
-          <DataTable emptyMessage="Please add audience" value={audience}>
-            <Column field="name" header="Name" />
-            <Column field="job" header="Job" />
-            <Column field="phoneNumber" header="Phone Number" />
-            <Column field="email" header="Email" />
-            <Column body={actionBodyTemplate} header="Action" />
+          <DataTable
+            editMode="cell"
+            emptyMessage="Please add audience"
+            value={audience}
+          >
+            <Column
+              editor={(options) => textEditor(options)}
+              field="name"
+              header="Name"
+              headerStyle={{ width: "25%" }}
+              onCellEditComplete={onCellEditComplete}
+            />
+            <Column
+              editor={(options) => textEditor(options)}
+              field="job"
+              header="Job"
+              headerStyle={{ width: "25%" }}
+              onCellEditComplete={onCellEditComplete}
+            />
+            <Column
+              editor={(options) => textEditor(options)}
+              field="phoneNumber"
+              header="Phone Number"
+              headerStyle={{ width: "25%" }}
+              onCellEditComplete={onCellEditComplete}
+            />
+            <Column
+              editor={(options) => textEditor(options)}
+              field="email"
+              header="Email"
+              headerStyle={{ width: "25%" }}
+              onCellEditComplete={onCellEditComplete}
+            />
+            <Column
+              body={actionBodyTemplate}
+              header="Action"
+              headerStyle={{ width: "2rem" }}
+            />
           </DataTable>
         </div>
         <div className="tw-flex tw-gap-4 tw-justify-end">

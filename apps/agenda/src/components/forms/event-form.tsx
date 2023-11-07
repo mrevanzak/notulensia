@@ -81,9 +81,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
     (state) => state.scheduleProgram,
   );
   const reset = useScheduleProgramStore((state) => state.reset);
-  const setScheduleProgram = useScheduleProgramStore((state) => {
-    return state.set;
-  });
+  const setScheduleProgram = useScheduleProgramStore((state) => state.set);
   const removeScheduleProgram = useScheduleProgramStore(
     (state) => state.remove,
   );
