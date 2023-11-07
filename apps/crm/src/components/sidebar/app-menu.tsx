@@ -23,11 +23,35 @@ function AppMenu(): ReactElement {
           label: "Company",
           icon: <MdDomain />,
           to: "/company",
+          items: [
+            {
+              label: "Company List",
+              to: "/company/company-list",
+              className: "!tw-pl-36",
+            },
+            {
+              label: "Customer List",
+              to: "/company/costumer-list",
+              className: "!tw-pl-36",
+            },
+          ],
         },
         {
           label: "Master Data",
           icon: <MdDataUsage />,
           to: "/master-data",
+          items: [
+            {
+              label: "Province List",
+              to: "/master-data/province",
+              className: "!tw-pl-36",
+            },
+            {
+              label: "District List",
+              to: "/master-data/district-list",
+              className: "!tw-pl-36",
+            },
+          ],
         },
         {
           label: "Features",
