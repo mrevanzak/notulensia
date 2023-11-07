@@ -1,0 +1,55 @@
+@layer tailwind-base, primereact, tailwind-utilities;
+
+@layer tailwind-base {
+  @tailwind base;
+
+  html {
+    font-size: 16px !important;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  .pattern {
+    background-image: url("/svg/pattern.svg");
+  }
+
+  /* #region  /**=========== Typography =========== */
+  .h0 {
+    @apply tw-text-black tw-text-3xl tw-font-bold md:tw-text-5xl;
+  }
+
+  h1,
+  .h1 {
+    @apply tw-text-black tw-text-2xl tw-font-bold md:tw-text-4xl;
+  }
+
+  h2,
+  .h2 {
+    @apply tw-text-black tw-text-xl tw-font-bold md:tw-text-3xl;
+  }
+
+  h3,
+  .h3 {
+    @apply tw-text-black tw-text-lg tw-font-bold md:tw-text-2xl;
+  }
+
+  h4,
+  .h4 {
+    @apply tw-text-black tw-text-base tw-font-bold md:tw-text-lg;
+  }
+
+  body,
+  p,
+  .p {
+    @apply tw-text-black tw-text-sm md:tw-text-base;
+  }
+
+  /* #endregion  /**======== Typography =========== */
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
