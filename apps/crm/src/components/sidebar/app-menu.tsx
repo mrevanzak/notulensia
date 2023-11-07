@@ -43,7 +43,7 @@ function AppMenu(): ReactElement {
           items: [
             {
               label: "Province List",
-              to: "/master-data/province",
+              to: "/master-data/province-list",
               className: "!tw-pl-36",
             },
             {
