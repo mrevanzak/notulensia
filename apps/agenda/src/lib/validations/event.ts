@@ -13,52 +13,71 @@ export const eventSchema = z.object({
     .string()
     .datetime({ offset: true })
     .transform((value) =>
-      new Date(value).toLocaleString("id-ID", { timeZone: "Asia/Jakarta" }),
+      new Date(value).toLocaleString("id-ID", {
+        timeZone: "Asia/Jakarta",
+      }),
     ),
   endAt: z
     .string()
     .datetime({ offset: true })
     .transform((value) =>
-      new Date(value).toLocaleString("id-ID", { timeZone: "Asia/Jakarta" }),
+      new Date(value).toLocaleString("id-ID", {
+        timeZone: "Asia/Jakarta",
+      }),
     ),
 });
 
 export type Event = z.infer<typeof eventSchema>;
 
 export const eventFormSchema = z.object({
-  eventCategoryName: z.string().or(eventCategoryDropdownSchema),
+  eventCategoryName: eventCategoryDropdownSchema
+    .transform((value) => value.eventCategoryName)
+    .pipe(z.string())
+    .or(z.string()),
   name: z.string(),
   topic: z.string(),
   purpose: z.string(),
   preparationNotes: z.string(),
-  startAt: z.string().datetime().or(z.date()),
-  endAt: z.string().datetime().or(z.date()),
-  isOnline: z.boolean(),
+  startAt: z
+    .string()
+    .datetime()
+    .transform((value) => new Date(value))
+    .or(z.date()),
+  endAt: z
+    .string()
+    .datetime()
+    .transform((value) => new Date(value))
+    .or(z.date()),
+  isOnline: z.boolean().default(false),
   linkUrl: z.string().url().optional().nullable(),
   locationValue: z.string(),
-  address: z.string(),
+  address: z.string().nullish(),
   schedules: scheduleProgramSchema.array().optional(),
-});
-
-export const insertEventFormSchema = eventFormSchema.extend({
-  province: provinceSchema.optional().nullable(),
-  district: districtSchema.optional().nullable(),
+  province: provinceSchema
+    .transform((value) => value.province)
+    .or(z.string())
+    .nullish(),
+  district: districtSchema
+    .transform((value) => value.district)
+    .or(z.string())
+    .nullish(),
   audienceNames: z.string().array().optional(),
 });
 
-export const updateEventFormSchema = eventFormSchema.extend({
-  province: z.string().optional().nullable(),
-  provinceCode: z.number().optional().nullable(),
-  district: z.string().optional().nullable(),
-  districtCode: z.number().optional().nullable(),
-  audiences: z
-    .object({
-      audienceId: z.string(),
-      audienceName: z.string(),
-    })
-    .array()
-    .optional()
-    .nullable(),
-});
+export const updateEventFormSchema = eventFormSchema
+  .extend({
+    audiences: z
+      .object({
+        audienceId: z.string(),
+        audienceName: z.string(),
+      })
+      .array()
+      .optional()
+      .nullable(),
+  })
+  .transform((value) => ({
+    ...value,
+    audienceNames: value.audiences?.map((audience) => audience.audienceName),
+  }));
 
-export type EventFormValues = z.infer<typeof insertEventFormSchema>;
+export type EventFormValues = z.infer<typeof eventFormSchema>;
