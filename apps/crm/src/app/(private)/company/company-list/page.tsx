@@ -60,20 +60,19 @@ export default function CompanyListPage(): ReactElement {
   ];
 
   // const actionBodyTemplate = (rowData: Event) => {
-  //   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  //   // const confirm = () => {
-  //   //   confirmDialog({
-  //   //     resizable: false,
-  //   //     contentClassName: "border-noround-top",
-  //   //     message: "Do you want to delete this record?",
-  //   //     header: "Delete Confirmation",
-  //   //     icon: "pi pi-info-circle",
-  //   //     acceptClassName: "p-button-danger",
-  //   // accept: () => {
-  //   //   deleteEvent.mutate(rowData.id);
-  //   // },
-  //   //   });
-  //   // };
+  // const confirm = () => {
+  //   confirmDialog({
+  //     resizable: false,
+  //     contentClassName: "border-noround-top",
+  //     message: "Do you want to delete this record?",
+  //     header: "Delete Confirmation",
+  //     icon: "pi pi-info-circle",
+  //     acceptClassName: "p-button-danger",
+  // accept: () => {
+  //   deleteEvent.mutate(rowData.id);
+  // },
+  //   });
+  // };
   //   return (
   //     <div className="tw-flex tw-space-x-2">
   //       <Link href="/company/company-list/12321412421">
@@ -81,7 +80,7 @@ export default function CompanyListPage(): ReactElement {
   //       </Link>
   //       <Button
   //         icon="pi pi-trash"
-  //         // onClick={confirm}
+  // onClick={confirm}
   //         severity="danger"
   //       />
   //     </div>
