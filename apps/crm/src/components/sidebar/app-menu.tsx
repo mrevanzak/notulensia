@@ -28,6 +28,18 @@ function AppMenu(): ReactElement {
           label: "Master Data",
           icon: <MdDataUsage />,
           to: "/master-data",
+          items: [
+            {
+              label: "Province List",
+              to: "/master-data/province-list",
+              className: "!tw-pl-36",
+            },
+            {
+              label: "District List",
+              to: "/master-data/district-list",
+              className: "!tw-pl-36",
+            },
+          ],
         },
         {
           label: "Features",
