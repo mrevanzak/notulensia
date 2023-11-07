@@ -8,14 +8,9 @@ import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Dialog } from "primereact/dialog";
-import AddScheduleProgramForm from "./add-schedule-program-form";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import type {
-  Audience,
-  AudienceFormValues,
-  AudienceGroup,
-} from "@/lib/validations/audience";
+import type { Audience, AudienceFormValues } from "@/lib/validations/audience";
 import { audienceGroupFormSchema } from "@/lib/validations/audience";
 import TextArea from "../ui/textarea";
 import { useAudienceStore } from "@/stores/use-audience-store";
@@ -45,11 +40,7 @@ export default function AudienceGroupForm({
       keepDirtyValues: true,
     },
   });
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = methods;
-  console.log(errors);
+  const { handleSubmit } = methods;
   const onSubmit = handleSubmit((data) => {
     edit
       ? updateAudience.mutate({
@@ -119,15 +110,18 @@ export default function AudienceGroupForm({
           </Dialog>
           <div className="tw-flex tw-justify-between tw-items-center">
             <h4>List Audience</h4>
-            <Button
-              icon="pi pi-plus"
-              iconPos="right"
-              label="Add"
-              onClick={() => {
-                setShowDialog(true);
-              }}
-              type="button"
-            />
+            <div className="tw-space-x-4">
+              <Button
+                icon="pi pi-plus"
+                iconPos="right"
+                label="Add"
+                onClick={() => {
+                  setShowDialog(true);
+                }}
+                type="button"
+              />
+              <Button outlined>Import</Button>
+            </div>
           </div>
           <DataTable emptyMessage="Please add audience" value={audience}>
             <Column field="name" header="Name" />

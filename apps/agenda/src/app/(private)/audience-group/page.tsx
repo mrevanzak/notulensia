@@ -57,7 +57,6 @@ export default function AudienceGroupPage(): ReactElement {
                   Add
                 </Button>
               </Link>
-              <Button className="border-round-sm">Import</Button>
             </div>
             <span className="p-input-icon-right tw-w-1/4">
               <i className="pi pi-search" />
