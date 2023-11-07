@@ -146,7 +146,9 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
   const subMenu =
     item?.items && item?.visible !== false ? (
       <ul
-        className={classNames({ "layout-root-submenulist": props.root })}
+        className={classNames("border-noround", {
+          "layout-root-submenulist": props.root,
+        })}
         ref={submenuRef}
       >
         {item?.items.map((child, i) => {
@@ -171,10 +173,42 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
       })}
       ref={menuitemRef}
     >
+      {(!item?.to || item?.items) &&
+      item?.visible !== false &&
+      item?.label !== "root" ? (
+        <a
+          className={classNames(
+            item?.className,
+            "p-ripple tw-space-x-3 tw-text-2xl px-8",
+            {
+              "active-route": isActiveRoute,
+            },
+          )}
+          data-pr-disabled={
+            !(isSlim() && props.root && !layoutState.menuHoverActive)
+          }
+          data-pr-tooltip={item?.label}
+          href={item?.url}
+          onClick={(e) => {
+            itemClick(e);
+          }}
+          onMouseEnter={onMouseEnter}
+          tabIndex={0}
+          target={item?.target}
+        >
+          {item?.icon}
+          <span className="layout-menuitem-text">{item?.label}</span>
+          {item?.items ? (
+            <i className="pi pi-fw pi-angle-down layout-submenu-toggler" />
+          ) : null}
+          <Ripple />
+        </a>
+      ) : null}
+
       {item?.to && !item?.items && item?.visible !== false ? (
         <Link
           className={classNames(
-            item?.class,
+            item?.className,
             "p-ripple tw-space-x-3 tw-text-2xl px-8",
             {
               "active-route": isActiveRoute,
