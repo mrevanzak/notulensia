@@ -4,7 +4,7 @@ import AppSubMenu from "./app-sub-menu";
 
 import { TbHomeDot, TbListDetails } from "react-icons/tb";
 import { RxCalendar } from "react-icons/rx";
-import { MdOutlineSettings } from "react-icons/md";
+import { MdGroups, MdOutlineSettings } from "react-icons/md";
 import { LuBadgeHelp } from "react-icons/lu";
 
 function AppMenu(): ReactElement {
@@ -31,6 +31,11 @@ function AppMenu(): ReactElement {
           label: "Settings",
           icon: <MdOutlineSettings color="#4343BF" size={40} />,
           to: "/settings",
+        },
+        {
+          label: "Audience Group",
+          icon: <MdGroups color="#4343BF" size={40} />,
+          to: "/audience-group",
         },
         {
           label: "Help",
