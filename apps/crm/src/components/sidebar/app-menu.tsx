@@ -23,6 +23,18 @@ function AppMenu(): ReactElement {
           label: "Company",
           icon: <MdDomain />,
           to: "/company",
+          items: [
+            {
+              label: "Company List",
+              to: "/company/company-list",
+              className: "!tw-pl-36",
+            },
+            {
+              label: "Customer List",
+              to: "/company/costumer-list",
+              className: "!tw-pl-36",
+            },
+          ],
         },
         {
           label: "Master Data",
