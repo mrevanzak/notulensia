@@ -104,7 +104,7 @@ export default function CompanyListPage(): ReactElement {
       </div>
       <div className="col-12 tw-flex tw-flex-col tw-gap-10">
         <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
-          <p className="tw-text-lg">Company List</p>
+          <p className="tw-text-xl tw-font-semibold">Company List</p>
           <Link href="/company/company-list/add">
             <Button className="tw-bg-blue">
               Add
