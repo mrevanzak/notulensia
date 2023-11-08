@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import type { ReactElement } from "react";
 import { LayoutProvider } from "@/context/layout-context";
 import {
+  MutationCache,
   QueryCache,
   QueryClient,
   QueryClientProvider,
@@ -18,6 +19,7 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { toast, ToastContainer } from "react-toastify";
 import { ZodError } from "zod";
+import { ApiError } from "@/lib/error";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,10 +30,20 @@ const queryClient = new QueryClient({
   },
   queryCache: new QueryCache({
     onError: (error) => {
+      if (error instanceof ApiError) {
+        toast.error(error.stringify());
+      }
       if (error instanceof ZodError) {
         error.issues.map((issue) =>
           toast.error(`${issue.path.toString()}: ${issue.message}`),
         );
+      }
+    },
+  }),
+  mutationCache: new MutationCache({
+    onError: (error) => {
+      if (error instanceof ApiError) {
+        toast.error(error.stringify());
       }
     },
   }),

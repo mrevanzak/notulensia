@@ -18,6 +18,7 @@ import { useGetDistrict } from "@/lib/api/district/get-district-by-province";
 import { useGetEventCategoryDropdown } from "@/lib/api/event-category/get-event-category";
 import Chips from "../ui/chips";
 import { DataTable } from "primereact/datatable";
+import type { ColumnEditorOptions, ColumnEvent } from "primereact/column";
 import { Column } from "primereact/column";
 import { useScheduleProgramStore } from "@/stores/use-schedule-program-store";
 import { Dialog } from "primereact/dialog";
@@ -29,6 +30,8 @@ import { useUpdateEvent } from "@/lib/api/event/update-event";
 import { useParams } from "next/navigation";
 import moment from "moment";
 import Link from "next/link";
+import { InputText } from "primereact/inputtext";
+import { Calendar } from "primereact/calendar";
 
 type EventFormProps = {
   edit?: boolean;
@@ -81,12 +84,49 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
     (state) => state.scheduleProgram,
   );
   const reset = useScheduleProgramStore((state) => state.reset);
-  const setScheduleProgram = useScheduleProgramStore((state) => {
-    return state.set;
-  });
+  const setScheduleProgram = useScheduleProgramStore((state) => state.set);
   const removeScheduleProgram = useScheduleProgramStore(
     (state) => state.remove,
   );
+
+  const onCellEditComplete = (e: ColumnEvent) => {
+    const { rowData, newValue, field, originalEvent: event } = e;
+    rowData[field] = newValue;
+    event.preventDefault();
+  };
+  const dateEditor = (options: ColumnEditorOptions) => {
+    return (
+      <Calendar
+        dateFormat="dd-mm-yy"
+        onChange={(e) => {
+          options.editorCallback && options.editorCallback(e.target.value);
+        }}
+        value={options.value}
+      />
+    );
+  };
+  const timeEditor = (options: ColumnEditorOptions) => {
+    return (
+      <Calendar
+        onChange={(e) => {
+          options.editorCallback && options.editorCallback(e.target.value);
+        }}
+        timeOnly
+        value={options.value}
+      />
+    );
+  };
+  const textEditor = (options: ColumnEditorOptions) => {
+    return (
+      <InputText
+        onChange={(e) => {
+          options.editorCallback && options.editorCallback(e.target.value);
+        }}
+        type="text"
+        value={options.value}
+      />
+    );
+  };
 
   useEffect(() => {
     reset();
@@ -97,7 +137,6 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
 
   const dateBodyTemplate = (rowData: ScheduleProgram) =>
     moment(rowData.date).format("DD-MM-YYYY");
-
   const actionBodyTemplate = (rowData: ScheduleProgram) => {
     return (
       <Button
@@ -109,16 +148,10 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
       />
     );
   };
-
-  const durationBodyTemplate = (rowData: ScheduleProgram) => {
-    const startTime = moment(rowData.startTime).format("HH:mm");
-    const endTime = moment(rowData.endTime).format("HH:mm");
-    return (
-      <span>
-        {startTime} - {endTime}
-      </span>
-    );
-  };
+  const startTimeBodyTemplate = (rowData: ScheduleProgram) =>
+    moment(rowData.startTime).format("HH:mm");
+  const endTimeBodyTemplate = (rowData: ScheduleProgram) =>
+    moment(rowData.endTime).format("HH:mm");
 
   return (
     <FormProvider {...methods}>
@@ -203,24 +236,55 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
             />
           </div>
           <DataTable
+            editMode="cell"
             emptyMessage="Please add schedule program"
             value={scheduleProgram}
           >
             <Column
               body={dateBodyTemplate}
+              editor={(options) => dateEditor(options)}
               field="date"
               header="Date"
+              onCellEditComplete={onCellEditComplete}
               style={{ width: "15%" }}
             />
-            <Column field="activity" header="Activity" />
             <Column
-              body={durationBodyTemplate}
-              header="Duration"
-              style={{ width: "15%" }}
+              editor={(options) => textEditor(options)}
+              field="activity"
+              header="Activity"
+              onCellEditComplete={onCellEditComplete}
             />
-            <Column field="picName" header="PIC Name" />
-            <Column field="note" header="Note" />
-            <Column body={actionBodyTemplate} header="Action" />
+            <Column
+              body={startTimeBodyTemplate}
+              editor={(options) => timeEditor(options)}
+              field="startTime"
+              header="Start Time"
+              onCellEditComplete={onCellEditComplete}
+            />
+            <Column
+              body={endTimeBodyTemplate}
+              editor={(options) => timeEditor(options)}
+              field="endTime"
+              header="End Time"
+              onCellEditComplete={onCellEditComplete}
+            />
+            <Column
+              editor={(options) => textEditor(options)}
+              field="picName"
+              header="PIC Name"
+              onCellEditComplete={onCellEditComplete}
+            />
+            <Column
+              editor={(options) => textEditor(options)}
+              field="note"
+              header="Note"
+              onCellEditComplete={onCellEditComplete}
+            />
+            <Column
+              body={actionBodyTemplate}
+              header="Action"
+              headerStyle={{ width: "2rem" }}
+            />
           </DataTable>
         </div>
         <Chips

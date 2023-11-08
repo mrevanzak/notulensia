@@ -4,26 +4,25 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
 import { Button } from "primereact/button";
-import CalendarInput from "@/components/ui/calendar-input";
-import type { ScheduleProgram } from "@/lib/validations/schedule-program";
-import { scheduleProgramSchema } from "@/lib/validations/schedule-program";
-import { useScheduleProgramStore } from "@/stores/use-schedule-program-store";
+import type { Audience } from "@/lib/validations/audience";
+import { audienceFormSchema } from "@/lib/validations/audience";
+import { useAudienceStore } from "@/stores/use-audience-store";
 
-type AddScheduleProgramFormProps = {
+type AddAudienceFormProps = {
   setShowDialog: (value: boolean) => void;
 };
 
-export default function AddScheduleProgramForm({
+export default function AddAudienceForm({
   setShowDialog,
-}: AddScheduleProgramFormProps): ReactElement {
-  const addScheduleProgram = useScheduleProgramStore((state) => state.add);
+}: AddAudienceFormProps): ReactElement {
+  const addAudience = useAudienceStore((state) => state.add);
 
-  const methods = useForm<ScheduleProgram>({
-    resolver: zodResolver(scheduleProgramSchema),
+  const methods = useForm<Audience>({
+    resolver: zodResolver(audienceFormSchema),
   });
   const { handleSubmit } = methods;
   const onSubmit = handleSubmit((data) => {
-    addScheduleProgram(data);
+    addAudience(data);
     setShowDialog(false);
   });
 
@@ -37,24 +36,14 @@ export default function AddScheduleProgramForm({
           void onSubmit();
         }}
       >
-        <CalendarInput float icon id="date" label="Date" />
-        <Input float id="activity" label="Activity" />
-        <div className="tw-flex tw-gap-8">
-          <CalendarInput
-            float
-            icon
-            id="startTime"
-            label="Start Time"
-            timeOnly
-          />
-          <CalendarInput float icon id="endTime" label="End Time" timeOnly />
-        </div>
-        <Input float id="picName" label="PIC Name" />
-        <Input float id="note" label="Note" />
+        <Input float id="name" label="Name" />
+        <Input float id="job" label="Job" />
+        <Input float id="phoneNumber" label="Phone Number" />
+        <Input float id="email" label="Email" />
         <div className="tw-flex tw-justify-center tw-gap-4">
           <Button
             className="px-4 py-2 tw-flex-none tw-w-32 tw-self-center"
-            label="Add"
+            label="Submit"
             type="submit"
           />
           <Button
