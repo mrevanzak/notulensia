@@ -20,7 +20,7 @@ export const useUpdateAudience = () => {
       void queryClient.invalidateQueries({
         queryKey: [getAudienceDetailKey, variables.id],
       });
-      router.push("/audience");
+      router.push("/audience-group");
     },
   });
 };
