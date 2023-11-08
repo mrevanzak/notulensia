@@ -14,7 +14,7 @@ export default function CompanyListPage(): ReactElement {
     {
       action: (
         <div className="tw-flex tw-space-x-2">
-          <Link href="/company/company-list/12321412421">
+          <Link href="/company/company-list/edit/12321412421">
             <Button icon="pi pi-pencil" outlined />
           </Link>
           <Button
@@ -33,7 +33,7 @@ export default function CompanyListPage(): ReactElement {
     {
       action: (
         <div className="tw-flex tw-space-x-2">
-          <Link href="/company/company-list/12321412421">
+          <Link href="/company/company-list/edit/12321412421">
             <Button icon="pi pi-pencil" outlined />
           </Link>
           <Button
