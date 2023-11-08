@@ -36,7 +36,7 @@ function AppMenu(): ReactElement {
             },
             {
               label: "District List",
-              to: "/master-data/district-list",
+              to: "/master-data/district",
               className: "!tw-pl-36",
             },
           ],

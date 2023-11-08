@@ -5,27 +5,28 @@ import { FormProvider, useForm } from "react-hook-form";
 import Input from "../ui/input";
 import { Button } from "primereact/button";
 import { useParams, useRouter } from "next/navigation";
-import { useGetProvinceDetail } from "@/lib/api/province/get-province-detail";
-import { useUpdateProvince } from "@/lib/api/province/update-province";
-import type { ProvinceFormValues } from "@/lib/validations/province";
-import { provinceFormSchema } from "@/lib/validations/province";
-import { useInsertProvince } from "@/lib/api/province/insert-province";
+import { useGetDistrictDetail } from "@/lib/api/district/get-district-detail";
+import { useUpdateDistrict } from "@/lib/api/district/update-district";
+import type { DistrictFormValues } from "@/lib/validations/district";
+import { districtFormSchema } from "@/lib/validations/district";
+import { useInsertDistrict } from "@/lib/api/district/insert-district";
 
-type ProvinceFormProps = {
+type DistrictFormProps = {
   edit?: boolean;
 };
 
-export default function ProvinceForm({
+export default function DistrictForm({
   edit = false,
-}: ProvinceFormProps): ReactElement {
+}: DistrictFormProps): ReactElement {
   const router = useRouter();
   const { id } = useParams();
-  const { data: values } = useGetProvinceDetail(id as string);
 
-  const insertProvince = useInsertProvince();
-  const updateProvince = useUpdateProvince();
-  const methods = useForm<ProvinceFormValues>({
-    resolver: zodResolver(provinceFormSchema),
+  const { data: values } = useGetDistrictDetail(id as string);
+
+  const insertDistrict = useInsertDistrict();
+  const updateDistrict = useUpdateDistrict();
+  const methods = useForm<DistrictFormValues>({
+    resolver: zodResolver(districtFormSchema),
     values,
     resetOptions: {
       keepDirtyValues: true,
@@ -34,11 +35,11 @@ export default function ProvinceForm({
   const { handleSubmit } = methods;
   const onSubmit = handleSubmit((data) => {
     edit
-      ? updateProvince.mutate({
+      ? updateDistrict.mutate({
           ...data,
           id: id as string,
         })
-      : insertProvince.mutate(data);
+      : insertDistrict.mutate(data);
   });
 
   return (
@@ -50,14 +51,23 @@ export default function ProvinceForm({
           void onSubmit();
         }}
       >
+        {/* <Dropdown */}
+        {/*   filter */}
+        {/*   float */}
+        {/*   id="province" */}
+        {/*   label="Province" */}
+        {/*   loading={province.isLoading} */}
+        {/*   optionLabel="province" */}
+        {/*   options={province.data} */}
+        {/* /> */}
         <Input className="tw-w-1/2" id="code" keyfilter="int" label="Code" />
-        <Input className="tw-w-1/2" id="name" label="Province" />
+        <Input className="tw-w-1/2" id="name" label="District" />
 
         <div className="tw-flex tw-justify-end tw-gap-2 tw-w-full tw-ms-auto tw-mt-8">
           <Button
             className="tw-w-fit !tw-py-2 !tw-px-8"
             label="Submit"
-            loading={edit ? updateProvince.isPending : insertProvince.isPending}
+            loading={edit ? updateDistrict.isPending : insertDistrict.isPending}
             type="submit"
           />
           <Button
