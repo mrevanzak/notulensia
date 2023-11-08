@@ -55,60 +55,56 @@ export default function Events(): ReactElement {
   };
 
   return (
-    <div className="grid">
-      <div className="col-12">
-        <div className="card bg-purple-50 tw-space-y-3">
-          <div className="tw-flex tw-justify-between">
-            <div className="tw-space-x-6">
-              <Link href="/events/add">
-                <Button className="border-round-sm" outlined>
-                  Add Events
-                </Button>
-              </Link>
-              <Button
-                className="border-round-sm"
-                onClick={() => {
-                  exportCSV(false);
-                }}
-              >
-                Export
-              </Button>
-            </div>
-            <span className="p-input-icon-right tw-w-1/4">
-              <i className="pi pi-search" />
-              <InputText
-                placeholder="Search"
-                pt={{
-                  root: { className: "tw-w-full" },
-                }}
-              />
-            </span>
-          </div>
-          <DataTable
-            loading={isLoading}
-            // onPage={(e) => {
-            //   e.pageCount = data?.numberOfPages;
-            //   e.page = data?.pageIndex;
-            // }}
-            paginator
-            ref={dt}
-            rows={5}
-            rowsPerPageOptions={[5, 10, 25, 50]}
-            tableStyle={{ minWidth: "50rem" }}
-            value={dataTable}
+    <div className="card bg-purple-50 tw-space-y-3 tw-min-h-[calc(100vh-4rem)]">
+      <div className="tw-flex tw-justify-between">
+        <div className="tw-space-x-6">
+          <Link href="/events/add">
+            <Button className="border-round-sm" outlined>
+              Add Events
+            </Button>
+          </Link>
+          <Button
+            className="border-round-sm"
+            onClick={() => {
+              exportCSV(false);
+            }}
           >
-            {columns.map((col) => (
-              <Column
-                body={col.field === "action" && actionBodyTemplate}
-                field={col.field}
-                header={col.header}
-                key={col.field}
-              />
-            ))}
-          </DataTable>
-          <ConfirmDialog />
+            Export
+          </Button>
         </div>
+        <span className="p-input-icon-right tw-w-1/4">
+          <i className="pi pi-search" />
+          <InputText
+            placeholder="Search"
+            pt={{
+              root: { className: "tw-w-full" },
+            }}
+          />
+        </span>
       </div>
+      <DataTable
+        loading={isLoading}
+        // onPage={(e) => {
+        //   e.pageCount = data?.numberOfPages;
+        //   e.page = data?.pageIndex;
+        // }}
+        paginator
+        ref={dt}
+        rows={5}
+        rowsPerPageOptions={[5, 10, 25, 50]}
+        tableStyle={{ minWidth: "50rem" }}
+        value={dataTable}
+      >
+        {columns.map((col) => (
+          <Column
+            body={col.field === "action" && actionBodyTemplate}
+            field={col.field}
+            header={col.header}
+            key={col.field}
+          />
+        ))}
+      </DataTable>
+      <ConfirmDialog />
     </div>
   );
 }
