@@ -1,11 +1,13 @@
 "use client";
 import CustomerDetailInfo from "@/components/company/customer-list/customer-detail-info";
+import EditCustomerForm from "@/components/forms/edit-customer-form";
 import Image from "next/image";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
+import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
-import { useState, type ReactElement, useEffect } from "react";
+import { useState, type ReactElement } from "react";
 
 const columnsEC = [
   { field: "no", header: "No" },
@@ -33,6 +35,7 @@ const dataTable = [];
 
 export default function EditCustomerPage(): ReactElement {
   const [viewTable, setViewTable] = useState("Event Company");
+  const [showDialog, setShowDialog] = useState(false);
 
   return (
     <div className="grid">
@@ -52,7 +55,33 @@ export default function EditCustomerPage(): ReactElement {
         <div className="card">
           <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
             <p className="tw-text-xl tw-font-semibold">Customer List</p>
-            <Button className="tw-bg-blue">Edit</Button>
+            <Dialog
+              className="tw-min-w-[30rem]"
+              draggable={false}
+              // header="Add Schedule Program"
+              onHide={() => {
+                setShowDialog(false);
+              }}
+              pt={{
+                content: {
+                  className: "border-noround-top",
+                },
+                header: {
+                  className: "border-bottom-none flex gap-4 justify-between",
+                },
+              }}
+              visible={showDialog}
+            >
+              <EditCustomerForm />
+            </Dialog>
+            <Button
+              className="tw-bg-blue"
+              onClick={() => {
+                setShowDialog(true);
+              }}
+            >
+              Edit
+            </Button>
           </div>
           <div className="grid grid-cols-3 w-full">
             <div className="tw-flex tw-items-center tw-justify-center tw-w-1/3">
