@@ -23,6 +23,7 @@ module.exports = {
     "@typescript-eslint/no-unsafe-argument": ["off"],
     "@typescript-eslint/unbound-method": ["off"],
     "@typescript-eslint/consistent-type-definitions": ["off"],
+    "@typescript-eslint/explicit-function-return-type": ["off"],
     "no-unused-vars": ["off"],
     "no-bitwise": ["off"],
     "no-shadow": "off",

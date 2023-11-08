@@ -1,4 +1,5 @@
 "use client";
+import type { InputTextProps } from "primereact/inputtext";
 import { InputText } from "primereact/inputtext";
 import { classNames } from "primereact/utils";
 import type { ReactElement } from "react";
@@ -27,7 +28,7 @@ export type InputProps = {
   readOnly?: boolean;
   /** Manual validation using RHF, it is encouraged to use yup resolver instead */
   validation?: RegisterOptions;
-} & React.ComponentPropsWithoutRef<"input">;
+} & InputTextProps;
 
 export default function Input({
   label,
@@ -35,6 +36,7 @@ export default function Input({
   icon,
   type = "text",
   validation,
+  ...props
 }: InputProps): ReactElement {
   const {
     formState: { errors },
@@ -46,7 +48,7 @@ export default function Input({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <>
+    <div>
       <p
         className={classNames("block mb-2", {
           "p-error": error,
@@ -84,6 +86,7 @@ export default function Input({
               }}
               type={isPassword && !showPassword ? "password" : "text"}
               value={field.value}
+              {...props}
             />
           </span>
         )}
@@ -92,6 +95,6 @@ export default function Input({
       {error ? (
         <small className="p-error">{error.message?.toString()}</small>
       ) : null}
-    </>
+    </div>
   );
 }
