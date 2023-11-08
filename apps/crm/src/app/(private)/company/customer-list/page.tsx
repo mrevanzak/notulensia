@@ -105,7 +105,7 @@ export default function CustomerListPage(): ReactElement {
       <div className="col-12 tw-flex tw-flex-col tw-gap-10">
         <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
           <p className="tw-text-xl tw-font-semibold">Customer List</p>
-          <Link href="/company/company-list/add">
+          <Link href="/company/customer-list/add">
             <Button className="tw-bg-blue">
               Add
               <i className="pi pi-plus tw-ml-2" />
