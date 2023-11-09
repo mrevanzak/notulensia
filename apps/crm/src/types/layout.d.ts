@@ -196,7 +196,7 @@ export interface AppMenuItem extends MenuModel {
   items?: AppMenuItem[];
   badge?: "updated" | "new";
   badgeClass?: string;
-  class?: string;
+  className?: string;
   preventExact?: boolean;
   visible?: boolean;
   disabled?: boolean;
