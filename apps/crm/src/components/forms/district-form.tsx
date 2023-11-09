@@ -10,6 +10,8 @@ import { useUpdateDistrict } from "@/lib/api/district/update-district";
 import type { DistrictFormValues } from "@/lib/validations/district";
 import { districtFormSchema } from "@/lib/validations/district";
 import { useInsertDistrict } from "@/lib/api/district/insert-district";
+import { useGetProvinceDropdown } from "@/lib/api/province/get-province-dropdown";
+import Dropdown from "../ui/dropdown";
 
 type DistrictFormProps = {
   edit?: boolean;
@@ -21,6 +23,7 @@ export default function DistrictForm({
   const router = useRouter();
   const { id } = useParams();
 
+  const province = useGetProvinceDropdown();
   const { data: values } = useGetDistrictDetail(id as string);
 
   const insertDistrict = useInsertDistrict();
@@ -51,15 +54,16 @@ export default function DistrictForm({
           void onSubmit();
         }}
       >
-        {/* <Dropdown */}
-        {/*   filter */}
-        {/*   float */}
-        {/*   id="province" */}
-        {/*   label="Province" */}
-        {/*   loading={province.isLoading} */}
-        {/*   optionLabel="province" */}
-        {/*   options={province.data} */}
-        {/* /> */}
+        <Dropdown
+          className="tw-w-1/2"
+          filter
+          float
+          id="province"
+          label="Province"
+          loading={province.isLoading}
+          optionLabel="name"
+          options={province.data}
+        />
         <Input className="tw-w-1/2" id="code" keyfilter="int" label="Code" />
         <Input className="tw-w-1/2" id="name" label="District" />
 

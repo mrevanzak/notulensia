@@ -16,7 +16,7 @@ export const useUpdateProvince = () => {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [getProvinceKey] });
       void queryClient.invalidateQueries({ queryKey: [getProvinceDetailKey] });
-      router.push("/events");
+      router.push("/master-data/province");
     },
   });
 };

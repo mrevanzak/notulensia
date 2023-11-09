@@ -1,5 +1,5 @@
 import { httpClient } from "@/lib/http";
-import { districtSchema } from "@/lib/validations/district";
+import { districtFormSchema } from "@/lib/validations/district";
 import { useQuery } from "@tanstack/react-query";
 
 export const getDistrictDetailKey = "getDistrictDetail";
@@ -10,7 +10,7 @@ export const useGetDistrictDetail = (districtId?: string) => {
     queryFn: async () => {
       const response = await httpClient.get(`/district/${districtId}`);
 
-      return districtSchema.parse(response.data);
+      return districtFormSchema.parse(response.data);
     },
     enabled: Boolean(districtId),
     staleTime: Infinity,
