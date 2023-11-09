@@ -22,7 +22,15 @@ export default function Calendar(): ReactElement {
         }}
         panelClassName="bg-purple-50"
         pt={{
-          header: { className: "bg-purple-50" },
+          group: { className: "tw-space-y-12" },
+          header: {
+            className: "bg-purple-50 tw-relative tw-justify-end border-none",
+          },
+          title: { className: "tw-absolute tw-left-0 " },
+          monthTitle: { className: "!tw-text-4xl" },
+          yearTitle: { className: "!tw-text-4xl" },
+          panel: { className: "border-none" },
+          dayLabel: { className: "tw-px-12 tw-py-7" },
         }}
         value={date}
       />
