@@ -83,7 +83,7 @@ export default function Calendar({ pt }: CalendarPropsSingle): ReactElement {
         viewDate={viewDate}
       />
       <Dialog
-        className="tw-max-w-[40rem]"
+        className="tw-min-w-[30rem]"
         draggable={false}
         header={getDate(date)}
         onHide={() => {
@@ -95,49 +95,44 @@ export default function Calendar({ pt }: CalendarPropsSingle): ReactElement {
           },
           header: {
             className:
-              "border-bottom-blue-700 border-bottom-2 flex gap-4 justify-between text-2xl text-blue-700 px-5",
+              "border-bottom-blue-700 border-bottom-2 flex gap-4 justify-between text-2xl !tw-text-indigo-900 px-5",
           },
         }}
         visible={showDialog}
       >
-        <div className="tw-w-full tw-flex tw-flex-col tw-gap-10">
-          <div className="tw-flex tw-flex-col tw-gap-2">
-            <h1 className="tw-font-semibold tw-text-2xl">Description</h1>
-            <p>{event?.at(0)?.preparationNotes}</p>
-          </div>
-          <div className="tw-flex tw-gap-2 tw-justify-between tw-items-center">
-            <div className="tw-flex tw-flex-col tw-gap-2">
-              <p className="tw-text-2xl tw-font-semibold">Start</p>
-              <span className="tw-flex tw-gap-2 tw-items-center">
-                <i className="pi pi-clock" />
-                {moment(event?.at(0)?.startAt).format("HH.mm")}
-              </span>
-            </div>
-            <div className="tw-flex tw-flex-col tw-gap-2">
-              <p className="tw-text-2xl tw-font-semibold">End</p>
-              <span className="tw-flex tw-gap-2 tw-items-center">
-                <i className="pi pi-clock" />
-                {moment(event?.at(0)?.endAt).format("HH.mm")}
-              </span>
-            </div>
-          </div>
-          <div className="tw-flex tw-flex-col tw-gap-2">
-            <h1 className="tw-font-semibold tw-text-2xl">Location / LinkUrl</h1>
-            <p className="tw-bg-gray-200 tw-flex tw-items-center tw-gap-2">
-              {event?.at(0)?.isOnline ? (
-                <BiSolidVideoRecording
-                  className="tw-bg-pink-400 tw-w-14"
-                  size={26}
-                />
-              ) : (
-                <IoLocationSharp
-                  className="tw-bg-orange-400 tw-w-14"
-                  size={26}
-                />
-              )}
-              {event?.at(0)?.locationValue}
+        <div className="tw-space-y-6">
+          <div>
+            <h1 className="tw-font-semibold tw-text-2xl tw-text-indigo-900">
+              {event?.at(0)?.name}
+            </h1>
+            <p className="tw-text-indigo-900">
+              {moment(event?.at(0)?.startAt).format("HH.mm")} -{" "}
+              {moment(event?.at(0)?.endAt).format("HH.mm")}
             </p>
           </div>
+          <div>
+            <p className="tw-text-indigo-900">Topic: {event?.at(0)?.topic}</p>
+            <p className="tw-text-indigo-900">
+              Purpose: {event?.at(0)?.purpose}
+            </p>
+            <p className="tw-text-indigo-900">
+              Preparation Notes: {event?.at(0)?.preparationNotes}
+            </p>
+          </div>
+          <p className="tw-bg-gray-200 tw-flex tw-items-center tw-gap-2 tw-text-indigo-900">
+            {event?.at(0)?.isOnline ? (
+              <BiSolidVideoRecording
+                className="tw-bg-pink-400 tw-w-14 tw-text-white"
+                size={26}
+              />
+            ) : (
+              <IoLocationSharp
+                className="tw-bg-orange-400 tw-w-14 tw-text-white"
+                size={26}
+              />
+            )}
+            {event?.at(0)?.locationValue}
+          </p>
         </div>
       </Dialog>
     </>
