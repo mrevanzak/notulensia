@@ -66,6 +66,7 @@ export const eventFormSchema = z.object({
 
 export const updateEventFormSchema = eventFormSchema
   .extend({
+    status: z.enum(["ACTIVE", "INACTIVE", "DRAFT"]),
     audiences: z
       .object({
         audienceId: z.string(),
