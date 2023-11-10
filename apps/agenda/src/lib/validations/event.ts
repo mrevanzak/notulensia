@@ -25,6 +25,7 @@ export const eventSchema = z.object({
         timeZone: "Asia/Jakarta",
       }),
     ),
+  status: z.enum(["ACTIVE", "INACTIVE", "DRAFT"]),
 });
 
 export type Event = z.infer<typeof eventSchema>;
