@@ -90,4 +90,11 @@ export const eventCalendarSchema = z.object({
   isOnline: z.boolean(),
 });
 
+export const eventCalendarDetailSchema = eventFormSchema.omit({
+  audienceNames: true,
+  district: true,
+  province: true,
+  address: true,
+});
+
 export type EventFormValues = z.infer<typeof eventFormSchema>;

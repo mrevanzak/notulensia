@@ -1,15 +1,18 @@
 "use client";
-import { ReactElement, useEffect, useRef } from "react";
-import React, { useState } from "react";
+import type { ReactElement } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import type { CalendarPropsSingle } from "primereact/calendar";
 import { Calendar as PrimeCalendar } from "primereact/calendar";
 import type { Nullable } from "primereact/ts-helpers";
 import { Dialog } from "primereact/dialog";
 import { getDate } from "@/lib/date";
-import ModalDate from "../calendar/modal-date";
 import { useGetEventListCalendar } from "@/lib/api/event/get-event-list-calendar-by-date";
 import moment from "moment";
+import { useGetEventDetailByDate } from "@/lib/api/event/get-event-detail-by-date";
+import { BiSolidVideoRecording } from "react-icons/bi";
+import { IoLocationSharp } from "react-icons/io5";
 
-export default function Calendar(): ReactElement {
+export default function Calendar({ pt }: CalendarPropsSingle): ReactElement {
   const calendarRef = useRef<PrimeCalendar>(null);
 
   const [date, setDate] = useState<Nullable<Date>>(null);
@@ -17,10 +20,8 @@ export default function Calendar(): ReactElement {
 
   const [viewDate, setViewDate] = useState(new Date());
 
-  const { data } = useGetEventListCalendar({
-    from: moment(viewDate).startOf("month").format("YYYY-MM-DD"),
-    to: moment(viewDate).endOf("month").format("YYYY-MM-DD"),
-  });
+  const { data } = useGetEventListCalendar(viewDate);
+  const { data: event } = useGetEventDetailByDate(date);
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -55,24 +56,27 @@ export default function Calendar(): ReactElement {
       <PrimeCalendar
         className="w-full"
         inline
-        onChange={(e) => {
-          setDate(e.value);
-          setShowDialog(true);
+        onSelect={(e) => {
+          if (
+            data?.some((event) =>
+              moment(event.startAt).isSame(e.value as Date, "day"),
+            )
+          ) {
+            setDate(e.value as Date);
+            setShowDialog(true);
+          }
         }}
         onViewDateChange={(e) => {
           setViewDate(e.value);
         }}
         panelClassName="bg-purple-50"
         pt={{
-          group: { className: "tw-space-y-12" },
           header: {
             className: "bg-purple-50 tw-relative tw-justify-end border-none",
           },
           title: { className: "tw-absolute tw-left-0 " },
-          monthTitle: { className: "!tw-text-4xl" },
-          yearTitle: { className: "!tw-text-4xl" },
           panel: { className: "border-none" },
-          dayLabel: { className: "tw-px-12 tw-py-7" },
+          ...pt,
         }}
         ref={calendarRef}
         value={date}
@@ -96,7 +100,45 @@ export default function Calendar(): ReactElement {
         }}
         visible={showDialog}
       >
-        <ModalDate />
+        <div className="tw-w-full tw-flex tw-flex-col tw-gap-10">
+          <div className="tw-flex tw-flex-col tw-gap-2">
+            <h1 className="tw-font-semibold tw-text-2xl">Description</h1>
+            <p>{event?.at(0)?.preparationNotes}</p>
+          </div>
+          <div className="tw-flex tw-gap-2 tw-justify-between tw-items-center">
+            <div className="tw-flex tw-flex-col tw-gap-2">
+              <p className="tw-text-2xl tw-font-semibold">Start</p>
+              <span className="tw-flex tw-gap-2 tw-items-center">
+                <i className="pi pi-clock" />
+                {moment(event?.at(0)?.startAt).format("HH.mm")}
+              </span>
+            </div>
+            <div className="tw-flex tw-flex-col tw-gap-2">
+              <p className="tw-text-2xl tw-font-semibold">End</p>
+              <span className="tw-flex tw-gap-2 tw-items-center">
+                <i className="pi pi-clock" />
+                {moment(event?.at(0)?.endAt).format("HH.mm")}
+              </span>
+            </div>
+          </div>
+          <div className="tw-flex tw-flex-col tw-gap-2">
+            <h1 className="tw-font-semibold tw-text-2xl">Location / LinkUrl</h1>
+            <p className="tw-bg-gray-200 tw-flex tw-items-center tw-gap-2">
+              {event?.at(0)?.isOnline ? (
+                <BiSolidVideoRecording
+                  className="tw-bg-pink-400 tw-w-14"
+                  size={26}
+                />
+              ) : (
+                <IoLocationSharp
+                  className="tw-bg-orange-400 tw-w-14"
+                  size={26}
+                />
+              )}
+              {event?.at(0)?.locationValue}
+            </p>
+          </div>
+        </div>
       </Dialog>
     </>
   );

@@ -16,7 +16,14 @@ export default function CalendarPage(): ReactElement {
         />
       </span>
       <div className="bg-purple-50 tw-p-6 tw-rounded-xl tw-min-h-[calc(100vh-9rem)]">
-        <Calendar />
+        <Calendar
+          pt={{
+            group: { className: "tw-space-y-12" },
+            monthTitle: { className: "!tw-text-4xl" },
+            yearTitle: { className: "!tw-text-4xl" },
+            dayLabel: { className: "tw-px-12 tw-py-7" },
+          }}
+        />
       </div>
     </div>
   );
