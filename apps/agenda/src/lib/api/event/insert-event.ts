@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import type { EventFormValues } from "@/lib/validations/event";
 import { getEventKey } from "./get-event";
 import type { ScheduleProgram } from "@/lib/validations/schedule-program";
+import { getEventListCalendarKey } from "./get-event-list-calendar-by-date";
 
 export type InsertEventParams = EventFormValues & {
   schedules?: ScheduleProgram[];
@@ -22,6 +23,9 @@ export const useInsertEvent = () => {
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [getEventKey] });
+      void queryClient.invalidateQueries({
+        queryKey: [getEventListCalendarKey],
+      });
       router.push("/events");
     },
   });

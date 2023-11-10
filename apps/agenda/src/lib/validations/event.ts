@@ -80,4 +80,14 @@ export const updateEventFormSchema = eventFormSchema
     audienceNames: value.audiences?.map((audience) => audience.audienceName),
   }));
 
+export const eventCalendarSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  startAt: z
+    .string()
+    .datetime()
+    .transform((value) => new Date(value)),
+  isOnline: z.boolean(),
+});
+
 export type EventFormValues = z.infer<typeof eventFormSchema>;
