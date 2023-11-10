@@ -63,7 +63,7 @@ function AppMenuProfile(): ReactElement {
   };
 
   return (
-    <div className="layout-menu-profile border-none tw-relative overflow-visible">
+    <div className="layout-menu-profile border-none tw-relative overflow-visible tw-z-10">
       <Tooltip content={tooltipValue("Profile")!} target=".avatar-button" />
       <button
         className="avatar-button p-link shadow-none pl-8"
@@ -96,7 +96,7 @@ function AppMenuProfile(): ReactElement {
 
       <ul
         className={classNames(
-          "menu-transition tw-border-2 tw-border-[#334798] tw-rounded-2xl ml-8 mr-4 tw-absolute tw-inset-x-0 tw-top-20",
+          "menu-transition tw-border-2 tw-border-[#334798] tw-rounded-2xl ml-8 mr-4 tw-absolute tw-inset-x-0 tw-top-20 tw-bg-white",
           {
             overlay: isHorizontal(),
           },
