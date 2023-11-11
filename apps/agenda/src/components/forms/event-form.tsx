@@ -306,14 +306,16 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
 
         <div className="tw-flex tw-justify-between">
           <div className="tw-flex tw-gap-4">
-            <Button
-              label="Draft"
-              onClick={() => {
-                setEventState("DRAFT");
-              }}
-              outlined
-              type="submit"
-            />
+            {values?.status !== "ACTIVE" && (
+              <Button
+                label="Draft"
+                onClick={() => {
+                  setEventState("DRAFT");
+                }}
+                outlined
+                type="submit"
+              />
+            )}
             <Button label="Send Notif" />
           </div>
           <div className="tw-flex tw-gap-4">

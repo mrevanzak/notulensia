@@ -86,7 +86,7 @@ export default function Dashboard(): ReactElement {
           <h4>Tasks Completed</h4>
           <LineChart />
         </div>
-        <div className="card tw-col-span-2 tw-row-span-2 bg-purple-50">
+        <div className="card border-none border-0 tw-col-span-2 tw-row-span-2 bg-purple-50">
           <Calendar />
         </div>
       </div>

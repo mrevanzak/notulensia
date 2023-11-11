@@ -10,6 +10,9 @@ import Link from "next/link";
 import { useGetEvent } from "@/lib/api/event/get-event";
 import { useDeleteEvent } from "@/lib/api/event/delete-event";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { classNames } from "primereact/utils";
+import { RiDraftLine } from "react-icons/ri";
+import { BiCheckCircle, BiXCircle } from "react-icons/bi";
 
 export default function Events(): ReactElement {
   const { data, isLoading } = useGetEvent();
@@ -19,12 +22,38 @@ export default function Events(): ReactElement {
   const columns = [
     { field: "date", header: "Date" },
     { field: "eventName", header: "Event Name" },
+    { field: "status", header: "Status" },
     { field: "audienceGroup", header: "Audience Group" },
     { field: "startAt", header: "Start" },
     { field: "endAt", header: "End" },
     { field: "action", header: "Action" },
   ];
 
+  const statusBodyTemplate = (rowData: Event) => {
+    const status = () => {
+      if (rowData.status === "ACTIVE") {
+        return "p-tag-success";
+      }
+      if (rowData.status === "INACTIVE") {
+        return "p-tag-warning";
+      }
+
+      return "p-tag-danger";
+    };
+    return (
+      <span
+        className={classNames(
+          "p-tag border-round-md tw-flex tw-items-center tw-gap-1",
+          status(),
+        )}
+      >
+        {rowData.status === "ACTIVE" && <BiCheckCircle size={14} />}
+        {rowData.status === "DRAFT" && <RiDraftLine size={14} />}
+        {rowData.status === "INACTIVE" && <BiXCircle size={14} />}
+        {rowData.status}
+      </span>
+    );
+  };
   const actionBodyTemplate = (rowData: Event) => {
     const confirm = () => {
       confirmDialog({
@@ -97,7 +126,13 @@ export default function Events(): ReactElement {
       >
         {columns.map((col) => (
           <Column
-            body={col.field === "action" && actionBodyTemplate}
+            body={
+              col.field === "action"
+                ? actionBodyTemplate
+                : col.field === "status"
+                ? statusBodyTemplate
+                : undefined
+            }
             field={col.field}
             header={col.header}
             key={col.field}

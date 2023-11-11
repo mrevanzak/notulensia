@@ -25,6 +25,7 @@ export const eventSchema = z.object({
         timeZone: "Asia/Jakarta",
       }),
     ),
+  status: z.enum(["ACTIVE", "INACTIVE", "DRAFT"]),
 });
 
 export type Event = z.infer<typeof eventSchema>;
@@ -66,6 +67,7 @@ export const eventFormSchema = z.object({
 
 export const updateEventFormSchema = eventFormSchema
   .extend({
+    status: z.enum(["ACTIVE", "INACTIVE", "DRAFT"]),
     audiences: z
       .object({
         audienceId: z.string(),
@@ -79,5 +81,22 @@ export const updateEventFormSchema = eventFormSchema
     ...value,
     audienceNames: value.audiences?.map((audience) => audience.audienceName),
   }));
+
+export const eventCalendarSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  startAt: z
+    .string()
+    .datetime()
+    .transform((value) => new Date(value)),
+  isOnline: z.boolean(),
+});
+
+export const eventCalendarDetailSchema = eventFormSchema.omit({
+  audienceNames: true,
+  district: true,
+  province: true,
+  address: true,
+});
 
 export type EventFormValues = z.infer<typeof eventFormSchema>;
