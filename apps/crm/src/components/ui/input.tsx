@@ -36,6 +36,7 @@ export default function Input({
   icon,
   type = "text",
   validation,
+  className,
   ...props
 }: InputProps): ReactElement {
   const {
@@ -48,7 +49,7 @@ export default function Input({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div>
+    <div className={className}>
       <p
         className={classNames("block mb-2", {
           "p-error": error,

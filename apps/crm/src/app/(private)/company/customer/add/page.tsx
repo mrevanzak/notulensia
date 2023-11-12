@@ -1,4 +1,4 @@
-import CompanyListForm from "@/components/forms/company-list-form";
+import AddCustomerListForm from "@/components/forms/add-customer-list-form";
 import { InputText } from "primereact/inputtext";
 import type { ReactElement } from "react";
 
@@ -18,8 +18,8 @@ export default function CompanyListAddPage(): ReactElement {
         </span>
       </div>
       <div className="col-12 tw-flex tw-flex-col tw-gap-10">
-        <p className="tw-text-xl tw-font-semibold">Add Company</p>
-        <CompanyListForm />
+        <p className="tw-text-xl tw-font-semibold">Add Customer</p>
+        <AddCustomerListForm />
       </div>
     </div>
   );

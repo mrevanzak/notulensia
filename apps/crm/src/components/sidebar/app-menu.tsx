@@ -31,7 +31,7 @@ function AppMenu(): ReactElement {
             },
             {
               label: "Customer List",
-              to: "/company/customer-list",
+              to: "/company/customer",
               className: "!tw-pl-36",
             },
           ],
