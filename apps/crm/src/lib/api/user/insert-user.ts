@@ -1,7 +1,7 @@
 import { httpClient } from "@/lib/http";
-import type { UserFormValues } from "@/lib/validations/company";
+import type { UserFormValues } from "@/lib/validations/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { getUserDropdownKey } from "../company/get-user-dropdown";
+import { getUserDropdownKey } from "./get-user-dropdown";
 
 export const useInsertUser = () => {
   const queryClient = useQueryClient();

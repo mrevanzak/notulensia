@@ -10,7 +10,7 @@ import Input from "../ui/input";
 import Dropdown from "../ui/dropdown";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import AddUserCompanyList from "./add-user-company-list-form";
+import AddUserCompanyList from "./user-form";
 
 export default function AddCompanyListForm(): ReactElement {
   const [showDialog, setShowDialog] = useState(false);

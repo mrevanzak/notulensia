@@ -149,9 +149,6 @@ export default function CompanyForm({
           content: {
             className: "px-8 border-round-3xl py-4",
           },
-          header: {
-            className: "border-bottom-none flex gap-4 justify-between",
-          },
         }}
         showHeader={false}
         visible={showDialog}
