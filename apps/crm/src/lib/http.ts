@@ -23,6 +23,9 @@ httpClient.interceptors.response.use(
     if (error.response?.status === 400 || error.response?.status === 500) {
       return Promise.reject(new ApiError(error.response?.data));
     }
+    if (error.response?.status === 401) {
+      useAuthStore.getState().logout();
+    }
     return Promise.reject(error);
   },
 );
