@@ -18,7 +18,7 @@ export default function ProvinceDetailPage(): ReactElement {
         </span>
       </div>
       <div className="col-12 card tw-shadow tw-space-x-8 tw-space-y-8 p-4">
-        <p className="tw-text-xl tw-font-semibold">Detail Province</p>
+        <p className="tw-text-xl tw-font-semibold">Province Detail</p>
         <ProvinceForm edit />
       </div>
     </div>
