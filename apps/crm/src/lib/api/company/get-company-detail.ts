@@ -1,5 +1,5 @@
 import { httpClient } from "@/lib/http";
-import { companyFormSchema } from "@/lib/validations/company";
+import { updateCompanyFormSchema } from "@/lib/validations/company";
 import { useQuery } from "@tanstack/react-query";
 
 export const getCompanyDetailKey = "getCompanyDetail";
@@ -10,7 +10,7 @@ export const useGetCompanyDetail = (companyId?: string) => {
     queryFn: async () => {
       const response = await httpClient.get(`/company/${companyId}`);
 
-      return companyFormSchema.parse(response.data);
+      return updateCompanyFormSchema.parse(response.data);
     },
     enabled: Boolean(companyId),
     staleTime: Infinity,

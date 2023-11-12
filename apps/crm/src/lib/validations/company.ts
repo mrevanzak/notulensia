@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { districtSchema } from "./district";
-import { provinceSchema } from "./province";
+import { userDropdownSchema } from "./user";
 
 export const companySchema = z.object({
   id: z.string().uuid(),
@@ -13,12 +12,6 @@ export const companySchema = z.object({
   logoUrl: z.string().url().nullish(),
 });
 
-export const userDropdownSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string(),
-  status: z.string(),
-});
-
 export const companyFormSchema = companySchema
   .omit({
     id: true,
@@ -26,20 +19,32 @@ export const companyFormSchema = companySchema
     code: true,
   })
   .extend({
-    province: provinceSchema,
-    district: districtSchema,
-    user: userDropdownSchema,
+    provinceId: z.string().uuid(),
+    districtId: z.string().uuid(),
+    userId: z.string().uuid(),
     phoneNumber: z.string(),
   });
 
-export const userFormSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  password: z.string(),
-  isCrmUser: z.boolean().default(false),
-  phoneNumber: z.string(),
-});
+export const updateCompanyFormSchema = companyFormSchema
+  .omit({
+    userId: true,
+  })
+  .extend({
+    user: userDropdownSchema
+      .pick({
+        name: true,
+        email: true,
+        phoneNumber: true,
+      })
+      .extend({
+        userId: z.string().uuid(),
+      }),
+    code: z.string(),
+  })
+  .transform((value) => ({
+    ...value,
+    userId: value.user.userId,
+  }));
 
 export type Company = z.infer<typeof companySchema>;
 export type CompanyFormValues = z.infer<typeof companyFormSchema>;
-export type UserFormValues = z.infer<typeof userFormSchema>;

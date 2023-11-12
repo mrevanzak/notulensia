@@ -13,17 +13,14 @@ export const useUpdateCompany = () => {
 
   return useMutation({
     mutationFn: async (data: UpdateCompanyParams) => {
-      await httpClient.put(`/company/${data.id}`, {
-        ...data,
-        provinceId: data.province.id,
-      });
+      await httpClient.put(`/company/${data.id}`, data);
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [getCompanyKey] });
       void queryClient.invalidateQueries({
         queryKey: [getCompanyDetailKey],
       });
-      router.push("/master-data/company");
+      router.push("/company/company-list");
     },
   });
 };

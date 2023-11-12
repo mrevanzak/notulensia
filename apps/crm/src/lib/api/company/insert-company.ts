@@ -10,12 +10,7 @@ export const useInsertCompany = () => {
 
   return useMutation({
     mutationFn: async (data: CompanyFormValues) => {
-      await httpClient.post("/company", {
-        ...data,
-        provinceId: data.province.id,
-        districtId: data.district.id,
-        userId: data.user.id,
-      });
+      await httpClient.post("/company", data);
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [getCompanyKey] });

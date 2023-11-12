@@ -8,33 +8,39 @@ import Input from "../ui/input";
 import Dropdown from "../ui/dropdown";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
-import AddUserCompanyList from "./add-user-company-list-form";
 import type { CompanyFormValues } from "@/lib/validations/company";
 import { companyFormSchema } from "@/lib/validations/company";
 import { useGetProvinceDropdown } from "@/lib/api/province/get-province-dropdown";
 import { useGetDistrictDropdown } from "@/lib/api/district/get-district-dropdown";
-import { useGetUserDropdown } from "@/lib/api/company/get-user-dropdown";
+import { useGetUserDropdown } from "@/lib/api/user/get-user-dropdown";
 import { useInsertCompany } from "@/lib/api/company/insert-company";
 import { useParams, useRouter } from "next/navigation";
 import { useUpdateCompany } from "@/lib/api/company/update-company";
+import UserForm from "./user-form";
+import { useGetCompanyDetail } from "@/lib/api/company/get-company-detail";
 
-type CompanyListFormProps = {
+type CompanyFormProps = {
   edit?: boolean;
 };
 
-export default function CompanyListForm({
+export default function CompanyForm({
   edit = false,
-}: CompanyListFormProps): ReactElement {
+}: CompanyFormProps): ReactElement {
   const router = useRouter();
   const { id } = useParams();
 
   const [showDialog, setShowDialog] = useState(false);
 
+  const { data: values } = useGetCompanyDetail(id as string);
   const insertCompany = useInsertCompany();
   const updateCompany = useUpdateCompany();
 
   const methods = useForm<CompanyFormValues>({
     resolver: zodResolver(companyFormSchema),
+    values,
+    resetOptions: {
+      keepDirtyValues: true,
+    },
   });
   const { handleSubmit, watch } = methods;
   const onSubmit = handleSubmit((data) => {
@@ -47,7 +53,7 @@ export default function CompanyListForm({
   });
 
   const province = useGetProvinceDropdown();
-  const district = useGetDistrictDropdown(watch("province")?.id);
+  const district = useGetDistrictDropdown(watch("provinceId"));
   const user = useGetUserDropdown();
 
   return (
@@ -75,10 +81,11 @@ export default function CompanyListForm({
                 <i className="pi pi-plus tw-ml-2" />
               </Button>
               <Dropdown
-                id="user"
+                id="userId"
                 label="User"
                 loading={user.isLoading}
                 optionLabel="name"
+                optionValue="id"
                 options={user.data}
               />
             </div>
@@ -95,19 +102,21 @@ export default function CompanyListForm({
           <Dropdown
             className="tw-w-1/2"
             filter
-            id="province"
+            id="provinceId"
             label="Province"
             loading={province.isLoading}
             optionLabel="name"
+            optionValue="id"
             options={province.data}
           />
           <Dropdown
             className="tw-w-1/2"
             filter
-            id="district"
+            id="districtId"
             label="District"
             loading={district.isLoading}
             optionLabel="name"
+            optionValue="id"
             options={district.data}
           />
           <div className="tw-flex tw-justify-end tw-gap-2 tw-w-full tw-ms-auto tw-mt-8">
@@ -147,7 +156,14 @@ export default function CompanyListForm({
         showHeader={false}
         visible={showDialog}
       >
-        <AddUserCompanyList setShowDialog={setShowDialog} />
+        <div className="tw-flex tw-items-center tw-justify-center tw-flex-col tw-gap-4 tw-pb-4">
+          <i
+            className="pi pi-user-plus text-primary"
+            style={{ fontSize: "5rem" }}
+          />
+          <p className="tw-text-2xl tw-font-bold">Add New User</p>
+        </div>
+        <UserForm setShowDialog={setShowDialog} />
       </Dialog>
     </>
   );
