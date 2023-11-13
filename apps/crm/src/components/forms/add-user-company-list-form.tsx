@@ -1,6 +1,7 @@
 import {
-  AddUserCompanyListType,
-  addUserCompanyListSchema,
+  addUserCompanyListSchema} from "@/lib/validations/add-user-company-list";
+import type {
+  AddUserCompanyListType
 } from "@/lib/validations/add-user-company-list";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";

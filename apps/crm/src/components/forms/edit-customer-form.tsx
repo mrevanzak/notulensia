@@ -1,6 +1,7 @@
 import {
-  EditCustomerList,
-  editCustomerListSchema,
+  editCustomerListSchema} from "@/lib/validations/edit-customer-list";
+import type {
+  EditCustomerList
 } from "@/lib/validations/edit-customer-list";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { ReactElement } from "react";

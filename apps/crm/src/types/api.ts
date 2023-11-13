@@ -3,6 +3,6 @@ export type ApiErrorResponse = {
 };
 
 export enum ErrorEnum {
-  INVALID = "INVALID_USERNAME_OR_PASSWORD",
-  EVENT_CATEGORY_ALREADY = "EVENT_CATEGORY_NAME_ALREADY_USED",
+  Invalid = "INVALID_USERNAME_OR_PASSWORD",
+  EventCategoryAlready = "EVENT_CATEGORY_NAME_ALREADY_USED",
 }

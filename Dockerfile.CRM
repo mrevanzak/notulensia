@@ -1,0 +1,19 @@
+FROM node:alpine
+WORKDIR /app
+
+# Don't run production as root
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+USER nextjs
+
+COPY --chown=nextjs:nodejs out/full/apps/crm/.next/standalone ./
+COPY --chown=nextjs:nodejs out/full/apps/crm/.next/static ./apps/crm/.next/static
+COPY --chown=nextjs:nodejs out/full/apps/crm/public ./apps/crm/public
+COPY --chown=nextjs:nodejs out/full/apps/crm/.next ./apps/crm/.next
+COPY --chown=nextjs:nodejs out/full/apps/crm/next.config.js ./apps/crm/next.config.js
+# COPY --chown=nextjs:nodejs out/full/apps/crm/next-i18next.config.js ./apps/crm/next-i18next.config.js
+
+EXPOSE 3000
+
+CMD node apps/crm/server.js
+

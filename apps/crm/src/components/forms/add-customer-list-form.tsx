@@ -1,7 +1,8 @@
 "use client";
 import {
-  AddCustomerList,
-  addCustomerListSchema,
+  addCustomerListSchema} from "@/lib/validations/add-customer-list";
+import type {
+  AddCustomerList
 } from "@/lib/validations/add-customer-list";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { ReactElement } from "react";

@@ -10,9 +10,9 @@ export class ApiError extends AxiosError {
 
   stringify(): string {
     switch (this.message) {
-      case ErrorEnum.INVALID:
+      case ErrorEnum.Invalid:
         return "Email or password is invalid.";
-      case ErrorEnum.EVENT_CATEGORY_ALREADY:
+      case ErrorEnum.EventCategoryAlready:
         return "Event Category Name Already";
       default:
         return this.message;

@@ -4,7 +4,8 @@ import type { ReactElement } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import Input from "../ui/input";
 import { Button } from "primereact/button";
-import { AddFeatures, addFeaturesSchema } from "@/lib/validations/add-features";
+import { addFeaturesSchema } from "@/lib/validations/add-features";
+import type { AddFeatures } from "@/lib/validations/add-features";
 
 export default function AddFeaturesForm(): ReactElement {
   const methods = useForm<AddFeatures>({

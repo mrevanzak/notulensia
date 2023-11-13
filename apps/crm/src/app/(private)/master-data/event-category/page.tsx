@@ -1,7 +1,7 @@
 "use client";
 import { useDeleteEventCategory } from "@/lib/api/event-category/delete-event-category";
 import { useGetEventCategories } from "@/lib/api/event-category/get-event-categories";
-import { EventCategory } from "@/lib/validations/event-category";
+import type { EventCategory } from "@/lib/validations/event-category";
 import Link from "next/link";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
