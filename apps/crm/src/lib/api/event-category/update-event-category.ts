@@ -18,9 +18,6 @@ export const useUpdateEventCategory = () => {
       void queryClient.invalidateQueries({ queryKey: [getEventCategoryKey] });
       void queryClient.invalidateQueries({ queryKey: [getEventCategoryDetailKey] });
       router.push("/master-data/event-category");
-    },
-    onError: (error :any) => {
-      console.log(error);
     }
   });
 };
