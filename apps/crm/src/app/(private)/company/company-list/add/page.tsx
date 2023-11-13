@@ -1,0 +1,26 @@
+import AddCompanyListForm from "@/components/forms/add-company-list-form";
+import { InputText } from "primereact/inputtext";
+import type { ReactElement } from "react";
+
+export default function CompanyListAddPage(): ReactElement {
+  return (
+    <div className="grid">
+      <div className="col-12 mb-2 tw-flex tw-flex-row tw-justify-between">
+        <h2>CRM</h2>
+        <span className="p-input-icon-right tw-w-1/2">
+          <i className="pi pi-search" />
+          <InputText
+            placeholder="Search"
+            pt={{
+              root: { className: "tw-w-full" },
+            }}
+          />
+        </span>
+      </div>
+      <div className="col-12 tw-flex tw-flex-col tw-gap-10">
+        <p className="tw-text-xl tw-font-semibold">Detail Company</p>
+        <AddCompanyListForm />
+      </div>
+    </div>
+  );
+}

@@ -8,6 +8,7 @@ const config: Config = {
         "dark-purple": "#27104E",
         purple: "#9854CB",
         "light-purple": "rgba(221, 172, 245, 0.4)",
+        // blue: "#4F6DFF",
       },
     },
   },

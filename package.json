@@ -3,7 +3,7 @@
   "scripts": {
     "build": "turbo run build --parallel",
     "dev": "turbo run dev --parallel",
-    "dev:web": "turbo run dev --filter=web --parallel",
+    "dev:crm": "turbo run dev --filter=crm --parallel",
     "dev:landing-page": "turbo run dev --filter=landing-page --parallel",
     "dev:agenda": "turbo run dev --filter=agenda --parallel",
     "lint": "turbo run lint --parallel",
