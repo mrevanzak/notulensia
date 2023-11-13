@@ -51,6 +51,11 @@ function AppMenu(): ReactElement {
               to: "/master-data/district",
               className: "!tw-pl-36",
             },
+            {
+              label: "Event Category List",
+              to : "/master-data/event-category",
+              className: "!tw-pl-36",
+            },
           ],
         },
         {
