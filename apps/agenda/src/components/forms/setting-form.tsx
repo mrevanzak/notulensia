@@ -11,7 +11,7 @@ export default function SettingForm(): ReactElement {
   const methods = useForm();
   const { handleSubmit } = methods;
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    // console.log(data);
     // mutate({ ...data });
   });
 

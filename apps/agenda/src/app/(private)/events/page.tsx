@@ -124,20 +124,30 @@ export default function Events(): ReactElement {
         tableStyle={{ minWidth: "50rem" }}
         value={dataTable}
       >
-        {columns.map((col) => (
-          <Column
-            body={
-              col.field === "action"
-                ? actionBodyTemplate
-                : col.field === "status"
-                ? statusBodyTemplate
-                : undefined
-            }
-            field={col.field}
-            header={col.header}
-            key={col.field}
-          />
-        ))}
+        {columns.map((col) => {
+          switch (col.field) {
+            case "action":
+              return (
+                <Column
+                  body={actionBodyTemplate}
+                  field={col.field}
+                  header={col.header}
+                  key={col.field}
+                />
+              );
+            case "status":
+              return (
+                <Column
+                  body={statusBodyTemplate}
+                  field={col.field}
+                  header={col.header}
+                  key={col.field}
+                />
+              );
+            default:
+              return undefined;
+          }
+        })}
       </DataTable>
       <ConfirmDialog />
     </div>
