@@ -12,8 +12,10 @@ export class ApiError extends AxiosError {
     switch (this.message) {
       case ErrorEnum.INVALID:
         return "Email or password is invalid.";
+      case ErrorEnum.EVENT_CATEGORY_ALREADY:
+        return "Event Category Name Already";
       default:
-        return "Something went wrong.";
+        return this.message;
     }
   }
 }
