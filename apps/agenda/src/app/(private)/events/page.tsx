@@ -19,16 +19,6 @@ export default function Events(): ReactElement {
   const dataTable = data?.data;
   const deleteEvent = useDeleteEvent();
 
-  const columns = [
-    { field: "date", header: "Date" },
-    { field: "eventName", header: "Event Name" },
-    { field: "status", header: "Status" },
-    { field: "audienceGroup", header: "Audience Group" },
-    { field: "startAt", header: "Start" },
-    { field: "endAt", header: "End" },
-    { field: "action", header: "Action" },
-  ];
-
   const statusBodyTemplate = (rowData: Event) => {
     const status = () => {
       if (rowData.status === "ACTIVE") {
@@ -124,30 +114,13 @@ export default function Events(): ReactElement {
         tableStyle={{ minWidth: "50rem" }}
         value={dataTable}
       >
-        {columns.map((col) => {
-          switch (col.field) {
-            case "action":
-              return (
-                <Column
-                  body={actionBodyTemplate}
-                  field={col.field}
-                  header={col.header}
-                  key={col.field}
-                />
-              );
-            case "status":
-              return (
-                <Column
-                  body={statusBodyTemplate}
-                  field={col.field}
-                  header={col.header}
-                  key={col.field}
-                />
-              );
-            default:
-              return undefined;
-          }
-        })}
+        <Column body={actionBodyTemplate} field="action" header="Action" />
+        <Column field="date" header="Date" />
+        <Column field="eventName" header="Event Name" />
+        <Column body={statusBodyTemplate} field="status" header="Status" />
+        <Column field="audienceGroup" header="Audience Group" />
+        <Column field="startAt" header="Start" />
+        <Column field="endAt" header="End" />
       </DataTable>
       <ConfirmDialog />
     </div>
