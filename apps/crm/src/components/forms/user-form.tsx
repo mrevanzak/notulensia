@@ -12,6 +12,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
 import MultiStateCheckbox from "../ui/multi-state-checkbox";
 import { useUpdateUser } from "@/lib/api/user/update-user";
+import Dropdown from "../ui/dropdown";
 
 type UserFormProps = {
   setShowDialog?: (showDialog: boolean) => void;
@@ -102,6 +103,17 @@ export default function UserForm({
             options={options}
           />
         )}
+        <Dropdown
+          className="tw-w-1/2"
+          filter
+          id="tierId"
+          label="District"
+          // loading={district.isLoading}
+          optionLabel="name"
+          optionValue="id"
+          // options={district.data}
+        />
+
         <div className="tw-flex tw-gap-2 !tw-mt-8">
           <Button
             className="tw-w-1/2 !tw-py-2 !tw-px-8"

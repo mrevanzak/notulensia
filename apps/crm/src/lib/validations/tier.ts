@@ -3,6 +3,17 @@ import { z } from "zod";
 
 export const tierSchema = z.object({
   id: z.string().uuid(),
+  name: z.string(),
+  level: z.coerce.number(),
+  price: z.coerce.number(),
+  duration: z.coerce.number(),
+  status: z.string(),
+});
+
+export const tierFormSchema = tierSchema.omit({ id: true });
+
+export const tierHistorySchema = z.object({
+  id: z.string().uuid(),
   tierName: z.string(),
   duration: z.number(),
   isValid: z.boolean(),
@@ -15,3 +26,6 @@ export const tierSchema = z.object({
     .datetime()
     .transform((date) => moment(date).format("YYYY-MM-DD")),
 });
+
+export type Tier = z.infer<typeof tierSchema>;
+export type TierFormValues = z.infer<typeof tierFormSchema>;

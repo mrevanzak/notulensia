@@ -1,6 +1,6 @@
 import { httpClient } from "@/lib/http";
 import { createPaginatedResponseSchema } from "@/lib/validations/pagination";
-import { tierSchema } from "@/lib/validations/tier";
+import { tierHistorySchema } from "@/lib/validations/tier";
 import { useQuery } from "@tanstack/react-query";
 
 export const getUserTierHistoryKey = "getUserTierHistory";
@@ -11,7 +11,7 @@ export const useGetUserTierHistory = (userId: string) => {
     queryFn: async () => {
       const response = await httpClient.get(`/tier/history/user/${userId}`);
 
-      return createPaginatedResponseSchema(tierSchema).parse(response.data);
+      return createPaginatedResponseSchema(tierHistorySchema).parse(response.data);
     },
     staleTime: Infinity,
   });
