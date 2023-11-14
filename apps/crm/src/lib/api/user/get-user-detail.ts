@@ -11,6 +11,7 @@ export const useGetUserDetail = (userId: string) => {
       const response = await httpClient.get(`/user/${userId}`);
       return userSchema.parse(response.data);
     },
+    enabled: Boolean(userId),
     staleTime: 1000 * 60 * 60 * 2,
   });
 };

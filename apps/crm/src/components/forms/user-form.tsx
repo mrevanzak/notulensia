@@ -8,7 +8,7 @@ import { useInsertUser } from "@/lib/api/user/insert-user";
 import Switch from "../ui/switch";
 import type { UserFormValues } from "@/lib/validations/user";
 import { userFormSchema } from "@/lib/validations/user";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
 import MultiStateCheckbox from "../ui/multi-state-checkbox";
 import { useUpdateUser } from "@/lib/api/user/update-user";
@@ -22,6 +22,7 @@ export default function UserForm({
   setShowDialog,
   edit = false,
 }: UserFormProps): ReactElement {
+  const router = useRouter();
   const { id } = useParams();
 
   const { data } = useGetUserDetail(id as string);
@@ -113,6 +114,7 @@ export default function UserForm({
             label="Cancel"
             onClick={() => {
               setShowDialog && setShowDialog(false);
+              edit && router.back();
             }}
             outlined
             severity="secondary"
