@@ -1,4 +1,4 @@
-import AddFeaturesForm from "@/components/forms/add-features-form";
+import FeaturesForm from "@/components/forms/features-form";
 import { InputText } from "primereact/inputtext";
 import type { ReactElement } from "react";
 
@@ -17,9 +17,9 @@ export default function FeaturesAddPage(): ReactElement {
           />
         </span>
       </div>
-      <div className="col-12 tw-flex tw-flex-col tw-gap-10">
+      <div className="col-12 card tw-shadow tw-space-y-8 p-4">
         <p className="tw-text-xl tw-font-semibold">Add Features</p>
-        <AddFeaturesForm />
+        <FeaturesForm />
       </div>
     </div>
   );

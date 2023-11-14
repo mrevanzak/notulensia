@@ -1,91 +1,52 @@
+"use client";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import type { ReactElement } from "react";
 import Link from "next/link";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { useGetCompany } from "@/lib/api/company/get-company";
+import type { Company } from "@/lib/validations/company";
+import { useDeleteCompany } from "@/lib/api/company/delete-company";
 
 export default function CompanyListPage(): ReactElement {
-  // const { data, isLoading } = useGetEvent();
-  // const dataTable = data?.data;
-  // const deleteEvent = useDeleteEvent();
-  const dataTable = [
-    {
-      action: (
-        <div className="tw-flex tw-space-x-2">
-          <Link href="/company/company-list/edit/12321412421">
-            <Button icon="pi pi-pencil" outlined />
-          </Link>
-          <Button
-            icon="pi pi-trash"
-            // onClick={confirm}
-            severity="danger"
-          />
-        </div>
-      ),
-      code: "ADM",
-      name: "PT Mencari Cinta",
-      address: "Jl. Mahakam 44",
-      phone: "087756483920",
-      userPIC: "Satria",
-    },
-    {
-      action: (
-        <div className="tw-flex tw-space-x-2">
-          <Link href="/company/company-list/edit/12321412421">
-            <Button icon="pi pi-pencil" outlined />
-          </Link>
-          <Button
-            icon="pi pi-trash"
-            // onClick={confirm}
-            severity="danger"
-          />
-        </div>
-      ),
-      code: "ADM",
-      name: "PT Mencari Cinta",
-      address: "Jl. Mahakam 45",
-      phone: "087756483920",
-      userPIC: "Satrio",
-    },
-  ];
+  const { data, isLoading } = useGetCompany();
+  const dataTable = data?.data;
+  const deleteCompany = useDeleteCompany();
 
   const columns = [
     { field: "action", header: "Action" },
     { field: "code", header: "Code" },
     { field: "name", header: "Name" },
     { field: "address", header: "Address" },
-    { field: "phone", header: "Phone Number" },
-    { field: "userPIC", header: "User PIC" },
+    { field: "picPhoneNumber", header: "Phone Number" },
+    { field: "picName", header: "User PIC" },
   ];
 
-  // const actionBodyTemplate = (rowData: Event) => {
-  // const confirm = () => {
-  //   confirmDialog({
-  //     resizable: false,
-  //     contentClassName: "border-noround-top",
-  //     message: "Do you want to delete this record?",
-  //     header: "Delete Confirmation",
-  //     icon: "pi pi-info-circle",
-  //     acceptClassName: "p-button-danger",
-  // accept: () => {
-  //   deleteEvent.mutate(rowData.id);
-  // },
-  //   });
-  // };
-  //   return (
-  //     <div className="tw-flex tw-space-x-2">
-  //       <Link href="/company/company-list/12321412421">
-  //         <Button icon="pi pi-pencil" outlined />
-  //       </Link>
-  //       <Button
-  //         icon="pi pi-trash"
-  // onClick={confirm}
-  //         severity="danger"
-  //       />
-  //     </div>
-  //   );
-  // };
+  const actionBodyTemplate = (rowData: Company) => {
+    const confirm = () => {
+      confirmDialog({
+        resizable: false,
+        contentClassName: "border-noround-top",
+        message: "Do you want to delete this record?",
+        header: "Delete Confirmation",
+        icon: "pi pi-info-circle",
+        acceptClassName: "p-button-danger",
+        accept: () => {
+          deleteCompany.mutate(rowData.id);
+        },
+      });
+    };
+    return (
+      <div className="tw-flex tw-space-x-2">
+        <Link href={`/company/company-list/edit/${rowData.id}`}>
+          <Button icon="pi pi-pencil" outlined />
+        </Link>
+        <Button icon="pi pi-trash" onClick={confirm} severity="danger" />
+      </div>
+    );
+  };
 
   return (
     <div className="grid">
@@ -112,13 +73,12 @@ export default function CompanyListPage(): ReactElement {
           </Link>
         </div>
         <DataTable
-          // loading={isLoading}
+          loading={isLoading}
           // onPage={(e) => {
           //   e.pageCount = data?.numberOfPages;
           //   e.page = data?.pageIndex;
           // }}
           paginator
-          // ref={dt}
           rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
           tableStyle={{ minWidth: "50rem" }}
@@ -126,13 +86,14 @@ export default function CompanyListPage(): ReactElement {
         >
           {columns.map((col) => (
             <Column
-              // body={col.field === "action" && actionBodyTemplate}
+              body={col.field === "action" && actionBodyTemplate}
               field={col.field}
               header={col.header}
               key={col.field}
             />
           ))}
         </DataTable>
+        <ConfirmDialog />
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
-import DistrictForm from "@/components/forms/district-form";
+import CompanyForm from "@/components/forms/company-form";
 import { InputText } from "primereact/inputtext";
 import type { ReactElement } from "react";
 
-export default function DistrictDetailPage(): ReactElement {
+export default function CompanyDetailPage(): ReactElement {
   return (
     <div className="grid">
       <div className="col-12 mb-2 tw-flex tw-flex-row tw-justify-between">
@@ -17,9 +17,9 @@ export default function DistrictDetailPage(): ReactElement {
           />
         </span>
       </div>
-      <div className="col-12 card tw-shadow tw-space-x-8 tw-space-y-8 p-4">
-        <p className="tw-text-xl tw-font-semibold">District Detail</p>
-        <DistrictForm edit />
+      <div className="col-12 card tw-shadow tw-space-y-8 p-4">
+        <p className="tw-text-xl tw-font-semibold">Company Detail</p>
+        <CompanyForm edit />
       </div>
     </div>
   );

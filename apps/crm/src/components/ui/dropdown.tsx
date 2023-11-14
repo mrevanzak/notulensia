@@ -34,6 +34,7 @@ export default function Dropdown({
   float = false,
   options,
   loading,
+  className,
   ...props
 }: DropdownProps): ReactElement {
   const {
@@ -43,10 +44,10 @@ export default function Dropdown({
   const error = get(errors, id);
 
   return (
-    <>
+    <div className={className}>
       {!float && (
         <p
-          className={classNames("block mb-2 tw-text-white", {
+          className={classNames("block mb-2", {
             "p-error": error,
           })}
         >
@@ -87,6 +88,6 @@ export default function Dropdown({
       {error ? (
         <small className="p-error">{error.message?.toString()}</small>
       ) : null}
-    </>
+    </div>
   );
 }

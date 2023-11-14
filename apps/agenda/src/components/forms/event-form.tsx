@@ -191,6 +191,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
               label="Province"
               loading={province.isLoading}
               optionLabel="province"
+              optionValue="province"
               options={province.data}
             />
             <Dropdown
@@ -200,6 +201,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
               label="District"
               loading={district.isLoading}
               optionLabel="district"
+              optionValue="district"
               options={district.data}
             />
             <TextArea float id="address" label="Address" />

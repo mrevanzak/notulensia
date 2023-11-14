@@ -9,3 +9,10 @@ export const profileSchema = z.object({
   expiredAt: z.string().nullable(),
   status: z.string(),
 });
+
+export const optionSchema = z.object({
+  name: z.string(),
+  value: z.string(),
+});
+
+export type Option = z.infer<typeof optionSchema>;

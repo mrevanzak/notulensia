@@ -1,7 +1,5 @@
 import { z } from "zod";
-import { districtSchema } from "./district";
 import { eventCategoryDropdownSchema } from "./event-category";
-import { provinceSchema } from "./province";
 import { scheduleProgramSchema } from "./schedule-program";
 
 export const eventSchema = z.object({
@@ -54,14 +52,8 @@ export const eventFormSchema = z.object({
   locationValue: z.string(),
   address: z.string().nullish(),
   schedules: scheduleProgramSchema.array().optional(),
-  province: provinceSchema
-    .transform((value) => value.province)
-    .or(z.string())
-    .nullish(),
-  district: districtSchema
-    .transform((value) => value.district)
-    .or(z.string())
-    .nullish(),
+  province: z.string().nullish(),
+  district: z.string().nullish(),
   audienceNames: z.string().array().optional(),
 });
 
