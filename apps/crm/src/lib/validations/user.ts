@@ -24,6 +24,7 @@ export const userFormSchema = z.object({
   isCrmUser: z.boolean().default(false),
   phoneNumber: z.string(),
   status: z.string().optional(),
+  tierId: z.string().uuid().optional(),
 });
 
 export const userDropdownSchema = userSchema.pick({

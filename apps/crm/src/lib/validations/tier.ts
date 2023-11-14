@@ -12,6 +12,12 @@ export const tierSchema = z.object({
 
 export const tierFormSchema = tierSchema.omit({ id: true });
 
+export const tierDropdownSchema = tierSchema.pick({
+  id: true,
+  name: true,
+  level: true,
+});
+
 export const tierHistorySchema = z.object({
   id: z.string().uuid(),
   tierName: z.string(),

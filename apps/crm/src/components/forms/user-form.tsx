@@ -13,6 +13,7 @@ import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
 import MultiStateCheckbox from "../ui/multi-state-checkbox";
 import { useUpdateUser } from "@/lib/api/user/update-user";
 import Dropdown from "../ui/dropdown";
+import { useGetTierDropdown } from "@/lib/api/tier/get-tier-dropdown";
 
 type UserFormProps = {
   setShowDialog?: (showDialog: boolean) => void;
@@ -27,6 +28,7 @@ export default function UserForm({
   const { id } = useParams();
 
   const { data } = useGetUserDetail(id as string);
+  const tier = useGetTierDropdown();
   const insertUser = useInsertUser();
   const updateUser = useUpdateUser();
 
@@ -93,6 +95,15 @@ export default function UserForm({
         <Input id="phoneNumber" label="Phone Number" />
         <Input id="email" label="Email" type="email" />
         <Input id="password" label="Password" type="password" />
+        {edit ? <Dropdown
+            filter
+            id="tierId"
+            label="Features"
+            loading={tier.isLoading}
+            optionLabel="name"
+            optionValue="id"
+            options={tier.data}
+          /> : null}
         {!edit ? (
           <Switch className="!tw-mt-6" id="isCrmUser" label="CRM User" />
         ) : (
@@ -103,16 +114,6 @@ export default function UserForm({
             options={options}
           />
         )}
-        <Dropdown
-          className="tw-w-1/2"
-          filter
-          id="tierId"
-          label="District"
-          // loading={district.isLoading}
-          optionLabel="name"
-          optionValue="id"
-          // options={district.data}
-        />
 
         <div className="tw-flex tw-gap-2 !tw-mt-8">
           <Button
