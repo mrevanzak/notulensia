@@ -6,7 +6,7 @@ export const getUserDetailKey = "getUserDetail";
 
 export const useGetUserDetail = (userId: string) => {
   return useQuery({
-    queryKey: [getUserDetailKey],
+    queryKey: [getUserDetailKey, userId],
     queryFn: async () => {
       const response = await httpClient.get(`/user/${userId}`);
       return userSchema.parse(response.data);

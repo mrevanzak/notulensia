@@ -10,6 +10,13 @@ export const userSchema = z.object({
   status: z.string(),
 });
 
+export const userActivitySchema = z.object({
+  id: z.string().uuid(),
+  activity: z.string(),
+  description: z.string(),
+  isCrm: z.boolean(),
+});
+
 export const userFormSchema = z.object({
   name: z.string(),
   email: z.string().email(),
@@ -19,8 +26,6 @@ export const userFormSchema = z.object({
   status: z.string().optional(),
 });
 
-// export const updateUserFormSchema = userFormSchema.
-
 export const userDropdownSchema = userSchema.pick({
   id: true,
   name: true,
@@ -29,3 +34,4 @@ export const userDropdownSchema = userSchema.pick({
 
 export type User = z.infer<typeof userSchema>;
 export type UserFormValues = z.infer<typeof userFormSchema>;
+export type UserActivity = z.infer<typeof userActivitySchema>;

@@ -1,7 +1,5 @@
 import { z } from "zod";
-import { districtSchema } from "./district";
 import { eventCategoryDropdownSchema } from "./event-category";
-import { provinceSchema } from "./province";
 import { scheduleProgramSchema } from "./schedule-program";
 
 export const eventSchema = z.object({
