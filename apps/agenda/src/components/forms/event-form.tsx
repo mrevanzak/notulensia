@@ -163,7 +163,6 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
         }}
       >
         <Dropdown
-          editable
           float
           id="eventCategoryName"
           label="Event Category"
