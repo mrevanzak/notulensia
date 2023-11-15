@@ -60,7 +60,7 @@ function AppSubMenu(props: MenuProps): ReactElement {
               key={item.label}
             />
           ) : (
-            <li className="menu-separator" />
+            <li className="menu-separator tw-border-red-500" />
           );
         })}
       </ul>
