@@ -16,7 +16,6 @@ import Dropdown from "../ui/dropdown";
 import { useGetProvince } from "@/lib/api/province/get-province";
 import { useGetDistrict } from "@/lib/api/district/get-district-by-province";
 import { useGetEventCategoryDropdown } from "@/lib/api/event-category/get-event-category";
-import Chips from "../ui/chips";
 import { DataTable } from "primereact/datatable";
 import type { ColumnEditorOptions, ColumnEvent } from "primereact/column";
 import { Column } from "primereact/column";
@@ -32,6 +31,8 @@ import moment from "moment";
 import Link from "next/link";
 import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar";
+import AutoComplete from "../ui/autocomplete";
+import { useGetAudienceDropdown } from "@/lib/api/audience/get-audience-dropdown";
 
 type EventFormProps = {
   edit?: boolean;
@@ -79,6 +80,8 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
   const eventCategory = useGetEventCategoryDropdown();
   const province = useGetProvince();
   const district = useGetDistrict(watch("province"));
+  const audience = useGetAudienceDropdown();
+  const [audienceFilter, setAudienceFilter] = useState<string[]>();
 
   const scheduleProgram = useScheduleProgramStore(
     (state) => state.scheduleProgram,
@@ -289,11 +292,25 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
             />
           </DataTable>
         </div>
-        <Chips
+        <AutoComplete
+          completeMethod={(e) => {
+            if (!audience.data) return [];
+
+            setAudienceFilter(
+              audience.data
+                .filter((item) => {
+                  return item.audienceName
+                    .toLowerCase()
+                    .includes(e.query.toLowerCase());
+                })
+                .map((item) => item.audienceName),
+            );
+          }}
           float
-          helperText="Use comma (,) as separator"
           id="audienceNames"
           label="Audience Group"
+          multiple
+          suggestions={audienceFilter}
         />
         <FileUpload
           accept="image/*"
