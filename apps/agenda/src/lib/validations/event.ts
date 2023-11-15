@@ -33,7 +33,7 @@ export const eventFormSchema = z.object({
   name: z.string(),
   topic: z.string(),
   purpose: z.string(),
-  preparationNotes: z.string(),
+  preparationNotes: z.string().optional(),
   startAt: z
     .string()
     .datetime()
