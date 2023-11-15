@@ -168,6 +168,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
           label="Event Category"
           loading={eventCategory.isLoading}
           optionLabel="eventCategoryName"
+          optionValue="eventCategoryName"
           options={eventCategory.data}
         />
         <Input float id="name" label="Event Name" />
