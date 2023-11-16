@@ -14,6 +14,8 @@ export class ApiError extends AxiosError {
         return "Email or password is invalid.";
       case ErrorEnum.EventCategoryAlready:
         return "Event Category Name Already";
+      case ErrorEnum.UserIdUsed:
+        return "User ID is already used on another company.";
       default:
         return this.message;
     }

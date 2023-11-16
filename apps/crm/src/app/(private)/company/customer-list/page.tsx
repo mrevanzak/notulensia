@@ -1,92 +1,52 @@
-import { confirmDialog } from "primereact/confirmdialog";
+"use client";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import type { ReactElement } from "react";
 import Link from "next/link";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
+import { useGetUser } from "@/lib/api/user/get-user";
+import { useDeleteUser } from "@/lib/api/user/delete-user";
+import type { User } from "@/lib/validations/user";
 
 export default function CustomerListPage(): ReactElement {
-  // const { data, isLoading } = useGetEvent();
-  // const dataTable = data?.data;
-  // const deleteEvent = useDeleteEvent();
-  const dataTable = [
-    {
-      action: (
-        <div className="tw-flex tw-space-x-2">
-          <Link href="/company/customer-list/edit/12321412421">
-            <Button icon="pi pi-pencil" outlined />
-          </Link>
-          <Button
-            icon="pi pi-trash"
-            // onClick={confirm}
-            severity="danger"
-          />
-        </div>
-      ),
-      name: "John Doe",
-      email: "john@gmail.com",
-      phone: "1234567890",
-      status: "OK",
-      registeredAt: "22-07-2023",
-    },
-    {
-      action: (
-        <div className="tw-flex tw-space-x-2">
-          <Link href="/company/customer-list/edit/12321412421">
-            <Button icon="pi pi-pencil" outlined />
-          </Link>
-          <Button
-            icon="pi pi-trash"
-            // onClick={confirm}
-            severity="danger"
-          />
-        </div>
-      ),
-      name: "Alex Doe",
-      email: "alex@gmail.com",
-      phone: "1234567890",
-      status: "OK",
-      registeredAt: "30-07-2023",
-    },
-  ];
+  const { data, isLoading } = useGetUser();
+  const dataTable = data?.data;
+  const deleteUser = useDeleteUser();
 
   const columns = [
     { field: "action", header: "Action" },
     { field: "name", header: "Name" },
     { field: "email", header: "Email" },
-    { field: "phone", header: "Phone Number" },
+    { field: "phoneNumber", header: "Phone Number" },
     { field: "status", header: "Status" },
     { field: "registeredAt", header: "Registered At" },
   ];
 
-  // const actionBodyTemplate = (rowData: Event) => {
-  // const confirm = () => {
-  //   confirmDialog({
-  //     resizable: false,
-  //     contentClassName: "border-noround-top",
-  //     message: "Do you want to delete this record?",
-  //     header: "Delete Confirmation",
-  //     icon: "pi pi-info-circle",
-  //     acceptClassName: "p-button-danger",
-  // accept: () => {
-  //   deleteEvent.mutate(rowData.id);
-  // },
-  //   });
-  // };
-  //   return (
-  //     <div className="tw-flex tw-space-x-2">
-  //       <Link href="/company/company-list/12321412421">
-  //         <Button icon="pi pi-pencil" outlined />
-  //       </Link>
-  //       <Button
-  //         icon="pi pi-trash"
-  // onClick={confirm}
-  //         severity="danger"
-  //       />
-  //     </div>
-  //   );
-  // };
+  const actionBodyTemplate = (rowData: User) => {
+    const confirm = () => {
+      confirmDialog({
+        resizable: false,
+        contentClassName: "border-noround-top",
+        message: "Do you want to delete this record?",
+        header: "Delete Confirmation",
+        icon: "pi pi-info-circle",
+        acceptClassName: "p-button-danger",
+        accept: () => {
+          deleteUser.mutate(rowData.id);
+        },
+      });
+    };
+    return (
+      <div className="tw-flex tw-space-x-2">
+        <Link href={`/company/customer-list/edit/${rowData.id}`}>
+          <Button icon="pi pi-pencil" outlined />
+        </Link>
+        <Button icon="pi pi-trash" onClick={confirm} severity="danger" />
+      </div>
+    );
+  };
 
   return (
     <div className="grid">
@@ -113,13 +73,12 @@ export default function CustomerListPage(): ReactElement {
           </Link>
         </div>
         <DataTable
-          // loading={isLoading}
+          loading={isLoading}
           // onPage={(e) => {
           //   e.pageCount = data?.numberOfPages;
           //   e.page = data?.pageIndex;
           // }}
           paginator
-          // ref={dt}
           rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
           tableStyle={{ minWidth: "50rem" }}
@@ -127,13 +86,14 @@ export default function CustomerListPage(): ReactElement {
         >
           {columns.map((col) => (
             <Column
-              // body={col.field === "action" && actionBodyTemplate}
+              body={col.field === "action" && actionBodyTemplate}
               field={col.field}
               header={col.header}
               key={col.field}
             />
           ))}
         </DataTable>
+        <ConfirmDialog />
       </div>
     </div>
   );

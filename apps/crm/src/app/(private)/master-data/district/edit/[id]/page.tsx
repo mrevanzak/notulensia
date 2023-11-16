@@ -18,7 +18,7 @@ export default function DistrictDetailPage(): ReactElement {
         </span>
       </div>
       <div className="col-12 card tw-shadow tw-space-x-8 tw-space-y-8 p-4">
-        <p className="tw-text-xl tw-font-semibold">Detail District</p>
+        <p className="tw-text-xl tw-font-semibold">District Detail</p>
         <DistrictForm edit />
       </div>
     </div>
