@@ -29,14 +29,11 @@ export const eventSchema = z.object({
 export type Event = z.infer<typeof eventSchema>;
 
 export const eventFormSchema = z.object({
-  eventCategoryName: eventCategoryDropdownSchema
-    .transform((value) => value.eventCategoryName)
-    .pipe(z.string())
-    .or(z.string()),
+  eventCategoryName: z.string(),
   name: z.string(),
   topic: z.string(),
   purpose: z.string(),
-  preparationNotes: z.string(),
+  preparationNotes: z.string().optional(),
   startAt: z
     .string()
     .datetime()

@@ -20,6 +20,11 @@ export const audienceGroupFormSchema = z.object({
   audiences: audienceFormSchema.array().optional(),
 });
 
+export const audienceDropdownSchema = z.object({
+  id: z.string().uuid(),
+  audienceName: z.string(),
+});
+
 export type AudienceFormValues = z.infer<typeof audienceGroupFormSchema>;
 export type Audience = z.infer<typeof audienceFormSchema>;
 export type AudienceGroup = z.infer<typeof audienceGroupSchema>;
