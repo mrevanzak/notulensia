@@ -1,7 +1,7 @@
 import { httpClient } from "@/lib/http";
 import { eventCategorySchema } from "@/lib/validations/event-category";
 import { createPaginatedResponseSchema } from "@/lib/validations/pagination";
-import { QueryParams } from "@/types/api";
+import type { QueryParams } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 
 export const getEventCategoryKey = "getEventCategoryKey";

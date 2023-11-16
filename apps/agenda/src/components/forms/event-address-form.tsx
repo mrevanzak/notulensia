@@ -14,7 +14,8 @@ import type { ColumnEvent } from "primereact/column";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useGetDetailEventAddress } from "@/lib/api/event-address/get-detail-event-address";
-import { EventAddressForm, eventAddressFormSchema } from "@/lib/validations/event-address";
+import type { EventAddressFormSchema } from "@/lib/validations/event-address";
+import { eventAddressFormSchema } from "@/lib/validations/event-address";
 import { useInsertEventAddress } from "@/lib/api/event-address/insert-event-address";
 import { useUpdateEventAddress } from "@/lib/api/event-address/update-event-address";
 
@@ -31,7 +32,7 @@ export default function EventAddressForm({ edit }: EventAddressFormProps): React
   const insertEventAddress = useInsertEventAddress();
   const updateEventAddress = useUpdateEventAddress();
 
-  const methods = useForm<EventAddressForm>({
+  const methods = useForm<EventAddressFormSchema>({
     resolver: zodResolver(eventAddressFormSchema),
     values,
     resetOptions: {
