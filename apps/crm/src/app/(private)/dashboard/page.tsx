@@ -5,21 +5,14 @@ import { MdHomeWork, MdOutlineEventAvailable } from "react-icons/md";
 import { BsPeopleFill } from "react-icons/bs";
 import LineChart from "@/components/dashboard/line-chart";
 import Image from "next/image";
+import SearchInput from "@/components/ui/search-input";
 
 export default function Dashboard(): ReactElement {
   return (
     <div className="grid">
       <div className="col-12 mb-2 tw-flex tw-flex-row tw-justify-between">
         <h2>CRM</h2>
-        <span className="p-input-icon-right tw-w-1/2">
-          <i className="pi pi-search" />
-          <InputText
-            placeholder="Search"
-            pt={{
-              root: { className: "tw-w-full" },
-            }}
-          />
-        </span>
+        <SearchInput className="tw-w-1/2" />
       </div>
       <div className="col-4">
         <div className="card tw-shadow">

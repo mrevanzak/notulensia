@@ -7,3 +7,10 @@ export enum ErrorEnum {
   EventCategoryAlready = "EVENT_CATEGORY_NAME_ALREADY_USED",
   UserIdUsed = "USER_ID_WAS_USED_ANOTHER_COMPANY",
 }
+
+export type PaginatedParams = {
+  limit?: number;
+  orderBy?: string;
+  pageIndex?: number;
+  search?: string;
+};
