@@ -164,19 +164,50 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
     ) : null;
 
   return (
-    <li
-      className={classNames({
-        "layout-root-menuitem": props.root,
-        "active-menuitem": active,
-      })}
-      ref={menuitemRef}
-    >
+    <li className={classNames({"layout-root-menuitem": props.root, "active-menuitem": active, })} ref={menuitemRef} >
       {/* {props.root && item?.visible !== false ? ( */}
       {/*   <div className="layout-menuitem-root-text"> */}
       {/*     <span>{item?.label}</span> */}
       {/*     <i className="layout-menuitem-root-icon pi pi-fw pi-ellipsis-h" /> */}
       {/*   </div> */}
       {/* ) : null} */}
+
+      {
+        (!item?.to || item?.items) && item?.visible !== false && item?.label !== "root" ? 
+          (
+            < a className={classNames(
+                item?.className,
+                "p-ripple tw-text-xl px-8 tw-space-x-8",
+                {
+                  "active-route": isActiveRoute,
+                },
+                
+              )}
+              data-pr-disabled={
+                !(isSlim() && props.root && !layoutState.menuHoverActive)
+              }
+              data-pr-tooltip={item?.label}
+              href={item?.url}
+              onClick={(e) => {
+                itemClick(e);
+              }}
+              onMouseEnter={onMouseEnter}
+              tabIndex={0}
+              target={item?.target} 
+            >
+              {item?.icon}
+              <span className="layout-menuitem-text tw-justify-center">{item?.label}</span>
+              {item?.items ? (
+                <i className="pi pi-angle-down absolute tw-right-8 layout-submenu-toggler" />
+              ) : null}
+              <Ripple />
+            </a>
+          ) 
+          : 
+          null
+      }
+
+
       {item?.to && !item?.items && item?.visible !== false ? (
         <Link
           className={classNames(item?.class, "p-ripple tw-space-x-8 tw-text-xl px-8", {
