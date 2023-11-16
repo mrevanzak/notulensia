@@ -19,5 +19,5 @@ export const eventAddressFormSchema = z.object({
     address : z.string().nullish(),
 })
 
-export type EventAddressForm = z.infer<typeof eventAddressFormSchema>;
+export type EventAddressFormSchema = z.infer<typeof eventAddressFormSchema>;
 

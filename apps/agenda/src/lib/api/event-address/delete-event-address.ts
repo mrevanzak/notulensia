@@ -1,6 +1,5 @@
 import { httpClient } from "@/lib/http";
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { getDetailEventAddressKey } from "./get-detail-event-address";
 import { getEventAddressKey } from "./get-event-address";
 
 export const useDeleteEventAddress = () => {

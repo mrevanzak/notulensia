@@ -8,11 +8,10 @@ import { Button } from "primereact/button";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useInsertEventCategory } from "@/lib/api/event-category/insert-event-category";
-import { EventCategorySchemaForm, eventCategorySchemaForm } from "@/lib/validations/event-category";
+import type { EventCategorySchemaForm} from "@/lib/validations/event-category";
+import { eventCategorySchemaForm } from "@/lib/validations/event-category";
 import { useGetDetailEventCategory } from "@/lib/api/event-category/get-detail-event-category";
 import { useUpdateEventCategory } from "@/lib/api/event-category/update-event-category";
-import { useQueryClient } from "@tanstack/react-query";
-import { getEventCategoryKey } from "@/lib/api/event-category/get-event-categories";
 
 type EventCategoryFormProps = {
   edit?: boolean;
