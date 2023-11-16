@@ -5,15 +5,14 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import type { Event } from "@/lib/validations/event";
 import Link from "next/link";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useGetEventAddress } from "@/lib/api/event-address/get-event-address";
 import { useDeleteEventAddress } from "@/lib/api/event-address/delete-event-address";
-import { EventAddress } from "@/lib/validations/event-address";
+import type { EventAddress } from "@/lib/validations/event-address";
 import { renderNullableValue } from "@/lib/nullable";
 
-export default function EventAddress(): ReactElement {
+export default function EventAddressPage(): ReactElement {
   const { data, isLoading } = useGetEventAddress();
   const dataTable = data?.data;
   const deleteEventAddress = useDeleteEventAddress();

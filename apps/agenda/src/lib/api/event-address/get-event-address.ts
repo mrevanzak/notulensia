@@ -1,7 +1,7 @@
 import { httpClient } from "@/lib/http";
 import { eventAddressSchema } from "@/lib/validations/event-address";
 import { createPaginatedResponseSchema } from "@/lib/validations/pagination";
-import { QueryParams } from "@/types/api";
+import type { QueryParams } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 
 export const getEventAddressKey = "getEventAddress";

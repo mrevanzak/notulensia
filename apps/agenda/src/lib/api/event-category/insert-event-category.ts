@@ -1,5 +1,5 @@
 import { httpClient } from "@/lib/http";
-import { EventCategorySchemaForm } from "@/lib/validations/event-category";
+import type { EventCategorySchemaForm } from "@/lib/validations/event-category";
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation";
 import { getEventCategoryKey } from "./get-event-categories";

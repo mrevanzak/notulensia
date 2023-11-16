@@ -9,7 +9,7 @@ import Link from "next/link";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useDeleteEventCategory } from "@/lib/api/event-category/delete-event-category";
 import { useGetEventCategory } from "@/lib/api/event-category/get-event-categories";
-import { EventCategorySchema } from "@/lib/validations/event-category";
+import type { EventCategorySchema } from "@/lib/validations/event-category";
 
 export default function EventCategories(): ReactElement {
   const { data, isLoading } = useGetEventCategory();
