@@ -2,9 +2,10 @@
 import CustomerDetailInfo from "@/components/company/customer-list/customer-detail-info";
 import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
+import type { DataTablePageEvent } from "primereact/datatable";
 import { DataTable } from "primereact/datatable";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
@@ -16,6 +17,7 @@ import type { Event } from "@/lib/validations/event";
 import { useGetUserActivity } from "@/lib/api/user/get-user-activity";
 import type { UserActivity } from "@/lib/validations/user";
 import { useGetUserTierHistory } from "@/lib/api/tier/get-user-tier-history";
+import SearchInput from "@/components/ui/search-input";
 
 const columnsEC = [
   { field: "eventName", header: "Event Name" },
@@ -38,17 +40,37 @@ const columnsFH = [
 ];
 
 export default function EditCustomerPage(): ReactElement {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search");
+  const [tableState, setTableState] = useState<DataTablePageEvent>({
+    first: 0,
+    page: 0,
+    rows: 10,
+  });
+
   const [viewTable, setViewTable] = useState("Event Company");
   const [showDialog, setShowDialog] = useState(false);
 
   const { id } = useParams();
   const { data } = useGetUserDetail(id as string);
 
-  const eventCompany = useGetEventCompanyByUserId(id as string);
+  const eventCompany = useGetEventCompanyByUserId(id as string, {
+    pageIndex: tableState.page,
+    limit: tableState.rows,
+    search: search ?? "",
+  });
   const eventCompanyDataTable = eventCompany.data?.data ?? [];
-  const userActivity = useGetUserActivity(id as string);
+  const userActivity = useGetUserActivity(id as string, {
+    pageIndex: tableState.page,
+    limit: tableState.rows,
+    search: search ?? "",
+  });
   const userActivityDataTable = userActivity.data?.data ?? [];
-  const tierHistory = useGetUserTierHistory(id as string);
+  const tierHistory = useGetUserTierHistory(id as string, {
+    pageIndex: tableState.page,
+    limit: tableState.rows,
+    search: search ?? "",
+  });
   const tierHistoryDataTable = tierHistory.data?.data ?? [];
 
   const isOnlineBodyTemplate = (rowData: Event) => {
@@ -174,22 +196,27 @@ export default function EditCustomerPage(): ReactElement {
                 Features History
               </Button>
             </div>
-            <span className="p-input-icon-right tw-w-1/3">
-              <i className="pi pi-search" />
-              <InputText
-                placeholder="Search"
-                pt={{
-                  root: { className: "tw-w-full" },
-                }}
-              />
-            </span>
+            <SearchInput className="tw-w-1/3" />
           </div>
           {viewTable === "Event Company" && (
             <DataTable
+              first={tableState.first}
+              lazy
+              loading={eventCompany.isLoading || eventCompany.isFetching}
+              onPage={(e) => {
+                setTableState({
+                  ...tableState,
+                  page: e.page,
+                  rows: e.rows,
+                  pageCount: e.pageCount,
+                  first: e.first,
+                });
+              }}
               paginator
-              rows={5}
-              rowsPerPageOptions={[5, 10, 25, 50]}
+              rows={tableState.rows}
+              rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 50, 100]}
               tableStyle={{ minWidth: "50rem" }}
+              totalRecords={eventCompany.data?.total}
               value={eventCompanyDataTable}
             >
               {columnsEC.map((col) => (
@@ -204,10 +231,23 @@ export default function EditCustomerPage(): ReactElement {
           )}
           {viewTable === "User Activity" && (
             <DataTable
+              first={tableState.first}
+              lazy
+              loading={userActivity.isLoading || userActivity.isFetching}
+              onPage={(e) => {
+                setTableState({
+                  ...tableState,
+                  page: e.page,
+                  rows: e.rows,
+                  pageCount: e.pageCount,
+                  first: e.first,
+                });
+              }}
               paginator
-              rows={5}
-              rowsPerPageOptions={[5, 10, 25, 50]}
+              rows={tableState.rows}
+              rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 50, 100]}
               tableStyle={{ minWidth: "50rem" }}
+              totalRecords={userActivity.data?.total}
               value={userActivityDataTable}
             >
               {columnsUA.map((col) => (
@@ -222,10 +262,23 @@ export default function EditCustomerPage(): ReactElement {
           )}
           {viewTable === "Features History" && (
             <DataTable
+              first={tableState.first}
+              lazy
+              loading={tierHistory.isLoading || tierHistory.isFetching}
+              onPage={(e) => {
+                setTableState({
+                  ...tableState,
+                  page: e.page,
+                  rows: e.rows,
+                  pageCount: e.pageCount,
+                  first: e.first,
+                });
+              }}
               paginator
-              rows={5}
-              rowsPerPageOptions={[5, 10, 25, 50]}
+              rows={tableState.rows}
+              rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 50, 100]}
               tableStyle={{ minWidth: "50rem" }}
+              totalRecords={tierHistory.data?.total}
               value={tierHistoryDataTable}
             >
               {columnsFH.map((col) => (
