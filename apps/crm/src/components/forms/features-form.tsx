@@ -10,6 +10,7 @@ import { tierFormSchema, tierSchema } from "@/lib/validations/tier";
 import { useParams, useRouter } from "next/navigation";
 import { useUpdateTier } from "@/lib/api/tier/update-tier";
 import { useGetTierDetail } from "@/lib/api/tier/get-tier-detail";
+import Dropdown from "../ui/dropdown";
 
 type FeaturesFormProps = {
   edit?: boolean;
@@ -31,15 +32,17 @@ export default function FeaturesForm({
       keepDirtyValues: true,
     },
   });
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = methods;
+  const {handleSubmit, formState: { errors }} = methods;
+  
   const onSubmit = handleSubmit((data) => {
+    console.log(data);
     edit
-      ? updateTier.mutate({ ...data, id: id as string })
+      ? updateTier.mutate({ ...data, id: id as string})
       : inserTier.mutate(data);
   });
+
+  
+
   return (
     <FormProvider {...methods}>
       <form
@@ -53,7 +56,18 @@ export default function FeaturesForm({
         <Input id="level" label="Level" />
         <Input id="price" label="Price" />
         <Input id="duration" label="Duration" />
-        <Input id="status" label="Status" />
+
+        <Dropdown
+            id="status"
+            label="Status"
+            optionLabel="label"
+            optionValue="status"
+            options={[
+              {label:"Active", status : "ACTIVE"}, 
+              {label: "In Active", status : "INACTIVE"}
+            ]}
+        />
+
         <div className="tw-flex tw-justify-end tw-gap-2 tw-w-full tw-ms-auto tw-mt-8">
           <Button
             className="tw-w-fit !tw-py-2 !tw-px-8"
