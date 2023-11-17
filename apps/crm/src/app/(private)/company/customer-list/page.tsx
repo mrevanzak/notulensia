@@ -1,17 +1,32 @@
 "use client";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import type { DataTablePageEvent } from "primereact/datatable";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
-import type { ReactElement } from "react";
+import { useState, type ReactElement } from "react";
 import Link from "next/link";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
 import { useGetUser } from "@/lib/api/user/get-user";
 import { useDeleteUser } from "@/lib/api/user/delete-user";
 import type { User } from "@/lib/validations/user";
+import SearchInput from "@/components/ui/search-input";
+import { useSearchParams } from "next/navigation";
 
 export default function CustomerListPage(): ReactElement {
-  const { data, isLoading } = useGetUser();
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search");
+  const [tableState, setTableState] = useState<DataTablePageEvent>({
+    first: 0,
+    page: 0,
+    rows: 10,
+  });
+
+  const { data, isLoading, isFetching } = useGetUser({
+    pageIndex: tableState.page,
+    limit: tableState.rows,
+    search: search ?? "",
+  });
   const dataTable = data?.data;
   const deleteUser = useDeleteUser();
 
@@ -52,15 +67,7 @@ export default function CustomerListPage(): ReactElement {
     <div className="grid">
       <div className="col-12 mb-2 tw-flex tw-flex-row tw-justify-between">
         <h2>CRM</h2>
-        <span className="p-input-icon-right tw-w-1/2">
-          <i className="pi pi-search" />
-          <InputText
-            placeholder="Search"
-            pt={{
-              root: { className: "tw-w-full" },
-            }}
-          />
-        </span>
+        <SearchInput className="tw-w-1/2" />
       </div>
       <div className="col-12 tw-flex tw-flex-col tw-gap-10">
         <div className="tw-flex tw-items-center tw-justify-between tw-w-full">
@@ -73,15 +80,23 @@ export default function CustomerListPage(): ReactElement {
           </Link>
         </div>
         <DataTable
-          loading={isLoading}
-          // onPage={(e) => {
-          //   e.pageCount = data?.numberOfPages;
-          //   e.page = data?.pageIndex;
-          // }}
+          first={tableState.first}
+          lazy
+          loading={isLoading || isFetching}
+          onPage={(e) => {
+            setTableState({
+              ...tableState,
+              page: e.page,
+              rows: e.rows,
+              pageCount: e.pageCount,
+              first: e.first,
+            });
+          }}
           paginator
-          rows={5}
-          rowsPerPageOptions={[5, 10, 25, 50]}
+          rows={tableState.rows}
+          rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 50, 100]}
           tableStyle={{ minWidth: "50rem" }}
+          totalRecords={data?.total}
           value={dataTable}
         >
           {columns.map((col) => (
