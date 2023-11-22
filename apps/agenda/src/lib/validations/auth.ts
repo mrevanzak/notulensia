@@ -6,3 +6,10 @@ export const authSchema = z.object({
 });
 
 export type SignInFormValues = z.infer<typeof authSchema>;
+
+
+export const authGoogleSchema = z.object({
+  token : z.string(),
+});
+
+export type SignInGoogleFormValues = z.infer<typeof authGoogleSchema>;

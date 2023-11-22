@@ -16,7 +16,7 @@ export const useUpdateTier = () => {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [getTierKey] });
       void queryClient.invalidateQueries({ queryKey: [getTierDetailKey] });
-      router.push("/master-data/tier");
+      router.push("/features");
     },
   });
 };

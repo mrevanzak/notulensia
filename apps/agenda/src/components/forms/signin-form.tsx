@@ -4,16 +4,21 @@ import { authSchema } from "@/lib/validations/auth";
 import Link from "next/link";
 import { Button } from "primereact/button";
 import type { ReactElement } from "react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
 import { useSignIn } from "@/lib/api/auth/sign-in";
 import { errorMessages } from "@/lib/error";
+import { useSignInGoogle } from "@/lib/api/auth/sign-in-google";
+
+
 
 export default function SignInForm(): ReactElement {
   const { mutate, isPending, isError, error } = useSignIn();
-
+  const {mutate:google, isError:isErrorGoogle, error:googleError} = useSignInGoogle();
+  const [isLoading, setIsLoading] = useState(false);  
+  
   const methods = useForm<SignInFormValues>({
     resolver: zodResolver(authSchema),
   });
@@ -21,6 +26,35 @@ export default function SignInForm(): ReactElement {
   const onSubmit = handleSubmit((data) => {
     mutate({ ...data });
   });
+
+    const hash = typeof window !== 'undefined' ? window.location.hash : null;
+    const hashParams = hash != null ? new URLSearchParams(hash.slice(1)) : null;
+    const ssoToken = hashParams != null ? hashParams.get('access_token') : null;
+
+  useEffect(() => {
+    if(isErrorGoogle || googleError) setIsLoading(false);
+    if(ssoToken) {google({token:ssoToken}); setIsLoading(true)};
+  }, [ssoToken])
+
+  const handleGoogleAuth = () => {
+    const auth = 'https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount';
+    const queryParams = {
+      client_id: '898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com',
+      redirect_uri: 'https://agenda.saranaintegrasi.co.id/auth/sign-in',
+      scope : 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+      prompt : 'select_account',
+      response_type : 'token',
+      include_granted_scopes: true,
+      enable_granular_consent:true,
+    };
+    const queryString = Object.keys(queryParams)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`)
+      .join('&');
+
+    const url = `${auth}?${queryString}`;
+    window.location.href = url;
+    setIsLoading(true);
+  };
 
   return (
     <div
@@ -62,6 +96,7 @@ export default function SignInForm(): ReactElement {
           />
         </form>
       </FormProvider>
+      <Button className="w-full !tw-p-4 !tw-mt-8" icon="pi pi-google" loading={isLoading} label="Login with Google" onClick={handleGoogleAuth} />
     </div>
   );
 }

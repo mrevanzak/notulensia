@@ -2,7 +2,6 @@
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import type { DataTablePageEvent } from "primereact/datatable";
 import { DataTable } from "primereact/datatable";
-import { InputText } from "primereact/inputtext";
 import { useState, type ReactElement } from "react";
 import Link from "next/link";
 import { Button } from "primereact/button";
