@@ -16,6 +16,7 @@ export type AuthResponse = {
 export type AuthState = Partial<AuthResponse> & {
   login: (data: AuthResponse) => void;
   logout: () => void;
+  loginWithGoogle: (data: AuthResponse) => void;
 };
 
 export const useAuthStore = create<AuthState>()(
@@ -37,6 +38,14 @@ export const useAuthStore = create<AuthState>()(
               token_type: undefined,
               access_token: undefined,
               expires_in: undefined,
+            }));
+          },
+          loginWithGoogle: (auth) => {
+            set(() => ({
+              refresh_token: auth.refresh_token,
+              token_type: auth.token_type,
+              access_token: auth.access_token,
+              expires_in: auth.expires_in,
             }));
           },
         }),

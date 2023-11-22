@@ -18,7 +18,7 @@ export default function AuthProvider({
 }: AuthProviderProps): ReactElement {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect");
+    const redirect = searchParams.get("redirect");
   const pathname = usePathname();
 
   //#region  //*=========== STORE ===========
