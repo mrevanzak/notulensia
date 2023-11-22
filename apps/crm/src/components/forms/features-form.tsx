@@ -35,7 +35,6 @@ export default function FeaturesForm({
   const {handleSubmit, formState: { errors }} = methods;
   
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
     edit
       ? updateTier.mutate({ ...data, id: id as string})
       : inserTier.mutate(data);
