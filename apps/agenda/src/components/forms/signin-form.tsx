@@ -28,8 +28,8 @@ export default function SignInForm(): ReactElement {
   });
 
     const hash = typeof window !== 'undefined' ? window.location.hash : null;
-    const hashParams = hash != null ? new URLSearchParams(hash.slice(1)) : null;
-    const ssoToken = hashParams != null ? hashParams.get('access_token') : null;
+    const hashParams = hash !== null ? new URLSearchParams(hash.slice(1)) : null;
+    const ssoToken = hashParams !== null ? hashParams.get('access_token') : null;
 
   useEffect(() => {
     if(isErrorGoogle || googleError) setIsLoading(false);
