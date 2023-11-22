@@ -6,7 +6,7 @@ import { TbCategory2, TbHomeDot, TbListDetails } from "react-icons/tb";
 import { RxCalendar } from "react-icons/rx";
 import { GoDatabase } from "react-icons/go";
 import { FaRegAddressCard } from "react-icons/fa6";
-import { MdDomain, MdGroups, MdOutlineSettings } from "react-icons/md";
+import { MdGroups, MdOutlineSettings } from "react-icons/md";
 import { LuBadgeHelp } from "react-icons/lu";
 
 function AppMenu(): ReactElement {
