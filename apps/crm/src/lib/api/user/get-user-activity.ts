@@ -25,6 +25,5 @@ export const useGetUserActivity = (
         response.data,
       );
     },
-    staleTime: Infinity,
   });
 };

@@ -1,8 +1,8 @@
 "use client";
 import type { ReactElement } from "react";
-import React, { useRef } from "react";
-import { InputText } from "primereact/inputtext";
+import React, { useState } from "react";
 import { Button } from "primereact/button";
+import type { DataTablePageEvent } from "primereact/datatable";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import Link from "next/link";
@@ -10,9 +10,23 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { useDeleteEventCategory } from "@/lib/api/event-category/delete-event-category";
 import { useGetEventCategory } from "@/lib/api/event-category/get-event-categories";
 import type { EventCategorySchema } from "@/lib/validations/event-category";
+import { useSearchParams } from "next/navigation";
+import SearchInput from "@/components/ui/search-input";
 
 export default function EventCategories(): ReactElement {
-  const { data, isLoading } = useGetEventCategory();
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search");
+  const [tableState, setTableState] = useState<DataTablePageEvent>({
+    first: 0,
+    page: 0,
+    rows: 10,
+  });
+
+  const { data, isLoading, isFetching } = useGetEventCategory({
+    pageIndex: tableState.page,
+    limit: tableState.rows,
+    search: search ?? "",
+  });
   const dataTable = data?.data;
   const deleteEventCategory = useDeleteEventCategory();
 
@@ -40,14 +54,8 @@ export default function EventCategories(): ReactElement {
     );
   };
 
-  const dt = useRef<DataTable<EventCategorySchema[]>>(null);
-
   return (
     <div className="card bg-purple-50 tw-space-y-3  tw-min-h-[calc(100vh-4rem)]">
-      <h2 className="tw-my-4 tw-mb-6">
-        Event Category
-        <div className="tw-mt-4 tw-border tw-border-dark-purple"> </div>
-      </h2>
       <div className="tw-flex tw-justify-between">
         <div className="tw-space-x-6">
           <Link href="/data-master/event-category/add">
@@ -56,27 +64,30 @@ export default function EventCategories(): ReactElement {
             </Button>
           </Link>
         </div>
-        <span className="p-input-icon-right tw-w-1/4">
-          <i className="pi pi-search" />
-          <InputText
-            placeholder="Search"
-            pt={{
-              root: { className: "tw-w-full" },
-            }}
-          />
-        </span>
+        <SearchInput className="tw-w-1/4" />
       </div>
       <DataTable
-        loading={isLoading}
+        first={tableState.first}
+        lazy
+        loading={isLoading || isFetching}
+        onPage={(e) => {
+          setTableState({
+            ...tableState,
+            page: e.page,
+            rows: e.rows,
+            pageCount: e.pageCount,
+            first: e.first,
+          });
+        }}
         paginator
-        ref={dt}
-        rows={5}
-        rowsPerPageOptions={[5, 10, 25, 50]}
+        rows={tableState.rows}
+        rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 50, 100]}
         tableStyle={{ minWidth: "50rem" }}
+        totalRecords={data?.total}
         value={dataTable}
       >
         <Column body={actionBodyTemplate} field="action" header="Action" />
-        <Column field="eventCategoryName" header = "Event Category Name" />
+        <Column field="eventCategoryName" header="Event Category Name" />
       </DataTable>
       <ConfirmDialog />
     </div>

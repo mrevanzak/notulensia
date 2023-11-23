@@ -12,6 +12,5 @@ export const useGetUserDropdown = () => {
 
       return userDropdownSchema.array().parse(response.data);
     },
-    staleTime: Infinity,
   });
 };

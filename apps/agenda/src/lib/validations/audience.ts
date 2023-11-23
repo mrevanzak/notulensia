@@ -12,6 +12,7 @@ export const audienceFormSchema = z.object({
   job: z.string(),
   phoneNumber: z.string(),
   email: z.string().email(),
+  description: z.string().optional(),
 });
 
 export const audienceGroupFormSchema = z.object({
@@ -28,3 +29,4 @@ export const audienceDropdownSchema = z.object({
 export type AudienceFormValues = z.infer<typeof audienceGroupFormSchema>;
 export type Audience = z.infer<typeof audienceFormSchema>;
 export type AudienceGroup = z.infer<typeof audienceGroupSchema>;
+export type AudienceDropdown = z.infer<typeof audienceDropdownSchema>;

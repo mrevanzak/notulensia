@@ -1,9 +1,11 @@
-import {useAuthStore} from "@/stores/use-auth-store";
+import { useAuthStore } from "@/stores/use-auth-store";
 import axios from "axios";
-import {ApiError} from "@/lib/error";
+import { ApiError } from "@/lib/error";
+
+export const API_URL = "https://agenda.saranaintegrasi.co.id/api/v1";
 
 export const httpClient = axios.create({
-  baseURL: "https://agenda.saranaintegrasi.co.id/api/v1",
+  baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -27,5 +29,5 @@ httpClient.interceptors.response.use(
       useAuthStore.getState().logout();
     }
     return Promise.reject(error);
-  }
+  },
 );

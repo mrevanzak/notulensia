@@ -13,6 +13,5 @@ export const useGetCompanyDetail = (companyId?: string) => {
       return updateCompanyFormSchema.parse(response.data);
     },
     enabled: Boolean(companyId),
-    staleTime: Infinity,
   });
 };

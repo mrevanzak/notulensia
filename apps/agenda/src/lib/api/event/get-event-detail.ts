@@ -13,6 +13,5 @@ export const useGetEventDetail = (eventId?: string) => {
       return updateEventFormSchema.parseAsync(response.data);
     },
     enabled: Boolean(eventId),
-    staleTime: Infinity,
   });
 };

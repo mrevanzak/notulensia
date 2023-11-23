@@ -6,7 +6,7 @@ type AudienceState = {
   counter: number;
   audience: Audience[];
   set: (audience: Audience[]) => void;
-  add: (audience: Audience) => void;
+  add: (audience: Audience | Audience[]) => void;
   reset: () => void;
   remove: (name: string) => void;
 };
@@ -17,7 +17,10 @@ export const useAudienceStore = create<AudienceState>()(
     counter: 0,
     add: (audience) => {
       set((state) => ({
-        audience: [...state.audience, audience],
+        audience: [
+          ...state.audience,
+          ...(Array.isArray(audience) ? audience : [audience]),
+        ],
         counter: state.counter + 1,
       }));
     },

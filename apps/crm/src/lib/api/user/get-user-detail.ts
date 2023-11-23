@@ -12,6 +12,5 @@ export const useGetUserDetail = (userId: string) => {
       return userSchema.parse(response.data);
     },
     enabled: Boolean(userId),
-    staleTime: 1000 * 60 * 60 * 2,
   });
 };

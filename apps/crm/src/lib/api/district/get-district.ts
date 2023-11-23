@@ -6,7 +6,11 @@ import type { PaginatedParams } from "@/types/api";
 
 export const getDistrictKey = "getDistrict";
 
-export const useGetDistrict = ({ limit, pageIndex, search }: PaginatedParams) => {
+export const useGetDistrict = ({
+  limit,
+  pageIndex,
+  search,
+}: PaginatedParams) => {
   return useQuery({
     queryKey: [getDistrictKey, { limit, pageIndex, search }],
     queryFn: async () => {
@@ -20,6 +24,5 @@ export const useGetDistrict = ({ limit, pageIndex, search }: PaginatedParams) =>
 
       return createPaginatedResponseSchema(districtSchema).parse(response.data);
     },
-    staleTime: Infinity,
   });
 };

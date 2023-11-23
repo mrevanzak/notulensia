@@ -27,6 +27,5 @@ export const useGetEventCompanyByUserId = (
 
       return createPaginatedResponseSchema(eventSchema).parse(response.data);
     },
-    staleTime: Infinity,
   });
 };

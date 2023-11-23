@@ -12,6 +12,5 @@ export const useGetProvinceDropdown = () => {
 
       return provinceSchema.array().parse(response.data);
     },
-    staleTime: Infinity,
   });
 };

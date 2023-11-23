@@ -38,6 +38,7 @@ export default function AddAudienceForm({
       >
         <Input float id="name" label="Name" />
         <Input float id="job" label="Job" />
+        <Input float id="description" label="Description" />
         <Input float id="phoneNumber" label="Phone Number" />
         <Input float id="email" label="Email" />
         <div className="tw-flex tw-justify-center tw-gap-4">
