@@ -25,14 +25,14 @@ function AppMenu(): ReactElement {
           to: "/company",
           items: [
             {
+              className: "!tw-pl-36",
               label: "Company List",
               to: "/company/company-list",
-              className: "!tw-pl-36",
             },
             {
+              className: "!tw-pl-36",
               label: "Customer List",
               to: "/company/customer-list",
-              className: "!tw-pl-36",
             },
           ],
         },
@@ -42,19 +42,19 @@ function AppMenu(): ReactElement {
           to: "/master-data",
           items: [
             {
+              className: "!tw-pl-36",
               label: "Province List",
               to: "/master-data/province",
-              className: "!tw-pl-36",
             },
             {
+              className: "!tw-pl-36",
               label: "District List",
               to: "/master-data/district",
-              className: "!tw-pl-36",
             },
             {
+              className: "!tw-pl-36", 
               label: "Event Category List",
               to : "/master-data/event-category",
-              className: "!tw-pl-36",
             },
           ],
         },

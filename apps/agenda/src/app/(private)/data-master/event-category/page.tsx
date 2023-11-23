@@ -46,7 +46,7 @@ export default function EventCategories(): ReactElement {
     <div className="card bg-purple-50 tw-space-y-3  tw-min-h-[calc(100vh-4rem)]">
       <h2 className="tw-my-4 tw-mb-6">
         Event Category
-        <div className="tw-mt-4 tw-border tw-border-dark-purple"></div>
+        <div className="tw-mt-4 tw-border tw-border-dark-purple"> </div>
       </h2>
       <div className="tw-flex tw-justify-between">
         <div className="tw-space-x-6">
