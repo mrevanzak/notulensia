@@ -20,6 +20,5 @@ export const useGetTier = ({ limit, pageIndex, search }: PaginatedParams) => {
 
       return createPaginatedResponseSchema(tierSchema).parse(response.data);
     },
-    staleTime: Infinity,
   });
 };

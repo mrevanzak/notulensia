@@ -1,29 +1,23 @@
 import { httpClient } from "@/lib/http";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { getEventKey } from "./get-event";
 import type { InsertEventParams } from "./insert-event";
 import { getEventDetailKey } from "./get-event-detail";
 
-type UpdateEventParams = InsertEventParams & { id: string };
+type UpdateEventParams = Required<Pick<InsertEventParams, "audienceUsers">> & {
+  id: string;
+};
 
-export const useUpdateEvent = () => {
+export const useUpdateOngoingEvent = () => {
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   return useMutation({
     mutationFn: async (data: UpdateEventParams) => {
-      await httpClient.put(`/event/${data.id}`, {
-        ...data,
-        audienceNames: data?.audienceNames?.map(
-          (audience) => audience.audienceName,
-        ),
-      });
+      await httpClient.put(`/event/ongoing/${data.id}`, data);
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [getEventKey] });
       void queryClient.invalidateQueries({ queryKey: [getEventDetailKey] });
-      router.push("/events");
     },
   });
 };

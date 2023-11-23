@@ -6,11 +6,10 @@ import { useQuery } from "@tanstack/react-query";
 
 export const getUserTierHistoryKey = "getUserTierHistory";
 
-export const useGetUserTierHistory = (userId: string, {
-  limit,
-  pageIndex,
-  search,
-}: PaginatedParams) => {
+export const useGetUserTierHistory = (
+  userId: string,
+  { limit, pageIndex, search }: PaginatedParams,
+) => {
   return useQuery({
     queryKey: [getUserTierHistoryKey, userId, { limit, pageIndex, search }],
     queryFn: async () => {
@@ -26,6 +25,5 @@ export const useGetUserTierHistory = (userId: string, {
         response.data,
       );
     },
-    staleTime: Infinity,
   });
 };

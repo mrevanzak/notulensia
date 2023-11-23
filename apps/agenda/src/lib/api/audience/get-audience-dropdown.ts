@@ -12,6 +12,5 @@ export const useGetAudienceDropdown = () => {
 
       return audienceDropdownSchema.array().parse(response.data);
     },
-    staleTime: 1000 * 60 * 60 * 2,
   });
 };

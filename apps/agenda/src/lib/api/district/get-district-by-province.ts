@@ -17,6 +17,5 @@ export const useGetDistrict = (province?: string | null) => {
       return districtSchema.array().parse(response.data);
     },
     enabled: Boolean(province),
-    staleTime: Infinity,
   });
 };

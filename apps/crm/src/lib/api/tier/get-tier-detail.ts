@@ -13,6 +13,5 @@ export const useGetTierDetail = (tierId?: string) => {
       return tierSchema.parse(response.data);
     },
     enabled: Boolean(tierId),
-    staleTime: Infinity,
   });
 };

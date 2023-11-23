@@ -15,6 +15,5 @@ export const useGetEventListCalendar = (viewDate: Date) => {
 
       return eventCalendarSchema.array().parse(response.data);
     },
-    staleTime: 1000 * 60 * 60 * 2,
   });
 };

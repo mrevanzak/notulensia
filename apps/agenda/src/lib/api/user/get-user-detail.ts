@@ -11,6 +11,5 @@ export const useGetUserDetail = () => {
       const response = await httpClient.get("/user/me");
       return profileSchema.parse(response.data);
     },
-    staleTime: 1000 * 60 * 60 * 2,
   });
 };

@@ -24,6 +24,5 @@ export const useGetCompany = ({
 
       return createPaginatedResponseSchema(companySchema).parse(response.data);
     },
-    staleTime: Infinity,
   });
 };
