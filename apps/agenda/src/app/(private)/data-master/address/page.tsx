@@ -1,8 +1,8 @@
 "use client";
 import type { ReactElement } from "react";
-import React, { useRef } from "react";
-import { InputText } from "primereact/inputtext";
+import React, { useState } from "react";
 import { Button } from "primereact/button";
+import type { DataTablePageEvent } from "primereact/datatable";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import Link from "next/link";
@@ -11,9 +11,23 @@ import { useGetEventAddress } from "@/lib/api/event-address/get-event-address";
 import { useDeleteEventAddress } from "@/lib/api/event-address/delete-event-address";
 import type { EventAddress } from "@/lib/validations/event-address";
 import { renderNullableValue } from "@/lib/nullable";
+import { useSearchParams } from "next/navigation";
+import SearchInput from "@/components/ui/search-input";
 
 export default function EventAddressPage(): ReactElement {
-  const { data, isLoading } = useGetEventAddress();
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search");
+  const [tableState, setTableState] = useState<DataTablePageEvent>({
+    first: 0,
+    page: 0,
+    rows: 10,
+  });
+
+  const { data, isLoading, isFetching } = useGetEventAddress({
+    pageIndex: tableState.page,
+    limit: tableState.rows,
+    search: search ?? "",
+  });
   const dataTable = data?.data;
   const deleteEventAddress = useDeleteEventAddress();
 
@@ -41,17 +55,8 @@ export default function EventAddressPage(): ReactElement {
     );
   };
 
-  const dt = useRef<DataTable<EventAddress[]>>(null);
-  const exportCSV = (selectionOnly: boolean): void => {
-    dt?.current?.exportCSV({ selectionOnly });
-  };
-
   return (
     <div className="card bg-purple-50 tw-space-y-3  tw-min-h-[calc(100vh-4rem)]">
-      <h2 className="tw-my-4 tw-mb-6">
-        Event Address
-        <div className="tw-mt-4 tw-border tw-border-dark-purple"> </div>
-      </h2>
       <div className="tw-flex tw-justify-between">
         <div className="tw-space-x-6">
           <Link href="/data-master/address/add">
@@ -60,28 +65,35 @@ export default function EventAddressPage(): ReactElement {
             </Button>
           </Link>
         </div>
-        <span className="p-input-icon-right tw-w-1/4">
-          <i className="pi pi-search" />
-          <InputText
-            placeholder="Search"
-            pt={{
-              root: { className: "tw-w-full" },
-            }}
-          />
-        </span>
+        <SearchInput className="tw-w-1/4" />
       </div>
       <DataTable
-        loading={isLoading}
+        first={tableState.first}
+        lazy
+        loading={isLoading || isFetching}
+        onPage={(e) => {
+          setTableState({
+            ...tableState,
+            page: e.page,
+            rows: e.rows,
+            pageCount: e.pageCount,
+            first: e.first,
+          });
+        }}
         paginator
-        ref={dt}
-        rows={5}
-        rowsPerPageOptions={[5, 10, 25, 50]}
+        rows={tableState.rows}
+        rowsPerPageOptions={[5, 10, 15, 20, 25, 30, 50, 100]}
         tableStyle={{ minWidth: "50rem" }}
+        totalRecords={data?.total}
         value={dataTable}
       >
         <Column body={actionBodyTemplate} field="action" header="Action" />
-        <Column field="location" header = "Location Name" />
-        <Column body = {(data) => renderNullableValue(data.districtName)} field="district" header = "District" />
+        <Column field="location" header="Location Name" />
+        <Column
+          body={(data) => renderNullableValue(data.districtName)}
+          field="district"
+          header="District"
+        />
       </DataTable>
       <ConfirmDialog />
     </div>

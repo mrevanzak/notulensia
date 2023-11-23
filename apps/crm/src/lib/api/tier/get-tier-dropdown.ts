@@ -12,6 +12,5 @@ export const useGetTierDropdown = () => {
 
       return tierDropdownSchema.array().parse(response.data);
     },
-    staleTime: Infinity,
   });
 };

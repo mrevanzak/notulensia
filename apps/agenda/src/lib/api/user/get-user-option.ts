@@ -11,6 +11,5 @@ export const useGetUserOption = () => {
       const response = await httpClient.get("/user/option");
       return optionSchema.array().parse(response.data);
     },
-    staleTime: Infinity,
   });
 };

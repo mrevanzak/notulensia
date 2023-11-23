@@ -12,6 +12,5 @@ export const useGetProvince = () => {
 
       return provinceSchema.array().parse(response.data);
     },
-    staleTime: Infinity,
   });
 };

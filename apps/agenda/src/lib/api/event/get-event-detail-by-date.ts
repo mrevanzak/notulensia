@@ -15,6 +15,5 @@ export const useGetEventDetailByDate = (date?: Date | null) => {
       return eventCalendarDetailSchema.array().parse(response.data);
     },
     enabled: Boolean(date),
-    staleTime: Infinity,
   });
 };

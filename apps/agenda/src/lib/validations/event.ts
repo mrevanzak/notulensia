@@ -1,6 +1,7 @@
 import { z } from "zod";
-import { eventCategoryDropdownSchema } from "./event-category";
+import { audienceDropdownSchema } from "./audience";
 import { scheduleProgramSchema } from "./schedule-program";
+import { storageSchema } from "./storage";
 
 export const eventSchema = z.object({
   id: z.string().uuid(),
@@ -51,7 +52,8 @@ export const eventFormSchema = z.object({
   schedules: scheduleProgramSchema.array().optional(),
   province: z.string().nullish(),
   district: z.string().nullish(),
-  audienceNames: z.string().array().optional(),
+  audienceNames: audienceDropdownSchema.array().optional(),
+  files: storageSchema.array().optional(),
 });
 
 export const updateEventFormSchema = eventFormSchema
@@ -65,10 +67,14 @@ export const updateEventFormSchema = eventFormSchema
       .array()
       .optional()
       .nullable(),
+    phase: z.enum(["PRE", "ONGOING", "POST"]),
   })
   .transform((value) => ({
     ...value,
-    audienceNames: value.audiences?.map((audience) => audience.audienceName),
+    audienceNames: value.audiences?.map((audience) => ({
+      id: audience.audienceId,
+      audienceName: audience.audienceName,
+    })),
   }));
 
 export const eventCalendarSchema = z.object({

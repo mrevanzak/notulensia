@@ -1,23 +1,21 @@
 import { z } from "zod";
-import { provinceSchema } from "./province";
-import { districtSchema } from "./district";
 
-// get List
 export const eventAddressSchema = z.object({
-    id: z.string().uuid(),
-    location : z.string(),
-    districtName : z.string().nullable()
-})
+  id: z.string().uuid(),
+  location: z.string(),
+  districtName: z.string().nullish(),
+  provinceName: z.string().nullish(),
+  address: z.string().nullish(),
+});
 
 export type EventAddress = z.infer<typeof eventAddressSchema>;
 
 export const eventAddressFormSchema = z.object({
-    id : z.string().uuid().nullish(),
-    location: z.string().nullish(),
-    provinceId : z.string().uuid().nullish(),
-    districtId : z.string().uuid().nullish(),
-    address : z.string().nullish(),
-})
+  id: z.string().uuid().nullish(),
+  location: z.string().nullish(),
+  provinceId: z.string().uuid().nullish(),
+  districtId: z.string().uuid().nullish(),
+  address: z.string().nullish(),
+});
 
 export type EventAddressFormSchema = z.infer<typeof eventAddressFormSchema>;
-

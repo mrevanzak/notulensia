@@ -1,7 +1,7 @@
 import { httpClient } from "@/lib/http";
 import { createPaginatedResponseSchema } from "@/lib/validations/pagination";
 import { useQuery } from "@tanstack/react-query";
-import {  eventCategorySchema } from "@/lib/validations/event-category";
+import { eventCategorySchema } from "@/lib/validations/event-category";
 import type { PaginatedParams } from "@/types/api";
 
 export const getEventCategoryKey = "getEventCategory";
@@ -26,6 +26,5 @@ export const useGetEventCategories = ({
         response.data,
       );
     },
-    staleTime: Infinity,
   });
 };

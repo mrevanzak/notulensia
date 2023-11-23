@@ -1,21 +1,20 @@
 import { httpClient } from "@/lib/http";
 import { eventSchema } from "@/lib/validations/event";
 import { createPaginatedResponseSchema } from "@/lib/validations/pagination";
-import type { QueryParams } from "@/types/api";
+import type { PaginatedParams } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 
 export const getEventKey = "getEvent";
 
-export const useGetEvent = (query?: QueryParams) => {
+export const useGetEvent = (params?: PaginatedParams) => {
   return useQuery({
-    queryKey: [getEventKey],
+    queryKey: [getEventKey, params],
     queryFn: async () => {
       const response = await httpClient.get("/event", {
-        params: query,
+        params,
       });
 
       return createPaginatedResponseSchema(eventSchema).parse(response.data);
     },
-    staleTime: 1000 * 60 * 60 * 2,
   });
 };

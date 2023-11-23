@@ -13,6 +13,5 @@ export const useGetDistrictDetail = (districtId?: string) => {
       return districtFormSchema.parse(response.data);
     },
     enabled: Boolean(districtId),
-    staleTime: Infinity,
   });
 };

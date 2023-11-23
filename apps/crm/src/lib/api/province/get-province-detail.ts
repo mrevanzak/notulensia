@@ -13,6 +13,5 @@ export const useGetProvinceDetail = (provinceId?: string) => {
       return provinceSchema.parse(response.data);
     },
     enabled: Boolean(provinceId),
-    staleTime: Infinity,
   });
 };

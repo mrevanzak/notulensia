@@ -20,6 +20,5 @@ export const useGetUser = ({ limit, pageIndex, search }: PaginatedParams) => {
 
       return createPaginatedResponseSchema(userSchema).parse(response.data);
     },
-    staleTime: Infinity,
   });
 };
