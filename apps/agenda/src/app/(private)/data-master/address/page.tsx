@@ -50,7 +50,7 @@ export default function EventAddressPage(): ReactElement {
     <div className="card bg-purple-50 tw-space-y-3  tw-min-h-[calc(100vh-4rem)]">
       <h2 className="tw-my-4 tw-mb-6">
         Event Address
-        <div className="tw-mt-4 tw-border tw-border-dark-purple"></div>
+        <div className="tw-mt-4 tw-border tw-border-dark-purple"> </div>
       </h2>
       <div className="tw-flex tw-justify-between">
         <div className="tw-space-x-6">
@@ -81,7 +81,7 @@ export default function EventAddressPage(): ReactElement {
       >
         <Column body={actionBodyTemplate} field="action" header="Action" />
         <Column field="location" header = "Location Name" />
-        <Column field="district" header = "District" body = {(data) => renderNullableValue(data.districtName)}/>
+        <Column body = {(data) => renderNullableValue(data.districtName)} field="district" header = "District" />
       </DataTable>
       <ConfirmDialog />
     </div>

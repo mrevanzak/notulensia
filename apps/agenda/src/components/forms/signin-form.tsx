@@ -96,7 +96,13 @@ export default function SignInForm(): ReactElement {
           />
         </form>
       </FormProvider>
-      <Button className="w-full !tw-p-4 !tw-mt-8" icon="pi pi-google" loading={isLoading} label="Login with Google" onClick={handleGoogleAuth} />
+      <Button
+        className="w-full !tw-p-4 !tw-mt-8"
+        icon="pi pi-google"
+        label="Login with Google"
+        loading={isLoading}
+        onClick={handleGoogleAuth}
+      />
     </div>
   );
 }
