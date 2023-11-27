@@ -6,7 +6,6 @@ import { useGetEventDetail } from "@/lib/api/event/get-event-detail";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import AudienceListCard from "../audience-list-card";
-import { useGetAudienceDetail } from "@/lib/api/audience/get-audience-detail";
 import { useAudienceStore } from "@/stores/use-audience-store";
 import { useUpdateOngoingEvent } from "@/lib/api/event/update-ongoing-event";
 import { FileUpload } from "primereact/fileupload";
@@ -16,16 +15,11 @@ export default function PostEventForm(): ReactElement {
   const { data } = useGetEventDetail(id as string);
   const { mutate, isPending } = useUpdateOngoingEvent();
 
-  const audienceIds = data?.audiences?.map((item) => item.audienceId) ?? [];
-  const audienceList = useGetAudienceDetail(audienceIds);
   const setAudience = useAudienceStore((state) => state.set);
 
   useEffect(() => {
-    const audiences = audienceList.flatMap(
-      (item) => item.data?.audiences ?? [],
-    );
-    setAudience(audiences);
-  }, [audienceList]);
+    setAudience(data?.audienceUsers ?? []);
+  }, [data]);
 
   const onSave = () => {
     mutate({

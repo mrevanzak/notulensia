@@ -16,13 +16,20 @@ export const useAudienceStore = create<AudienceState>()(
     audience: [],
     counter: 0,
     add: (audience) => {
-      set((state) => ({
-        audience: [
-          ...state.audience,
-          ...(Array.isArray(audience) ? audience : [audience]),
-        ],
-        counter: state.counter + 1,
-      }));
+      set((state) => {
+        const newAudience = Array.isArray(audience) ? audience : [audience];
+        const isUnique = newAudience.every(
+          (audience) =>
+            !state.audience.find((item) => item.name === audience.name),
+        );
+
+        if (!isUnique) return state;
+
+        return {
+          audience: [...state.audience, ...newAudience],
+          counter: state.counter + 1,
+        };
+      });
     },
     reset: () => {
       set(() => ({

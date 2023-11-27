@@ -38,7 +38,8 @@ export default function Calendar({ pt }: CalendarPropsSingle): ReactElement {
               span.classList.add(
                 "tw-absolute",
                 "tw-bottom-0",
-                "tw-right-11",
+                "tw-left-1/2",
+                "-tw-translate-x-1/2",
                 "tw-w-2",
                 "tw-h-2",
                 "tw-rounded-full",

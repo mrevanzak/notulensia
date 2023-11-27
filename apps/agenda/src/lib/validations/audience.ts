@@ -12,7 +12,7 @@ export const audienceFormSchema = z.object({
   job: z.string(),
   phoneNumber: z.string(),
   email: z.string().email(),
-  description: z.string().optional(),
+  description: z.string().nullish(),
 });
 
 export const audienceGroupFormSchema = z.object({
