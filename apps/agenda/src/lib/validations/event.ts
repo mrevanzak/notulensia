@@ -95,4 +95,16 @@ export const eventCalendarDetailSchema = eventFormSchema.omit({
   address: true,
 });
 
+export const attendHistorySchema = audienceFormSchema
+  .omit({
+    isAttend: true,
+  })
+  .extend({
+    attendedAt: z
+      .string()
+      .datetime()
+      .transform((value) => new Date(value)),
+  });
+
+export type AttendHistory = z.infer<typeof attendHistorySchema>;
 export type EventFormValues = z.infer<typeof eventFormSchema>;

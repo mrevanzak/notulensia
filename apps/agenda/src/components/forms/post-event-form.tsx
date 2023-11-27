@@ -9,6 +9,7 @@ import AudienceListCard from "../audience-list-card";
 import { useAudienceStore } from "@/stores/use-audience-store";
 import { useUpdateOngoingEvent } from "@/lib/api/event/update-ongoing-event";
 import { FileUpload } from "primereact/fileupload";
+import AttendanceHistoryCard from "../attendance-history-card";
 
 export default function PostEventForm(): ReactElement {
   const { id } = useParams();
@@ -31,6 +32,7 @@ export default function PostEventForm(): ReactElement {
   return (
     <>
       <AudienceListCard />
+      <AttendanceHistoryCard />
       <FileUpload
         accept="image/*"
         emptyTemplate={
