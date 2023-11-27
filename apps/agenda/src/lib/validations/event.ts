@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { audienceDropdownSchema } from "./audience";
+import { audienceDropdownSchema, audienceFormSchema } from "./audience";
 import { scheduleProgramSchema } from "./schedule-program";
 import { storageSchema } from "./storage";
 
@@ -54,6 +54,7 @@ export const eventFormSchema = z.object({
   district: z.string().nullish(),
   audienceNames: audienceDropdownSchema.array().optional(),
   files: storageSchema.array().optional(),
+  audienceUsers: audienceFormSchema.array().optional(),
 });
 
 export const updateEventFormSchema = eventFormSchema

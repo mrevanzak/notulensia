@@ -39,10 +39,11 @@ import type { AudienceDropdown } from "@/lib/validations/audience";
 import { useGetAudienceDetail } from "@/lib/api/audience/get-audience-detail";
 import { useGetEventAddressDropdown } from "@/lib/api/event-address/get-event-address-dropdown";
 import { useInsertEventAddress } from "@/lib/api/event-address/insert-event-address";
-import { API_URL } from "@/lib/http";
+import { API_URL, httpClient } from "@/lib/http";
 import { useAuthStore } from "@/stores/use-auth-store";
 import type { Storage } from "@/lib/validations/storage";
 import { useDeleteFile } from "@/lib/api/storage/delete-file";
+import { toast } from "react-toastify";
 
 type EventFormProps = {
   edit?: boolean;
@@ -66,7 +67,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   });
   const { handleSubmit, watch, resetField, setValue, getValues, control } =
     methods;
-  const { append, remove } = useFieldArray({
+  const { append, remove, replace } = useFieldArray({
     control,
     name: "files",
   });
@@ -125,15 +126,17 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
 
   const audienceIds = watch("audienceNames")?.map((item) => item.id);
   const audienceList = useGetAudienceDetail(audienceIds);
+  const loadingAudienceList = audienceList.some((item) => item.isLoading);
+  const audiences = audienceList.flatMap((item) => item.data?.audiences ?? []);
 
   const setAudience = useAudienceStore((state) => state.set);
+  const addAudience = useAudienceStore((state) => state.add);
 
   useEffect(() => {
-    const audiences = audienceList.flatMap(
-      (item) => item.data?.audiences ?? [],
-    );
-    setAudience(audiences);
-  }, [audienceList]);
+    if (!loadingAudienceList) {
+      addAudience(audiences);
+    }
+  }, [audiences.length]);
 
   const scheduleProgram = useScheduleProgramStore(
     (state) => state.scheduleProgram,
@@ -188,6 +191,12 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     if (values?.schedules) {
       setScheduleProgram(values.schedules);
     }
+    if (values?.files) {
+      replace(values.files);
+    }
+    if (values?.audienceUsers) {
+      setAudience(values.audienceUsers);
+    }
   }, [values]);
 
   const dateBodyTemplate = (rowData: ScheduleProgram) =>
@@ -211,19 +220,48 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   const deleteFile = useDeleteFile();
   const actionBodyFileTemplate = (rowData: Storage) => {
     return (
-      <Button
-        icon="pi pi-trash"
-        onClick={(e) => {
-          e.preventDefault();
-          deleteFile.mutate(rowData.storageId);
+      <div className="tw-flex tw-gap-2">
+        <Button
+          icon="pi pi-download"
+          onClick={(e) => {
+            e.preventDefault();
+            httpClient
+              .get(`/storage/agenda/${rowData.storageId}`, {
+                responseType: "blob",
+              })
+              .then((response) => {
+                const url = window.URL.createObjectURL(response.data);
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute(
+                  "download",
+                  `${rowData.name}.${rowData.format}`,
+                );
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+              })
+              .catch(() => {
+                toast.error("Error downloading file");
+                // Handle the error as needed, e.g., show a user-friendly message
+              });
+          }}
+        />
+        <Button
+          icon="pi pi-trash"
+          onClick={(e) => {
+            e.preventDefault();
+            deleteFile.mutate(rowData.storageId);
 
-          const index = getValues("files")?.findIndex(
-            (item: Storage) => item.storageId === rowData.storageId,
-          );
-          remove(index);
-        }}
-        severity="danger"
-      />
+            const index = getValues("files")?.findIndex(
+              (item: Storage) => item.storageId === rowData.storageId,
+            );
+            remove(index);
+          }}
+          severity="danger"
+        />
+      </div>
     );
   };
 
@@ -255,24 +293,26 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
         </div>
         <Checkbox id="isOnline" label="Via Online" />
         <div className="tw-relative">
-          <Button
-            className="tw-absolute tw-bottom-12 tw-right-0"
-            label="Save as preset"
-            onClick={() => {
-              insertEventAddressPreset.mutate({
-                address: getValues("address"),
-                districtId: district.data?.find(
-                  (item) => item.district === getValues("district"),
-                )?.id,
-                location: getValues("locationValue"),
-                provinceId: province.data?.find(
-                  (item) => item.province === getValues("province"),
-                )?.id,
-              });
-            }}
-            outlined
-            type="button"
-          />
+          {!watch("isOnline") && (
+            <Button
+              className="tw-absolute tw-bottom-12 tw-right-0"
+              label="Save as preset"
+              onClick={() => {
+                insertEventAddressPreset.mutate({
+                  address: getValues("address"),
+                  districtId: district.data?.find(
+                    (item) => item.district === getValues("district"),
+                  )?.id,
+                  location: getValues("locationValue"),
+                  provinceId: province.data?.find(
+                    (item) => item.province === getValues("province"),
+                  )?.id,
+                });
+              }}
+              outlined
+              type="button"
+            />
+          )}
           <Dropdown
             editable
             float
@@ -413,33 +453,35 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           suggestions={audienceFilter}
         />
         <AudienceListCard />
-        <FileUpload
-          accept="image/*"
-          emptyTemplate={
-            <p className="m-0">Drag and drop files to here to upload.</p>
-          }
-          maxFileSize={1000000}
-          multiple
-          name="file"
-          onBeforeSend={(e) => {
-            e.xhr.setRequestHeader(
-              "Authorization",
-              `Bearer ${useAuthStore.getState().access_token}`,
-            );
-          }}
-          onUpload={(e) => {
-            e.files.forEach((item) => {
-              append({
-                name: item.name.split(".").shift() ?? "",
-                format: item.name.split(".").pop()?.toLowerCase() ?? "",
-                storageId: JSON.parse(e.xhr.response).id,
-              });
-            });
-          }}
-          url={`${API_URL}/storage/agenda`}
-        />
         <div className="card tw-space-y-3">
-          <h4>Attachment Files</h4>
+          <div className="tw-flex tw-justify-between tw-items-center">
+            <h4>Attachment Files</h4>
+            <FileUpload
+              accept="image/*"
+              emptyTemplate={
+                <p className="m-0">Drag and drop files to here to upload.</p>
+              }
+              maxFileSize={2 * 1024 * 1024}
+              mode="basic"
+              name="file"
+              onBeforeSend={(e) => {
+                e.xhr.setRequestHeader(
+                  "Authorization",
+                  `Bearer ${useAuthStore.getState().access_token}`,
+                );
+              }}
+              onUpload={(e) => {
+                e.files.forEach((item) => {
+                  append({
+                    name: item.name.split(".").shift() ?? "",
+                    format: item.name.split(".").pop()?.toLowerCase() ?? "",
+                    storageId: JSON.parse(e.xhr.response).id,
+                  });
+                });
+              }}
+              url={`${API_URL}/storage/agenda`}
+            />
+          </div>
           <DataTable
             editMode="cell"
             emptyMessage="Please add attachment files"
