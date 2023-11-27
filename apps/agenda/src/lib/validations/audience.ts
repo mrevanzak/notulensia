@@ -13,6 +13,7 @@ export const audienceFormSchema = z.object({
   phoneNumber: z.string(),
   email: z.string().email(),
   description: z.string().nullish(),
+  isAttend: z.boolean().default(false).nullish(),
 });
 
 export const audienceGroupFormSchema = z.object({

@@ -5,17 +5,24 @@ import type { ColumnEditorOptions, ColumnEvent } from "primereact/column";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { Dialog } from "primereact/dialog";
+import { Checkbox } from "primereact/checkbox";
 import { InputText } from "primereact/inputtext";
 import { useAudienceStore } from "@/stores/use-audience-store";
 import React, { useEffect, useState } from "react";
 import AddAudienceForm from "./forms/add-audience-form";
+import { useExportAudience } from "@/lib/api/export/export-audience";
+import { useParams } from "next/navigation";
+import ExportButton from "./export-button";
 
 export default function AudienceListCard() {
+  const { id } = useParams();
   const [showDialog, setShowDialog] = useState(false);
 
   const audience = useAudienceStore((state) => state.audience);
   const removeAudience = useAudienceStore((state) => state.remove);
   const reset = useAudienceStore((state) => state.reset);
+
+  const exportAudience = useExportAudience(id as string);
 
   useEffect(() => {
     reset();
@@ -29,11 +36,21 @@ export default function AudienceListCard() {
   const textEditor = (options: ColumnEditorOptions) => {
     return (
       <InputText
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange={(e) => {
           options.editorCallback && options.editorCallback(e.target.value);
         }}
         type="text"
         value={options.value}
+      />
+    );
+  };
+  const checkboxEditor = (options: ColumnEditorOptions) => {
+    return (
+      <Checkbox
+        checked={options.value}
+        onChange={(e) => {
+          options.editorCallback && options.editorCallback(e.target.checked);
+        }}
       />
     );
   };
@@ -79,7 +96,7 @@ export default function AudienceListCard() {
             }}
             type="button"
           />
-          <Button outlined>Import</Button>
+          <ExportButton action={exportAudience.mutate} outlined />
         </div>
       </div>
       <DataTable
@@ -120,6 +137,16 @@ export default function AudienceListCard() {
           field="email"
           header="Email"
           headerStyle={{ width: "20%" }}
+          onCellEditComplete={onCellEditComplete}
+        />
+        <Column
+          body={(rowData: Audience) => {
+            return rowData.isAttend ? "Yes" : "No";
+          }}
+          editor={(options) => checkboxEditor(options)}
+          field="isAttend"
+          header="Attend"
+          headerStyle={{ width: "2rem" }}
           onCellEditComplete={onCellEditComplete}
         />
         <Column

@@ -8,6 +8,7 @@ import Link from "next/link";
 import AudienceListCard from "../audience-list-card";
 import { useAudienceStore } from "@/stores/use-audience-store";
 import { useUpdateOngoingEvent } from "@/lib/api/event/update-ongoing-event";
+import AttendanceHistoryCard from "../attendance-history-card";
 
 export default function OngoingEventForm(): ReactElement {
   const { id } = useParams();
@@ -30,6 +31,7 @@ export default function OngoingEventForm(): ReactElement {
   return (
     <>
       <AudienceListCard />
+      <AttendanceHistoryCard />
       <div className="tw-flex tw-justify-between">
         <div className="tw-flex tw-gap-4">
           <Button label="Send Notif" />
