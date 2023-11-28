@@ -15,7 +15,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function CustomerListPage(): ReactElement {
   const searchParams = useSearchParams();
-  const search = searchParams.get("search");
+  const search = searchParams?.get("search");
   const [tableState, setTableState] = useState<DataTablePageEvent>({
     first: 0,
     page: 0,

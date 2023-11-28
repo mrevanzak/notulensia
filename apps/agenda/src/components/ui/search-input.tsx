@@ -12,7 +12,7 @@ export default function SearchInput({ className }: SearchInputProps) {
   const pathName = usePathname();
   const router = useRouter();
 
-  const search = searchParams.get("search");
+  const search = searchParams?.get("search");
   const [value, setValue] = useState(search ?? "");
 
   return (

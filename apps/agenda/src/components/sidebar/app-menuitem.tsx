@@ -5,7 +5,7 @@ import { classNames } from "primereact/utils";
 import type { ReactElement } from "react";
 import { useContext, useEffect, useRef } from "react";
 import { LayoutContext } from "../../context/layout-context";
-import { MenuContext } from "../../context/menu-context"
+import { MenuContext } from "../../context/menu-context";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useSubmenuOverlayPosition } from "@/hooks/use-submenu-overlay-position";
 import type { AppMenuItemProps } from "@/types/layout";
@@ -58,7 +58,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
     if (!(isSlim() || isSlimPlus() || isHorizontal()) && isActiveRoute) {
       setActiveMenu(key);
     }
-    const url = pathname + searchParams.toString();
+    const url = `${pathname}${searchParams?.toString()}}`;
     const onRouteChange = (): void => {
       if (!(isSlim() || isHorizontal()) && item?.to && item?.to === url) {
         setActiveMenu(key);
@@ -164,7 +164,13 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
     ) : null;
 
   return (
-    <li className={classNames({"layout-root-menuitem": props.root, "active-menuitem": active, })} ref={menuitemRef} >
+    <li
+      className={classNames({
+        "layout-root-menuitem": props.root,
+        "active-menuitem": active,
+      })}
+      ref={menuitemRef}
+    >
       {/* {props.root && item?.visible !== false ? ( */}
       {/*   <div className="layout-menuitem-root-text"> */}
       {/*     <span>{item?.label}</span> */}
@@ -172,47 +178,49 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
       {/*   </div> */}
       {/* ) : null} */}
 
-      {
-        (!item?.to || item?.items) && item?.visible !== false && item?.label !== "root" ? 
-          (
-            < a className={classNames(
-                item?.className,
-                "p-ripple tw-text-xl px-8 tw-space-x-8",
-                {
-                  "active-route": isActiveRoute,
-                },
-                
-              )}
-              data-pr-disabled={
-                !(isSlim() && props.root && !layoutState.menuHoverActive)
-              }
-              data-pr-tooltip={item?.label}
-              href={item?.url}
-              onClick={(e) => {
-                itemClick(e);
-              }}
-              onMouseEnter={onMouseEnter}
-              tabIndex={0}
-              target={item?.target} 
-            >
-              {item?.icon}
-              <span className="layout-menuitem-text tw-justify-center">{item?.label}</span>
-              {item?.items ? (
-                <i className="pi pi-angle-down absolute tw-right-8 layout-submenu-toggler" />
-              ) : null}
-              <Ripple />
-            </a>
-          ) 
-          : 
-          null
-      }
-
+      {(!item?.to || item?.items) &&
+      item?.visible !== false &&
+      item?.label !== "root" ? (
+        <a
+          className={classNames(
+            item?.className,
+            "p-ripple tw-text-xl px-8 tw-space-x-8",
+            {
+              "active-route": isActiveRoute,
+            },
+          )}
+          data-pr-disabled={
+            !(isSlim() && props.root && !layoutState.menuHoverActive)
+          }
+          data-pr-tooltip={item?.label}
+          href={item?.url}
+          onClick={(e) => {
+            itemClick(e);
+          }}
+          onMouseEnter={onMouseEnter}
+          tabIndex={0}
+          target={item?.target}
+        >
+          {item?.icon}
+          <span className="layout-menuitem-text tw-justify-center">
+            {item?.label}
+          </span>
+          {item?.items ? (
+            <i className="pi pi-angle-down absolute tw-right-8 layout-submenu-toggler" />
+          ) : null}
+          <Ripple />
+        </a>
+      ) : null}
 
       {item?.to && !item?.items && item?.visible !== false ? (
         <Link
-          className={classNames(item?.class, "p-ripple tw-space-x-8 tw-text-xl px-8", {
-            "active-route": isActiveRoute,
-          })}
+          className={classNames(
+            item?.class,
+            "p-ripple tw-space-x-8 tw-text-xl px-8",
+            {
+              "active-route": isActiveRoute,
+            },
+          )}
           href={item?.to}
           onClick={(e) => {
             itemClick(e);

@@ -11,8 +11,10 @@ import { useUpdateOngoingEvent } from "@/lib/api/event/update-ongoing-event";
 import AttendanceHistoryCard from "../attendance-history-card";
 
 export default function OngoingEventForm(): ReactElement {
-  const { id } = useParams();
-  const { data } = useGetEventDetail(id as string);
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
+
+  const { data } = useGetEventDetail(id);
   const { mutate, isPending } = useUpdateOngoingEvent();
 
   const setAudience = useAudienceStore((state) => state.set);
@@ -24,7 +26,7 @@ export default function OngoingEventForm(): ReactElement {
   const onSave = () => {
     mutate({
       audienceUsers: useAudienceStore.getState().audience,
-      id: id as string,
+      id,
     });
   };
 

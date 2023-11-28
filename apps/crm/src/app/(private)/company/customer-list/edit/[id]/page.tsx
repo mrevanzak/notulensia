@@ -41,7 +41,7 @@ const columnsFH = [
 
 export default function EditCustomerPage(): ReactElement {
   const searchParams = useSearchParams();
-  const search = searchParams.get("search");
+  const search = searchParams?.get("search");
   const [tableState, setTableState] = useState<DataTablePageEvent>({
     first: 0,
     page: 0,
@@ -51,22 +51,24 @@ export default function EditCustomerPage(): ReactElement {
   const [viewTable, setViewTable] = useState("Event Company");
   const [showDialog, setShowDialog] = useState(false);
 
-  const { id } = useParams();
-  const { data } = useGetUserDetail(id as string);
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
 
-  const eventCompany = useGetEventCompanyByUserId(id as string, {
+  const { data } = useGetUserDetail(id);
+
+  const eventCompany = useGetEventCompanyByUserId(id, {
     pageIndex: tableState.page,
     limit: tableState.rows,
     search: search ?? "",
   });
   const eventCompanyDataTable = eventCompany.data?.data ?? [];
-  const userActivity = useGetUserActivity(id as string, {
+  const userActivity = useGetUserActivity(id, {
     pageIndex: tableState.page,
     limit: tableState.rows,
     search: search ?? "",
   });
   const userActivityDataTable = userActivity.data?.data ?? [];
-  const tierHistory = useGetUserTierHistory(id as string, {
+  const tierHistory = useGetUserTierHistory(id, {
     pageIndex: tableState.page,
     limit: tableState.rows,
     search: search ?? "",

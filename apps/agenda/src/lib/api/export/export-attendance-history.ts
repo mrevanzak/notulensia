@@ -6,7 +6,7 @@ export const exportAttendanceHistoryKey = "exportAttendanceHistory";
 
 export const useExportAttendanceHistory = (
   eventId: string,
-  params?: PaginatedParams & { date?: string }
+  params?: PaginatedParams & { date?: string },
 ) => {
   return useMutation({
     mutationKey: [exportAttendanceHistoryKey, eventId, params],
@@ -19,7 +19,7 @@ export const useExportAttendanceHistory = (
             exportType,
           },
           responseType: "blob",
-        }
+        },
       );
 
       return response.data as Blob;
@@ -30,7 +30,9 @@ export const useExportAttendanceHistory = (
       link.href = url;
       link.setAttribute(
         "download",
-        `attendance-history-list-${Date.now()}.${exportType.toLowerCase()}`
+        `attendance-history-list-${Date.now()}.${
+          exportType === "EXCEL" ? "xlsx" : "csv"
+        }`,
       );
       document.body.appendChild(link);
       link.click();

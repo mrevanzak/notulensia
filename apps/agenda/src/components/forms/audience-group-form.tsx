@@ -23,8 +23,10 @@ type AudienceGroupFormProps = {
 export default function AudienceGroupForm({
   edit,
 }: AudienceGroupFormProps): ReactElement {
-  const { id } = useParams();
-  const audienceDetail = useGetAudienceDetail(id as string);
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
+
+  const audienceDetail = useGetAudienceDetail(id);
   const values = audienceDetail[0]?.data;
 
   const insertAudience = useInsertAudience();
@@ -41,7 +43,7 @@ export default function AudienceGroupForm({
     edit
       ? updateAudience.mutate({
           ...data,
-          id: id as string,
+          id,
           audiences: audience,
         })
       : insertAudience.mutate({
