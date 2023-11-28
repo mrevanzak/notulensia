@@ -16,7 +16,7 @@ import SearchInput from "@/components/ui/search-input";
 
 export default function EventAddressPage(): ReactElement {
   const searchParams = useSearchParams();
-  const search = searchParams.get("search");
+  const search = searchParams?.get("search");
   const [tableState, setTableState] = useState<DataTablePageEvent>({
     first: 0,
     page: 0,

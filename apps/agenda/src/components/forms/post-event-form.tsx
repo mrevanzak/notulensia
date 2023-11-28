@@ -7,61 +7,68 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import AudienceListCard from "../audience-list-card";
 import { useAudienceStore } from "@/stores/use-audience-store";
-import { useUpdateOngoingEvent } from "@/lib/api/event/update-ongoing-event";
-import { FileUpload } from "primereact/fileupload";
 import AttendanceHistoryCard from "../attendance-history-card";
+import AttachmentFilesCard from "../attachment-files-card";
+import { FormProvider, useForm, useFieldArray } from "react-hook-form";
+import { useUpdatePostEvent } from "@/lib/api/event/update-post-event";
 
 export default function PostEventForm(): ReactElement {
-  const { id } = useParams();
-  const { data } = useGetEventDetail(id as string);
-  const { mutate, isPending } = useUpdateOngoingEvent();
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
+
+  const { data: values } = useGetEventDetail(id);
+  const { mutate, isPending } = useUpdatePostEvent();
+
+  const methods = useForm({
+    values,
+    resetOptions: {
+      keepDirtyValues: true,
+    },
+  });
+  const { handleSubmit, control } = methods;
+  const { replace } = useFieldArray({
+    control,
+    name: "files",
+  });
 
   const setAudience = useAudienceStore((state) => state.set);
-
   useEffect(() => {
-    setAudience(data?.audienceUsers ?? []);
-  }, [data]);
+    setAudience(values?.audienceUsers ?? []);
+    replace(values?.files ?? []);
+  }, [values]);
 
-  const onSave = () => {
+  const onSubmit = handleSubmit((data) => {
     mutate({
       audienceUsers: useAudienceStore.getState().audience,
-      id: id as string,
+      id,
+      files: data.files,
     });
-  };
+  });
 
   return (
-    <>
-      <AudienceListCard />
-      <AttendanceHistoryCard />
-      <FileUpload
-        accept="image/*"
-        emptyTemplate={
-          <p className="m-0">Drag and drop files to here to upload.</p>
-        }
-        maxFileSize={1000000}
-        multiple
-        name="demo[]"
-        url="/api/upload"
-      />
-
-      <div className="tw-flex tw-justify-between">
-        <div className="tw-flex tw-gap-4">
-          <Button label="Send Notif" />
+    <FormProvider {...methods}>
+      <form
+        className="tw-space-y-8 !tw-my-8 tw-pt-4"
+        onSubmit={(event) => {
+          event.preventDefault();
+          void onSubmit();
+        }}
+      >
+        <AudienceListCard />
+        <AttendanceHistoryCard />
+        <AttachmentFilesCard />
+        <div className="tw-flex tw-justify-between">
+          <div className="tw-flex tw-gap-4">
+            <Button label="Send Notif" />
+          </div>
+          <div className="tw-flex tw-gap-4">
+            <Button label="Save" loading={isPending} outlined type="submit" />
+            <Link href="/events">
+              <Button label="Cancel" type="button" />
+            </Link>
+          </div>
         </div>
-        <div className="tw-flex tw-gap-4">
-          <Button
-            label="Save"
-            loading={isPending}
-            onClick={() => {
-              onSave();
-            }}
-            outlined
-          />
-          <Link href="/events">
-            <Button label="Cancel" type="button" />
-          </Link>
-        </div>
-      </div>
-    </>
+      </form>
+    </FormProvider>
   );
 }

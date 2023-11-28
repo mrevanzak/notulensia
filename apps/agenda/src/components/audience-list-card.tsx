@@ -15,14 +15,16 @@ import { useParams } from "next/navigation";
 import ExportButton from "./export-button";
 
 export default function AudienceListCard() {
-  const { id } = useParams();
+  const params = useParams<{ id: string }>();
+  const eventId = params?.id ?? "";
+
   const [showDialog, setShowDialog] = useState(false);
 
   const audience = useAudienceStore((state) => state.audience);
   const removeAudience = useAudienceStore((state) => state.remove);
   const reset = useAudienceStore((state) => state.reset);
 
-  const exportAudience = useExportAudience(id as string);
+  const exportAudience = useExportAudience(eventId);
 
   useEffect(() => {
     reset();

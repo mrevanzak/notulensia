@@ -20,8 +20,10 @@ export default function FeaturesForm({
   edit = false,
 }: FeaturesFormProps): ReactElement {
   const router = useRouter();
-  const { id } = useParams();
-  const { data: values } = useGetTierDetail(id as string);
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
+
+  const { data: values } = useGetTierDetail(id);
 
   const inserTier = useInsertTier();
   const updateTier = useUpdateTier();
@@ -32,15 +34,16 @@ export default function FeaturesForm({
       keepDirtyValues: true,
     },
   });
-  const {handleSubmit, formState: { errors }} = methods;
-  
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
+
   const onSubmit = handleSubmit((data) => {
     edit
-      ? updateTier.mutate({ ...data, id: id as string})
+      ? updateTier.mutate({ ...data, id })
       : inserTier.mutate(data);
   });
-
-  
 
   return (
     <FormProvider {...methods}>
@@ -57,14 +60,14 @@ export default function FeaturesForm({
         <Input id="duration" label="Duration" />
 
         <Dropdown
-            id="status"
-            label="Status"
-            optionLabel="label"
-            optionValue="status"
-            options={[
-              {label:"Active", status : "ACTIVE"}, 
-              {label: "In Active", status : "INACTIVE"}
-            ]}
+          id="status"
+          label="Status"
+          optionLabel="label"
+          optionValue="status"
+          options={[
+            { label: "Active", status: "ACTIVE" },
+            { label: "In Active", status: "INACTIVE" },
+          ]}
         />
 
         <div className="tw-flex tw-justify-end tw-gap-2 tw-w-full tw-ms-auto tw-mt-8">

@@ -24,10 +24,11 @@ type EventAddressFormProps = {
 export default function EventAddressForm({
   edit,
 }: EventAddressFormProps): ReactElement {
-  const { id } = useParams();
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
   const router = useRouter();
 
-  const { data: values } = useGetDetailEventAddress(id as string);
+  const { data: values } = useGetDetailEventAddress(id);
 
   const insertEventAddress = useInsertEventAddress();
   const updateEventAddress = useUpdateEventAddress();
@@ -46,7 +47,7 @@ export default function EventAddressForm({
     edit
       ? updateEventAddress.mutate({
           ...data,
-          id: id as string,
+          id,
         })
       : insertEventAddress.mutate(data, {
           onSuccess: () => {

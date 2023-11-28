@@ -8,7 +8,7 @@ import { Button } from "primereact/button";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useInsertEventCategory } from "@/lib/api/event-category/insert-event-category";
-import type { EventCategorySchemaForm} from "@/lib/validations/event-category";
+import type { EventCategorySchemaForm } from "@/lib/validations/event-category";
 import { eventCategorySchemaForm } from "@/lib/validations/event-category";
 import { useGetDetailEventCategory } from "@/lib/api/event-category/get-detail-event-category";
 import { useUpdateEventCategory } from "@/lib/api/event-category/update-event-category";
@@ -17,14 +17,14 @@ type EventCategoryFormProps = {
   edit?: boolean;
 };
 
-export default function EventCategoryForm({ edit }: EventCategoryFormProps): ReactElement {
+export default function EventCategoryForm({
+  edit,
+}: EventCategoryFormProps): ReactElement {
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
 
-  const { id } = useParams();
+  const { data: values } = useGetDetailEventCategory(id);
 
-  const { data: values } = useGetDetailEventCategory(id as string);
-
-  
-  
   const insertEventCategory = useInsertEventCategory();
   const updateEventCategory = useUpdateEventCategory();
 
@@ -42,39 +42,40 @@ export default function EventCategoryForm({ edit }: EventCategoryFormProps): Rea
     edit
       ? updateEventCategory.mutate({
           ...data,
-          id : id as string
+          id,
         })
-      : insertEventCategory.mutate(data)
+      : insertEventCategory.mutate(data);
   });
-  
 
   return (
     <FormProvider {...methods}>
-        <form
+      <form
         className="tw-space-y-8 !tw-my-8"
         onSubmit={(e) => {
-        e.preventDefault();
-        void onSubmit();
+          e.preventDefault();
+          void onSubmit();
         }}
-        >       
-            <Input float id="eventCategoryName" label="Event Category Name"/>
+      >
+        <Input float id="eventCategoryName" label="Event Category Name" />
 
-            <div className="tw-flex tw-justify-between">
-            <div className="tw-flex tw-gap-4">
-                <Button
-                label="Save"
-                loading={edit ? updateEventCategory.isPending : insertEventCategory.isPending}
-                outlined
-                type="submit"
-                />
-                <Link href="/data-master/event-category">
-                    <Button label="Cancel" type="button" />
-                </Link>
-            </div>
-            </div>
-
-        </form>
-
+        <div className="tw-flex tw-justify-between">
+          <div className="tw-flex tw-gap-4">
+            <Button
+              label="Save"
+              loading={
+                edit
+                  ? updateEventCategory.isPending
+                  : insertEventCategory.isPending
+              }
+              outlined
+              type="submit"
+            />
+            <Link href="/data-master/event-category">
+              <Button label="Cancel" type="button" />
+            </Link>
+          </div>
+        </div>
+      </form>
     </FormProvider>
   );
 }

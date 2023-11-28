@@ -2,12 +2,21 @@
   "extends": "tsconfig/nextjs.json",
   "compilerOptions": {
     "downlevelIteration": true,
-    "plugins": [{"name": "next"}],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "~/*": ["./public/*"]
-    }
+      "@/*": [
+        "./src/*"
+      ],
+      "~/*": [
+        "./public/*"
+      ]
+    },
+    "strictNullChecks": true
   },
   "include": [
     "tsconfig.json",
@@ -16,5 +25,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

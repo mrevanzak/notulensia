@@ -19,8 +19,10 @@ export default function ProvinceForm({
   edit = false,
 }: ProvinceFormProps): ReactElement {
   const router = useRouter();
-  const { id } = useParams();
-  const { data: values } = useGetProvinceDetail(id as string);
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
+
+  const { data: values } = useGetProvinceDetail(id);
 
   const insertProvince = useInsertProvince();
   const updateProvince = useUpdateProvince();
@@ -36,7 +38,7 @@ export default function ProvinceForm({
     edit
       ? updateProvince.mutate({
           ...data,
-          id: id as string,
+          id,
         })
       : insertProvince.mutate(data);
   });

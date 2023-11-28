@@ -25,9 +25,10 @@ export default function UserForm({
   edit = false,
 }: UserFormProps): ReactElement {
   const router = useRouter();
-  const { id } = useParams();
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
 
-  const { data } = useGetUserDetail(id as string);
+  const { data } = useGetUserDetail(id);
   const tier = useGetTierDropdown();
   const insertUser = useInsertUser();
   const updateUser = useUpdateUser();
@@ -53,7 +54,7 @@ export default function UserForm({
       ? updateUser.mutate(
           {
             ...data,
-            id: id as string,
+            id,
           },
           {
             onSuccess: () => {
@@ -95,7 +96,8 @@ export default function UserForm({
         <Input id="phoneNumber" label="Phone Number" />
         <Input id="email" label="Email" type="email" />
         <Input id="password" label="Password" type="password" />
-        {edit ? <Dropdown
+        {edit ? (
+          <Dropdown
             filter
             id="tierId"
             label="Features"
@@ -103,7 +105,8 @@ export default function UserForm({
             optionLabel="name"
             optionValue="id"
             options={tier.data}
-          /> : null}
+          />
+        ) : null}
         {!edit ? (
           <Switch className="!tw-mt-6" id="isCrmUser" label="CRM User" />
         ) : (
