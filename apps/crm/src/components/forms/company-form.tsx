@@ -27,11 +27,12 @@ export default function CompanyForm({
   edit = false,
 }: CompanyFormProps): ReactElement {
   const router = useRouter();
-  const { id } = useParams();
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
 
   const [showDialog, setShowDialog] = useState(false);
 
-  const { data: values } = useGetCompanyDetail(id as string);
+  const { data: values } = useGetCompanyDetail(id);
   const insertCompany = useInsertCompany();
   const updateCompany = useUpdateCompany();
 
@@ -47,7 +48,7 @@ export default function CompanyForm({
     edit
       ? updateCompany.mutate({
           ...data,
-          id: id as string,
+          id,
         })
       : insertCompany.mutate(data);
   });

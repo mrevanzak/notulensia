@@ -30,7 +30,9 @@ export const useExportAudience = (
       link.href = url;
       link.setAttribute(
         "download",
-        `audience-list-${Date.now()}.${exportType.toLowerCase()}`,
+        `audience-list-${Date.now()}.${
+          exportType === "EXCEL" ? "xlsx" : "csv"
+        }`,
       );
       document.body.appendChild(link);
       link.click();

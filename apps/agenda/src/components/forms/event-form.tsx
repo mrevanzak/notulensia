@@ -17,8 +17,10 @@ type EventFormProps = {
 };
 
 export default function EventForm({ edit }: EventFormProps): ReactElement {
-  const { id } = useParams();
-  const { data, isLoading } = useGetEventDetail(id as string);
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
+
+  const { data, isLoading } = useGetEventDetail(id);
 
   if (isLoading)
     return (

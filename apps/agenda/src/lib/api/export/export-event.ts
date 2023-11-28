@@ -24,7 +24,7 @@ export const useExportEvent = (params?: PaginatedParams) => {
       link.href = url;
       link.setAttribute(
         "download",
-        `event-list-${Date.now()}.${exportType.toLowerCase()}`,
+        `event-list-${Date.now()}.${exportType === "EXCEL" ? "xlsx" : "csv"}`,
       );
       document.body.appendChild(link);
       link.click();

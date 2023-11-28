@@ -58,7 +58,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
     if (!(isSlim() || isSlimPlus() || isHorizontal()) && isActiveRoute) {
       setActiveMenu(key);
     }
-    const url = pathname + searchParams.toString();
+    const url = `${pathname}${searchParams?.toString()}}`;
     const onRouteChange = (): void => {
       if (!(isSlim() || isHorizontal()) && item?.to && item?.to === url) {
         setActiveMenu(key);
