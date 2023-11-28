@@ -21,10 +21,11 @@ export default function DistrictForm({
   edit = false,
 }: DistrictFormProps): ReactElement {
   const router = useRouter();
-  const { id } = useParams();
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
 
   const province = useGetProvinceDropdown();
-  const { data: values } = useGetDistrictDetail(id as string);
+  const { data: values } = useGetDistrictDetail(id);
 
   const insertDistrict = useInsertDistrict();
   const updateDistrict = useUpdateDistrict();
@@ -40,7 +41,7 @@ export default function DistrictForm({
     edit
       ? updateDistrict.mutate({
           ...data,
-          id: id as string,
+          id,
         })
       : insertDistrict.mutate(data);
   });

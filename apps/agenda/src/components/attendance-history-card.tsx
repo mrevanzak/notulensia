@@ -12,7 +12,8 @@ import ExportButton from "./export-button";
 import { Calendar } from "primereact/calendar";
 
 export default function AttendaceHistoryCard() {
-  const { id } = useParams();
+  const params = useParams<{ id: string }>();
+  const eventId = params?.id ?? "";
 
   const [date, setDate] = useState<Date | null>();
   const [tableState, setTableState] = useState<DataTablePageEvent>({
@@ -22,13 +23,13 @@ export default function AttendaceHistoryCard() {
   });
 
   const formattedDate = date ? moment(date).format("YYYY-MM-DD") : undefined;
-  const { data, isLoading, isFetching } = useGetAttendHistory(id as string, {
+  const { data, isLoading, isFetching } = useGetAttendHistory(eventId, {
     pageIndex: tableState.page,
     limit: tableState.rows,
     date: formattedDate,
   });
   const dataTable = data?.data;
-  const exportAttendHistory = useExportAttendanceHistory(id as string, {
+  const exportAttendHistory = useExportAttendanceHistory(eventId, {
     pageIndex: tableState.page,
     limit: tableState.rows,
     date: formattedDate,

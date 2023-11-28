@@ -16,7 +16,7 @@ import React, { useState } from "react";
 
 export default function DistrictPage(): ReactElement {
   const searchParams = useSearchParams();
-  const search = searchParams.get("search");
+  const search = searchParams?.get("search");
   const [tableState, setTableState] = useState<DataTablePageEvent>({
     first: 0,
     page: 0,

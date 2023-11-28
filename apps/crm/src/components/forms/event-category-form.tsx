@@ -6,7 +6,7 @@ import Input from "../ui/input";
 import { Button } from "primereact/button";
 import { useParams, useRouter } from "next/navigation";
 import { useGetEventCategoryDetail } from "@/lib/api/event-category/get-event-category-detail";
-import type { EventCategoryFormValues} from "@/lib/validations/event-category";
+import type { EventCategoryFormValues } from "@/lib/validations/event-category";
 import { eventCategoryFormSchema } from "@/lib/validations/event-category";
 import { useInsertEventCategory } from "@/lib/api/event-category/insert-event-category";
 import { useUpdateEventCategory } from "@/lib/api/event-category/update-event-category";
@@ -19,8 +19,10 @@ export default function EventCategoryForm({
   edit = false,
 }: EventCategoryFormProps): ReactElement {
   const router = useRouter();
-  const { id } = useParams();
-  const { data: values } = useGetEventCategoryDetail(id as string);
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
+
+  const { data: values } = useGetEventCategoryDetail(id);
 
   const insertEventCategory = useInsertEventCategory();
   const updateEventCategory = useUpdateEventCategory();
@@ -36,7 +38,7 @@ export default function EventCategoryForm({
     edit
       ? updateEventCategory.mutate({
           ...data,
-          id: id as string,
+          id,
         })
       : insertEventCategory.mutate(data);
   });
@@ -50,13 +52,21 @@ export default function EventCategoryForm({
           void onSubmit();
         }}
       >
-        <Input className="tw-w-full" id="eventCategoryName" label="Event Category Name" />
+        <Input
+          className="tw-w-full"
+          id="eventCategoryName"
+          label="Event Category Name"
+        />
 
         <div className="tw-flex tw-justify-end tw-gap-2 tw-w-full tw-ms-auto tw-mt-8">
           <Button
             className="tw-w-fit !tw-py-2 !tw-px-8"
             label="Submit"
-            loading={edit ? updateEventCategory.isPending : insertEventCategory.isPending}
+            loading={
+              edit
+                ? updateEventCategory.isPending
+                : insertEventCategory.isPending
+            }
             type="submit"
           />
           <Button

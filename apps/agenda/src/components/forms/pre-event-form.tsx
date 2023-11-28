@@ -23,7 +23,6 @@ import { useScheduleProgramStore } from "@/stores/use-schedule-program-store";
 import { Dialog } from "primereact/dialog";
 import AddScheduleProgramForm from "./add-schedule-program-form";
 import type { ScheduleProgram } from "@/lib/validations/schedule-program";
-import { FileUpload } from "primereact/fileupload";
 import { useGetEventDetail } from "@/lib/api/event/get-event-detail";
 import { useUpdateEvent } from "@/lib/api/event/update-event";
 import { useParams } from "next/navigation";
@@ -39,19 +38,17 @@ import type { AudienceDropdown } from "@/lib/validations/audience";
 import { useGetAudienceDetail } from "@/lib/api/audience/get-audience-detail";
 import { useGetEventAddressDropdown } from "@/lib/api/event-address/get-event-address-dropdown";
 import { useInsertEventAddress } from "@/lib/api/event-address/insert-event-address";
-import { API_URL, httpClient } from "@/lib/http";
-import { useAuthStore } from "@/stores/use-auth-store";
-import type { Storage } from "@/lib/validations/storage";
-import { useDeleteFile } from "@/lib/api/storage/delete-file";
-import { toast } from "react-toastify";
+import AttachmentFilesCard from "@/components/attachment-files-card";
 
 type EventFormProps = {
   edit?: boolean;
 };
 
 export default function PreEventForm({ edit }: EventFormProps): ReactElement {
-  const { id } = useParams();
-  const { data: values } = useGetEventDetail(id as string);
+  const params = useParams<{ id: string }>();
+  const id = params?.id ?? "";
+
+  const { data: values } = useGetEventDetail(id);
 
   const [showDialog, setShowDialog] = useState(false);
   const [eventState, setEventState] = useState<EventStatus>("ACTIVE");
@@ -67,7 +64,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   });
   const { handleSubmit, watch, resetField, setValue, getValues, control } =
     methods;
-  const { append, remove, replace } = useFieldArray({
+  const { replace } = useFieldArray({
     control,
     name: "files",
   });
@@ -83,7 +80,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     edit
       ? updateEvent.mutate({
           ...data,
-          id: id as string,
+          id,
           schedules: scheduleProgram,
           status: eventState,
           audienceUsers: useAudienceStore.getState().audience,
@@ -216,54 +213,6 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     moment(rowData.startTime).format("HH:mm");
   const endTimeBodyTemplate = (rowData: ScheduleProgram) =>
     moment(rowData.endTime).format("HH:mm");
-
-  const deleteFile = useDeleteFile();
-  const actionBodyFileTemplate = (rowData: Storage) => {
-    return (
-      <div className="tw-flex tw-gap-2">
-        <Button
-          icon="pi pi-download"
-          onClick={(e) => {
-            e.preventDefault();
-            httpClient
-              .get(`/storage/agenda/${rowData.storageId}`, {
-                responseType: "blob",
-              })
-              .then((response) => {
-                const url = window.URL.createObjectURL(response.data);
-                const link = document.createElement("a");
-                link.href = url;
-                link.setAttribute(
-                  "download",
-                  `${rowData.name}.${rowData.format}`,
-                );
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(url);
-              })
-              .catch(() => {
-                toast.error("Error downloading file");
-                // Handle the error as needed, e.g., show a user-friendly message
-              });
-          }}
-        />
-        <Button
-          icon="pi pi-trash"
-          onClick={(e) => {
-            e.preventDefault();
-            deleteFile.mutate(rowData.storageId);
-
-            const index = getValues("files")?.findIndex(
-              (item: Storage) => item.storageId === rowData.storageId,
-            );
-            remove(index);
-          }}
-          severity="danger"
-        />
-      </div>
-    );
-  };
 
   return (
     <FormProvider {...methods}>
@@ -453,59 +402,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           suggestions={audienceFilter}
         />
         <AudienceListCard />
-        <div className="card tw-space-y-3">
-          <div className="tw-flex tw-justify-between tw-items-center">
-            <h4>Attachment Files</h4>
-            <FileUpload
-              accept="image/*"
-              emptyTemplate={
-                <p className="m-0">Drag and drop files to here to upload.</p>
-              }
-              maxFileSize={2 * 1024 * 1024}
-              mode="basic"
-              name="file"
-              onBeforeSend={(e) => {
-                e.xhr.setRequestHeader(
-                  "Authorization",
-                  `Bearer ${useAuthStore.getState().access_token}`,
-                );
-              }}
-              onUpload={(e) => {
-                e.files.forEach((item) => {
-                  append({
-                    name: item.name.split(".").shift() ?? "",
-                    format: item.name.split(".").pop()?.toLowerCase() ?? "",
-                    storageId: JSON.parse(e.xhr.response).id,
-                  });
-                });
-              }}
-              url={`${API_URL}/storage/agenda`}
-            />
-          </div>
-          <DataTable
-            editMode="cell"
-            emptyMessage="Please add attachment files"
-            value={watch("files")}
-          >
-            <Column
-              editor={(options) => textEditor(options)}
-              field="name"
-              header="Name"
-              onCellEditComplete={onCellEditComplete}
-            />
-            <Column
-              editor={(options) => textEditor(options)}
-              field="format"
-              header="Format"
-              onCellEditComplete={onCellEditComplete}
-            />
-            <Column
-              body={actionBodyFileTemplate}
-              header="Action"
-              headerStyle={{ width: "2rem" }}
-            />
-          </DataTable>
-        </div>
+        <AttachmentFilesCard />
         <div className="tw-flex tw-justify-between">
           <div className="tw-flex tw-gap-4">
             {values?.status !== "ACTIVE" && (
