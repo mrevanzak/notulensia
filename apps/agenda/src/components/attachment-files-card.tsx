@@ -105,11 +105,12 @@ export default function AttachmentFilesCard({
         editMode="cell"
         emptyMessage="Please add attachment files"
         value={
-          post
+          
+          watch("files") ?
+            post
             ? watch("files").filter((item: Storage) => item.type === "RESULT")
-            : watch("files").filter(
-                (item: Storage) => item.type === "ATTACHMENT",
-              )
+            : watch("files").filter((item: Storage) => item.type === "ATTACHMENT")
+          : null
         }
       >
         <Column
