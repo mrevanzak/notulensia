@@ -70,6 +70,18 @@ export default function AttachmentFilesCard({
     );
   };
 
+
+  const files = watch("files");
+  let filteredFiles = [];
+
+  if (files) {
+    if (post) {
+      filteredFiles = files.filter((item: Storage) => item.type === "RESULT");
+    } else {
+      filteredFiles = files.filter((item: Storage) => item.type === "ATTACHMENT");
+    }
+  }
+
   return (
     <div className="card tw-space-y-3">
       <div className="tw-flex tw-justify-between tw-items-center">
@@ -104,14 +116,7 @@ export default function AttachmentFilesCard({
       <DataTable
         editMode="cell"
         emptyMessage="Please add attachment files"
-        value={
-          
-          watch("files") ?
-            post
-            ? watch("files").filter((item: Storage) => item.type === "RESULT")
-            : watch("files").filter((item: Storage) => item.type === "ATTACHMENT")
-          : null
-        }
+        value={filteredFiles}
       >
         <Column
           editor={(options) => textEditor(options)}
