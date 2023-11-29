@@ -36,7 +36,7 @@ export default function AttendaceHistoryCard() {
   });
 
   const dateBodyTemplate = (rowData: AttendHistory) =>
-    moment(rowData.attendedAt).format("DD-MM-YYYY");
+    moment.utc(rowData.attendedAt).format("YYYY-MM-DD");
 
   return (
     <div className="card tw-space-y-3">
@@ -82,7 +82,7 @@ export default function AttendaceHistoryCard() {
         <Column field="phoneNumber" header="Phone Number" />
         <Column field="email" header="Email" />
         <Column
-          body={dateBodyTemplate}
+body={dateBodyTemplate}
           field="attendedAt"
           header="Attended At"
         />
