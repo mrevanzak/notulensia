@@ -31,6 +31,7 @@ export default function CalendarInput({
   float,
   validation,
   icon,
+  required,
   ...props
 }: CalendarProps) {
   const {
@@ -79,7 +80,7 @@ export default function CalendarInput({
                 })}
                 htmlFor={field.name}
               >
-                {label}
+                {label} {required ? <span className="tw-text-red-600 tw-text-xs">*</span> : null}
               </label>
             ) : null}
           </span>

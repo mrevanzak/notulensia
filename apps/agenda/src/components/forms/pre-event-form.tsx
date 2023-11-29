@@ -231,14 +231,15 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           optionLabel="eventCategoryName"
           optionValue="eventCategoryName"
           options={eventCategory.data}
+          required
         />
-        <Input float id="name" label="Event Name" />
-        <Input float id="topic" label="Topic" />
-        <Input float id="purpose" label="Purpose" />
+        <Input float id="name" label="Event Name" required/>
+        <Input float id="topic" label="Topic" required/>
+        <Input float id="purpose" label="Purpose" required/>
         <TextArea float id="preparationNotes" label="Preparation Notes" />
         <div className="tw-flex tw-gap-8">
-          <CalendarInput float icon id="startAt" label="Start Date" showTime />
-          <CalendarInput float icon id="endAt" label="End Date" showTime />
+          <CalendarInput float icon id="startAt" label="Start Date" showTime required/>
+          <CalendarInput float icon id="endAt" label="End Date" showTime required/>
         </div>
         <Checkbox id="isOnline" label="Via Online" />
         <div className="tw-relative">
@@ -415,7 +416,9 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
                 type="submit"
               />
             )}
-            <Button label="Send Notif" />
+            { (edit && (values && values.status !== "DRAFT")) ? 
+                <Button label="Send Notif" /> : null
+            }
           </div>
           <div className="tw-flex tw-gap-4">
             <Button
