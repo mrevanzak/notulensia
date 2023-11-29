@@ -56,7 +56,7 @@ export default function PostEventForm(): ReactElement {
       >
         <AudienceListCard />
         <AttendanceHistoryCard />
-        <AttachmentFilesCard />
+        <AttachmentFilesCard post />
         <div className="tw-flex tw-justify-between">
           <div className="tw-flex tw-gap-4">
             <Button label="Send Notif" />
