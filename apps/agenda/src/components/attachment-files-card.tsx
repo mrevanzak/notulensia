@@ -9,8 +9,15 @@ import { DataTable } from "primereact/datatable";
 import { FileUpload } from "primereact/fileupload";
 import { InputText } from "primereact/inputtext";
 import { useFieldArray, useFormContext } from "react-hook-form";
+import type { Storage } from "@/lib/validations/storage";
 
-export default function AttachmentFilesCard() {
+type AttachmentFilesCardProps = {
+  post?: boolean;
+};
+
+export default function AttachmentFilesCard({
+  post = false,
+}: AttachmentFilesCardProps) {
   const { control, watch, getValues } = useFormContext();
   const { append, remove } = useFieldArray({
     control,
@@ -66,7 +73,7 @@ export default function AttachmentFilesCard() {
   return (
     <div className="card tw-space-y-3">
       <div className="tw-flex tw-justify-between tw-items-center">
-        <h4>Attachment Files</h4>
+        <h4>{post ? "Result files" : "Attachment files"}</h4>
         <FileUpload
           accept="image/*"
           emptyTemplate={
@@ -87,6 +94,7 @@ export default function AttachmentFilesCard() {
                 name: item.name.split(".").shift() ?? "",
                 format: item.name.split(".").pop()?.toLowerCase() ?? "",
                 storageId: JSON.parse(e.xhr.response).id,
+                type: post ? "RESULT" : "ATTACHMENT",
               });
             });
           }}
@@ -96,7 +104,13 @@ export default function AttachmentFilesCard() {
       <DataTable
         editMode="cell"
         emptyMessage="Please add attachment files"
-        value={watch("files")}
+        value={
+          post
+            ? watch("files").filter((item: Storage) => item.type === "RESULT")
+            : watch("files").filter(
+                (item: Storage) => item.type === "ATTACHMENT",
+              )
+        }
       >
         <Column
           editor={(options) => textEditor(options)}

@@ -1,9 +1,10 @@
 import { httpClient } from "@/lib/http";
 import { useMutation } from "@tanstack/react-query";
+import type { Storage } from "@/lib/validations/storage";
 
 export const useDownloadFile = () => {
   return useMutation({
-    mutationFn: async (data: Storage) => {
+    mutationFn: async (data: Omit<Storage, "type">) => {
       const response = await httpClient.get(
         `storage/agenda/${data.storageId}`,
         {
