@@ -8,7 +8,6 @@ import type { EventFormValues } from "@/lib/validations/event";
 import { eventFormSchema } from "@/lib/validations/event";
 import TextArea from "@/components/ui/textarea";
 import { Button } from "primereact/button";
-import Checkbox from "@/components/ui/checkbox";
 import CalendarInput from "@/components/ui/calendar-input";
 import type { EventStatus } from "@/lib/api/event/insert-event";
 import { useInsertEvent } from "@/lib/api/event/insert-event";
@@ -39,19 +38,27 @@ import { useGetAudienceDetail } from "@/lib/api/audience/get-audience-detail";
 import { useGetEventAddressDropdown } from "@/lib/api/event-address/get-event-address-dropdown";
 import { useInsertEventAddress } from "@/lib/api/event-address/insert-event-address";
 import AttachmentFilesCard from "@/components/attachment-files-card";
+import { InputSwitch } from "primereact/inputswitch";
+import { useCreateLinkMeet } from "@/lib/api/event/create-link-meet";
+import { getLocalISODateTime } from "@/utils/date-utils";
+import { v4 } from "uuid";
+import iconMeet from "~/svg/google-meet.svg"
 
 type EventFormProps = {
   edit?: boolean;
 };
 
+type RouteParams = Record<string, string>;
+
 export default function PreEventForm({ edit }: EventFormProps): ReactElement {
-  const params = useParams<{ id: string }>();
-  const id = params?.id ?? "";
+  const params = useParams<RouteParams>();
+  const id = Array.isArray(params?.id) ? params?.id[0] : params?.id ?? "";
 
   const { data: values } = useGetEventDetail(id);
 
   const [showDialog, setShowDialog] = useState(false);
   const [eventState, setEventState] = useState<EventStatus>("ACTIVE");
+  const [isOnline, setIsOnline] = useState(values?.isOnline !== undefined && values.isOnline !== null ? values.isOnline : false);
 
   const insertEvent = useInsertEvent();
   const updateEvent = useUpdateEvent();
@@ -70,7 +77,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   });
 
   const onSubmit = handleSubmit((data) => {
-    if (data.isOnline) {
+    if (isOnline) {
       resetField("province");
       resetField("district");
       resetField("address");
@@ -83,12 +90,14 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           id,
           schedules: scheduleProgram,
           status: eventState,
+          isOnline : isOnline !== undefined && isOnline !== null ? isOnline : false,
           audienceUsers: useAudienceStore.getState().audience,
         })
       : insertEvent.mutate({
           ...data,
           schedules: scheduleProgram,
           status: eventState,
+          isOnline : isOnline !== undefined && isOnline !== null ? isOnline : false,
           audienceUsers: useAudienceStore.getState().audience,
         });
   });
@@ -214,6 +223,63 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   const endTimeBodyTemplate = (rowData: ScheduleProgram) =>
     moment(rowData.endTime).format("HH:mm");
 
+  const createLinkMeet = () => {
+    const auth = 'https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount';
+    const queryParams = {
+      client_id: '898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com',
+      redirect_uri: 'http://localhost:3000/events/callback',
+      scope : 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events',
+      prompt : 'select_account',
+      response_type : 'token',
+      include_granted_scopes: true,
+      enable_granular_consent:true,
+    };
+    const queryString = Object.keys(queryParams)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`)
+      .join('&');
+
+    const url = `${auth}?${queryString}`;
+    const newWindow = window.open(url, '_blank');
+
+    if (newWindow) {
+      newWindow.focus();
+    }
+  };
+
+  const [accessToken, setAccessToken] = useState(localStorage.getItem('googleAccessToken'));
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setAccessToken(localStorage.getItem('googleAccessToken'));
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  const createLink  = useCreateLinkMeet();
+  function convertToISOString(date: string | Date): string {
+    return typeof date === 'string' ? date : new Date(date).toISOString();
+  }
+  useEffect(() => {
+     if (accessToken) {
+      createLink.mutate({
+        startAt: values?.startAt ? getLocalISODateTime(values?.startAt) + ".000Z" : "",
+        endAt: values?.endAt ? getLocalISODateTime(values?.endAt) + ".000Z" : "",
+        eventName: values?.name ? values.name : "",
+        description: values?.topic ? values.topic : "",
+        reqId: v4(),
+        token: accessToken,
+        users: values?.audienceUsers ? values.audienceUsers.map(p => p.email) : [],
+      })
+      localStorage.removeItem('googleAccessToken');
+    }
+  }, [accessToken]);
+
+  if(createLink.data?.link){
+    setValue("linkUrl", createLink.data?.link);
+  }
+
   return (
     <FormProvider {...methods}>
       <form
@@ -238,69 +304,10 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
         <Input float id="purpose" label="Purpose" required/>
         <TextArea float id="preparationNotes" label="Preparation Notes" />
         <div className="tw-flex tw-gap-8">
-          <CalendarInput float icon id="startAt" label="Start Date" showTime required/>
-          <CalendarInput float icon id="endAt" label="End Date" showTime required/>
+          <CalendarInput float icon id="startAt" label="Start Date" required showTime/>
+          <CalendarInput float icon id="endAt" label="End Date" required showTime/>
         </div>
-        <Checkbox id="isOnline" label="Via Online" />
-        <div className="tw-relative">
-          {!watch("isOnline") && (
-            <Button
-              className="tw-absolute tw-bottom-12 tw-right-0"
-              label="Save as preset"
-              onClick={() => {
-                insertEventAddressPreset.mutate({
-                  address: getValues("address"),
-                  districtId: district.data?.find(
-                    (item) => item.district === getValues("district"),
-                  )?.id,
-                  location: getValues("locationValue"),
-                  provinceId: province.data?.find(
-                    (item) => item.province === getValues("province"),
-                  )?.id,
-                });
-              }}
-              outlined
-              type="button"
-            />
-          )}
-          <Dropdown
-            editable
-            float
-            id="locationValue"
-            label="Location"
-            loading={eventAddress.isLoading}
-            optionLabel="location"
-            optionValue="location"
-            options={eventAddress.data}
-          />
-        </div>
-        {watch("isOnline") ? (
-          <Input float id="linkUrl" label="Online Link" />
-        ) : (
-          <>
-            <Dropdown
-              filter
-              float
-              id="province"
-              label="Province"
-              loading={province.isLoading}
-              optionLabel="province"
-              optionValue="province"
-              options={province.data}
-            />
-            <Dropdown
-              filter
-              float
-              id="district"
-              label="District"
-              loading={district.isLoading}
-              optionLabel="district"
-              optionValue="district"
-              options={district.data}
-            />
-            <TextArea float id="address" label="Address" />
-          </>
-        )}
+
         <div className="card tw-space-y-3">
           <Dialog
             className="tw-min-w-fit"
@@ -404,6 +411,89 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
         />
         <AudienceListCard />
         <AttachmentFilesCard />
+
+        <div className="tw-flex tw-gap-2">
+          <InputSwitch checked={isOnline} className="tw-mb-4 tw-ml-2"  id="isOnline" onChange={(e) => {setIsOnline(e.value)}} />
+          <span>Via Online</span>
+        </div>
+        
+        {isOnline ? (
+          <div className="p-inputgroup">
+            <Input float id="linkUrl" label="Online Link"  />
+            <Button
+            className="tw-h-auto"
+              icon={iconMeet}
+              loading={createLink.isPending}
+              onClick={() => {createLinkMeet()}}
+              outlined
+              size="small"
+              type="button"
+            />
+            {/* <Button
+            className="tw-h-auto"
+              icon={() => <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" height="20" viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="20" fill="#2196f3"></circle><path fill="#fff" d="M29,31H14c-1.657,0-3-1.343-3-3V17h15c1.657,0,3,1.343,3,3V31z"></path><polygon fill="#fff" points="37,31 31,27 31,21 37,17"></polygon>
+              </svg> }
+              onClick={(e) => {}}
+              outlined
+            /> */}
+          </div>
+        ) : (
+          <>
+          <div className="tw-relative">
+            <Button
+              className="tw-absolute tw-bottom-12 tw-right-0"
+              label="Save as preset"
+              onClick={() => {
+                insertEventAddressPreset.mutate({
+                  address: getValues("address"),
+                  districtId: district.data?.find(
+                    (item) => item.district === getValues("district"),
+                  )?.id,
+                  location: getValues("locationValue"),
+                  provinceId: province.data?.find(
+                    (item) => item.province === getValues("province"),
+                  )?.id,
+                });
+              }}
+              outlined
+              type="button"
+            />
+            <Dropdown
+              editable
+              float
+              id="locationValue"
+              label="Location"
+              loading={eventAddress.isLoading}
+              optionLabel="location"
+              optionValue="location"
+              options={eventAddress.data}
+            />
+          </div>
+            <Dropdown
+              filter
+              float
+              id="province"
+              label="Province"
+              loading={province.isLoading}
+              optionLabel="province"
+              optionValue="province"
+              options={province.data}
+            />
+            <Dropdown
+              filter
+              float
+              id="district"
+              label="District"
+              loading={district.isLoading}
+              optionLabel="district"
+              optionValue="district"
+              options={district.data}
+            />
+            <TextArea float id="address" label="Address" />
+          </>
+        )}
+
         <div className="tw-flex tw-justify-between">
           <div className="tw-flex tw-gap-4">
             {values?.status !== "ACTIVE" && (
