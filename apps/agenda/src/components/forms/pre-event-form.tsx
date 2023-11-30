@@ -227,7 +227,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     const auth = 'https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount';
     const queryParams = {
       client_id: '898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com',
-      redirect_uri: 'http://localhost:3000/events/callback',
+      redirect_uri: 'https://agenda.saranaintegrasi.co.id/events/callback',
       scope : 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events',
       prompt : 'select_account',
       response_type : 'token',
