@@ -5,7 +5,7 @@ import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
 import type { EventFormValues } from "@/lib/validations/event";
-import { eventFormSchema } from "@/lib/validations/event";
+import { createLinkGmeetSchema, eventFormSchema } from "@/lib/validations/event";
 import TextArea from "@/components/ui/textarea";
 import { Button } from "primereact/button";
 import CalendarInput from "@/components/ui/calendar-input";
@@ -43,6 +43,7 @@ import { useCreateLinkMeet } from "@/lib/api/event/create-link-meet";
 import { getLocalISODateTime } from "@/utils/date-utils";
 import { v4 } from "uuid";
 import iconMeet from "~/svg/google-meet.svg"
+import { toast } from "react-toastify";
 
 type EventFormProps = {
   edit?: boolean;
@@ -223,29 +224,6 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   const endTimeBodyTemplate = (rowData: ScheduleProgram) =>
     moment(rowData.endTime).format("HH:mm");
 
-  const createLinkMeet = () => {
-    const auth = 'https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount';
-    const queryParams = {
-      client_id: '898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com',
-      redirect_uri: 'https://agenda.saranaintegrasi.co.id/events/callback',
-      scope : 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events',
-      prompt : 'select_account',
-      response_type : 'token',
-      include_granted_scopes: true,
-      enable_granular_consent:true,
-    };
-    const queryString = Object.keys(queryParams)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`)
-      .join('&');
-
-    const url = `${auth}?${queryString}`;
-    const newWindow = window.open(url, '_blank');
-
-    if (newWindow) {
-      newWindow.focus();
-    }
-  };
-
   const [accessToken, setAccessToken] = useState(localStorage.getItem('googleAccessToken'));
   useEffect(() => {
     const handleStorageChange = () => {
@@ -257,26 +235,70 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     };
   }, []);
 
+  const createLinkMeet = () => {
+
+    const validateData = (data) => {
+      try {
+        createLinkGmeetSchema.parse(data);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    };
+
+    const data = {
+      startAt: getValues("startAt") ? `${getLocalISODateTime(getValues("startAt"))}.000Z` : "",
+      endAt: getValues("endAt") ? `${getLocalISODateTime(getValues("endAt"))}.000Z` : "",
+      eventName: getValues("name"),
+      description: getValues("topic"),
+      reqId: v4(),
+      users: getValues("audienceUsers")?.map((p) => p.email) ?? [],
+    }
+    
+    if(!validateData(data)){
+      toast.warn('Please Fill In All Required Fields');
+    }else{
+      const auth = 'https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount';
+      const queryParams = {
+        client_id: '898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com',
+        redirect_uri: 'https://agenda.saranaintegrasi.co.id/events/callback',
+        scope : 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events',
+        prompt : 'select_account',
+        response_type : 'token',
+        include_granted_scopes: true,
+        enable_granular_consent:true,
+      };
+      const queryString = Object.keys(queryParams)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`)
+        .join('&');
+
+      const url = `${auth}?${queryString}`;
+      const newWindow = window.open(url, '_blank');
+
+      if (newWindow) {
+        newWindow.focus();
+      }
+    }
+  };
+
   const createLink  = useCreateLinkMeet();
-  function convertToISOString(date: string | Date): string {
-    return typeof date === 'string' ? date : new Date(date).toISOString();
-  }
   useEffect(() => {
-     if (accessToken) {
+    if (accessToken) {
       createLink.mutate({
-        startAt: values?.startAt ? getLocalISODateTime(values?.startAt) + ".000Z" : "",
-        endAt: values?.endAt ? getLocalISODateTime(values?.endAt) + ".000Z" : "",
-        eventName: values?.name ? values.name : "",
-        description: values?.topic ? values.topic : "",
+        startAt: getValues("startAt") ? `${getLocalISODateTime(getValues("startAt"))}.000Z` : "",
+        endAt: getValues("endAt") ? `${getLocalISODateTime(getValues("endAt"))}.000Z` : "",
+        eventName: getValues("name"),
+        description: getValues("topic"),
         reqId: v4(),
         token: accessToken,
-        users: values?.audienceUsers ? values.audienceUsers.map(p => p.email) : [],
+        users: getValues("audienceUsers")?.map((p) => p.email) ?? [],
       })
       localStorage.removeItem('googleAccessToken');
     }
   }, [accessToken]);
 
   if(createLink.data?.link){
+    toast.success('Link Created');
     setValue("linkUrl", createLink.data?.link);
   }
 
@@ -429,14 +451,6 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
               size="small"
               type="button"
             />
-            {/* <Button
-            className="tw-h-auto"
-              icon={() => <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" height="20" viewBox="0 0 48 48">
-              <circle cx="24" cy="24" r="20" fill="#2196f3"></circle><path fill="#fff" d="M29,31H14c-1.657,0-3-1.343-3-3V17h15c1.657,0,3,1.343,3,3V31z"></path><polygon fill="#fff" points="37,31 31,27 31,21 37,17"></polygon>
-              </svg> }
-              onClick={(e) => {}}
-              outlined
-            /> */}
           </div>
         ) : (
           <>
