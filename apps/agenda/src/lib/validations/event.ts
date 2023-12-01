@@ -47,7 +47,7 @@ export const eventFormSchema = z.object({
     .or(z.date()),
   isOnline: z.boolean().default(false),
   linkUrl: z.string().url().optional().nullable(),
-  locationValue: z.string(),
+  locationValue: z.string().nullish(),
   address: z.string().nullish(),
   schedules: scheduleProgramSchema.array().optional(),
   province: z.string().nullish(),
@@ -108,3 +108,15 @@ export const attendHistorySchema = audienceFormSchema
 
 export type AttendHistory = z.infer<typeof attendHistorySchema>;
 export type EventFormValues = z.infer<typeof eventFormSchema>;
+
+
+export const createLinkGmeetSchema = z.object({
+  startAt: z.string(),
+  endAt: z.string(),
+  eventName: z.string(),
+  description: z.string(),
+  reqId: z.string(),
+  users: z.array(z.string()),
+});
+
+export type CreateLinkGmeet = z.infer<typeof createLinkGmeetSchema>;
