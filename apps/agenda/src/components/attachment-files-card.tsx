@@ -10,6 +10,7 @@ import { FileUpload } from "primereact/fileupload";
 import { InputText } from "primereact/inputtext";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import type { Storage } from "@/lib/validations/storage";
+import { useRef, useState } from "react";
 
 type AttachmentFilesCardProps = {
   post?: boolean;
@@ -18,6 +19,8 @@ type AttachmentFilesCardProps = {
 export default function AttachmentFilesCard({
   post = false,
 }: AttachmentFilesCardProps) {
+  const fileUploadRef = useRef<FileUpload>(null);
+
   const { control, watch, getValues } = useFormContext();
   const { append, remove } = useFieldArray({
     control,
@@ -70,7 +73,6 @@ export default function AttachmentFilesCard({
     );
   };
 
-
   const files = watch("files");
   let filteredFiles = [];
 
@@ -78,40 +80,58 @@ export default function AttachmentFilesCard({
     if (post) {
       filteredFiles = files.filter((item: Storage) => item.type === "RESULT");
     } else {
-      filteredFiles = files.filter((item: Storage) => item.type === "ATTACHMENT");
+      filteredFiles = files.filter(
+        (item: Storage) => item.type === "ATTACHMENT",
+      );
     }
   }
+
+  const [onSelect, setOnSelect] = useState(false);
 
   return (
     <div className="card tw-space-y-3">
       <div className="tw-flex tw-justify-between tw-items-center">
         <h4>{post ? "Result files" : "Attachment files"}</h4>
-        <FileUpload
-          accept="image/*"
-          emptyTemplate={
-            <p className="m-0">Drag and drop files to here to upload.</p>
-          }
-          maxFileSize={2 * 1024 * 1024}
-          mode="basic"
-          name="file"
-          onBeforeSend={(e) => {
-            e.xhr.setRequestHeader(
-              "Authorization",
-              `Bearer ${useAuthStore.getState().access_token}`,
-            );
-          }}
-          onUpload={(e) => {
-            e.files.forEach((item) => {
-              append({
-                name: item.name.split(".").shift() ?? "",
-                format: item.name.split(".").pop()?.toLowerCase() ?? "",
-                storageId: JSON.parse(e.xhr.response).id,
-                type: post ? "RESULT" : "ATTACHMENT",
+        <div className="tw-flex tw-space-x-2">
+          <FileUpload
+            accept="image/*"
+            maxFileSize={2 * 1024 * 1024}
+            mode="basic"
+            name="file"
+            onBeforeSend={(e) => {
+              e.xhr.setRequestHeader(
+                "Authorization",
+                `Bearer ${useAuthStore.getState().access_token}`,
+              );
+            }}
+            onSelect={() => {
+              setOnSelect(true);
+            }}
+            onUpload={(e) => {
+              e.files.forEach((item) => {
+                append({
+                  name: item.name.split(".").shift() ?? "",
+                  format: item.name.split(".").pop()?.toLowerCase() ?? "",
+                  storageId: JSON.parse(e.xhr.response).id,
+                  type: post ? "RESULT" : "ATTACHMENT",
+                });
               });
-            });
-          }}
-          url={`${API_URL}/storage/agenda`}
-        />
+            }}
+            ref={fileUploadRef}
+            url={`${API_URL}/storage/agenda`}
+          />
+          {onSelect ? (
+            <Button
+              icon="pi pi-trash"
+              onClick={() => {
+                setOnSelect(false);
+                fileUploadRef.current?.clear();
+              }}
+              severity="danger"
+              type="button"
+            />
+          ) : null}
+        </div>
       </div>
       <DataTable
         editMode="cell"

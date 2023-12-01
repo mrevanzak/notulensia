@@ -85,6 +85,7 @@ export interface LayoutContextProps {
   setLayoutConfig: Dispatch<SetStateAction<LayoutConfig>>;
   layoutState: LayoutState;
   setLayoutState: Dispatch<SetStateAction<LayoutState>>;
+  onMenuProfileToggle: () => void;
   onMenuToggle: () => void;
   onTopbarMenuToggle: () => void;
   showRightSidebar: () => void;
