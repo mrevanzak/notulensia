@@ -4,6 +4,7 @@ import AppMenu from "./app-menu";
 import { MenuProvider } from "../../context/menu-context";
 import Logo from "~/svg/logo.svg";
 import { Tooltip } from "primereact/tooltip";
+import AppMenuProfile from "./app-menu-profile";
 
 function AppSidebar(): ReactElement {
   return (
@@ -18,6 +19,7 @@ function AppSidebar(): ReactElement {
         <MenuProvider>
           <AppMenu />
         </MenuProvider>
+        <AppMenuProfile />
       </div>
     </div>
   );

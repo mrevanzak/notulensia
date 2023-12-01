@@ -10,6 +10,13 @@ export const userSchema = z.object({
   status: z.string(),
 });
 
+export const profileSchema = userSchema.omit({
+  registeredAt: true,
+  expiredAt: true,
+}).extend({
+  imgUrl: z.string().nullish(),
+});
+
 export const userActivitySchema = z.object({
   id: z.string().uuid(),
   activity: z.string(),
