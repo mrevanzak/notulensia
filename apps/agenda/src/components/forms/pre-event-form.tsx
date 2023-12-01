@@ -5,7 +5,10 @@ import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
 import type { EventFormValues } from "@/lib/validations/event";
-import { eventFormSchema } from "@/lib/validations/event";
+import {
+  createLinkGmeetSchema,
+  eventFormSchema,
+} from "@/lib/validations/event";
 import TextArea from "@/components/ui/textarea";
 import { Button } from "primereact/button";
 import CalendarInput from "@/components/ui/calendar-input";
@@ -38,28 +41,25 @@ import { useGetAudienceDetail } from "@/lib/api/audience/get-audience-detail";
 import { useGetEventAddressDropdown } from "@/lib/api/event-address/get-event-address-dropdown";
 import { useInsertEventAddress } from "@/lib/api/event-address/insert-event-address";
 import AttachmentFilesCard from "@/components/attachment-files-card";
-import { InputSwitch } from "primereact/inputswitch";
 import { useCreateLinkMeet } from "@/lib/api/event/create-link-meet";
 import { getLocalISODateTime } from "@/utils/date-utils";
 import { v4 } from "uuid";
-import iconMeet from "~/svg/google-meet.svg"
+import iconMeet from "~/svg/google-meet.svg";
+import { toast } from "react-toastify";
+import Switch from "../ui/switch";
+import SendNotifButton from "../send-notif-button";
 
 type EventFormProps = {
   edit?: boolean;
 };
 
-type RouteParams = Record<string, string>;
-
 export default function PreEventForm({ edit }: EventFormProps): ReactElement {
-  const params = useParams<RouteParams>();
-  const id = Array.isArray(params?.id) ? params?.id[0] : params?.id ?? "";
+  const { id } = useParams();
 
-  const { data: values } = useGetEventDetail(id);
+  const { data: values } = useGetEventDetail(id as string);
 
   const [showDialog, setShowDialog] = useState(false);
   const [eventState, setEventState] = useState<EventStatus>("ACTIVE");
-  const [isOnline, setIsOnline] = useState(values?.isOnline !== undefined && values.isOnline !== null ? values.isOnline : false);
-
   const insertEvent = useInsertEvent();
   const updateEvent = useUpdateEvent();
   const methods = useForm<EventFormValues>({
@@ -77,7 +77,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   });
 
   const onSubmit = handleSubmit((data) => {
-    if (isOnline) {
+    if (data.isOnline) {
       resetField("province");
       resetField("district");
       resetField("address");
@@ -87,17 +87,15 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     edit
       ? updateEvent.mutate({
           ...data,
-          id,
+          id: id as string,
           schedules: scheduleProgram,
           status: eventState,
-          isOnline : isOnline !== undefined && isOnline !== null ? isOnline : false,
           audienceUsers: useAudienceStore.getState().audience,
         })
       : insertEvent.mutate({
           ...data,
           schedules: scheduleProgram,
           status: eventState,
-          isOnline : isOnline !== undefined && isOnline !== null ? isOnline : false,
           audienceUsers: useAudienceStore.getState().audience,
         });
   });
@@ -108,17 +106,17 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     setValue(
       "province",
       eventAddress.data?.find((item) => item.location === watchLocationValue)
-        ?.provinceName,
+        ?.provinceName
     );
     setValue(
       "district",
       eventAddress.data?.find((item) => item.location === watchLocationValue)
-        ?.districtName,
+        ?.districtName
     );
     setValue(
       "address",
       eventAddress.data?.find((item) => item.location === watchLocationValue)
-        ?.address,
+        ?.address
     );
   }, [watchLocationValue]);
 
@@ -145,12 +143,12 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   }, [audiences.length]);
 
   const scheduleProgram = useScheduleProgramStore(
-    (state) => state.scheduleProgram,
+    (state) => state.scheduleProgram
   );
   const reset = useScheduleProgramStore((state) => state.reset);
   const setScheduleProgram = useScheduleProgramStore((state) => state.set);
   const removeScheduleProgram = useScheduleProgramStore(
-    (state) => state.remove,
+    (state) => state.remove
   );
 
   const onCellEditComplete = (e: ColumnEvent) => {
@@ -223,60 +221,96 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   const endTimeBodyTemplate = (rowData: ScheduleProgram) =>
     moment(rowData.endTime).format("HH:mm");
 
-  const createLinkMeet = () => {
-    const auth = 'https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount';
-    const queryParams = {
-      client_id: '898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com',
-      redirect_uri: 'https://agenda.saranaintegrasi.co.id/events/callback',
-      scope : 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events',
-      prompt : 'select_account',
-      response_type : 'token',
-      include_granted_scopes: true,
-      enable_granular_consent:true,
-    };
-    const queryString = Object.keys(queryParams)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`)
-      .join('&');
-
-    const url = `${auth}?${queryString}`;
-    const newWindow = window.open(url, '_blank');
-
-    if (newWindow) {
-      newWindow.focus();
-    }
-  };
-
-  const [accessToken, setAccessToken] = useState(localStorage.getItem('googleAccessToken'));
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem("googleAccessToken")
+  );
   useEffect(() => {
     const handleStorageChange = () => {
-      setAccessToken(localStorage.getItem('googleAccessToken'));
+      setAccessToken(localStorage.getItem("googleAccessToken"));
     };
-    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
-  const createLink  = useCreateLinkMeet();
-  function convertToISOString(date: string | Date): string {
-    return typeof date === 'string' ? date : new Date(date).toISOString();
-  }
+  const createLinkMeet = () => {
+    const validateData = (data) => {
+      try {
+        createLinkGmeetSchema.parse(data);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    };
+
+    const data = {
+      startAt: getValues("startAt")
+        ? `${getLocalISODateTime(getValues("startAt"))}.000Z`
+        : "",
+      endAt: getValues("endAt")
+        ? `${getLocalISODateTime(getValues("endAt"))}.000Z`
+        : "",
+      eventName: getValues("name"),
+      description: getValues("topic"),
+      reqId: v4(),
+      users: getValues("audienceUsers")?.map((p) => p.email) ?? [],
+    };
+
+    if (!validateData(data)) {
+      toast.warn("Please Fill In All Required Fields");
+    } else {
+      const auth =
+        "https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount";
+      const queryParams = {
+        client_id:
+          "898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com",
+        redirect_uri: "https://agenda.saranaintegrasi.co.id/events/callback",
+        scope:
+          "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events",
+        prompt: "select_account",
+        response_type: "token",
+        include_granted_scopes: true,
+        enable_granular_consent: true,
+      };
+      const queryString = Object.keys(queryParams)
+        .map(
+          (key) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`
+        )
+        .join("&");
+
+      const url = `${auth}?${queryString}`;
+      const newWindow = window.open(url, "_blank");
+
+      if (newWindow) {
+        newWindow.focus();
+      }
+    }
+  };
+
+  const createLink = useCreateLinkMeet();
   useEffect(() => {
-     if (accessToken) {
+    if (accessToken) {
       createLink.mutate({
-        startAt: values?.startAt ? getLocalISODateTime(values?.startAt) + ".000Z" : "",
-        endAt: values?.endAt ? getLocalISODateTime(values?.endAt) + ".000Z" : "",
-        eventName: values?.name ? values.name : "",
-        description: values?.topic ? values.topic : "",
+        startAt: getValues("startAt")
+          ? `${getLocalISODateTime(getValues("startAt"))}.000Z`
+          : "",
+        endAt: getValues("endAt")
+          ? `${getLocalISODateTime(getValues("endAt"))}.000Z`
+          : "",
+        eventName: getValues("name"),
+        description: getValues("topic"),
         reqId: v4(),
         token: accessToken,
-        users: values?.audienceUsers ? values.audienceUsers.map(p => p.email) : [],
-      })
-      localStorage.removeItem('googleAccessToken');
+        users: getValues("audienceUsers")?.map((p) => p.email) ?? [],
+      });
+      localStorage.removeItem("googleAccessToken");
     }
   }, [accessToken]);
 
-  if(createLink.data?.link){
+  if (createLink.data?.link) {
+    toast.success("Link Created");
     setValue("linkUrl", createLink.data?.link);
   }
 
@@ -299,13 +333,27 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           options={eventCategory.data}
           required
         />
-        <Input float id="name" label="Event Name" required/>
-        <Input float id="topic" label="Topic" required/>
-        <Input float id="purpose" label="Purpose" required/>
+        <Input float id="name" label="Event Name" required />
+        <Input float id="topic" label="Topic" required />
+        <Input float id="purpose" label="Purpose" required />
         <TextArea float id="preparationNotes" label="Preparation Notes" />
         <div className="tw-flex tw-gap-8">
-          <CalendarInput float icon id="startAt" label="Start Date" required showTime/>
-          <CalendarInput float icon id="endAt" label="End Date" required showTime/>
+          <CalendarInput
+            float
+            icon
+            id="startAt"
+            label="Start Date"
+            required
+            showTime
+          />
+          <CalendarInput
+            float
+            icon
+            id="endAt"
+            label="End Date"
+            required
+            showTime
+          />
         </div>
 
         <div className="card tw-space-y-3">
@@ -398,7 +446,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
                 return item.audienceName
                   .toLowerCase()
                   .includes(e.query.toLowerCase());
-              }),
+              })
             );
           }}
           field="audienceName"
@@ -411,65 +459,55 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
         />
         <AudienceListCard />
         <AttachmentFilesCard />
+        <Switch id="isOnline" label="Via Online" />
 
-        <div className="tw-flex tw-gap-2">
-          <InputSwitch checked={isOnline} className="tw-mb-4 tw-ml-2"  id="isOnline" onChange={(e) => {setIsOnline(e.value)}} />
-          <span>Via Online</span>
-        </div>
-        
-        {isOnline ? (
+        {watch("isOnline") ? (
           <div className="p-inputgroup">
-            <Input float id="linkUrl" label="Online Link"  />
+            <Input float id="linkUrl" label="Online Link" />
             <Button
-            className="tw-h-auto"
+              className="tw-h-auto"
               icon={iconMeet}
               loading={createLink.isPending}
-              onClick={() => {createLinkMeet()}}
+              onClick={() => {
+                createLinkMeet();
+              }}
               outlined
               size="small"
               type="button"
             />
-            {/* <Button
-            className="tw-h-auto"
-              icon={() => <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" height="20" viewBox="0 0 48 48">
-              <circle cx="24" cy="24" r="20" fill="#2196f3"></circle><path fill="#fff" d="M29,31H14c-1.657,0-3-1.343-3-3V17h15c1.657,0,3,1.343,3,3V31z"></path><polygon fill="#fff" points="37,31 31,27 31,21 37,17"></polygon>
-              </svg> }
-              onClick={(e) => {}}
-              outlined
-            /> */}
           </div>
         ) : (
           <>
-          <div className="tw-relative">
-            <Button
-              className="tw-absolute tw-bottom-12 tw-right-0"
-              label="Save as preset"
-              onClick={() => {
-                insertEventAddressPreset.mutate({
-                  address: getValues("address"),
-                  districtId: district.data?.find(
-                    (item) => item.district === getValues("district"),
-                  )?.id,
-                  location: getValues("locationValue"),
-                  provinceId: province.data?.find(
-                    (item) => item.province === getValues("province"),
-                  )?.id,
-                });
-              }}
-              outlined
-              type="button"
-            />
-            <Dropdown
-              editable
-              float
-              id="locationValue"
-              label="Location"
-              loading={eventAddress.isLoading}
-              optionLabel="location"
-              optionValue="location"
-              options={eventAddress.data}
-            />
-          </div>
+            <div className="tw-relative">
+              <Button
+                className="tw-absolute tw-bottom-12 tw-right-0"
+                label="Save as preset"
+                onClick={() => {
+                  insertEventAddressPreset.mutate({
+                    address: getValues("address"),
+                    districtId: district.data?.find(
+                      (item) => item.district === getValues("district")
+                    )?.id,
+                    location: getValues("locationValue"),
+                    provinceId: province.data?.find(
+                      (item) => item.province === getValues("province")
+                    )?.id,
+                  });
+                }}
+                outlined
+                type="button"
+              />
+              <Dropdown
+                editable
+                float
+                id="locationValue"
+                label="Location"
+                loading={eventAddress.isLoading}
+                optionLabel="location"
+                optionValue="location"
+                options={eventAddress.data}
+              />
+            </div>
             <Dropdown
               filter
               float
@@ -506,9 +544,9 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
                 type="submit"
               />
             )}
-            { (edit && (values && values.status !== "DRAFT")) ? 
-                <Button label="Send Notif" /> : null
-            }
+            {edit && values && values.status !== "DRAFT" ? (
+              <SendNotifButton />
+            ) : null}
           </div>
           <div className="tw-flex tw-gap-4">
             <Button
