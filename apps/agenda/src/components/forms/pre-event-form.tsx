@@ -106,17 +106,17 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     setValue(
       "province",
       eventAddress.data?.find((item) => item.location === watchLocationValue)
-        ?.provinceName
+        ?.provinceName,
     );
     setValue(
       "district",
       eventAddress.data?.find((item) => item.location === watchLocationValue)
-        ?.districtName
+        ?.districtName,
     );
     setValue(
       "address",
       eventAddress.data?.find((item) => item.location === watchLocationValue)
-        ?.address
+        ?.address,
     );
   }, [watchLocationValue]);
 
@@ -143,12 +143,12 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   }, [audiences.length]);
 
   const scheduleProgram = useScheduleProgramStore(
-    (state) => state.scheduleProgram
+    (state) => state.scheduleProgram,
   );
   const reset = useScheduleProgramStore((state) => state.reset);
   const setScheduleProgram = useScheduleProgramStore((state) => state.set);
   const removeScheduleProgram = useScheduleProgramStore(
-    (state) => state.remove
+    (state) => state.remove,
   );
 
   const onCellEditComplete = (e: ColumnEvent) => {
@@ -222,7 +222,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     moment(rowData.endTime).format("HH:mm");
 
   const [accessToken, setAccessToken] = useState(
-    localStorage.getItem("googleAccessToken")
+    localStorage.getItem("googleAccessToken"),
   );
   useEffect(() => {
     const handleStorageChange = () => {
@@ -276,7 +276,9 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
       const queryString = Object.keys(queryParams)
         .map(
           (key) =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`
+            `${encodeURIComponent(key)}=${encodeURIComponent(
+              queryParams[key],
+            )}`,
         )
         .join("&");
 
@@ -345,6 +347,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
             label="Start Date"
             required
             showTime
+            stepMinute={5}
           />
           <CalendarInput
             float
@@ -353,6 +356,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
             label="End Date"
             required
             showTime
+            stepMinute={5}
           />
         </div>
 
@@ -380,6 +384,10 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
               iconPos="right"
               label="Add"
               onClick={() => {
+                if (!getValues("startAt") || !getValues("endAt")) {
+                  toast.warn("Please Fill In Start Date and End Date");
+                  return;
+                }
                 setShowDialog(true);
               }}
               type="button"
@@ -446,7 +454,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
                 return item.audienceName
                   .toLowerCase()
                   .includes(e.query.toLowerCase());
-              })
+              }),
             );
           }}
           field="audienceName"
@@ -486,11 +494,11 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
                   insertEventAddressPreset.mutate({
                     address: getValues("address"),
                     districtId: district.data?.find(
-                      (item) => item.district === getValues("district")
+                      (item) => item.district === getValues("district"),
                     )?.id,
                     location: getValues("locationValue"),
                     provinceId: province.data?.find(
-                      (item) => item.province === getValues("province")
+                      (item) => item.province === getValues("province"),
                     )?.id,
                   });
                 }}

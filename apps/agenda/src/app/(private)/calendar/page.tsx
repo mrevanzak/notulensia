@@ -21,7 +21,7 @@ export default function CalendarPage(): ReactElement {
             group: { className: "tw-space-y-12" },
             monthTitle: { className: "!tw-text-4xl" },
             yearTitle: { className: "!tw-text-4xl" },
-            dayLabel: { className: "tw-px-12 tw-py-7" },
+            dayLabel: { className: "tw-pl-4 tw-pr-24 tw-pt-4 tw-pb-14" },
           }}
         />
       </div>
