@@ -87,7 +87,7 @@ export default function Dashboard(): ReactElement {
           <LineChart />
         </div>
         <div className="card border-none border-0 tw-col-span-2 tw-row-span-2 bg-purple-50">
-          <Calendar />
+          <Calendar simple />
         </div>
       </div>
     </div>
