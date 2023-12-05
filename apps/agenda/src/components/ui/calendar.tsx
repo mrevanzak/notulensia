@@ -12,7 +12,11 @@ import { useGetEventDetailByDate } from "@/lib/api/event/get-event-detail-by-dat
 import { BiSolidVideoRecording } from "react-icons/bi";
 import { IoLocationSharp } from "react-icons/io5";
 
-export default function Calendar({ pt }: CalendarPropsSingle): ReactElement {
+type CalendarProps = CalendarPropsSingle & {
+  simple?: boolean;
+};
+
+export default function Calendar({ pt, simple }: CalendarProps): ReactElement {
   const calendarRef = useRef<PrimeCalendar>(null);
 
   const [date, setDate] = useState<Nullable<Date>>(null);
@@ -26,26 +30,37 @@ export default function Calendar({ pt }: CalendarPropsSingle): ReactElement {
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current
-        ?.getElement()
-        .querySelectorAll('[data-pc-section="daylabel"]')
+        .getElement()
+        .querySelectorAll('[data-pc-section="day"]')
         .forEach((el) => {
           const day = el.textContent;
-          //
           data?.forEach((event) => {
             if (event.startAt.getDate().toString() === day) {
               el.classList.add("tw-relative");
-              const span = document.createElement("span");
-              span.classList.add(
-                "tw-absolute",
-                "tw-bottom-0",
-                "tw-left-1/2",
-                "-tw-translate-x-1/2",
-                "tw-w-2",
-                "tw-h-2",
-                "tw-rounded-full",
-                "bg-purple-500",
-              );
-              el.appendChild(span);
+              const div = document.createElement("div");
+              div.classList.add("tw-absolute", "bg-purple-500");
+              if (simple) {
+                div.classList.add(
+                  "tw-bottom-2",
+                  "tw-left-1/2",
+                  "-tw-translate-x-1/2",
+                  "tw-w-2",
+                  "tw-h-2",
+                  "tw-rounded-full",
+                );
+              } else {
+                div.classList.add(
+                  "tw-top-10",
+                  "tw-w-[calc(100%-1rem)]",
+                  "tw-text-[8px]",
+                  "tw-leading-[12px]",
+                  "tw-px-1",
+                  "tw-text-white",
+                  "tw-line-clamp-1",
+                );
+                div.textContent = event.name;
+              }
+              el.appendChild(div);
             }
           });
         });

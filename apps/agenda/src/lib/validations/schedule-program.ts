@@ -1,3 +1,4 @@
+import moment from "moment";
 import { z } from "zod";
 
 export const scheduleProgramSchema = z
@@ -10,6 +11,11 @@ export const scheduleProgramSchema = z
     note: z.string().optional().nullable(),
     position: z.number().optional(),
   })
+  .transform((data) => ({
+    ...data,
+    startTime: moment(data.startTime).date(moment(data.date).date()).toDate(),
+    endTime: moment(data.endTime).date(moment(data.date).date()).toDate(),
+  }))
   .refine((data) => data.startTime <= data.endTime, {
     message: "End time must be greater than start time",
     path: ["endTime"],
