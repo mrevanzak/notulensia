@@ -77,6 +77,7 @@ export default function AddScheduleProgramForm({
             required
             stepMinute={5}
             timeOnly
+            viewDate={moment(watchDate).hour(moment(startAt).hour()).toDate()}
           />
           <CalendarInput
             float
@@ -88,6 +89,7 @@ export default function AddScheduleProgramForm({
             required
             stepMinute={5}
             timeOnly
+            viewDate={moment(watchDate).hour(moment(endAt).hour()).toDate()}
           />
         </div>
         <Input float id="picName" label="PIC Name" required />
