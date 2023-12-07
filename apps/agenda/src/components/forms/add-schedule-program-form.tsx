@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import React from "react";
+import React, { useEffect } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
@@ -27,18 +27,24 @@ export default function AddScheduleProgramForm({
   const methods = useForm<ScheduleProgram>({
     resolver: zodResolver(scheduleProgramSchema),
   });
-  const { handleSubmit, watch } = methods;
+  const { handleSubmit, watch, resetField } = methods;
   const onSubmit = handleSubmit((data) => {
     addScheduleProgram(data);
     setShowDialog(false);
   });
 
-  const minDate = moment(startAt).isSame(moment(watch("date")))
+  const watchDate = watch("date");
+  const minDate = moment(startAt).isSame(moment(watchDate), "day")
     ? moment(startAt).date(moment().date()).toDate()
     : undefined;
-  const maxDate = moment(endAt).isSame(moment(watch("date")))
+  const maxDate = moment(endAt).isSame(moment(watchDate), "day")
     ? moment(endAt).date(moment().date()).toDate()
     : undefined;
+
+  useEffect(() => {
+    resetField("startTime");
+    resetField("endTime");
+  }, [watchDate]);
 
   return (
     <FormProvider {...methods}>
