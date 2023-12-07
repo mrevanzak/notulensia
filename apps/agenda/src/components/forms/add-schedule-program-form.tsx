@@ -33,10 +33,10 @@ export default function AddScheduleProgramForm({
     setShowDialog(false);
   });
 
-  const minDate = moment(startAt).isSame(moment(watch("date")), "day")
+  const minDate = moment(startAt).isSame(moment(watch("date")))
     ? moment(startAt).date(moment().date()).toDate()
     : undefined;
-  const maxDate = moment(endAt).isSame(moment(watch("date")), "day")
+  const maxDate = moment(endAt).isSame(moment(watch("date")))
     ? moment(endAt).date(moment().date()).toDate()
     : undefined;
 
