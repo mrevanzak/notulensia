@@ -63,8 +63,11 @@ export default function UserForm({
           },
         )
       : insertUser.mutate(data, {
-          onSuccess: () => {
+          onSuccess: (value) => {
             setShowDialog && setShowDialog(false);
+            !data.isCrmUser &&
+              router.push(`/company/company-list/add?userId=${value.id}`);
+            !setShowDialog && data.isCrmUser && router.back();
           },
         });
   });

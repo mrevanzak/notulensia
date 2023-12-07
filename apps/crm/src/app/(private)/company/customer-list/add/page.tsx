@@ -1,6 +1,5 @@
 import UserForm from "@/components/forms/user-form";
 import SearchInput from "@/components/ui/search-input";
-import { InputText } from "primereact/inputtext";
 import type { ReactElement } from "react";
 
 export default function CompanyListAddPage(): ReactElement {

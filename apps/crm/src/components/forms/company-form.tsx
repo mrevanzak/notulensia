@@ -14,7 +14,7 @@ import { useGetProvinceDropdown } from "@/lib/api/province/get-province-dropdown
 import { useGetDistrictDropdown } from "@/lib/api/district/get-district-dropdown";
 import { useGetUserDropdown } from "@/lib/api/user/get-user-dropdown";
 import { useInsertCompany } from "@/lib/api/company/insert-company";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useUpdateCompany } from "@/lib/api/company/update-company";
 import UserForm from "./user-form";
 import { useGetCompanyDetail } from "@/lib/api/company/get-company-detail";
@@ -29,16 +29,28 @@ export default function CompanyForm({
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const id = params?.id ?? "";
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("userId");
 
   const [showDialog, setShowDialog] = useState(false);
 
-  const { data: values } = useGetCompanyDetail(id);
+  const { data } = useGetCompanyDetail(id);
   const insertCompany = useInsertCompany();
   const updateCompany = useUpdateCompany();
 
   const methods = useForm<CompanyFormValues>({
     resolver: zodResolver(companyFormSchema),
-    values,
+    values: {
+      name: data?.name ?? "",
+      address: data?.address ?? "",
+      email: data?.email ?? "",
+      picName: data?.picName ?? "",
+      picPhoneNumber: data?.picPhoneNumber ?? "",
+      phoneNumber: data?.phoneNumber ?? "",
+      provinceId: data?.provinceId ?? "",
+      districtId: data?.districtId ?? "",
+      userId: userId ?? data?.userId ?? "",
+    },
     resetOptions: {
       keepDirtyValues: true,
     },
