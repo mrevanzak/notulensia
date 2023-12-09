@@ -20,7 +20,7 @@ export const useAudienceStore = create<AudienceState>()(
         const newAudience = Array.isArray(audience) ? audience : [audience];
         const isUnique = newAudience.every(
           (audience) =>
-            !state.audience.find((item) => item.name === audience.name),
+            !state.audience.find((item) => item.email === audience.email),
         );
 
         if (!isUnique) return state;

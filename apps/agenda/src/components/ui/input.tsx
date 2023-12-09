@@ -38,6 +38,7 @@ export default function Input({
   type = "text",
   validation,
   float = false,
+  required,
 }: InputProps): ReactElement {
   const {
     formState: { errors },
@@ -51,11 +52,7 @@ export default function Input({
   return (
     <>
       {!float && (
-        <p
-          className={classNames("block mb-2 tw-text-white", {
-            "p-error": error,
-          })}
-        >
+        <p className={classNames("block mb-2 tw-text-white", {"p-error": error,})}>
           {label}
         </p>
       )}
@@ -95,13 +92,8 @@ export default function Input({
               value={field.value}
             />
             {float ? (
-              <label
-                className={classNames("tw-text-white", {
-                  "p-error": error,
-                })}
-                htmlFor={field.name}
-              >
-                {label}
+              <label className={classNames("tw-text-white", {"p-error": error,})} htmlFor={field.name}>
+                {label} {required ? <span className="tw-text-red-600 tw-text-xs">*</span> : null}
               </label>
             ) : null}
           </span>

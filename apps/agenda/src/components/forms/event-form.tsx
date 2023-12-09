@@ -47,7 +47,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
     }
   };
 
-  return edit || (data && data.status !== "DRAFT") ? (
+  return (edit && (data && data.status !== "DRAFT")) ? (
     <TabView
       activeIndex={activeIndex()}
       panelContainerClassName="bg-purple-50 p-0 tw-mt-4"

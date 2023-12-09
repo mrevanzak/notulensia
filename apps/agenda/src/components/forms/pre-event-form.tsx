@@ -5,10 +5,12 @@ import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
 import type { EventFormValues } from "@/lib/validations/event";
-import { eventFormSchema } from "@/lib/validations/event";
+import {
+  createLinkGmeetSchema,
+  eventFormSchema,
+} from "@/lib/validations/event";
 import TextArea from "@/components/ui/textarea";
 import { Button } from "primereact/button";
-import Checkbox from "@/components/ui/checkbox";
 import CalendarInput from "@/components/ui/calendar-input";
 import type { EventStatus } from "@/lib/api/event/insert-event";
 import { useInsertEvent } from "@/lib/api/event/insert-event";
@@ -39,20 +41,25 @@ import { useGetAudienceDetail } from "@/lib/api/audience/get-audience-detail";
 import { useGetEventAddressDropdown } from "@/lib/api/event-address/get-event-address-dropdown";
 import { useInsertEventAddress } from "@/lib/api/event-address/insert-event-address";
 import AttachmentFilesCard from "@/components/attachment-files-card";
+import { useCreateLinkMeet } from "@/lib/api/event/create-link-meet";
+import { getLocalISODateTime } from "@/utils/date-utils";
+import { v4 } from "uuid";
+import iconMeet from "~/svg/google-meet.svg";
+import { toast } from "react-toastify";
+import Switch from "../ui/switch";
+import SendNotifButton from "../send-notif-button";
 
 type EventFormProps = {
   edit?: boolean;
 };
 
 export default function PreEventForm({ edit }: EventFormProps): ReactElement {
-  const params = useParams<{ id: string }>();
-  const id = params?.id ?? "";
+  const { id } = useParams();
 
-  const { data: values } = useGetEventDetail(id);
+  const { data: values } = useGetEventDetail(id as string);
 
   const [showDialog, setShowDialog] = useState(false);
   const [eventState, setEventState] = useState<EventStatus>("ACTIVE");
-
   const insertEvent = useInsertEvent();
   const updateEvent = useUpdateEvent();
   const methods = useForm<EventFormValues>({
@@ -80,7 +87,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     edit
       ? updateEvent.mutate({
           ...data,
-          id,
+          id: id as string,
           schedules: scheduleProgram,
           status: eventState,
           audienceUsers: useAudienceStore.getState().audience,
@@ -214,6 +221,101 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   const endTimeBodyTemplate = (rowData: ScheduleProgram) =>
     moment(rowData.endTime).format("HH:mm");
 
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem("googleAccessToken"),
+  );
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setAccessToken(localStorage.getItem("googleAccessToken"));
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const createLinkMeet = () => {
+    const validateData = (data) => {
+      try {
+        createLinkGmeetSchema.parse(data);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    };
+
+    const data = {
+      startAt: getValues("startAt")
+        ? `${getLocalISODateTime(getValues("startAt"))}.000Z`
+        : "",
+      endAt: getValues("endAt")
+        ? `${getLocalISODateTime(getValues("endAt"))}.000Z`
+        : "",
+      eventName: getValues("name"),
+      description: getValues("topic"),
+      reqId: v4(),
+      users: getValues("audienceUsers")?.map((p) => p.email) ?? [],
+    };
+
+    if (!validateData(data)) {
+      toast.warn("Please Fill In All Required Fields");
+    } else {
+      const auth =
+        "https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount";
+      const queryParams = {
+        client_id:
+          "898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com",
+        redirect_uri: "https://agenda.saranaintegrasi.co.id/events/callback",
+        scope:
+          "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events",
+        prompt: "select_account",
+        response_type: "token",
+        include_granted_scopes: true,
+        enable_granular_consent: true,
+      };
+      const queryString = Object.keys(queryParams)
+        .map(
+          (key) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(
+              queryParams[key],
+            )}`,
+        )
+        .join("&");
+
+      const url = `${auth}?${queryString}`;
+      const newWindow = window.open(url, "_blank");
+
+      if (newWindow) {
+        newWindow.focus();
+      }
+    }
+  };
+
+  const createLink = useCreateLinkMeet();
+  useEffect(() => {
+    if (accessToken) {
+      createLink.mutate({
+        startAt: getValues("startAt")
+          ? `${getLocalISODateTime(getValues("startAt"))}.000Z`
+          : "",
+        endAt: getValues("endAt")
+          ? `${getLocalISODateTime(getValues("endAt"))}.000Z`
+          : "",
+        eventName: getValues("name"),
+        description: getValues("topic"),
+        reqId: v4(),
+        token: accessToken,
+        users: getValues("audienceUsers")?.map((p) => p.email) ?? [],
+      });
+      localStorage.removeItem("googleAccessToken");
+    }
+  }, [accessToken]);
+
+  if (createLink.data?.link) {
+    toast.success("Link Created");
+    setValue("linkUrl", createLink.data?.link);
+  }
+
   return (
     <FormProvider {...methods}>
       <form
@@ -231,75 +333,33 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           optionLabel="eventCategoryName"
           optionValue="eventCategoryName"
           options={eventCategory.data}
+          required
         />
-        <Input float id="name" label="Event Name" />
-        <Input float id="topic" label="Topic" />
-        <Input float id="purpose" label="Purpose" />
+        <Input float id="name" label="Event Name" required />
+        <Input float id="topic" label="Topic" required />
+        <Input float id="purpose" label="Purpose" required />
         <TextArea float id="preparationNotes" label="Preparation Notes" />
         <div className="tw-flex tw-gap-8">
-          <CalendarInput float icon id="startAt" label="Start Date" showTime />
-          <CalendarInput float icon id="endAt" label="End Date" showTime />
-        </div>
-        <Checkbox id="isOnline" label="Via Online" />
-        <div className="tw-relative">
-          {!watch("isOnline") && (
-            <Button
-              className="tw-absolute tw-bottom-12 tw-right-0"
-              label="Save as preset"
-              onClick={() => {
-                insertEventAddressPreset.mutate({
-                  address: getValues("address"),
-                  districtId: district.data?.find(
-                    (item) => item.district === getValues("district"),
-                  )?.id,
-                  location: getValues("locationValue"),
-                  provinceId: province.data?.find(
-                    (item) => item.province === getValues("province"),
-                  )?.id,
-                });
-              }}
-              outlined
-              type="button"
-            />
-          )}
-          <Dropdown
-            editable
+          <CalendarInput
             float
-            id="locationValue"
-            label="Location"
-            loading={eventAddress.isLoading}
-            optionLabel="location"
-            optionValue="location"
-            options={eventAddress.data}
+            icon
+            id="startAt"
+            label="Start Date"
+            required
+            showTime
+            stepMinute={5}
+          />
+          <CalendarInput
+            float
+            icon
+            id="endAt"
+            label="End Date"
+            required
+            showTime
+            stepMinute={5}
           />
         </div>
-        {watch("isOnline") ? (
-          <Input float id="linkUrl" label="Online Link" />
-        ) : (
-          <>
-            <Dropdown
-              filter
-              float
-              id="province"
-              label="Province"
-              loading={province.isLoading}
-              optionLabel="province"
-              optionValue="province"
-              options={province.data}
-            />
-            <Dropdown
-              filter
-              float
-              id="district"
-              label="District"
-              loading={district.isLoading}
-              optionLabel="district"
-              optionValue="district"
-              options={district.data}
-            />
-            <TextArea float id="address" label="Address" />
-          </>
-        )}
+
         <div className="card tw-space-y-3">
           <Dialog
             className="tw-min-w-fit"
@@ -324,6 +384,10 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
               iconPos="right"
               label="Add"
               onClick={() => {
+                if (!getValues("startAt") || !getValues("endAt")) {
+                  toast.warn("Please Fill In Start Date and End Date");
+                  return;
+                }
                 setShowDialog(true);
               }}
               type="button"
@@ -403,6 +467,79 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
         />
         <AudienceListCard />
         <AttachmentFilesCard />
+        <Switch id="isOnline" label="Via Online" />
+
+        {watch("isOnline") ? (
+          <div className="p-inputgroup">
+            <Input float id="linkUrl" label="Online Link" />
+            <Button
+              className="tw-h-auto"
+              icon={iconMeet}
+              loading={createLink.isPending}
+              onClick={() => {
+                createLinkMeet();
+              }}
+              outlined
+              size="small"
+              type="button"
+            />
+          </div>
+        ) : (
+          <>
+            <div className="tw-relative">
+              <Button
+                className="tw-absolute tw-bottom-12 tw-right-0"
+                label="Save as preset"
+                onClick={() => {
+                  insertEventAddressPreset.mutate({
+                    address: getValues("address"),
+                    districtId: district.data?.find(
+                      (item) => item.district === getValues("district"),
+                    )?.id,
+                    location: getValues("locationValue"),
+                    provinceId: province.data?.find(
+                      (item) => item.province === getValues("province"),
+                    )?.id,
+                  });
+                }}
+                outlined
+                type="button"
+              />
+              <Dropdown
+                editable
+                float
+                id="locationValue"
+                label="Location"
+                loading={eventAddress.isLoading}
+                optionLabel="location"
+                optionValue="location"
+                options={eventAddress.data}
+              />
+            </div>
+            <Dropdown
+              filter
+              float
+              id="province"
+              label="Province"
+              loading={province.isLoading}
+              optionLabel="province"
+              optionValue="province"
+              options={province.data}
+            />
+            <Dropdown
+              filter
+              float
+              id="district"
+              label="District"
+              loading={district.isLoading}
+              optionLabel="district"
+              optionValue="district"
+              options={district.data}
+            />
+            <TextArea float id="address" label="Address" />
+          </>
+        )}
+
         <div className="tw-flex tw-justify-between">
           <div className="tw-flex tw-gap-4">
             {values?.status !== "ACTIVE" && (
@@ -415,7 +552,9 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
                 type="submit"
               />
             )}
-            <Button label="Send Notif" />
+            {edit && values && values.status !== "DRAFT" ? (
+              <SendNotifButton />
+            ) : null}
           </div>
           <div className="tw-flex tw-gap-4">
             <Button

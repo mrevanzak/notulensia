@@ -5,7 +5,7 @@ import { DataTable } from "primereact/datatable";
 import React, { useState } from "react";
 import { useGetAttendHistory } from "@/lib/api/event/get-attend-history";
 import { useParams } from "next/navigation";
-import moment from "moment";
+import moment, {utc} from "moment";
 import type { AttendHistory } from "@/lib/validations/event";
 import { useExportAttendanceHistory } from "@/lib/api/export/export-attendance-history";
 import ExportButton from "./export-button";
@@ -36,7 +36,7 @@ export default function AttendaceHistoryCard() {
   });
 
   const dateBodyTemplate = (rowData: AttendHistory) =>
-    moment(rowData.attendedAt).format("DD-MM-YYYY");
+    utc(rowData.attendedAt).format("YYYY-MM-DD");
 
   return (
     <div className="card tw-space-y-3">

@@ -33,6 +33,7 @@ export default function Dropdown({
   validation,
   float = false,
   options,
+  required,
   loading,
   ...props
 }: DropdownProps): ReactElement {
@@ -77,7 +78,7 @@ export default function Dropdown({
                 })}
                 htmlFor={field.name}
               >
-                {label}
+                {label} {required ? <span className="tw-text-red-600 tw-text-xs">*</span> : null}
               </label>
             ) : null}
           </span>
