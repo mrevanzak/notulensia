@@ -1,5 +1,6 @@
 "use client";
 import { useAuthStore } from "@/stores/use-auth-store";
+import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { ReactElement } from "react";
 import React, { useEffect } from "react";
@@ -21,6 +22,8 @@ export default function AuthProvider({
   const redirect = searchParams?.get("redirect");
   const pathname = usePathname();
 
+  const queryClient = useQueryClient();
+
   //#region  //*=========== STORE ===========
   const logout = useAuthStore((state) => state.logout);
   const isAuthenticated = Boolean(useAuthStore((state) => state.access_token));
@@ -33,6 +36,7 @@ export default function AuthProvider({
       (accessToken) => {
         if (!accessToken) {
           logout();
+          queryClient.clear();
         }
       },
     );
