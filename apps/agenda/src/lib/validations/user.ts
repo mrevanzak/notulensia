@@ -5,7 +5,7 @@ export const profileSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   phoneNumber: z.string(),
-  imgUrl: z.string().url().nullish(),
+  imgUrl: z.string().nullish(),
   expiredAt: z.string().nullable(),
   status: z.string(),
 });
