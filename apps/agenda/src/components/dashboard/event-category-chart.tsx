@@ -1,20 +1,15 @@
 "use client";
-import { useGetDashboardStats } from "@/lib/api/dashboard/get-dashboard-stats";
+import { useGetEventCategoryGraph } from "@/lib/api/event-category/get-event-category-graph";
 import type { ChartData, ChartOptions, ScriptableContext } from "chart.js";
 import { Chart } from "primereact/chart";
 import type { ReactElement } from "react";
 import React, { useMemo } from "react";
 
-export default function LineChart(): ReactElement {
-  const { data } = useGetDashboardStats();
-
+export default function EventCategoryChart(): ReactElement {
+  const { data } = useGetEventCategoryGraph();
   const lineData: ChartData = useMemo(() => {
-    const labels =
-      data?.statistics.map((statistic) => {
-        const day = statistic.day;
-        return day.charAt(0) + day.slice(1).toLowerCase();
-      }) ?? [];
-    const value = data?.statistics.map((statistic) => statistic.value) ?? [];
+    const labels = data?.map((item) => item.name) ?? [];
+    const value = data?.map((item) => item.value) ?? [];
 
     return {
       labels,
@@ -36,11 +31,11 @@ export default function LineChart(): ReactElement {
               0,
               chartArea.top,
             );
-            gradient.addColorStop(1, "rgba(65, 105, 225, 0.12)");
-            gradient.addColorStop(0, "rgba(65, 105, 225, 0.01)");
+            gradient.addColorStop(0, "#F1EDFF00");
+            gradient.addColorStop(1, "#F3F0FF");
             return gradient;
           },
-          borderColor: "#4169E1",
+          borderColor: "#9854CB",
           tension: 0.4,
         },
       ],
@@ -61,12 +56,12 @@ export default function LineChart(): ReactElement {
           display: false,
         },
         border: {
-          display: false,
+          display: true,
         },
       },
       y: {
         grid: {
-          display: true,
+          display: false,
         },
         border: {
           display: true,
@@ -77,7 +72,7 @@ export default function LineChart(): ReactElement {
 
   return (
     <Chart
-      className="tw-h-[90%] tw-flex-1"
+      className="tw-w-full tw-flex-1"
       data={lineData}
       options={lineOptions}
       type="line"

@@ -20,6 +20,7 @@ export default function AttachmentFilesCard({
   post = false,
 }: AttachmentFilesCardProps) {
   const fileUploadRef = useRef<FileUpload>(null);
+  
 
   const { control, watch, getValues } = useFormContext();
   const { append, remove } = useFieldArray({

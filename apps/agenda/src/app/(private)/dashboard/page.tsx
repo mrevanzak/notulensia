@@ -2,9 +2,10 @@ import type { ReactElement } from "react";
 import React from "react";
 import { InputText } from "primereact/inputtext";
 import TimeManagement from "~/svg/time-management.svg";
-import LineChart from "@/components/dashboard/line-chart";
 import { Button } from "primereact/button";
 import Calendar from "@/components/ui/calendar";
+import EventCategoryChart from "@/components/dashboard/event-category-chart";
+import Link from "next/link";
 
 export default function Dashboard(): ReactElement {
   return (
@@ -25,9 +26,11 @@ export default function Dashboard(): ReactElement {
           <div className="tw-space-y-4 tw-flex tw-flex-col tw-min-h-full tw-w-1/2 tw-min-w-max tw-p-6">
             <p className="h0">Today Task</p>
             <h4 className="font-light">Check your daily tasks and schedules</h4>
-            <Button className="mt-auto w-12rem tw-justify-center">
-              Today&apos;s schedule
-            </Button>
+            <Link href="/events/add">
+              <Button className="mt-auto w-12rem tw-justify-center">
+                Today&apos;s schedule
+              </Button>
+            </Link>
           </div>
           <TimeManagement className="tw-max-w-xs" />
         </div>
@@ -83,8 +86,8 @@ export default function Dashboard(): ReactElement {
         {/*   </div> */}
         {/* ))} */}
         <div className="card tw-col-span-3 tw-row-span-2 !tw-p-8 tw-space-y-4 tw-flex tw-flex-col mb-0">
-          <h4>Tasks Completed</h4>
-          <LineChart />
+          <h4>Event Category</h4>
+          <EventCategoryChart />
         </div>
         <div className="card border-none border-0 tw-col-span-2 tw-row-span-2 bg-purple-50">
           <Calendar simple />

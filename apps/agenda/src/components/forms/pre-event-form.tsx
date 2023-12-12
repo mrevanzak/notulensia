@@ -265,7 +265,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
       const queryParams = {
         client_id:
           "898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com",
-        redirect_uri: "https://agenda.saranaintegrasi.co.id/events/callback",
+        redirect_uri: "http://localhost:3000/events/callback",
         scope:
           "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events",
         prompt: "select_account",
@@ -312,7 +312,6 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   }, [accessToken]);
 
   if (createLink.data?.link) {
-    toast.success("Link Created");
     setValue("linkUrl", createLink.data?.link);
   }
 

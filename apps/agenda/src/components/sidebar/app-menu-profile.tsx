@@ -1,7 +1,7 @@
 "use client";
 import { classNames } from "primereact/utils";
 import type { ReactElement } from "react";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Tooltip } from "primereact/tooltip";
 import { useSearchParams, usePathname } from "next/navigation";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import { FaRegUser } from "react-icons/fa";
 import Image from "next/image";
 import { LayoutContext } from "@/context/layout-context";
 import { useAuthStore } from "@/stores/use-auth-store";
-import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
+import { useDownloadUserImage, useGetUserDetail } from "@/lib/api/user/get-user-detail";
 
 function AppMenuProfile(): ReactElement {
   const logout = useAuthStore((state) => state.logout);
@@ -26,6 +26,9 @@ function AppMenuProfile(): ReactElement {
   const ulRef = useRef<HTMLUListElement | null>(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const getImg = useDownloadUserImage();
+  const { data: downloadedImage } = getImg;
+  const [image, setImage] = useState<string | null>(null);
 
   const hiddenClassName = classNames({
     hidden: layoutConfig.menuMode === "drawer" && !layoutState.sidebarActive,
@@ -62,6 +65,20 @@ function AppMenuProfile(): ReactElement {
     return isSlim() ? tooltipText : null;
   };
 
+  useEffect(() => {
+    if (data?.imgUrl) {
+      getImg.mutate(); 
+    }
+  }, [data?.imgUrl]);
+
+  useEffect(() => {
+    if (downloadedImage instanceof Blob) {
+      const objectUrl = URL.createObjectURL(downloadedImage);
+      setImage(objectUrl);
+    }
+  }, [downloadedImage]);
+  
+
   return (
     <div className="layout-menu-profile border-none tw-relative overflow-visible tw-z-10">
       <Tooltip content={tooltipValue("Profile")!} target=".avatar-button" />
@@ -74,7 +91,7 @@ function AppMenuProfile(): ReactElement {
           alt="avatar"
           className="tw-rounded-full"
           height={56}
-          src={data?.imgUrl ?? "/layout/images/avatar/amyelsner.png"}
+          src={image? image : "/img/user-default.jpg"}
           width={56}
         />
         <span>
