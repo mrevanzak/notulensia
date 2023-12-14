@@ -9,7 +9,16 @@ export const useGetUserOption = () => {
     queryKey: [getUserOptionKey],
     queryFn: async () => {
       const response = await httpClient.get("/user/option");
-      return optionSchema.array().parse(response.data);
+
+      const parse = optionSchema.parse(response.data);
+      return {
+        notification:
+          parse.userOptions.find((option) => option.name === "notification")
+            ?.value ?? "",
+        dashboard:
+          parse.userOptions.find((option) => option.name === "dashboard")
+            ?.value ?? "",
+      };
     },
   });
 };
