@@ -214,7 +214,7 @@ export default function SettingForm(): ReactElement {
           <h2 className="tw-text-center">Crop Image</h2>
           <div className="tw-border-4 tw-border-[#334798] tw-relative tw-h-80">
             <Cropper
-              aspect={1}
+              aspect={16 / 9}
               crop={crop}
               image={image ?? ""}
               onCropChange={setCrop}
