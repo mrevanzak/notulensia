@@ -3,7 +3,6 @@ import { useGetUserOption } from "@/lib/api/user/get-user-option";
 import { useUpdateUserOption } from "@/lib/api/user/update-user-option";
 import type { OptionFormValues } from "@/lib/validations/user";
 import { optionFormSchema } from "@/lib/validations/user";
-import { useAuthStore } from "@/stores/use-auth-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "primereact/button";
 import { FileUpload } from "primereact/fileupload";
@@ -11,17 +10,28 @@ import type { ReactElement } from "react";
 import React, { useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import RadioButton from "../ui/radio-button";
-import { API_URL } from "@/lib/http";
+import { httpClient } from "@/lib/http";
 import type { Area } from "react-easy-crop";
 import Cropper from "react-easy-crop";
 import { Dialog } from "primereact/dialog";
 import { Slider } from "primereact/slider";
 import getCroppedImg from "@/utils/crop-image-utils";
 import { toast } from "react-toastify";
+import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
 
 export default function SettingForm(): ReactElement {
   const { data: values } = useGetUserOption();
   const { mutate, isPending } = useUpdateUserOption();
+  const uploadLogo = useMutation({
+    mutationFn: async (file?: File) => {
+      const response = await httpClient.postForm<{ id: string }>(
+        "/storage/asset",
+        { file },
+      );
+      return response.data.id;
+    },
+  });
 
   const methods = useForm<OptionFormValues>({
     resolver: zodResolver(optionFormSchema),
@@ -31,9 +41,26 @@ export default function SettingForm(): ReactElement {
     },
   });
 
-  const { handleSubmit, setValue } = methods;
-  const onSubmit = handleSubmit((data) => {
-    mutate(data);
+  const { handleSubmit } = methods;
+  const onSubmit = handleSubmit(async (data) => {
+    let storageId: string | undefined;
+    if (image)
+      storageId = await uploadLogo.mutateAsync(
+        fileUploadRef?.current?.getFiles().at(0),
+      );
+
+    mutate(
+      {
+        ...data,
+        logoUrl: storageId,
+      },
+      {
+        onSuccess: () => {
+          fileUploadRef.current?.clear();
+          setImage(undefined);
+        },
+      },
+    );
   });
 
   const notificationOptions = [
@@ -70,6 +97,7 @@ export default function SettingForm(): ReactElement {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const onCropComplete = (_: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -96,7 +124,8 @@ export default function SettingForm(): ReactElement {
             type: "image/png",
           }),
         ]);
-        fileUploadRef.current?.upload();
+        setImage(croppedImage);
+        setOpenDialog(false);
       } catch (err) {
         toast.error("Error cropping image");
       }
@@ -126,38 +155,48 @@ export default function SettingForm(): ReactElement {
             <RadioButton id="dashboard" options={themeOptions} />
           </div>
         </div>
-        <FileUpload
-          accept="image/*"
-          chooseLabel="Upload Logo"
-          chooseOptions={{
-            icon: "pi pi-fw pi-upload",
-          }}
-          maxFileSize={2 * 1024 * 1024}
-          mode="basic"
-          name="file"
-          onBeforeSend={(e) => {
-            e.xhr.setRequestHeader(
-              "Authorization",
-              `Bearer ${useAuthStore.getState().access_token}`,
-            );
-          }}
-          onSelect={(e) => {
-            setImage(URL.createObjectURL(e.files[0]));
-          }}
-          onUpload={(e) => {
-            toast.success("Logo uploaded successfully");
-            setValue("logoUrl", JSON.parse(e.xhr.response).id);
-            setImage(undefined);
-          }}
-          ref={fileUploadRef}
-          url={`${API_URL}/storage/asset`}
-        />
+        <div className="tw-flex tw-space-x-2">
+          <FileUpload
+            accept="image/*"
+            chooseLabel="Upload Logo"
+            chooseOptions={{
+              icon: "pi pi-fw pi-upload",
+            }}
+            disabled={Boolean(image)}
+            maxFileSize={2 * 1024 * 1024}
+            mode="basic"
+            name="file"
+            onSelect={(e) => {
+              setOpenDialog(true);
+              setImage(URL.createObjectURL(e.files[0]));
+            }}
+            ref={fileUploadRef}
+          />
+          {image ? (
+            <Button
+              icon="pi pi-trash"
+              onClick={() => {
+                fileUploadRef.current?.clear();
+                setImage(undefined);
+              }}
+              severity="danger"
+              type="button"
+            />
+          ) : null}
+        </div>
+        {image ? (
+          <div>
+            <p>Preview</p>
+            <Image alt="logo" height={120} src={image} width={120} />
+          </div>
+        ) : null}
+
         <Dialog
           dismissableMask
           draggable={false}
           onHide={() => {
             fileUploadRef.current?.clear();
-            setImage(undefined);
+            setOpenDialog(false);
           }}
           pt={{
             root: {
@@ -170,12 +209,12 @@ export default function SettingForm(): ReactElement {
           }}
           showHeader={false}
           style={{ width: "60vw", height: "75vh" }}
-          visible={Boolean(image)}
+          visible={openDialog}
         >
           <h2 className="tw-text-center">Crop Image</h2>
           <div className="tw-border-4 tw-border-[#334798] tw-relative tw-h-80">
             <Cropper
-              aspect={1}
+              aspect={16 / 9}
               crop={crop}
               image={image ?? ""}
               onCropChange={setCrop}
@@ -205,7 +244,7 @@ export default function SettingForm(): ReactElement {
           <Button
             className="tw-self-end"
             label="SAVE CHANGES"
-            loading={isPending}
+            loading={isPending || uploadLogo.isPending}
             rounded
           />
         </div>
