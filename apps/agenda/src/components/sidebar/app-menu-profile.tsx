@@ -34,6 +34,14 @@ function AppMenuProfile(): ReactElement {
     hidden: layoutConfig.menuMode === "drawer" && !layoutState.sidebarActive,
   });
 
+  function truncateText(text: string | undefined, maxLength: number): string {
+    if (!text) return '';
+    if (text.length > maxLength) {
+      return `${text.substring(0, maxLength)}...`;
+    }
+    return text;
+  }
+
   const toggleMenu = (): void => {
     if (layoutState.menuProfileActive) {
       setTimeout(() => {
@@ -89,13 +97,13 @@ function AppMenuProfile(): ReactElement {
       >
         <Image
           alt="avatar"
-          className="tw-rounded-full"
+          className="tw-rounded-full tw-mt-2"
           height={56}
-          src={image? image : "/img/user-default.jpg"}
+          src={image ?? "/img/user-default.jpg"}
           width={56}
         />
         <span>
-          <h3>{data?.name}</h3>
+          <h3>{truncateText(data?.name, 14)}</h3>
           <p className="tw-text-xs">{data?.phoneNumber}</p>
         </span>
         <i
