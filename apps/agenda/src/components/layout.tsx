@@ -1,6 +1,6 @@
 "use client";
 import type { ReactElement } from "react";
-import React, { useCallback, useContext, useEffect, useRef } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { classNames, DomHandler } from "primereact/utils";
 import {
@@ -13,9 +13,11 @@ import { PrimeReactContext } from "primereact/api";
 import type { AppTopbarRef, ChildContainerProps } from "@/types/types";
 import { LayoutContext } from "../context/layout-context";
 import AppSidebar from "./sidebar/app-sidebar";
+import { Button } from "primereact/button";
 
 function Layout(props: ChildContainerProps): ReactElement {
   const {
+    onMenuToggle,
     layoutConfig,
     layoutState,
     setLayoutState,
@@ -32,6 +34,7 @@ function Layout(props: ChildContainerProps): ReactElement {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   let timeout: NodeJS.Timeout | null = null;
+  const [isOverlay, setIsOverlay] = useState(false);
 
   const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] =
     useEventListener({
@@ -191,13 +194,20 @@ function Layout(props: ChildContainerProps): ReactElement {
 
   return (
     <div className="layout">
-      <div className={classNames("layout-container", containerClassName)}>
+      <div className={classNames("layout-container",  containerClassName)}>
         <div
-          className="layout-sidebar !tw-w-[29rem] h-full top-0 tw-rounded-r-2xl"
+          className="layout-sidebar !tw-w-[24rem] h-full top-0 tw-rounded-r-xl"
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           ref={sidebarRef}
-        >
+        >    
+        <Button
+          className={`tw-absolute tw-h-9 ${isOverlay ? "-tw-right-7" : "-tw-right-4"}  bg-white`}
+          icon={isOverlay ? "pi pi-chevron-right" : "pi pi-chevron-left"} 
+          onClick={() => {setIsOverlay(!isOverlay); onMenuToggle()}}
+          severity="warning"
+          style={{border: "none", boxShadow: "none"}}
+        />
           <AppSidebar />
         </div>
         <div className="layout-content-wrapper pt-0">

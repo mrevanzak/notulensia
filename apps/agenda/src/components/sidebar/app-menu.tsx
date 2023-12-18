@@ -10,53 +10,55 @@ import { MdGroups, MdOutlineSettings } from "react-icons/md";
 import { LuBadgeHelp } from "react-icons/lu";
 
 function AppMenu(): ReactElement {
+  const size = 40;
+  const subSize = 30;
   const model: MenuModel[] = [
     {
       label: "root",
       items: [
         {
-          icon: <TbHomeDot color="#4343BF" size={40} />,
+          icon: <TbHomeDot color="#4343BF" size={size} />,
           label: "Home",
           to: "/dashboard",
         },
         {
-          icon: <TbListDetails color="#4343BF" size={40} />,
+          icon: <TbListDetails color="#4343BF" size={size} />,
           label: "Events",
           to: "/events",
         },
         {
-          icon: <RxCalendar color="#4343BF" size={40} />,
+          icon: <RxCalendar color="#4343BF" size={size} />,
           label: "Calendar",
           to: "/calendar",
         },
         {
-          icon: <GoDatabase color="#4343BF" size={40} />,
+          icon: <GoDatabase color="#4343BF" size={size} />,
           label : "Data Master",
           items: [
             {
-              icon: <FaRegAddressCard className="tw-ml-5" color="#4343BF"  size={30} />,
+              icon: <FaRegAddressCard className="tw-ml-5" color="#4343BF"  size={subSize} />,
               label: "Address",
               to: "/data-master/address",
             },
             {
-              icon: <TbCategory2 className="tw-ml-5"  color="#4343BF" size={30} />,
+              icon: <TbCategory2 className="tw-ml-5"  color="#4343BF" size={subSize} />,
               label: "Event Category",
               to: "/data-master/event-category",
             }
           ]
         },
         {
-          icon: <MdGroups color="#4343BF" size={40} />,
+          icon: <MdGroups color="#4343BF" size={size} />,
           label: "Audience Group",
           to: "/audience-group",
         },
         {
-          icon: <MdOutlineSettings color="#4343BF" size={40} />,
+          icon: <MdOutlineSettings color="#4343BF" size={size} />,
           label: "Settings",
           to: "/settings",
         },
         {
-          icon: <LuBadgeHelp color="#4343BF" size={40} />,
+          icon: <LuBadgeHelp color="#4343BF" size={size} />,
           label: "Help",
           to: "/help",
         },
