@@ -25,6 +25,7 @@ export const eventSchema = z.object({
       }),
     ),
   status: z.enum(["ACTIVE", "INACTIVE", "DRAFT"]),
+  phase: z.string().nullish(),
 });
 
 export type Event = z.infer<typeof eventSchema>;

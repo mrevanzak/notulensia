@@ -1,6 +1,6 @@
 "use client";
 import type { ReactElement } from "react";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "primereact/button";
 import type { DataTablePageEvent } from "primereact/datatable";
 import { DataTable } from "primereact/datatable";
@@ -11,12 +11,11 @@ import { useGetEvent } from "@/lib/api/event/get-event";
 import { useDeleteEvent } from "@/lib/api/event/delete-event";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { classNames } from "primereact/utils";
-import { RiDraftLine } from "react-icons/ri";
-import { BiCheckCircle, BiXCircle } from "react-icons/bi";
+import { RiDraftLine, RiTodoFill } from "react-icons/ri";
+import { BiCheckCircle, BiTimer, BiXCircle } from "react-icons/bi";
 import { useSearchParams } from "next/navigation";
 import SearchInput from "@/components/ui/search-input";
 import { useExportEvent } from "@/lib/api/export/export-event";
-import { Menu } from "primereact/menu";
 import ExportButton from "@/components/export-button";
 
 export default function Events(): ReactElement {
@@ -55,7 +54,7 @@ export default function Events(): ReactElement {
     return (
       <span
         className={classNames(
-          "p-tag border-round-md tw-flex tw-items-center tw-gap-1",
+          "p-tag border-round-md tw-flex tw-items-center tw-justify-center tw-gap-1",
           status(),
         )}
       >
@@ -66,6 +65,16 @@ export default function Events(): ReactElement {
       </span>
     );
   };
+  const statusPhase = (rowData: Event) => {
+    return (
+      <span className={`p-tag border-round-md tw-flex tw-items-center tw-justify-center tw-gap-1 ${rowData.phase === "PRE" && "p-tag-warning" || rowData.phase === "ONGOING" && "p-tag-info" || rowData.phase === "POST" && "p-tag-success"}`}>
+        {rowData.phase === "PRE" && <RiTodoFill size={14} />}
+        {rowData.phase === "ONGOING" && <BiTimer size={14} />}
+        {rowData.phase === "POST" && <BiCheckCircle size={14} />}
+        {rowData.phase}
+      </span>
+    )
+  }
   const actionBodyTemplate = (rowData: Event) => {
     const confirm = () => {
       confirmDialog({
@@ -127,12 +136,11 @@ export default function Events(): ReactElement {
         value={dataTable}
       >
         <Column body={actionBodyTemplate} field="action" header="Action" />
-        <Column field="date" header="Date" />
         <Column field="eventName" header="Event Name" />
-        <Column body={statusBodyTemplate} field="status" header="Status" />
-        <Column field="audienceGroup" header="Audience Group" />
         <Column field="startAt" header="Start" />
         <Column field="endAt" header="End" />
+        <Column body={statusBodyTemplate} field="status" header="Status" />
+        <Column body={statusPhase} field="phase" header="Event Phase" />
       </DataTable>
       <ConfirmDialog />
     </div>
