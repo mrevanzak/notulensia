@@ -9,7 +9,7 @@ export const companySchema = z.object({
   email: z.string().email(),
   picName: z.string(),
   picPhoneNumber: z.string(),
-  logoUrl: z.string().url().nullish(),
+  logoUrl: z.string().nullish(),
 });
 
 export const companyFormSchema = companySchema

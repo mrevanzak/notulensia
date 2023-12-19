@@ -74,7 +74,7 @@ function AppMenuProfile(): ReactElement {
           alt="avatar"
           className="tw-rounded-full"
           height={56}
-          src={data?.imgUrl ?? "/layout/images/avatar/amyelsner.png"}
+          src={"/layout/images/avatar/amyelsner.png"}
           width={56}
         />
         <span className="!tw-ml-8">

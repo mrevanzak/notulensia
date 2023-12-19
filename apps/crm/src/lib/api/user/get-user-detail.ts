@@ -14,3 +14,4 @@ export const useGetUserDetail = (userId: string) => {
     enabled: Boolean(userId),
   });
 };
+
