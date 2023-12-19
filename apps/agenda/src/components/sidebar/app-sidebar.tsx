@@ -3,13 +3,23 @@ import React from "react";
 import AppMenu from "./app-menu";
 import { MenuProvider } from "../../context/menu-context";
 import AppMenuProfile from "./app-menu-profile";
-import Logo from "~/svg/logo.svg";
+import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
+import Image from "next/image";
+import { useGetFile } from "@/lib/api/storage/get-file";
 
 function AppSidebar(): ReactElement {
+  const { data } = useGetUserDetail();
+  const file = useGetFile("asset", data?.logoUrl);
+
   return (
     <div className="layout-menu-container tw-flex tw-flex-col">
-      <div className="tw-my-10 tw-ml-16">
-        <Logo className="tw-w-56" />
+      <div className="tw-my-10 tw-h-16 tw-ml-16 tw-relative">
+        <Image
+          alt="profile"
+          className="tw-object-cover"
+          fill
+          src={file.data ? URL.createObjectURL(file.data) : "/svg/logo.svg"}
+        />
       </div>
 
       <div className="tw-flex tw-flex-col tw-flex-1">

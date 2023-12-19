@@ -1,5 +1,4 @@
 "use client";
-import { useGetUserOption } from "@/lib/api/user/get-user-option";
 import { useUpdateUserOption } from "@/lib/api/user/update-user-option";
 import type { OptionFormValues } from "@/lib/validations/user";
 import { optionFormSchema } from "@/lib/validations/user";
@@ -19,9 +18,10 @@ import getCroppedImg from "@/utils/crop-image-utils";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
+import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
 
 export default function SettingForm(): ReactElement {
-  const { data: values } = useGetUserOption();
+  const { data } = useGetUserDetail();
   const { mutate, isPending } = useUpdateUserOption();
   const uploadLogo = useMutation({
     mutationFn: async (file?: File) => {
@@ -35,7 +35,14 @@ export default function SettingForm(): ReactElement {
 
   const methods = useForm<OptionFormValues>({
     resolver: zodResolver(optionFormSchema),
-    values,
+    values: {
+      notification:
+        data?.userOption.find((option) => option.name === "notification")
+          ?.value ?? "",
+      dashboard:
+        data?.userOption.find((option) => option.name === "dashboard")?.value ??
+        "",
+    },
     resetOptions: {
       keepDirtyValues: true,
     },
@@ -121,10 +128,10 @@ export default function SettingForm(): ReactElement {
         }
         fileUploadRef.current?.setFiles([
           new File([croppedImage], "logo.png", {
-            type: "image/png",
+            type: croppedImage.type,
           }),
         ]);
-        setImage(croppedImage);
+        setImage(URL.createObjectURL(croppedImage));
         setOpenDialog(false);
       } catch (err) {
         toast.error("Error cropping image");
@@ -214,7 +221,7 @@ export default function SettingForm(): ReactElement {
           <h2 className="tw-text-center">Crop Image</h2>
           <div className="tw-border-4 tw-border-[#334798] tw-relative tw-h-80">
             <Cropper
-              aspect={16 / 9}
+              aspect={1}
               crop={crop}
               image={image ?? ""}
               onCropChange={setCrop}

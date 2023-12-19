@@ -106,7 +106,9 @@ export default function ProfileForm():ReactElement {
           croppedAreaPixels,
           rotation
         );
-        setCroppedImage(croppedImg);
+        
+        if (!croppedImg) return;
+        setCroppedImage(URL.createObjectURL(croppedImg));
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
