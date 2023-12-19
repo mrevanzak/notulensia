@@ -1,7 +1,7 @@
 import { httpClient } from "@/lib/http";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { OptionFormValues } from "@/lib/validations/user";
-import { getUserOptionKey } from "./get-user-option";
+import { getUserDetailKey } from "./get-user-detail";
 
 export const useUpdateUserOption = () => {
   const queryClient = useQueryClient();
@@ -17,7 +17,7 @@ export const useUpdateUserOption = () => {
       });
     },
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: [getUserOptionKey] });
+      void queryClient.invalidateQueries({ queryKey: [getUserDetailKey] });
     },
   });
 };

@@ -1,9 +1,13 @@
 export const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new Image();
-      image.addEventListener('load', () => {resolve(image)});
-    image.addEventListener('error', (error) => {reject(error)});
-    image.setAttribute('crossOrigin', 'anonymous');
+    image.addEventListener("load", () => {
+      resolve(image);
+    });
+    image.addEventListener("error", (error) => {
+      reject(error);
+    });
+    image.setAttribute("crossOrigin", "anonymous");
     image.src = url;
   });
 
@@ -14,7 +18,7 @@ export function getRadianAngle(degreeValue: number): number {
 export function rotateSize(
   width: number,
   height: number,
-  rotation: number
+  rotation: number,
 ): { width: number; height: number } {
   const rotRad = getRadianAngle(rotation);
 
@@ -33,11 +37,11 @@ export default async function getCroppedImg(
   flip: { horizontal: boolean; vertical: boolean } = {
     horizontal: false,
     vertical: false,
-  }
-): Promise<string | null> {
+  },
+): Promise<Blob | null> {
   const image = await createImage(imageSrc);
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
 
   if (!ctx) {
     return null;
@@ -48,7 +52,7 @@ export default async function getCroppedImg(
   const { width: bBoxWidth, height: bBoxHeight } = rotateSize(
     image.width,
     image.height,
-    rotation
+    rotation,
   );
 
   canvas.width = bBoxWidth;
@@ -61,8 +65,8 @@ export default async function getCroppedImg(
 
   ctx.drawImage(image, 0, 0);
 
-  const croppedCanvas = document.createElement('canvas');
-  const croppedCtx = croppedCanvas.getContext('2d');
+  const croppedCanvas = document.createElement("canvas");
+  const croppedCtx = croppedCanvas.getContext("2d");
 
   if (!croppedCtx) {
     return null;
@@ -80,12 +84,14 @@ export default async function getCroppedImg(
     0,
     0,
     pixelCrop.width,
-    pixelCrop.height
+    pixelCrop.height,
   );
 
-  return new Promise<string>((resolve) => {
+  return new Promise<Blob>((resolve) => {
     croppedCanvas.toBlob((file) => {
-      if (file) {resolve(URL.createObjectURL(file));}
-    }, 'image/jpeg');
+      if (file) {
+        resolve(file);
+      }
+    }, "image/png");
   });
 }
