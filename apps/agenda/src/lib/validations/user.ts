@@ -10,13 +10,13 @@ export const optionSchema = z.object({
   ),
 });
 
-export const profileSchema = z
-  .object({
+export const profileSchema = z.object({
     id: z.string().uuid(),
     name: z.string(),
     email: z.string().email(),
     phoneNumber: z.string(),
     imgUrl: z.string().nullish(),
+    logoUrl: z.string().nullish(),
     expiredAt: z.string().nullable(),
     status: z.string(),
   })
@@ -25,7 +25,7 @@ export const profileSchema = z
 export const optionFormSchema = z.object({
   notification: z.string(),
   dashboard: z.string(),
-  logoUrl: z.string().uuid().optional(),
+  logoUrl: z.string().optional(),
 });
 
 export type OptionFormValues = z.infer<typeof optionFormSchema>;

@@ -192,6 +192,12 @@ function Layout(props: ChildContainerProps): ReactElement {
     },
   );
 
+  useEffect(() => {
+    if(!isDesktop()){
+      setIsOverlay(!layoutState.staticMenuMobileActive);
+    };
+  }, [layoutState.staticMenuDesktopInactive, layoutState.staticMenuMobileActive, isDesktop()])
+
   return (
     <div className="layout">
       <div className={classNames("layout-container",  containerClassName)}>
