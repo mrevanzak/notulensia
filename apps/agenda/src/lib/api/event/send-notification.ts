@@ -1,5 +1,6 @@
 import { httpClient } from "@/lib/http";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export const useSendNotification = (eventId: string) => {
   return useMutation({
@@ -11,6 +12,7 @@ export const useSendNotification = (eventId: string) => {
       return response.data as Blob;
     },
     onSuccess: (data) => {
+      toast.success("Notification sent successfully");
       const url = window.URL.createObjectURL(data);
       const link = document.createElement("a");
       link.href = url;

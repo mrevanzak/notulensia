@@ -4,14 +4,16 @@ import { Button } from "primereact/button";
 
 export default function SendNotifButton() {
   const { id } = useParams();
-  const { mutate } = useSendNotification(id as string);
+  const { mutate, isPending } = useSendNotification(id as string);
 
   return (
     <Button
       label="Send Notif"
+      loading={isPending}
       onClick={() => {
         mutate();
       }}
+      type="button"
     />
   );
 }
