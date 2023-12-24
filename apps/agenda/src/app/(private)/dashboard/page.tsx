@@ -26,7 +26,7 @@ export default function Dashboard(): ReactElement {
           <div className="tw-space-y-4 tw-flex tw-flex-col tw-min-h-full tw-w-1/2 tw-min-w-max tw-p-6">
             <p className="h0">Today Task</p>
             <h4 className="font-light">Check your daily tasks and schedules</h4>
-            <Link href="/events/add">
+            <Link className="mt-auto" href="/events/add">
               <Button className="mt-auto w-12rem tw-justify-center">
                 Today&apos;s schedule
               </Button>

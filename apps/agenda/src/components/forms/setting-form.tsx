@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "primereact/button";
 import { FileUpload } from "primereact/fileupload";
 import type { ReactElement } from "react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import RadioButton from "../ui/radio-button";
 import { httpClient } from "@/lib/http";
@@ -19,6 +19,8 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
 import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
+import { useGetFile } from "@/lib/api/storage/get-file";
+import Input from "../ui/input";
 
 export default function SettingForm(): ReactElement {
   const { data } = useGetUserDetail();
@@ -42,20 +44,21 @@ export default function SettingForm(): ReactElement {
       dashboard:
         data?.userOption.find((option) => option.name === "dashboard")?.value ??
         "",
+      logoUrl: data?.logoUrl ?? "",
     },
     resetOptions: {
       keepDirtyValues: true,
     },
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, setValue } = methods;
   const onSubmit = handleSubmit(async (data) => {
     let storageId: string | undefined;
-    if (image)
+    if (image && fileUploadRef?.current?.getFiles().at(0))
       storageId = await uploadLogo.mutateAsync(
         fileUploadRef?.current?.getFiles().at(0),
-      );
-
+    );
+    else storageId = data.logoUrl;
     mutate(
       {
         ...data,
@@ -64,7 +67,7 @@ export default function SettingForm(): ReactElement {
       {
         onSuccess: () => {
           fileUploadRef.current?.clear();
-          setImage(undefined);
+          toast.success("Setting updated");
         },
       },
     );
@@ -105,6 +108,11 @@ export default function SettingForm(): ReactElement {
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
+  
+  const fileImage  = useGetFile("asset", data?.logoUrl);
+  useEffect(() => {
+    setImage(fileImage.data ? URL.createObjectURL(fileImage.data) : undefined);
+  }, [fileImage.data])
 
   const onCropComplete = (_: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -169,7 +177,7 @@ export default function SettingForm(): ReactElement {
             chooseOptions={{
               icon: "pi pi-fw pi-upload",
             }}
-            disabled={Boolean(image)}
+            disabled={Boolean(image && image !== "/svg/logo.svg")}
             maxFileSize={2 * 1024 * 1024}
             mode="basic"
             name="file"
@@ -179,12 +187,13 @@ export default function SettingForm(): ReactElement {
             }}
             ref={fileUploadRef}
           />
-          {image ? (
+          {image && image !== "/svg/logo.svg" ? (
             <Button
               icon="pi pi-trash"
               onClick={() => {
                 fileUploadRef.current?.clear();
                 setImage(undefined);
+                setValue("logoUrl", undefined);
               }}
               severity="danger"
               type="button"
@@ -193,13 +202,17 @@ export default function SettingForm(): ReactElement {
         </div>
         {image ? (
           <div>
-            <p>Preview</p>
-            <Image alt="logo" height={120} src={image} width={120} />
+            <h3 className="tw-mb-2 tw-font-normal">Preview</h3>
+            <Image alt="Company Logo"  
+              height={6}  
+              src={image} 
+              style={{ width: '380px', height: '60px', border: '1px solid #334798', borderRadius: '5px', objectFit: 'contain' }} 
+              width={38} 
+            />
           </div>
         ) : null}
 
-        <Dialog
-          dismissableMask
+        {/* <Dialog
           draggable={false}
           onHide={() => {
             fileUploadRef.current?.clear();
@@ -211,17 +224,16 @@ export default function SettingForm(): ReactElement {
             },
             content: {
               className:
-                "px-8 border-round-3xl py-4 tw-border-8 !tw-bg-[#E0D7FD] tw-border-[#334798] tw-space-y-4",
+                "px-4 border-round-3xl py-2 tw-border-4 !tw-bg-[#E0D7FD] tw-border-[#334798] tw-space-y-6",
             },
           }}
           showHeader={false}
-          style={{ width: "60vw", height: "75vh" }}
           visible={openDialog}
         >
-          <h2 className="tw-text-center">Crop Image</h2>
-          <div className="tw-border-4 tw-border-[#334798] tw-relative tw-h-80">
+          <h2 className="tw-text-center tw-pt-[5%]">Crop Image</h2>
+          <div className="tw-border-2 tw-border-[#334798] tw-relative tw-h-[15vh]">
             <Cropper
-              aspect={1}
+              aspect={16/9}
               crop={crop}
               image={image ?? ""}
               onCropChange={setCrop}
@@ -246,7 +258,7 @@ export default function SettingForm(): ReactElement {
             />
             <Button label="SAVE CHANGES" onClick={onSave} rounded />
           </div>
-        </Dialog>
+        </Dialog> */}
         <div className="tw-self-end tw-h-full tw-flex">
           <Button
             className="tw-self-end"

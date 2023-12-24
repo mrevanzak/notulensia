@@ -13,12 +13,13 @@ function AppSidebar(): ReactElement {
 
   return (
     <div className="layout-menu-container tw-flex tw-flex-col">
-      <div className="tw-my-10 tw-h-16 tw-ml-16 tw-relative">
+      <div className="tw-my-10 tw-h-16 tw-relative">
         <Image
           alt="profile"
-          className="tw-object-cover"
-          fill
+          height={6}
           src={file.data ? URL.createObjectURL(file.data) : "/svg/logo.svg"}
+          style={{ width: '380px', height: '60px', objectFit: 'contain' }} 
+          width={38}
         />
       </div>
 
