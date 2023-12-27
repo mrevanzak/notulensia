@@ -39,12 +39,12 @@ export const eventFormSchema = z.object({
   startAt: z
     .string()
     .datetime()
-    .transform((value) => new Date(value))
+    .transform((value) => new Date(value.replace("Z", "")))
     .or(z.date()),
   endAt: z
     .string()
     .datetime()
-    .transform((value) => new Date(value))
+    .transform((value) => new Date(value.replace("Z", "")))
     .or(z.date()),
   isOnline: z.boolean().default(false),
   linkUrl: z.string().url().optional().nullable(),

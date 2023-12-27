@@ -6,6 +6,8 @@ import type { ScheduleProgram } from "@/lib/validations/schedule-program";
 import { getEventListCalendarKey } from "./get-event-list-calendar-by-date";
 import { getEventKey } from "./get-event";
 import type { Audience } from "@/lib/validations/audience";
+import { convertFromDateToIso } from "@/utils/date-utils";
+import { toast } from "react-toastify";
 
 export type InsertEventParams = EventFormValues & {
   schedules?: ScheduleProgram[];
@@ -23,6 +25,8 @@ export const useInsertEvent = () => {
     mutationFn: async (data: InsertEventParams) => {
       await httpClient.post("/event", {
         ...data,
+        startAt: convertFromDateToIso(data.startAt),
+        endAt : convertFromDateToIso(data.endAt),
         audienceNames: data?.audienceNames?.map(
           (audience) => audience.audienceName,
         ),
@@ -34,6 +38,7 @@ export const useInsertEvent = () => {
         queryKey: [getEventListCalendarKey],
       });
       router.push("/events");
+      toast.success("Event created successfully");
     },
   });
 };

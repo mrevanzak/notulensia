@@ -12,6 +12,8 @@ export class ApiError extends AxiosError {
     switch (this.message) {
       case ErrorEnum.INVALID:
         return "Email or password is invalid.";
+      case ErrorEnum.InvalidDate:
+        return "Event Date Invalid";
       default:
         return "Something went wrong.";
     }
