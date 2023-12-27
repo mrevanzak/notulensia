@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import type { ReactElement } from "react";
-import { FormProvider, useFieldArray, useForm } from "react-hook-form";
+import { FormProvider, useFieldArray, useForm, useFormContext } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
 import type { EventFormValues } from "@/lib/validations/event";
@@ -353,6 +353,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
             icon
             id="endAt"
             label="End Date"
+            minDate={watch("startAt")}
             required
             showTime
             stepMinute={5}
