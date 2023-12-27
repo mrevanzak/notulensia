@@ -4,6 +4,7 @@ export type ApiErrorResponse = {
 
 export enum ErrorEnum {
   INVALID = "INVALID_USERNAME_OR_PASSWORD",
+  InvalidDate = "INVALID_EVENT_DATE" 
 }
 
 export type PaginatedParams = {

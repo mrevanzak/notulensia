@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { getEventKey } from "./get-event";
 import type { InsertEventParams } from "./insert-event";
 import { getEventDetailKey } from "./get-event-detail";
+import { convertFromDateToIso } from "@/utils/date-utils";
+import { toast } from "react-toastify";
 
 type UpdateEventParams = InsertEventParams & { id: string };
 
@@ -15,6 +17,8 @@ export const useUpdateEvent = () => {
     mutationFn: async (data: UpdateEventParams) => {
       await httpClient.put(`/event/${data.id}`, {
         ...data,
+        startAt: convertFromDateToIso(data.startAt),
+        endAt : convertFromDateToIso(data.endAt),
         audienceNames: data?.audienceNames?.map(
           (audience) => audience.audienceName,
         ),
@@ -24,6 +28,7 @@ export const useUpdateEvent = () => {
       void queryClient.invalidateQueries({ queryKey: [getEventKey] });
       void queryClient.invalidateQueries({ queryKey: [getEventDetailKey] });
       router.push("/events");
+      toast.success("Event updated successfully");
     },
   });
 };
