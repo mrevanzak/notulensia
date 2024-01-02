@@ -14,7 +14,8 @@ import { useExportAudience } from "@/lib/api/export/export-audience";
 import { useParams } from "next/navigation";
 import ExportButton from "./export-button";
 
-export default function AudienceListCard() {
+export default function AudienceListCard({readOnly = false, attend = false} : Readonly<{readOnly?:boolean, attend?:boolean}>) {
+
   const params = useParams<{ id: string }>();
   const eventId = params?.id ?? "";
 
@@ -68,9 +69,10 @@ export default function AudienceListCard() {
       />
     );
   };
+
   return (
     <div className="card tw-space-y-3">
-      <Dialog
+        <Dialog
         className="tw-w-96"
         draggable={false}
         header="Add Audience"
@@ -86,20 +88,25 @@ export default function AudienceListCard() {
       >
         <AddAudienceForm setShowDialog={setShowDialog} />
       </Dialog>
+  
       <div className="tw-flex tw-justify-between tw-items-center">
         <h4>Audience List</h4>
-        <div className="tw-space-x-4">
-          <Button
-            icon="pi pi-plus"
-            iconPos="right"
-            label="Add"
-            onClick={() => {
-              setShowDialog(true);
-            }}
-            type="button"
-          />
-          <ExportButton action={exportAudience.mutate} outlined />
-        </div>
+        {
+          readOnly !== null && readOnly !== undefined && !readOnly && (
+          <div className="tw-space-x-4">
+            <Button
+              icon="pi pi-plus"
+              iconPos="right"
+              label="Add"
+              onClick={() => {
+                setShowDialog(true);
+              }}
+              type="button"
+            />
+            <ExportButton action={exportAudience.mutate} outlined />
+          </div>
+        )}
+        
       </div>
       <DataTable
         editMode="cell"
@@ -141,21 +148,30 @@ export default function AudienceListCard() {
           headerStyle={{ width: "20%" }}
           onCellEditComplete={onCellEditComplete}
         />
-        <Column
-          body={(rowData: Audience) => {
-            return rowData.isAttend ? "Yes" : "No";
-          }}
-          editor={(options) => checkboxEditor(options)}
-          field="isAttend"
-          header="Attend"
-          headerStyle={{ width: "2rem" }}
-          onCellEditComplete={onCellEditComplete}
-        />
-        <Column
-          body={actionBodyTemplate}
-          header="Action"
-          headerStyle={{ width: "2rem" }}
-        />
+        {
+          attend !== null && attend !== undefined && attend && (
+            <Column
+              body={(rowData: Audience) => {
+                return rowData.isAttend ? "Yes" : "No";
+              }}
+              editor={(options) => checkboxEditor(options)}
+              field="isAttend"
+              header="Attend"
+              headerStyle={{ width: "20%" }}
+              onCellEditComplete={onCellEditComplete}
+            />
+          )
+        }
+        {
+          readOnly !== null && readOnly !== undefined && !readOnly && (
+            <Column
+            body={actionBodyTemplate}
+            header="Action"
+            headerStyle={{ width: "2rem" }}
+          />
+          )
+        }
+       
       </DataTable>
     </div>
   );

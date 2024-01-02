@@ -18,6 +18,11 @@ export default function SignInForm(): ReactElement {
   const { mutate, isPending, isError, error } = useSignIn();
   const {mutate:google, isError:isErrorGoogle, error:googleError} = useSignInGoogle();
   const [isLoading, setIsLoading] = useState(false);  
+
+  let baseUrl  = "https://agenda.saranaintegrasi.co.id/";
+  if(process.env.NODE_ENV === "development") {
+    baseUrl = "http://localhost:3000/";
+  }
   
   const methods = useForm<SignInFormValues>({
     resolver: zodResolver(authSchema),
@@ -40,7 +45,7 @@ export default function SignInForm(): ReactElement {
     const auth = 'https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount';
     const queryParams = {
       client_id: '898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com',
-      redirect_uri: 'https://agenda.saranaintegrasi.co.id/auth/sign-in',
+      redirect_uri: `${baseUrl}auth/sign-in`,
       scope : 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
       prompt : 'select_account',
       response_type : 'token',

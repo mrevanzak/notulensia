@@ -11,7 +11,6 @@ import AttendanceHistoryCard from "../attendance-history-card";
 import AttachmentFilesCard from "../attachment-files-card";
 import { FormProvider, useForm, useFieldArray } from "react-hook-form";
 import { useUpdatePostEvent } from "@/lib/api/event/update-post-event";
-import SendNotifButton from "../send-notif-button";
 
 export default function PostEventForm(): ReactElement {
   const params = useParams<{ id: string }>();
@@ -55,13 +54,10 @@ export default function PostEventForm(): ReactElement {
           void onSubmit();
         }}
       >
-        <AudienceListCard />
+        <AudienceListCard readOnly/>
         <AttendanceHistoryCard />
         <AttachmentFilesCard post />
-        <div className="tw-flex tw-justify-between">
-          <div className="tw-flex tw-gap-4">
-            <SendNotifButton />
-          </div>
+        <div className="tw-flex tw-justify-end">
           <div className="tw-flex tw-gap-4">
             <Button label="Save" loading={isPending} outlined type="submit" />
             <Link href="/events">
