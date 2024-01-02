@@ -558,9 +558,10 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
             )}
             {edit && values && values.status !== "DRAFT" ? (
               <div>
-                <SendNotifButton />
+                <SendNotifButton linkValue={`${baseUrl}/summary/${id.toString()}`} />
                 <Button 
                   className="tw-ml-4" 
+                  icon="pi pi-file-pdf"
                   label="Summary" 
                   onClick={() => {const url = `${baseUrl}/summary/${id.toString()}`; window.open(url, "_blank")}} 
                   outlined 

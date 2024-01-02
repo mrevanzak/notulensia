@@ -33,12 +33,9 @@ export default function OngoingEventForm(): ReactElement {
 
   return (
     <>
-      <AudienceListCard />
+      <AudienceListCard attend/>
       <AttendanceHistoryCard />
-      <div className="tw-flex tw-justify-between">
-        <div className="tw-flex tw-gap-4">
-          <SendNotifButton />
-        </div>
+      <div className="tw-flex tw-justify-end">
         <div className="tw-flex tw-gap-4">
           <Button
             label="Save"

@@ -95,7 +95,10 @@ export function LayoutProvider(props: ChildContainerProps): ReactElement {
   };
 
   const isDesktop = (): boolean => {
-    return window.innerWidth > 991;
+    if (typeof window !== 'undefined') {
+      return window.innerWidth > 991;
+    }
+    return false;
   };
   const onTopbarMenuToggle = (): void => {
     setLayoutState((prevLayoutState) => ({

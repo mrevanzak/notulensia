@@ -2,25 +2,17 @@ import { httpClient } from "@/lib/http";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-export const useSendNotification = (eventId: string) => {
+export const useSendNotification = (eventId: string, link: string) => {
   return useMutation({
     mutationFn: async () => {
-      const response = await httpClient.get(`/event/send/agenda/${eventId}`, {
-        responseType: "blob",
+      await httpClient.get(`/event/send/agenda/${eventId}`, {
+        params: {
+          link,
+        }
       });
-
-      return response.data as Blob;
     },
     onSuccess: (data) => {
       toast.success("Notification sent successfully");
-      const url = window.URL.createObjectURL(data);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `pdf-${Date.now()}.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
     },
   });
 };
