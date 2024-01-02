@@ -10,9 +10,7 @@ interface LandingLayoutProps {
 }
 
 export const metadata: Metadata = {
-  title: "PrimeReact Avalon",
-  description:
-    "The ultimate collection of design-agnostic, flexible and accessible React UI Components.",
+  title: "Notulensia",
 };
 
 export default function LandingLayout({
