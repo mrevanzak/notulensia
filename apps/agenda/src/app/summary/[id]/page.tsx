@@ -1,12 +1,27 @@
 "use client"
-import { useGetEventDetail } from '@/lib/api/event/get-event-detail'
+import { useGetEventDetailSummary } from '@/lib/api/event/get-event-public-summary';
 import { useParams } from 'next/navigation';
-import React, { ReactElement } from 'react'
+import { Skeleton } from 'primereact/skeleton';
+import React from 'react'
+import type { ReactElement } from 'react'
 
 export default function Summary(): ReactElement {
     const params = useParams<{ id: string }>();
     const id = params?.id ?? "";
-    const getDetail = useGetEventDetail(id);
+    const getDetail = useGetEventDetailSummary(id);
+    const loading = getDetail.isLoading;
+
+    if(loading || getDetail.error){
+        return(
+            <div className='tw-w-[21cm] tw-h-[100vh] tw-mx-auto tw-border'>
+                <Skeleton className='tw-mb-3' height='25vh' width='100%'> </Skeleton>
+                <Skeleton className='tw-mb-3' height='25vh' width='100%'> </Skeleton>
+                <Skeleton className='tw-mb-3' height='25vh' width='100%'> </Skeleton>
+                <Skeleton className='tw-mb-3' height='25vh' width='100%'> </Skeleton>
+            </div>
+        );
+
+    }
 
   return (
     <div className='mx-auto tw-w-[21cm] tw-border'>
@@ -34,13 +49,13 @@ export default function Summary(): ReactElement {
             <p>{getDetail.data?.preparationNotes}</p>
         </div>
         <div className='tw-border tw-border-t-transparent tw-border-black tw-px-2'>
-            <span><b>Schedule :</b> 20 Minutes</span>
+            <span><b>Schedule :</b> {getDetail.data?.startAt.toLocaleString()} - {getDetail.data?.endAt.toLocaleString()}</span>
         </div>
 
         <table className='tw-table tw-border-black tw-border tw-w-full tw-mt-3'>
             <thead>
                 <tr className='tw-w-full tw-border tw-border-black'>
-                    <th colSpan={3} className='tw-px-2'>Schedule</th>
+                    <th className='tw-px-2'  colSpan={3}>Schedule</th>
                 </tr>
                 <tr className='tw-border tw-border-black'>
                     <th className='tw-w-1/4 tw-border tw-border-black'>Time</th>
@@ -55,13 +70,12 @@ export default function Summary(): ReactElement {
                     }
                     return 0; 
                 }).map((schedule) => (
-                    <tr className='tw-text-center'>
-                    <td className='tw-border tw-border-black'>{schedule.startTime.toLocaleString()}</td>
-                    <td className='tw-border tw-border-black'>{schedule.date.toLocaleString()}</td>
-                    <td className='tw-border tw-border-black'>{schedule.activity}</td>
-                </tr>    
+                    <tr className='tw-text-center'  key={schedule.position}>
+                        <td className='tw-border tw-border-black'>{schedule.startTime}</td>
+                        <td className='tw-border tw-border-black'>{schedule.duration} minutes</td>
+                        <td className='tw-border tw-border-black'>{schedule.activity}</td>
+                    </tr>    
                 ))}
-                
             </tbody>
         </table>
 
@@ -69,7 +83,7 @@ export default function Summary(): ReactElement {
         <table className='tw-table tw-border-black tw-border tw-w-full tw-mt-3'>
             <thead>
                 <tr className='tw-w-full tw-border tw-border-black'>
-                    <th colSpan={3} className='tw-px-2'>Attachment files</th>
+                    <th className='tw-px-2' colSpan={3} >Attachment files</th>
                 </tr>
                 <tr className='tw-border tw-border-black'>
                     <th className='tw-w-1/4 tw-border tw-border-black'>Name</th>
@@ -79,11 +93,11 @@ export default function Summary(): ReactElement {
             </thead>
             <tbody>
                 {getDetail.data?.files?.map((file) => (
-                    <tr className='tw-text-center'>
-                    <td className='tw-border tw-border-black'>{file.name}</td>
-                    <td className='tw-border tw-border-black'>{file.format}</td>
-                    <td className='tw-border tw-border-black tw-text-xs'><a className='tw-text-blue-500' href={`https://agenda.saranaintegrasi.co.id/api/v1/storage/agenda/${file.storageId}`}>{`https://agenda.saranaintegrasi.co.id/api/v1/storage/agenda/${file.storageId}`}</a></td>
-                </tr>    
+                    <tr  className='tw-text-center' key={file.storageId}>
+                        <td className='tw-border tw-border-black'>{file.name}</td>
+                        <td className='tw-border tw-border-black'>{file.format}</td>
+                        <td className='tw-border tw-border-black tw-text-xs'><a className='tw-text-blue-500' href={`https://agenda.saranaintegrasi.co.id/api/v1/storage/agenda/${file.storageId}`}>{`https://agenda.saranaintegrasi.co.id/api/v1/storage/agenda/${file.storageId}`}</a></td>
+                    </tr>    
                 ))}
                 
             </tbody>
@@ -92,7 +106,7 @@ export default function Summary(): ReactElement {
         <table className='tw-table tw-border-black tw-border tw-w-full tw-mt-3'>
             <thead>
                 <tr className='tw-w-full tw-border tw-border-black'>
-                    <th colSpan={5} className='tw-px-2'>Audience List</th>
+                    <th className='tw-px-2' colSpan={5}>Audience List</th>
                 </tr>
                 <tr className='tw-border tw-border-black'>
                     <th className='tw-w-1/4 tw-border tw-border-black'>Name</th>
@@ -104,15 +118,14 @@ export default function Summary(): ReactElement {
             </thead>
             <tbody>
                 {getDetail.data?.audienceUsers?.map((user) => (
-                    <tr className='tw-text-center'>
-                    <td className='tw-border tw-border-black'>{user.name}</td>
-                    <td className='tw-border tw-border-black'>{user.description ?? "-"}</td>
-                    <td className='tw-border tw-border-black'>{user.email}</td>
-                    <td className='tw-border tw-border-black'>{user.job}</td>
-                    <td className='tw-border tw-border-black'>{user.phoneNumber}</td>
-                </tr>    
+                    <tr className='tw-text-center' key={user.email}>
+                        <td className='tw-border tw-border-black'>{user.name}</td>
+                        <td className='tw-border tw-border-black'>{user.description ?? "-"}</td>
+                        <td className='tw-border tw-border-black'>{user.email}</td>
+                        <td className='tw-border tw-border-black'>{user.job}</td>
+                        <td className='tw-border tw-border-black'>{user.phoneNumber}</td>
+                    </tr>    
                 ))}
-                
             </tbody>
         </table>
     </div>

@@ -48,12 +48,16 @@ import iconMeet from "~/svg/google-meet.svg";
 import { toast } from "react-toastify";
 import Switch from "../ui/switch";
 import SendNotifButton from "../send-notif-button";
+import { API_URL } from "@/lib/http";
 
 type EventFormProps = {
   edit?: boolean;
 };
-
 export default function PreEventForm({ edit }: EventFormProps): ReactElement {
+  let baseUrl = "https://agenda.saranaintegrasi.co.id";
+  if(process.env.NODE_ENV === "development") {
+    baseUrl = "http://localhost:3000";
+  }
   const { id } = useParams();
 
   const { data: values } = useGetEventDetail(id as string);
@@ -265,7 +269,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
       const queryParams = {
         client_id:
           "898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com",
-        redirect_uri: "https://agenda.saranaintegrasi.co.id/events/callback",
+        redirect_uri: `${baseUrl}/events/callback`,
         scope:
           "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events",
         prompt: "select_account",
@@ -539,7 +543,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
             <TextArea float id="address" label="Address" />
           </>
         )}
-
+    
         <div className="tw-flex tw-justify-between">
           <div className="tw-flex tw-gap-4">
             {values?.status !== "ACTIVE" && (
@@ -553,7 +557,15 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
               />
             )}
             {edit && values && values.status !== "DRAFT" ? (
-              <SendNotifButton />
+              <div>
+                <SendNotifButton />
+                <Button 
+                  className="tw-ml-4" 
+                  label="Summary" 
+                  onClick={() => {const url = `${baseUrl}/summary/${id.toString()}`; window.open(url, "_blank")}} 
+                  outlined 
+                  type="button"/>
+              </div>
             ) : null}
           </div>
           <div className="tw-flex tw-gap-4">
