@@ -10,7 +10,7 @@ import { MdGroups, MdOutlineSettings } from "react-icons/md";
 import { LuBadgeHelp } from "react-icons/lu";
 
 function AppMenu(): ReactElement {
-  const size = 40;
+  const size = 32;
   const subSize = 30;
   const model: MenuModel[] = [
     {

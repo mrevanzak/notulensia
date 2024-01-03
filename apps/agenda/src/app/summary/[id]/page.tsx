@@ -1,12 +1,12 @@
 "use client"
+import { metadata } from '@/app/(private)/layout';
+import './style.css'
 import { useDownloadSummary } from '@/lib/api/event/download-summary-event';
 import { useGetEventDetailSummary } from '@/lib/api/event/get-event-public-summary';
-import { useSendNotification } from '@/lib/api/event/send-notification';
 import { useParams } from 'next/navigation';
 import { Button } from 'primereact/button';
-import { Checkbox } from 'primereact/checkbox';
 import { Skeleton } from 'primereact/skeleton';
-import React from 'react'
+import React, { useEffect } from 'react'
 import type { ReactElement } from 'react'
 
 export default function Summary(): ReactElement {
@@ -16,6 +16,10 @@ export default function Summary(): ReactElement {
 
     const loading = getDetail.isLoading;
     const { mutate, isPending } = useDownloadSummary(id);
+
+    useEffect(() => {
+        document.title = `Notulensia - ${getDetail.data?.name}`
+    },[]);
 
     if(loading || getDetail.error){
         return(
@@ -30,7 +34,10 @@ export default function Summary(): ReactElement {
 
   return (
     <div className='mx-auto tw-w-[21cm] tw-border'>
-        <Button className='tw-fixed tw-top-2 tw-right-2' icon='pi pi-download' loading={isPending} onClick={() => {mutate()}} type='button'/>
+        <div className='tw-fixed tw-top-2 tw-right-2'>
+            <Button className='button' icon='pi pi-home' loading={isPending} onClick={() => {window.open('/events', '_self')}} type='button'/>
+            <Button className='button tw-ml-2' icon='pi pi-download' loading={isPending} onClick={() => {mutate()}} type='button'/>
+        </div>
         <h3 className='tw-border tw-border-black tw-border-b-transparent tw-bg-black tw-text-white tw-text-center tw-p-3' >Meeting Wise Agenda</h3>
         <div className='tw-border tw-border-black tw-text-center'>
             <h3>{getDetail.data?.name}</h3>
