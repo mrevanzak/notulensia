@@ -184,7 +184,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
         <a
           className={classNames(
             item?.className,
-            "p-ripple tw-text-xl px-8 tw-space-x-8",
+            "p-ripple tw-text-xl tw-space-x-8 px-7",
             {
               "active-route": isActiveRoute,
             },
@@ -216,7 +216,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
         <Link
           className={classNames(
             item?.class,
-            "p-ripple tw-space-x-8 tw-text-xl px-8",
+            "p-ripple tw-space-x-8 tw-text-xl px-7 tw-my-6",
             {
               "active-route": isActiveRoute,
             },

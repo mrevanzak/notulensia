@@ -46,10 +46,10 @@ export default function Events(): ReactElement {
         return "p-tag-success";
       }
       if (rowData.status === "INACTIVE") {
-        return "p-tag-warning";
+        return "p-tag-danger";
       }
 
-      return "p-tag-danger";
+      return "p-tag-warning";
     };
     return (
       <span
