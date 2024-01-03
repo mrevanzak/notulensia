@@ -149,7 +149,7 @@ export default function AudienceListCard({readOnly = false, attend = false} : Re
           onCellEditComplete={onCellEditComplete}
         />
         {
-          attend !== null && attend !== undefined && attend && (
+          Boolean(attend) && (
             <Column
               body={(rowData: Audience) => {
                 return rowData.isAttend ? "Yes" : "No";

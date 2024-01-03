@@ -16,9 +16,10 @@ function AppSidebar(): ReactElement {
       <div className="tw-my-10 tw-h-16 tw-relative">
         <Image
           alt="profile"
+          className="tw-mx-auto"
           height={6}
           src={file.data ? URL.createObjectURL(file.data) : "/svg/logo.svg"}
-          style={{ width: '380px', height: '60px', objectFit: 'contain' }} 
+          style={{ width: '280px', height: '45px', objectFit: 'contain' }} 
           width={38}
         />
       </div>

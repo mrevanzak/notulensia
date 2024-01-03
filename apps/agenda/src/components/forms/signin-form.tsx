@@ -63,11 +63,11 @@ export default function SignInForm(): ReactElement {
 
   return (
     <div
-      className="tw-p-24 tw-rounded-[20px]"
+      className="tw-p-24 tw-rounded-[20px] tw-w-full tw-bg-gradient-to-br tw-from-[#8F4AD7] tw-to-[#DF3B9A]"
       style={{
         background: isError
           ? "rgba(218, 97, 97, 0.35)"
-          : "linear-gradient(135.59deg, rgba(88, 130, 193, 0.49) 1.28%, rgba(88, 130, 193, 0.11) 96.26%),linear-gradient(0deg, rgba(88, 130, 193, 0.28), rgba(88, 130, 193, 0.28))",
+          : "linear-gradient(30deg, #8F4AD7 50%, #DF3B9A);",
       }}
     >
       <h2 className="tw-text-white tw-text-center">Sign In</h2>

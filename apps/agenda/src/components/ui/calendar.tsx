@@ -88,9 +88,11 @@ export default function Calendar({ pt, simple }: CalendarProps): ReactElement {
         panelClassName="bg-purple-50"
         pt={{
           header: {
-            className: "bg-purple-50 tw-relative tw-justify-end border-none",
+            className: "bg-purple-50 tw-relative tw-text-2xl",
           },
-          title: { className: "tw-absolute tw-left-0 " },
+          tableHeader: { className: "tw-text-2xl" },
+          tableHeaderCell: { className: "tw-text-2xl tw-mb-12" },
+          tableBody: {className: "tw-text-xl"},
           panel: { className: "border-none" },
           ...pt,
         }}
@@ -138,7 +140,7 @@ export default function Calendar({ pt, simple }: CalendarProps): ReactElement {
           <p className="tw-bg-gray-200 tw-flex tw-items-center tw-gap-2 tw-text-indigo-900">
             {event?.at(0)?.isOnline ? (
               <BiSolidVideoRecording
-                className="tw-bg-pink-400 tw-w-14 tw-text-white"
+                className="tw-bg-pink-400 tw-w-20 tw-text-white"
                 size={26}
               />
             ) : (

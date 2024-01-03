@@ -8,7 +8,7 @@
   }
 
   .layout {
-    background: linear-gradient(180deg, #1e1d5d 0%, rgba(30, 29, 93, 0.9) 100%);
+    background: linear-gradient(-150deg, #8F4AD7 50%, #DF3B9A);
     @apply tw-min-h-screen tw-w-full tw-absolute;
   }
 
@@ -18,7 +18,6 @@
     top: 0;
     left: 0;
     width: 429px;
-    background-image: url('data:image/svg+xml,<svg width="429" height="491" viewBox="0 0 429 491" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(%23filter0_f_41_1336)"><path fill-rule="evenodd" clip-rule="evenodd" d="M269.311 -240.455C363.393 -186.696 435.784 -64.3715 407.272 40.1684C379.733 141.142 218.182 118.788 149.737 197.966C81.7864 276.572 134.572 455.265 32.3491 473.881C-66.2805 491.844 -96.672 334.972 -155.056 253.475C-192.624 201.034 -241.366 153.92 -243.068 89.4334C-244.706 27.3371 -201.38 -21.9358 -163.626 -71.2637C-122.363 -125.176 -82.1889 -178.67 -18.9554 -203.381C74.8492 -240.04 181.866 -290.421 269.311 -240.455Z" fill="%236CC6DB" fill-opacity="0.1"/></g><defs><filter id="filter0_f_41_1336" x="-258.113" y="-276.411" width="686.671" height="766.713" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="7.5" result="effect1_foregroundBlur_41_1336"/></filter></defs></svg>');
     height: 491px;
     background-repeat: no-repeat;
   }
