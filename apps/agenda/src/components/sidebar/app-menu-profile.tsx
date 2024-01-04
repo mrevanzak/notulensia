@@ -97,13 +97,13 @@ function AppMenuProfile(): ReactElement {
       >
         <Image
           alt="avatar"
-          className="tw-rounded-full tw-mt-2"
+          className="tw-rounded-full tw-mt-1 tw-mx-2"
           height={56}
           src={image ?? "/img/user-default.jpg"}
           width={56}
         />
         <span>
-          <b className="tw-text-lg">{truncateText(data?.name, 24)} </b>
+          <b className="tw-text-xl">{truncateText(data?.name, 20)} </b>
           <p className="tw-text-xs">{data?.phoneNumber}</p>
         </span>
         <i

@@ -1,158 +1,157 @@
-"use client";
-import type { ReactElement } from "react";
-import React, { useEffect, useRef, useState } from "react";
-import type { CalendarPropsSingle } from "primereact/calendar";
-import { Calendar as PrimeCalendar } from "primereact/calendar";
-import type { Nullable } from "primereact/ts-helpers";
-import { Dialog } from "primereact/dialog";
-import { getDate } from "@/lib/date";
-import { useGetEventListCalendar } from "@/lib/api/event/get-event-list-calendar-by-date";
-import moment from "moment";
-import { useGetEventDetailByDate } from "@/lib/api/event/get-event-detail-by-date";
-import { BiSolidVideoRecording } from "react-icons/bi";
-import { IoLocationSharp } from "react-icons/io5";
+"use client"
+import React, { useEffect, useState } from 'react';
+import type { ReactElement } from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import { InputText } from 'primereact/inputtext';
+import { Checkbox } from 'primereact/checkbox';
+import { Calendar as PRCalendar } from 'primereact/calendar';
+import { useGetEventListCalendar } from '@/lib/api/event/get-event-list-calendar-by-date';
+import { useGetEventDetailByDate } from '@/lib/api/event/get-event-detail-by-date';
+import { Nullable } from 'primereact/ts-helpers';
+import { useGetEventDetail } from '@/lib/api/event/get-event-detail';
+import moment from 'moment';
+import { Skeleton } from 'primereact/skeleton';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
-type CalendarProps = CalendarPropsSingle & {
-  simple?: boolean;
-};
+interface Event {
+    id : string,
+    title: string;
+    start: Date | null;
+    end: Date | null;
+    allDay: boolean | null;
+	isOnline: boolean | null;
+}
+const defaultValue : Event= { id: '', title: '', start: null, end: null, allDay: null, isOnline: false };
 
-export default function Calendar({ pt, simple }: CalendarProps): ReactElement {
-  const calendarRef = useRef<PrimeCalendar>(null);
+export default function Calendar({ simple = false  }: {simple?:boolean}) : ReactElement {
+    const [eventDialog, setEventDialog] = useState<boolean>(false);
+    const [clickedEvent, setClickedEvent] = useState<any>(null);
+    const [changedEvent, setChangedEvent] = useState<Event>(defaultValue);
+    const [events, setEvents] = useState<any>(defaultValue);
+    const [viewDate, setViewDate] = useState(new Date());
+    const { data } = useGetEventListCalendar(viewDate);
+    const { data: eventDetail } = useGetEventDetail(clickedEvent?.id);
 
-  const [date, setDate] = useState<Nullable<Date>>(null);
-  const [showDialog, setShowDialog] = useState(false);
+    const eventClick = (e: any) => {
+        const { id, title, start, end, isOnline } = e.event;
+        setEventDialog(true);
+        setClickedEvent(e.event);
+        setChangedEvent({ id, title, start, end, allDay: null , isOnline});
+    };
 
-  const [viewDate, setViewDate] = useState(new Date());
-
-  const { data } = useGetEventListCalendar(viewDate);
-  const { data: event } = useGetEventDetailByDate(date);
-
-  useEffect(() => {
-    if (calendarRef.current) {
-      calendarRef.current
-        .getElement()
-        .querySelectorAll('[data-pc-section="day"]')
-        .forEach((el) => {
-          const day = el.textContent;
-          data?.forEach((event) => {
-            if (event.startAt.getDate().toString() === day) {
-              el.classList.add("tw-relative");
-              const div = document.createElement("div");
-              div.classList.add("tw-absolute", "bg-purple-500");
-              if (simple) {
-                div.classList.add(
-                  "tw-bottom-2",
-                  "tw-left-1/2",
-                  "-tw-translate-x-1/2",
-                  "tw-w-2",
-                  "tw-h-2",
-                  "tw-rounded-full",
-                );
-              } else {
-                div.classList.add(
-                  "tw-top-10",
-                  "tw-w-[calc(100%-1rem)]",
-                  "tw-text-[8px]",
-                  "tw-leading-[12px]",
-                  "tw-px-1",
-                  "tw-text-white",
-                  "tw-line-clamp-1",
-                );
-                div.textContent = event.name;
-              }
-              el.appendChild(div);
-            }
-          });
-        });
-    }
+    useEffect(() => {
+        const modifiedEvents = data?.map(event => ({ ...event, title: "", end: event.start }));
+        setEvents(simple ? modifiedEvents : data);
   }, [data]);
 
-  return (
-    <>
-      <PrimeCalendar
-        className="w-full"
-        inline
-        onSelect={(e) => {
-          if (
-            data?.some((event) =>
-              moment(event.startAt).isSame(e.value as Date, "day"),
-            )
-          ) {
-            setDate(e.value as Date);
-            setShowDialog(true);
-          }
-        }}
-        onViewDateChange={(e) => {
-          setViewDate(e.value);
-        }}
-        panelClassName="bg-purple-50"
-        pt={{
-          header: {
-            className: "bg-purple-50 tw-relative tw-text-2xl",
-          },
-          tableHeader: { className: "tw-text-2xl" },
-          tableHeaderCell: { className: "tw-text-2xl tw-mb-12" },
-          tableBody: {className: "tw-text-xl"},
-          panel: { className: "border-none" },
-          ...pt,
-        }}
-        ref={calendarRef}
-        value={date}
-        viewDate={viewDate}
-      />
-      <Dialog
-        className="tw-min-w-[30rem]"
-        draggable={false}
-        header={getDate(date)}
-        onHide={() => {
-          setShowDialog(false);
-        }}
-        pt={{
-          content: {
-            className: "border-noround-top px-5",
-          },
-          header: {
-            className:
-              "border-bottom-blue-700 border-bottom-2 flex gap-4 justify-between text-2xl !tw-text-indigo-900 px-5",
-          },
-        }}
-        visible={showDialog}
-      >
-        <div className="tw-space-y-6">
-          <div>
-            <h1 className="tw-font-semibold tw-text-2xl tw-text-indigo-900">
-              {event?.at(0)?.name}
-            </h1>
-            <p className="tw-text-indigo-900">
-              {moment(event?.at(0)?.startAt).format("HH.mm")} -{" "}
-              {moment(event?.at(0)?.endAt).format("HH.mm")}
-            </p>
-          </div>
-          <div>
-            <p className="tw-text-indigo-900">Topic: {event?.at(0)?.topic}</p>
-            <p className="tw-text-indigo-900">
-              Purpose: {event?.at(0)?.purpose}
-            </p>
-            <p className="tw-text-indigo-900">
-              Preparation Notes: {event?.at(0)?.preparationNotes}
-            </p>
-          </div>
-          <p className="tw-bg-gray-200 tw-flex tw-items-center tw-gap-2 tw-text-indigo-900">
-            {event?.at(0)?.isOnline ? (
-              <BiSolidVideoRecording
-                className="tw-bg-pink-400 tw-w-20 tw-text-white"
-                size={26}
-              />
-            ) : (
-              <IoLocationSharp
-                className="tw-bg-orange-400 tw-w-14 tw-text-white"
-                size={26}
-              />
-            )}
-            {event?.at(0)?.locationValue}
-          </p>
+
+    return (
+      <div className="grid">
+        <div className="col-12">
+          <div className="card">
+            {
+                simple ? (
+                    <FullCalendar
+                        datesSet={(e) => {setViewDate(e.view.currentStart)}}
+                        eventClick={eventClick}
+                        events={events}
+                        headerToolbar={{ center: 'title', left: 'prev', right: 'next' }}
+                        initialDate={new Date()}
+                        initialView='dayGridMonth'
+                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                    />
+
+                ) :
+                (
+                    <FullCalendar
+                        datesSet={(e) => {setViewDate(e.view.currentStart)}}
+                        dayMaxEvents
+                        eventClick={eventClick}
+                        events={events}
+                        headerToolbar={{ center: 'title', left: 'prev,next today', right: 'dayGridMonth,timeGridWeek,timeGridDay' }}
+                        initialDate={new Date()}
+                        initialView='dayGridMonth'
+                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                        selectable
+                    />
+
+                )
+            }
+            <Dialog
+                closable
+                contentStyle={{
+                    borderBottomLeftRadius: '10px',
+                    borderBottomRightRadius: '10px',
+                    borderRadius: '0',
+                }}
+                header={moment(clickedEvent?.start).format("DD, MMMM YYYY")}
+                headerStyle={{ paddingLeft: '32px' }}
+                modal
+                onHide={() => {setEventDialog(false)}}
+                style={{ maxWidth: '700px', minWidth: '500px' }}
+                visible={eventDialog && Boolean(clickedEvent)}
+            >
+                {
+                    eventDetail ? (
+                        <div className='tw-flex tw-flex-col tw-space-y-6 tw-p-4'>
+                            <div>
+                                <h4>Topic</h4>
+                                <p>{eventDetail?.topic}</p>
+                            </div>
+                            <div>
+                                <h4>Description</h4>
+                                <p>{eventDetail?.purpose}</p>
+                            </div>
+                            <div className='flex tw-justify-between tw-px-[2%]'>
+                                <div>
+                                <h4>Start</h4>
+                                <p><i className='pi pi-clock'/> {moment(eventDetail?.startAt).format("DD MMMM YYYY hh:mm")}</p>
+                                </div>
+                                <div>
+                                <h4>End</h4>
+                                <p><i className='pi pi-clock'/> {moment(eventDetail?.endAt).format("DD MMMM YYYY hh:mm")}</p>
+                                </div>
+                            </div>
+                            {eventDetail?.isOnline ? (
+                                <div>
+                                    <h4 className='tw-mb-2'> Link Meeting </h4>
+                                    <p className='tw-border tw-h-[40px] tw-flex tw-items-center'>
+                                        <div className='tw-flex tw-justify-center tw-items-center tw-h-full tw-w-10 tw-bg-pink-400 tw-mr-2'>
+                                            <span className='pi pi-desktop' style={{fontSize: '20px', verticalAlign: 'middle', color: 'white'}}/>
+                                        </div>
+                                        {eventDetail?.linkUrl ?? "-"}
+                                    </p>
+                                </div>
+                                ) : (
+                                <div>
+                                    <h4 className='tw-mb-2'> Location </h4>
+                                    <p className='tw-border tw-h-[40px] tw-flex tw-items-center'>
+                                        <div className='tw-flex tw-justify-center tw-items-center tw-h-full tw-w-10 tw-bg-orange-400 tw-mr-2'>
+                                            <span className='pi pi-desktop' style={{fontSize: '20px', verticalAlign: 'middle', color: 'white'}}/>
+                                        </div>
+                                        {eventDetail?.address ?? "-"}
+                                    </p>
+                                </div>
+                            )
+                            }
+                        </div>
+                    ) : (
+                        <div className='tw-flex tw-items-center'>
+                            <ProgressSpinner
+                                strokeWidth="8"
+                                style={{ height: '50px', marginLeft: 'auto', width: '50px' }}
+                            />
+                        </div>
+                    )
+                }
+            </Dialog>
+            </div>
         </div>
-      </Dialog>
-    </>
+    </div>
   );
-}
+};
