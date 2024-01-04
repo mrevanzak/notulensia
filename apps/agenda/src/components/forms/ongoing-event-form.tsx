@@ -9,7 +9,6 @@ import AudienceListCard from "../audience-list-card";
 import { useAudienceStore } from "@/stores/use-audience-store";
 import { useUpdateOngoingEvent } from "@/lib/api/event/update-ongoing-event";
 import AttendanceHistoryCard from "../attendance-history-card";
-import SendNotifButton from "../send-notif-button";
 
 export default function OngoingEventForm(): ReactElement {
   const params = useParams<{ id: string }>();
