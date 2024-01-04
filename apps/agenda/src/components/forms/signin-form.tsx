@@ -7,10 +7,10 @@ import type { ReactElement } from "react";
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Input from "@/components/ui/input";
 import { useSignIn } from "@/lib/api/auth/sign-in";
 import { errorMessages } from "@/lib/error";
 import { useSignInGoogle } from "@/lib/api/auth/sign-in-google";
+import Input from "../ui/input";
 
 
 
@@ -63,10 +63,10 @@ export default function SignInForm(): ReactElement {
 
   return (
     <div
-      className="tw-p-24 tw-rounded-[20px] tw-w-full tw-bg-gradient-to-br tw-from-[#8F4AD7] tw-to-[#DF3B9A]"
+      className="tw-p-24 max-md:tw-p-10 tw-rounded-[20px] tw-w-full tw-bg-gradient-to-br tw-from-[#8F4AD7] tw-to-[#DF3B9A] "
       style={{
         background: isError
-          ? "rgba(218, 97, 97, 0.35)"
+          ? "linear-gradient(to bottom, white, #d13080 70%)"
           : "linear-gradient(30deg, #8F4AD7 50%, #DF3B9A);",
       }}
     >
@@ -82,8 +82,10 @@ export default function SignInForm(): ReactElement {
             void onSubmit();
           }}
         >
-          <Input icon="pi-at" id="email" label="Email" />
-          <Input id="password" label="Password" type="password" />
+          <div className="tw-flex tw-flex-col tw-space-y-12">
+            <Input float icon="pi pi-at" id="email" label="Email" type="email"/>
+            <Input float id="password" label="Password" type="password"  />
+          </div>
 
           <Link
             className="tw-text-white tw-flex tw-justify-end tw-text-sm"
