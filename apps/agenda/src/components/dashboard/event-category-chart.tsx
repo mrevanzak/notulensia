@@ -15,7 +15,7 @@ export default function EventCategoryChart(): ReactElement {
       labels,
       datasets: [
         {
-          label: "Total Meets",
+          label: "Total Events",
           data: value,
           fill: true,
           backgroundColor: (context: ScriptableContext<"line">) => {
@@ -65,6 +65,13 @@ export default function EventCategoryChart(): ReactElement {
         },
         border: {
           display: true,
+        },
+        ticks:{
+          precision: 0
+        },
+        title: {
+          display: true,
+          text: 'Total Events',
         },
       },
     },

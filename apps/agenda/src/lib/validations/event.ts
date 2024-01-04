@@ -81,13 +81,12 @@ export const updateEventFormSchema = eventFormSchema
 
 export const eventCalendarSchema = z.object({
   id: z.string().uuid(),
-  name: z.string(),
-  startAt: z
-    .string()
-    .datetime()
-    .transform((value) => new Date(value)),
+  title: z.string().nullable(),
+  start: z.string(),
+  end: z.string(),
   isOnline: z.boolean(),
 });
+export type EventCalendar = z.infer<typeof eventCalendarSchema>;
 
 export const eventCalendarDetailSchema = eventFormSchema.omit({
   audienceNames: true,

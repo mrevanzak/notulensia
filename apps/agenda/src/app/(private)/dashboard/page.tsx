@@ -85,11 +85,11 @@ export default function Dashboard(): ReactElement {
         {/*     </div> */}
         {/*   </div> */}
         {/* ))} */}
-        <div className="card tw-col-span-3 tw-row-span-2 !tw-p-8 tw-space-y-4 tw-flex tw-flex-col mb-0">
-          <h4>Event Category</h4>
+        <div className="card xl:tw-col-span-2 md:tw-col-span-5 tw-row-span-2 !tw-p-8 tw-space-y-4 tw-flex tw-flex-col mb-0">
+          <h4 className="tw-text-center">Event Category</h4>
           <EventCategoryChart />
         </div>
-        <div className="card border-none border-0 tw-col-span-2 tw-row-span-2 bg-purple-50">
+        <div className="card border-none border-0 xl:tw-col-span-3 md:tw-col-span-5 tw-row-span-2 bg-purple-50">
           <Calendar simple />
         </div>
       </div>
