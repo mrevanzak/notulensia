@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import type { ReactElement } from "react";
-import { FormProvider, useFieldArray, useForm, useFormContext } from "react-hook-form";
+import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "@/components/ui/input";
 import type { EventFormValues } from "@/lib/validations/event";
@@ -48,7 +48,6 @@ import iconMeet from "~/svg/google-meet.svg";
 import { toast } from "react-toastify";
 import Switch from "../ui/switch";
 import SendNotifButton from "../send-notif-button";
-import { API_URL } from "@/lib/http";
 import { useTranslation } from "react-i18next";
 
 type EventFormProps = {
@@ -335,23 +334,23 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
         <Dropdown
           float
           id="eventCategoryName"
-          label="Event Category"
+          label={t("Event Category")}
           loading={eventCategory.isLoading}
           optionLabel="eventCategoryName"
           optionValue="eventCategoryName"
           options={eventCategory.data}
           required
         />
-        <Input float id="name" label={t('event-name')} required />
-        <Input float id="topic" label="Topic" required />
-        <Input float id="purpose" label="Purpose" required />
-        <TextArea float id="preparationNotes" label="Preparation Notes" />
+        <Input float id="name" label={t('Event Name')} required />
+        <Input float id="topic" label={t("Topic")} required />
+        <Input float id="purpose" label={t("Purpose")} required />
+        <TextArea float id="preparationNotes" label={t("Preparation Notes")} />
         <div className="tw-flex tw-gap-8">
           <CalendarInput
             float
             icon
             id="startAt"
-            label="Start Date"
+            label={t("Start Date")}
             required
             showTime
             stepMinute={5}
@@ -360,7 +359,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
             float
             icon
             id="endAt"
-            label="End Date"
+            label={t("End Date")}
             minDate={watch("startAt")}
             required
             showTime
@@ -372,7 +371,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           <Dialog
             className="tw-min-w-fit"
             draggable={false}
-            header="Add Schedule Program"
+            header={t("Add Schedule Program")}
             onHide={() => {
               setShowDialog(false);
             }}
@@ -386,14 +385,14 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
             <AddScheduleProgramForm setShowDialog={setShowDialog} />
           </Dialog>
           <div className="tw-flex tw-justify-between tw-items-center">
-            <h4>Schedule Program</h4>
+            <h4>{t('Schedule Program')}</h4>
             <Button
               icon="pi pi-plus"
               iconPos="right"
-              label="Add"
+              label={t("Add")}
               onClick={() => {
                 if (!getValues("startAt") || !getValues("endAt")) {
-                  toast.warn("Please Fill In Start Date and End Date");
+                  toast.warn(t("Please Fill In Start Date and End Date"));
                   return;
                 }
                 setShowDialog(true);
@@ -403,52 +402,52 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           </div>
           <DataTable
             editMode="cell"
-            emptyMessage="Please add schedule program"
+            emptyMessage={t("Please add schedule program")}
             value={scheduleProgram}
           >
             <Column
               body={dateBodyTemplate}
               editor={(options) => dateEditor(options)}
               field="date"
-              header="Date"
+              header={t("Date")}
               onCellEditComplete={onCellEditComplete}
               style={{ width: "15%" }}
             />
             <Column
               editor={(options) => textEditor(options)}
               field="activity"
-              header="Activity"
+              header={t("Activity")}
               onCellEditComplete={onCellEditComplete}
             />
             <Column
               body={startTimeBodyTemplate}
               editor={(options) => timeEditor(options)}
               field="startTime"
-              header="Start Time"
+              header={t("Start Time")}
               onCellEditComplete={onCellEditComplete}
             />
             <Column
               body={endTimeBodyTemplate}
               editor={(options) => timeEditor(options)}
               field="endTime"
-              header="End Time"
+              header={t("End Time")}
               onCellEditComplete={onCellEditComplete}
             />
             <Column
               editor={(options) => textEditor(options)}
               field="picName"
-              header="PIC Name"
+              header={t("PIC Name")}
               onCellEditComplete={onCellEditComplete}
             />
             <Column
               editor={(options) => textEditor(options)}
               field="note"
-              header="Note"
+              header={t("Note")}
               onCellEditComplete={onCellEditComplete}
             />
             <Column
               body={actionBodyTemplate}
-              header="Action"
+              header={t("Action")}
               headerStyle={{ width: "2rem" }}
             />
           </DataTable>
@@ -469,17 +468,17 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           float
           forceSelection
           id="audienceNames"
-          label="Audience Group"
+        label={t("Audience Group")}
           multiple
           suggestions={audienceFilter}
         />
         <AudienceListCard />
         <AttachmentFilesCard />
-        <Switch id="isOnline" label="Via Online" />
+        <Switch id="isOnline" label={t("Via Online")} />
 
         {watch("isOnline") ? (
           <div className="p-inputgroup">
-            <Input float id="linkUrl" label="Online Link" />
+            <Input float id="linkUrl" label={t("Online Link")} />
             <Button
               className="tw-h-auto"
               icon={iconMeet}
@@ -497,7 +496,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
             <div className="tw-relative">
               <Button
                 className="tw-absolute tw-bottom-12 tw-right-0"
-                label="Save as preset"
+                label={t("Save as preset")}
                 onClick={() => {
                   insertEventAddressPreset.mutate({
                     address: getValues("address"),
@@ -517,7 +516,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
                 editable
                 float
                 id="locationValue"
-                label="Location"
+                label={t("Location")}
                 loading={eventAddress.isLoading}
                 optionLabel="location"
                 optionValue="location"
@@ -528,7 +527,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
               filter
               float
               id="province"
-              label="Province"
+              label={t("Province")}
               loading={province.isLoading}
               optionLabel="province"
               optionValue="province"
@@ -538,13 +537,13 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
               filter
               float
               id="district"
-              label="District"
+              label={t("District")}
               loading={district.isLoading}
               optionLabel="district"
               optionValue="district"
               options={district.data}
             />
-            <TextArea float id="address" label="Address" />
+            <TextArea float id="address" label={t("Address")} />
           </>
         )}
     
@@ -552,7 +551,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           <div className="tw-flex tw-gap-4">
             {values?.status !== "ACTIVE" && (
               <Button
-                label="Draft"
+                label={t("Draft")}
                 onClick={() => {
                   setEventState("DRAFT");
                 }}
@@ -566,7 +565,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
                 <Button 
                   className="tw-ml-4" 
                   icon="pi pi-file-pdf"
-                  label="Summary" 
+                  label={t("Summary")}
                   onClick={() => {const url = `${baseUrl}/summary/${id.toString()}`; window.open(url, "_blank")}} 
                   outlined 
                   type="button"/>
@@ -575,13 +574,13 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           </div>
           <div className="tw-flex tw-gap-4">
             <Button
-              label="Save"
+              label={t("Save")}
               loading={insertEvent.isPending}
               outlined
               type="submit"
             />
             <Link href="/events">
-              <Button label="Cancel" type="button" />
+              <Button label={t("Cancel")} type="button" />
             </Link>
           </div>
         </div>

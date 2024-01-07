@@ -11,6 +11,7 @@ import { InputText } from "primereact/inputtext";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import type { Storage } from "@/lib/validations/storage";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type AttachmentFilesCardProps = {
   post?: boolean;
@@ -88,14 +89,16 @@ export default function AttachmentFilesCard({
   }
 
   const [onSelect, setOnSelect] = useState(false);
+  const {t} = useTranslation();
 
   return (
     <div className="card tw-space-y-3">
       <div className="tw-flex tw-justify-between tw-items-center">
-        <h4>{post ? "Result files" : "Attachment files"}</h4>
+        <h4>{post ? t("Result files") : t("Attachment files")}</h4>
         <div className="tw-flex tw-space-x-2">
           <FileUpload
             accept="image/*"
+            chooseLabel={t('Choose')}
             maxFileSize={2 * 1024 * 1024}
             mode="basic"
             name="file"
@@ -136,24 +139,24 @@ export default function AttachmentFilesCard({
       </div>
       <DataTable
         editMode="cell"
-        emptyMessage="Please add attachment files"
+        emptyMessage={t("Please add attachment files")}
         value={filteredFiles}
       >
         <Column
           editor={(options) => textEditor(options)}
           field="name"
-          header="Name"
+          header={t("Name")}
           onCellEditComplete={onCellEditComplete}
         />
         <Column
           editor={(options) => textEditor(options)}
           field="format"
-          header="Format"
+          header={t("Format")}
           onCellEditComplete={onCellEditComplete}
         />
         <Column
           body={actionBodyFileTemplate}
-          header="Action"
+          header={t("Action")}
           headerStyle={{ width: "2rem" }}
         />
       </DataTable>

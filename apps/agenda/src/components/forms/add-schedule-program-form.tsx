@@ -10,6 +10,7 @@ import { scheduleProgramSchema } from "@/lib/validations/schedule-program";
 import { useScheduleProgramStore } from "@/stores/use-schedule-program-store";
 import type { EventFormValues } from "@/lib/validations/event";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 type AddScheduleProgramFormProps = {
   setShowDialog: (value: boolean) => void;
@@ -19,6 +20,7 @@ export default function AddScheduleProgramForm({
   setShowDialog,
 }: AddScheduleProgramFormProps): ReactElement {
   const addScheduleProgram = useScheduleProgramStore((state) => state.add);
+  const {t} = useTranslation();
 
   const eventForm = useFormContext<EventFormValues>();
   const startAt = eventForm.watch("startAt");
@@ -60,7 +62,7 @@ export default function AddScheduleProgramForm({
           float
           icon
           id="date"
-          label="Date"
+          label={t("Date")}
           maxDate={new Date(endAt)}
           minDate={new Date(startAt)}
           required
@@ -71,7 +73,7 @@ export default function AddScheduleProgramForm({
             float
             icon
             id="startTime"
-            label="Start Time"
+            label={t("Start Time")}
             maxDate={maxDate}
             minDate={minDate}
             required
@@ -83,7 +85,7 @@ export default function AddScheduleProgramForm({
             float
             icon
             id="endTime"
-            label="End Time"
+            label={t("End Time")}
             maxDate={maxDate}
             minDate={minDate}
             required
@@ -92,17 +94,17 @@ export default function AddScheduleProgramForm({
             viewDate={moment(watchDate).hour(moment(endAt).hour()).toDate()}
           />
         </div>
-        <Input float id="picName" label="PIC Name" required />
-        <Input float id="note" label="Note" />
+        <Input float id="picName" label={t("PIC Name")} required />
+        <Input float id="note" label={t("Note")} />
         <div className="tw-flex tw-justify-center tw-gap-4">
           <Button
             className="px-4 py-2 tw-flex-none tw-w-32 tw-self-center"
-            label="Add"
+            label={t("Add")}
             type="submit"
           />
           <Button
             className="px-4 py-2 tw-flex-none tw-w-32 tw-self-center"
-            label="Cancel"
+            label={t("Cancel")}
             onClick={() => {
               setShowDialog(false);
             }}
