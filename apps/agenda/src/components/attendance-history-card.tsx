@@ -10,6 +10,7 @@ import type { AttendHistory } from "@/lib/validations/event";
 import { useExportAttendanceHistory } from "@/lib/api/export/export-attendance-history";
 import ExportButton from "./export-button";
 import { Calendar } from "primereact/calendar";
+import { useTranslation } from "react-i18next";
 
 export default function AttendaceHistoryCard() {
   const params = useParams<{ id: string }>();
@@ -37,18 +38,20 @@ export default function AttendaceHistoryCard() {
 
   const dateBodyTemplate = (rowData: AttendHistory) =>
     utc(rowData.attendedAt).format("YYYY-MM-DD");
+  
+  const {t} = useTranslation();
 
   return (
     <div className="card tw-space-y-3">
       <div className="tw-flex tw-justify-between tw-items-center">
         <div className="tw-flex tw-items-center tw-space-x-4">
-          <h4>Attendance History</h4>
+          <h4>{t('Attendance History')}</h4>
           <Calendar
             dateFormat="yy-mm-dd"
             onChange={(e) => {
               setDate(e.value);
             }}
-            placeholder="Filter by date"
+            placeholder={t("Filter by date")}
             readOnlyInput
             showButtonBar
             value={date}
@@ -57,6 +60,7 @@ export default function AttendaceHistoryCard() {
         <ExportButton action={exportAttendHistory.mutate} outlined />
       </div>
       <DataTable
+        emptyMessage={t("No Attendance History")}
         first={tableState.first}
         lazy
         loading={isLoading || isFetching}
@@ -76,15 +80,15 @@ export default function AttendaceHistoryCard() {
         totalRecords={data?.total}
         value={dataTable}
       >
-        <Column field="name" header="Name" />
-        <Column field="job" header="Job" />
-        <Column field="description" header="Description" />
-        <Column field="phoneNumber" header="Phone Number" />
-        <Column field="email" header="Email" />
+        <Column field="name" header={t("Name")} />
+        <Column field="job" header={t("Job")} />
+        <Column field="description" header={t("Description")}/>
+        <Column field="phoneNumber" header={t("Phone Number")}/>
+        <Column field="email" header={t("Email")}/>
         <Column
           body={dateBodyTemplate}
           field="attendedAt"
-          header="Attended At"
+          header={t("Attended At")}
         />
       </DataTable>
     </div>

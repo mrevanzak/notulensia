@@ -42,6 +42,10 @@
     "Please add audience" : "Silahkan tambahkan peserta",
     "Please add attachment files" : "Silahkan tambahkan file lampiran",
     "Choose" : "Unggah",
+    "Attendance History" : "Riwayat kehadiran",
+    "Filter by date" : "Saring dengan tanggal",
+    "Attended At" : "Hadir Pada",
+    "No Attendance History" : "Tidak Ada Riwayat Kehadiran",
 
     "Add Event Address": "Tambah Alamat Acara",
     "Edit Event Address": "Edit Alamat Acara",
