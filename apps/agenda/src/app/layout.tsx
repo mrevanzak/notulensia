@@ -8,7 +8,7 @@ import "@/styles/demo/Demos.scss";
 import "@/styles/globals.css";
 import "~/theme/theme-light/purple/theme.scss";
 import "react-toastify/dist/ReactToastify.min.css";
-import type { ReactElement } from "react";
+import { useEffect, type ReactElement } from "react";
 import { LayoutProvider } from "@/context/layout-context";
 import {
   MutationCache,
@@ -20,6 +20,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { toast, ToastContainer } from "react-toastify";
 import { ZodError } from "zod";
 import { ApiError } from "@/lib/error";
+import './i18n';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -52,15 +53,15 @@ const queryClient = new QueryClient({
 
 export default function RootLayout({ children }): ReactElement {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="id" suppressHydrationWarning>
       <body>
-        <PrimeReactProvider>
-          <QueryClientProvider client={queryClient}>
-            <LayoutProvider>{children}</LayoutProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
-            <ToastContainer />
-          </QueryClientProvider>
-        </PrimeReactProvider>
+          <PrimeReactProvider>
+            <QueryClientProvider client={queryClient}>
+              <LayoutProvider>{children}</LayoutProvider>
+              <ReactQueryDevtools initialIsOpen={false} />
+              <ToastContainer />
+            </QueryClientProvider>
+          </PrimeReactProvider>
       </body>
     </html>
   );
