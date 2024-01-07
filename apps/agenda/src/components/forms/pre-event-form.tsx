@@ -49,6 +49,7 @@ import { toast } from "react-toastify";
 import Switch from "../ui/switch";
 import SendNotifButton from "../send-notif-button";
 import { API_URL } from "@/lib/http";
+import { useTranslation } from "react-i18next";
 
 type EventFormProps = {
   edit?: boolean;
@@ -319,6 +320,9 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     setValue("linkUrl", createLink.data?.link);
   }
 
+  const { t, i18n } = useTranslation();
+
+
   return (
     <FormProvider {...methods}>
       <form
@@ -338,7 +342,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           options={eventCategory.data}
           required
         />
-        <Input float id="name" label="Event Name" required />
+        <Input float id="name" label={t('event-name')} required />
         <Input float id="topic" label="Topic" required />
         <Input float id="purpose" label="Purpose" required />
         <TextArea float id="preparationNotes" label="Preparation Notes" />

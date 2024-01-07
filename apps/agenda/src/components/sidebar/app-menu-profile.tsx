@@ -5,12 +5,16 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Tooltip } from "primereact/tooltip";
 import { useSearchParams, usePathname } from "next/navigation";
 import Link from "next/link";
-import { IoMdLogOut } from "react-icons/io";
+import { IoMdFlag, IoMdLogOut } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import Image from "next/image";
 import { LayoutContext } from "@/context/layout-context";
 import { useAuthStore } from "@/stores/use-auth-store";
 import { useDownloadUserImage, useGetUserDetail } from "@/lib/api/user/get-user-detail";
+import { FaLanguage } from "react-icons/fa6";
+import { useTranslation } from "react-i18next";
+import { Button } from "primereact/button";
+import { OverlayPanel } from "primereact/overlaypanel";
 
 function AppMenuProfile(): ReactElement {
   const logout = useAuthStore((state) => state.logout);
@@ -29,6 +33,26 @@ function AppMenuProfile(): ReactElement {
   const getImg = useDownloadUserImage();
   const { data: downloadedImage } = getImg;
   const [image, setImage] = useState<string | null>(null);
+  const {t, i18n} = useTranslation();
+
+  const overlayPanelRef = useRef<OverlayPanel>(null);
+
+  const handleLanguageClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    overlayPanelRef.current?.toggle(event);
+  };
+
+  const [langStore, setLangStore] = useState('en');
+  useEffect(() => {
+    setLangStore(localStorage.getItem('lang') || 'en');
+    void i18n.changeLanguage(langStore);
+  },[langStore]);
+
+  const changeLanguage = (lang: string) => {
+    void i18n.changeLanguage(lang);
+    localStorage.setItem('lang', lang);
+    setLangStore(lang);
+    overlayPanelRef.current?.hide();
+  }
 
   const hiddenClassName = classNames({
     hidden: layoutConfig.menuMode === "drawer" && !layoutState.sidebarActive,
@@ -103,9 +127,17 @@ function AppMenuProfile(): ReactElement {
           width={56}
         />
         <span>
-          <b className="tw-text-xl">{truncateText(data?.name, 20)} </b>
+          <b className="tw-text-xl">{truncateText(data?.name, 17)} </b>
           <p className="tw-text-xs">{data?.phoneNumber}</p>
         </span>
+        <div className="tw-rounded-full tw-h-5 tw-w-5 tw-border tw-absolute tw-right-12">
+          <Image
+            alt="avatar"
+            height={100}
+            src={langStore === 'en'? '/svg/flag/en.svg': '/svg/flag/id.svg'}
+            width={100}
+          />
+        </div>
         <i
           className={classNames(
             "layout-menu-profile-toggler pi pi-fw tw-text-[#4343BF] tw-font-bold tw-text-xl",
@@ -127,7 +159,7 @@ function AppMenuProfile(): ReactElement {
           },
         )}
         ref={ulRef}
-        style={{ overflow: "hidden", maxHeight: 0, opacity: 0 }}
+        style={{ maxHeight: 0, opacity: 0 }}
       >
         {layoutState.menuProfileActive ? (
           <>
@@ -137,8 +169,27 @@ function AppMenuProfile(): ReactElement {
                 href="/profile"
               >
                 <FaRegUser color="#4343BF" size={22} />
-                <span className={hiddenClassName}>Profile</span>
+                <span className={hiddenClassName}>{t('Profile')}</span>
               </Link>
+            </li>
+            <li className="tw-border-b-2 tw-p-3 tw-border-[#334798] hover:tw-bg-[--menuitem-hover-bg]">
+              <div className="p-link tw-flex tw-space-x-4 tw-text-base tw-shadow-none" onClick={handleLanguageClick}>
+                <FaLanguage color="#4343BF" size={22} />
+                <span className={hiddenClassName}>Change Language</span>
+              </div>
+              <OverlayPanel ref={overlayPanelRef}>
+                <div className="tw-flex tw-flex-col tw-mt-4 tw-space-y-4 tw-border-[#334798] tw-bg-red">
+                    <Button onClick={() => {changeLanguage('en')}} outlined>
+                        <Image alt="Id Flag" height={20} src='/svg/flag/en.svg' width={20} />
+                        <span className="tw-ml-4">English</span>
+                    </Button>
+
+                    <Button onClick={() => {changeLanguage('id')}} outlined>
+                      <Image alt="Id Flag" height={20} src='/svg/flag/id.svg' width={20} />
+                      <span className="tw-ml-4">Indonesia</span>
+                    </Button>
+                </div>
+              </OverlayPanel>
             </li>
             <li className="tw-p-3 hover:tw-bg-[--menuitem-hover-bg]">
               <div
@@ -148,7 +199,7 @@ function AppMenuProfile(): ReactElement {
                 }}
               >
                 <IoMdLogOut color="#4343BF" size={24} />
-                <span className={hiddenClassName}>Logout</span>
+                <span className={hiddenClassName}>{t('Log Out')}</span>
               </div>
             </li>
           </>

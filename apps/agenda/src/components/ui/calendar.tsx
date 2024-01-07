@@ -5,18 +5,12 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
-import { Checkbox } from 'primereact/checkbox';
-import { Calendar as PRCalendar } from 'primereact/calendar';
 import { useGetEventListCalendar } from '@/lib/api/event/get-event-list-calendar-by-date';
-import { useGetEventDetailByDate } from '@/lib/api/event/get-event-detail-by-date';
-import { Nullable } from 'primereact/ts-helpers';
 import { useGetEventDetail } from '@/lib/api/event/get-event-detail';
-import moment from 'moment';
-import { Skeleton } from 'primereact/skeleton';
+import moment, { locales } from 'moment';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { useTranslation } from 'react-i18next';
 
 interface Event {
     id : string,
@@ -36,7 +30,7 @@ export default function Calendar({ simple = false  }: {simple?:boolean}) : React
     const [viewDate, setViewDate] = useState(new Date());
     const { data } = useGetEventListCalendar(viewDate);
     const { data: eventDetail } = useGetEventDetail(clickedEvent?.id);
-
+    const {t} = useTranslation();
     const eventClick = (e: any) => {
         const { id, title, start, end, isOnline } = e.event;
         setEventDialog(true);
@@ -94,33 +88,33 @@ export default function Calendar({ simple = false  }: {simple?:boolean}) : React
                 modal
                 onHide={() => {setEventDialog(false)}}
                 style={{ maxWidth: '700px', minWidth: '500px' }}
-                visible={eventDialog && Boolean(clickedEvent)}
+                visible={Boolean(eventDialog && clickedEvent)}
             >
                 {
                     eventDetail ? (
                         <div className='tw-flex tw-flex-col tw-space-y-6 tw-p-4'>
                             <div>
-                                <h4>Topic</h4>
+                                <h4>{t('Topic')}</h4>
                                 <p>{eventDetail?.topic}</p>
                             </div>
                             <div>
-                                <h4>Description</h4>
+                                <h4>{t("Description")}</h4>
                                 <p>{eventDetail?.purpose}</p>
                             </div>
                             <div className='flex tw-justify-between tw-px-[2%]'>
                                 <div>
-                                <h4>Start</h4>
+                                <h4>{t("Start")}</h4>
                                 <p><i className='pi pi-clock'/> {moment(eventDetail?.startAt).format("DD MMMM YYYY hh:mm")}</p>
                                 </div>
                                 <div>
-                                <h4>End</h4>
+                                <h4>{t('End')}</h4>
                                 <p><i className='pi pi-clock'/> {moment(eventDetail?.endAt).format("DD MMMM YYYY hh:mm")}</p>
                                 </div>
                             </div>
                             {eventDetail?.isOnline ? (
                                 <div>
-                                    <h4 className='tw-mb-2'> Link Meeting </h4>
-                                    <p className='tw-border tw-h-[40px] tw-flex tw-items-center'>
+                                    <h4 className='tw-mb-2'> {t('Link Meeting')} </h4>
+                                    <p className='tw-border tw-h-[40px] tw-flex tw-items-center tw-border-radius-sm'>
                                         <div className='tw-flex tw-justify-center tw-items-center tw-h-full tw-w-10 tw-bg-pink-400 tw-mr-2'>
                                             <span className='pi pi-desktop' style={{fontSize: '20px', verticalAlign: 'middle', color: 'white'}}/>
                                         </div>
@@ -129,10 +123,10 @@ export default function Calendar({ simple = false  }: {simple?:boolean}) : React
                                 </div>
                                 ) : (
                                 <div>
-                                    <h4 className='tw-mb-2'> Location </h4>
-                                    <p className='tw-border tw-h-[40px] tw-flex tw-items-center'>
+                                    <h4 className='tw-mb-2'> {t('Location')} </h4>
+                                    <p className='tw-border tw-h-[40px] tw-flex tw-items-center tw-border-radius-sm'>
                                         <div className='tw-flex tw-justify-center tw-items-center tw-h-full tw-w-10 tw-bg-orange-400 tw-mr-2'>
-                                            <span className='pi pi-desktop' style={{fontSize: '20px', verticalAlign: 'middle', color: 'white'}}/>
+                                            <span className='pi pi-map-marker' style={{fontSize: '20px', verticalAlign: 'middle', color: 'white'}}/>
                                         </div>
                                         {eventDetail?.address ?? "-"}
                                     </p>

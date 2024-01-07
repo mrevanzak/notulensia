@@ -8,27 +8,29 @@ import { GoDatabase } from "react-icons/go";
 import { FaRegAddressCard } from "react-icons/fa6";
 import { MdGroups, MdOutlineSettings } from "react-icons/md";
 import { LuBadgeHelp } from "react-icons/lu";
+import { useTranslation } from "react-i18next";
 
 function AppMenu(): ReactElement {
   const size = 32;
   const subSize = 30;
+  const {t} = useTranslation();
   const model: MenuModel[] = [
     {
       label: "root",
       items: [
         {
           icon: <TbHomeDot color="#4343BF" size={size} />,
-          label: "Home",
+          label: t('Home'),
           to: "/dashboard",
         },
         {
           icon: <TbListDetails color="#4343BF" size={size} />,
-          label: "Events",
+          label: t("Events"),
           to: "/events",
         },
         {
           icon: <RxCalendar color="#4343BF" size={size} />,
-          label: "Calendar",
+          label: t("Calendar"),
           to: "/calendar",
         },
         {
@@ -37,29 +39,29 @@ function AppMenu(): ReactElement {
           items: [
             {
               icon: <FaRegAddressCard className="tw-ml-5" color="#4343BF"  size={subSize} />,
-              label: "Address",
+              label: t("Address"),
               to: "/data-master/address",
             },
             {
               icon: <TbCategory2 className="tw-ml-5"  color="#4343BF" size={subSize} />,
-              label: "Event Category",
+              label: t("Event Category"),
               to: "/data-master/event-category",
             }
           ]
         },
         {
           icon: <MdGroups color="#4343BF" size={size} />,
-          label: "Audience Group",
+          label: t("Audience Group"),
           to: "/audience-group",
         },
         {
           icon: <MdOutlineSettings color="#4343BF" size={size} />,
-          label: "Settings",
+          label: t("Settings"),
           to: "/settings",
         },
         {
           icon: <LuBadgeHelp color="#4343BF" size={size} />,
-          label: "Help",
+          label: t("Help"),
           to: "/help",
         },
       ],
