@@ -17,6 +17,7 @@ import { useSearchParams } from "next/navigation";
 import SearchInput from "@/components/ui/search-input";
 import { useExportEvent } from "@/lib/api/export/export-event";
 import ExportButton from "@/components/export-button";
+import { useTranslation } from "react-i18next";
 
 export default function Events(): ReactElement {
   const searchParams = useSearchParams();
@@ -39,6 +40,7 @@ export default function Events(): ReactElement {
     limit: tableState.rows,
     search: search ?? "",
   });
+  const {t} = useTranslation();
 
   const statusBodyTemplate = (rowData: Event) => {
     const status = () => {
@@ -105,7 +107,7 @@ export default function Events(): ReactElement {
         <div className="tw-space-x-6">
           <Link href="/events/add">
             <Button className="border-round-sm" outlined>
-              Add Events
+              {t('Add Events')}
             </Button>
           </Link>
           <ExportButton
@@ -135,12 +137,12 @@ export default function Events(): ReactElement {
         totalRecords={data?.total}
         value={dataTable}
       >
-        <Column body={actionBodyTemplate} field="action" header="Action" />
-        <Column field="eventName" header="Event Name" />
-        <Column field="startAt" header="Start" />
-        <Column field="endAt" header="End" />
-        <Column body={statusBodyTemplate} field="status" header="Status" />
-        <Column body={statusPhase} field="phase" header="Event Phase" />
+        <Column body={actionBodyTemplate} field="action" header={t("Action")} />
+        <Column field="eventName" header={t("Event Name")} />
+        <Column field="startAt" header={t("Start")} />
+        <Column field="endAt" header={t("End")} />
+        <Column body={statusBodyTemplate} field="status" header={t("Status")} />
+        <Column body={statusPhase} field="phase" header={t("Event Phase")} />
       </DataTable>
       <ConfirmDialog />
     </div>
