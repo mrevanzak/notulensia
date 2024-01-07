@@ -22,6 +22,8 @@
     "packages/*"
   ],
   "dependencies": {
-    "date-fns": "^3.0.6"
+    "date-fns": "^3.0.6",
+    "i18next": "^23.7.16",
+    "react-i18next": "^14.0.0"
   }
 }

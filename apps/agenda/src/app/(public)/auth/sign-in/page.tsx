@@ -7,10 +7,7 @@ import Logo from "~/svg/logo.svg";
 export default function SignInPage(): ReactElement {
   return (
     <div className="tw-flex tw-justify-center tw-items-center" style={{zIndex : 0}}>
-      <div className="tw-bg-white tw-h-[295px] tw-fixed  tw-w-full tw-top-0 tw-left-0 tw-shadow-lg" style={{zIndex: 1}}>
-      
-      </div>
-      
+      <div className="tw-bg-white tw-h-[295px] tw-fixed  tw-w-full tw-top-0 tw-left-0 tw-shadow-lg" style={{zIndex: 1}}/>
       <div className="tw-flex tw-flex-col tw-items-center tw-space-y-4" style={{zIndex : 2}}>
         <Link href="/">
           <Logo className="tw-w-96 max-md:tw-w-60  tw-mx-auto tw-mt-5" />

@@ -11,6 +11,7 @@ import { useSignIn } from "@/lib/api/auth/sign-in";
 import { errorMessages } from "@/lib/error";
 import { useSignInGoogle } from "@/lib/api/auth/sign-in-google";
 import Input from "../ui/input";
+import { useTranslation } from "react-i18next";
 
 
 
@@ -61,6 +62,8 @@ export default function SignInForm(): ReactElement {
     setIsLoading(true);
   };
 
+  const {t} = useTranslation();
+
   return (
     <div
       className="tw-p-24 max-md:tw-p-10 tw-rounded-[20px] tw-w-full tw-bg-gradient-to-br tw-from-[#8F4AD7] tw-to-[#DF3B9A] "
@@ -70,7 +73,7 @@ export default function SignInForm(): ReactElement {
           : "linear-gradient(30deg, #8F4AD7 50%, #DF3B9A);",
       }}
     >
-      <h2 className="tw-text-white tw-text-center">Sign In</h2>
+      <h2 className="tw-text-white tw-text-center">{t('Sign In')}</h2>
       <p className="p-error tw-text-center tw-mt-1">
         {isError ? errorMessages(error) : null}
       </p>
@@ -96,7 +99,7 @@ export default function SignInForm(): ReactElement {
 
           <Button
             className="w-full !tw-p-4 !tw-mt-8"
-            label="Login"
+            label={t('Login')}
             loading={isPending}
             severity="secondary"
             type="submit"
@@ -106,7 +109,7 @@ export default function SignInForm(): ReactElement {
       <Button
         className="w-full !tw-p-4 !tw-mt-8"
         icon="pi pi-google"
-        label="Login with Google"
+        label={t('Login With Google')}
         loading={isLoading}
         onClick={handleGoogleAuth}
       />
