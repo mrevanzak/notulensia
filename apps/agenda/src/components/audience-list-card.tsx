@@ -13,6 +13,7 @@ import AddAudienceForm from "./forms/add-audience-form";
 import { useExportAudience } from "@/lib/api/export/export-audience";
 import { useParams } from "next/navigation";
 import ExportButton from "./export-button";
+import { useTranslation } from "react-i18next";
 
 export default function AudienceListCard({readOnly = false, attend = false} : Readonly<{readOnly?:boolean, attend?:boolean}>) {
 
@@ -26,6 +27,7 @@ export default function AudienceListCard({readOnly = false, attend = false} : Re
   const reset = useAudienceStore((state) => state.reset);
 
   const exportAudience = useExportAudience(eventId);
+  const {t} = useTranslation();
 
   useEffect(() => {
     reset();
@@ -75,7 +77,7 @@ export default function AudienceListCard({readOnly = false, attend = false} : Re
         <Dialog
         className="tw-w-96"
         draggable={false}
-        header="Add Audience"
+        header={t("Add Audience")}
         onHide={() => {
           setShowDialog(false);
         }}
@@ -90,14 +92,14 @@ export default function AudienceListCard({readOnly = false, attend = false} : Re
       </Dialog>
   
       <div className="tw-flex tw-justify-between tw-items-center">
-        <h4>Audience List</h4>
+        <h4>{t('Audience List')}</h4>
         {
           readOnly !== null && readOnly !== undefined && !readOnly && (
           <div className="tw-space-x-4">
             <Button
               icon="pi pi-plus"
               iconPos="right"
-              label="Add"
+              label={t("Add")}
               onClick={() => {
                 setShowDialog(true);
               }}
@@ -110,41 +112,41 @@ export default function AudienceListCard({readOnly = false, attend = false} : Re
       </div>
       <DataTable
         editMode="cell"
-        emptyMessage="Please add audience"
+        emptyMessage={t("Please add audience")}
         value={audience}
       >
         <Column
           editor={(options) => textEditor(options)}
           field="name"
-          header="Name"
+          header={t("Name")}
           headerStyle={{ width: "20%" }}
           onCellEditComplete={onCellEditComplete}
         />
         <Column
           editor={(options) => textEditor(options)}
           field="job"
-          header="Job"
+          header={t("Job")}
           headerStyle={{ width: "20%" }}
           onCellEditComplete={onCellEditComplete}
         />
         <Column
           editor={(options) => textEditor(options)}
           field="description"
-          header="Description"
+          header={t("Description")}
           headerStyle={{ width: "20%" }}
           onCellEditComplete={onCellEditComplete}
         />
         <Column
           editor={(options) => textEditor(options)}
           field="phoneNumber"
-          header="Phone Number"
+          header={t("Phone Number")}
           headerStyle={{ width: "20%" }}
           onCellEditComplete={onCellEditComplete}
         />
         <Column
           editor={(options) => textEditor(options)}
           field="email"
-          header="Email"
+          header={t("Email")}
           headerStyle={{ width: "20%" }}
           onCellEditComplete={onCellEditComplete}
         />
@@ -152,11 +154,11 @@ export default function AudienceListCard({readOnly = false, attend = false} : Re
           Boolean(attend) && (
             <Column
               body={(rowData: Audience) => {
-                return rowData.isAttend ? "Yes" : "No";
+                return rowData.isAttend ? t("Yes") : t("No");
               }}
               editor={(options) => checkboxEditor(options)}
               field="isAttend"
-              header="Attend"
+              header={t("Attend")}
               headerStyle={{ width: "20%" }}
               onCellEditComplete={onCellEditComplete}
             />
@@ -166,7 +168,7 @@ export default function AudienceListCard({readOnly = false, attend = false} : Re
           readOnly !== null && readOnly !== undefined && !readOnly && (
             <Column
             body={actionBodyTemplate}
-            header="Action"
+            header={t("Action")}
             headerStyle={{ width: "2rem" }}
           />
           )

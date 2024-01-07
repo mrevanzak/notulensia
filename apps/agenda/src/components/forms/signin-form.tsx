@@ -70,7 +70,7 @@ export default function SignInForm(): ReactElement {
       style={{
         background: isError
           ? "linear-gradient(to bottom, white, #d13080 70%)"
-          : "linear-gradient(30deg, #8F4AD7 50%, #DF3B9A);",
+          : "linear-gradient(30deg, #8F4AD7 50%, #DF3B9A)",
       }}
     >
       <h2 className="tw-text-white tw-text-center">{t('Sign In')}</h2>
