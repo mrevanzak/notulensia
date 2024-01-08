@@ -1,3 +1,4 @@
+"use client"
 import type { ReactElement } from "react";
 import React from "react";
 import { InputText } from "primereact/inputtext";
@@ -6,15 +7,17 @@ import { Button } from "primereact/button";
 import Calendar from "@/components/ui/calendar";
 import EventCategoryChart from "@/components/dashboard/event-category-chart";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 export default function Dashboard(): ReactElement {
+  const {t} = useTranslation();
   return (
     <div className="grid">
       <div className="col-12 mb-4">
         <span className="p-input-icon-right tw-w-1/4">
           <i className="pi pi-search" />
           <InputText
-            placeholder="Search"
+            placeholder={t("Search")}
             pt={{
               root: { className: "tw-w-full" },
             }}
@@ -24,11 +27,11 @@ export default function Dashboard(): ReactElement {
       <div className="col-12">
         <div className="card tw-flex tw-justify-between">
           <div className="tw-space-y-4 tw-flex tw-flex-col tw-min-h-full tw-w-1/2 tw-min-w-max tw-p-6">
-            <p className="h0">Today Task</p>
-            <h4 className="font-light">Check your daily tasks and schedules</h4>
+            <p className="h0">{t('Today Task')}</p>
+            <h4 className="font-light">{t('Check your daily tasks and schedules')}</h4>
             <Link className="mt-auto" href="/events/add">
               <Button className="mt-auto w-12rem tw-justify-center">
-                Today&apos;s schedule
+                {t("Today's schedule")}
               </Button>
             </Link>
           </div>
@@ -86,7 +89,7 @@ export default function Dashboard(): ReactElement {
         {/*   </div> */}
         {/* ))} */}
         <div className="card xl:tw-col-span-2 md:tw-col-span-5 tw-row-span-2 !tw-p-8 tw-space-y-4 tw-flex tw-flex-col mb-0">
-          <h4 className="tw-text-center">Event Category</h4>
+          <h4 className="tw-text-center">{t('Event Category')}</h4>
           <EventCategoryChart />
         </div>
         <div className="card border-none border-0 xl:tw-col-span-3 md:tw-col-span-5 tw-row-span-2 bg-purple-50">

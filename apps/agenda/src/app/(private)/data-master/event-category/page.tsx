@@ -12,6 +12,7 @@ import { useGetEventCategory } from "@/lib/api/event-category/get-event-categori
 import type { EventCategorySchema } from "@/lib/validations/event-category";
 import { useSearchParams } from "next/navigation";
 import SearchInput from "@/components/ui/search-input";
+import { useTranslation } from "react-i18next";
 
 export default function EventCategories(): ReactElement {
   const searchParams = useSearchParams();
@@ -29,16 +30,19 @@ export default function EventCategories(): ReactElement {
   });
   const dataTable = data?.data;
   const deleteEventCategory = useDeleteEventCategory();
+  const {t} = useTranslation();
 
   const actionBodyTemplate = (rowData: EventCategorySchema) => {
     const confirm = () => {
       confirmDialog({
         resizable: false,
         contentClassName: "border-noround-top",
-        message: "Do you want to delete this record?",
-        header: "Delete Confirmation",
+        message: t("Do you want to delete this record?"),
+        header: t("Delete Confirmation"),
         icon: "pi pi-info-circle",
         acceptClassName: "p-button-danger",
+        acceptLabel: t("Yes"),
+        rejectLabel: t("No"),
         accept: () => {
           deleteEventCategory.mutate(rowData.id);
         },
@@ -60,7 +64,7 @@ export default function EventCategories(): ReactElement {
         <div className="tw-space-x-6">
           <Link href="/data-master/event-category/add">
             <Button className="border-round-sm" outlined>
-              Add Event Category
+              {t("Add Event Category")}
             </Button>
           </Link>
         </div>
@@ -86,8 +90,8 @@ export default function EventCategories(): ReactElement {
         totalRecords={data?.total}
         value={dataTable}
       >
-        <Column body={actionBodyTemplate} field="action" header="Action" />
-        <Column field="eventCategoryName" header="Event Category Name" />
+        <Column body={actionBodyTemplate} field="action" header={t("Action")} />
+        <Column field="eventCategoryName" header={t("Event Category Name")} />
       </DataTable>
       <ConfirmDialog />
     </div>

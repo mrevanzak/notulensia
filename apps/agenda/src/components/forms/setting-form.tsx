@@ -21,6 +21,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
 import { useGetFile } from "@/lib/api/storage/get-file";
 import Input from "../ui/input";
+import { useTranslation } from "react-i18next";
 
 export default function SettingForm(): ReactElement {
   const { data } = useGetUserDetail();
@@ -51,6 +52,8 @@ export default function SettingForm(): ReactElement {
     },
   });
 
+  const {t} = useTranslation();
+
   const { handleSubmit, setValue } = methods;
   const onSubmit = handleSubmit(async (data) => {
     let storageId: string | undefined;
@@ -76,29 +79,21 @@ export default function SettingForm(): ReactElement {
   const notificationOptions = [
     {
       value: "email",
-      label: "Email",
-    },
-    {
-      value: "telegram",
-      label: "Telegram",
+      label: t("Email"),
     },
     {
       value: "whatsapp",
-      label: "Whatsapp",
+      label: t("Whatsapp"),
     },
   ];
   const themeOptions = [
     {
       value: "theme1",
-      label: "Theme 1",
+      label: t("Theme 1"),
     },
     {
       value: "theme2",
-      label: "Theme 2",
-    },
-    {
-      value: "custom",
-      label: "Custom",
+      label: t("Theme 2"),
     },
   ];
 
@@ -142,7 +137,7 @@ export default function SettingForm(): ReactElement {
         setImage(URL.createObjectURL(croppedImage));
         setOpenDialog(false);
       } catch (err) {
-        toast.error("Error cropping image");
+        toast.error(t("Error cropping image"));
       }
     })();
   };
@@ -157,15 +152,15 @@ export default function SettingForm(): ReactElement {
         }}
       >
         <div>
-          <h2 className="tw-font-normal">Notification Type</h2>
-          <p>Select you’re notifications type.</p>
+          <h2 className="tw-font-normal">{t('Notification Type')}</h2>
+          <p>{t("Select you're notifications type")}</p>
           <div className="tw-flex tw-space-x-8">
             <RadioButton id="notification" options={notificationOptions} />
           </div>
         </div>
         <div>
-          <h2 className="tw-font-normal">Dashboard Priority</h2>
-          <p>Select you’re notifications type.</p>
+          <h2 className="tw-font-normal">{t('Dashboard Priority')}</h2>
+          <p>{t("Select you're dashboard type")}</p>
           <div className="tw-flex tw-space-x-8">
             <RadioButton id="dashboard" options={themeOptions} />
           </div>
@@ -173,7 +168,7 @@ export default function SettingForm(): ReactElement {
         <div className="tw-flex tw-space-x-2">
           <FileUpload
             accept="image/*"
-            chooseLabel="Upload Logo"
+            chooseLabel={t("Upload Logo")}
             chooseOptions={{
               icon: "pi pi-fw pi-upload",
             }}
@@ -202,8 +197,8 @@ export default function SettingForm(): ReactElement {
         </div>
         {image ? (
           <div>
-            <h3 className="tw-mb-2 tw-font-normal">Preview</h3>
-            <Image alt="Company Logo"  
+            <h3 className="tw-mb-2 tw-font-normal">{t('Preview')}</h3>
+            <Image alt="Company Logo"
               height={6}  
               src={image} 
               style={{ width: '380px', height: '60px', border: '1px solid #334798', borderRadius: '5px', objectFit: 'contain' }} 
@@ -262,7 +257,7 @@ export default function SettingForm(): ReactElement {
         <div className="tw-self-end tw-h-full tw-flex">
           <Button
             className="tw-self-end"
-            label="SAVE CHANGES"
+            label={t("SAVE CHANGES")}
             loading={isPending || uploadLogo.isPending}
             rounded
           />
