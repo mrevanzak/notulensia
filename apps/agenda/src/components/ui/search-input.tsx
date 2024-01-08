@@ -2,6 +2,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { InputText } from "primereact/inputtext";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type SearchInputProps = {
   className?: string;
@@ -14,6 +15,7 @@ export default function SearchInput({ className }: SearchInputProps) {
 
   const search = searchParams?.get("search");
   const [value, setValue] = useState(search ?? "");
+  const {t} = useTranslation();
 
   return (
     <form
@@ -29,7 +31,7 @@ export default function SearchInput({ className }: SearchInputProps) {
           onChange={(e) => {
             setValue(e.target.value);
           }}
-          placeholder="Search"
+          placeholder={t("Search")}
           pt={{
             root: { className: "tw-w-full" },
           }}

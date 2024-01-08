@@ -13,10 +13,12 @@ import type { EventAddress } from "@/lib/validations/event-address";
 import { renderNullableValue } from "@/lib/nullable";
 import { useSearchParams } from "next/navigation";
 import SearchInput from "@/components/ui/search-input";
+import { useTranslation } from "react-i18next";
 
 export default function EventAddressPage(): ReactElement {
   const searchParams = useSearchParams();
   const search = searchParams?.get("search");
+  const {t} = useTranslation();
   const [tableState, setTableState] = useState<DataTablePageEvent>({
     first: 0,
     page: 0,
@@ -36,10 +38,12 @@ export default function EventAddressPage(): ReactElement {
       confirmDialog({
         resizable: false,
         contentClassName: "border-noround-top",
-        message: "Do you want to delete this record?",
-        header: "Delete Confirmation",
+        message: t("Do you want to delete this record?"),
+        header: t("Delete Confirmation"),
         icon: "pi pi-info-circle",
         acceptClassName: "p-button-danger",
+        acceptLabel: t("Yes"),
+        rejectLabel: t("No"),
         accept: () => {
           deleteEventAddress.mutate(rowData.id);
         },
@@ -55,13 +59,14 @@ export default function EventAddressPage(): ReactElement {
     );
   };
 
+
   return (
     <div className="card bg-purple-50 tw-space-y-3  tw-min-h-[calc(100vh-4rem)]">
       <div className="tw-flex tw-justify-between">
         <div className="tw-space-x-6">
           <Link href="/data-master/address/add">
             <Button className="border-round-sm" outlined>
-              Add Event Address
+              {t('Add Event Address')}
             </Button>
           </Link>
         </div>
@@ -87,12 +92,12 @@ export default function EventAddressPage(): ReactElement {
         totalRecords={data?.total}
         value={dataTable}
       >
-        <Column body={actionBodyTemplate} field="action" header="Action" />
-        <Column field="location" header="Location Name" />
+        <Column body={actionBodyTemplate} field="action" header={t("Action")} />
+        <Column field="location" header={t("Location Name")} />
         <Column
           body={(data) => renderNullableValue(data.districtName)}
           field="district"
-          header="District"
+          header={t("District")}
         />
       </DataTable>
       <ConfirmDialog />

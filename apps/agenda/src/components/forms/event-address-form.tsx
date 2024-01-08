@@ -16,6 +16,7 @@ import type { EventAddressFormSchema } from "@/lib/validations/event-address";
 import { eventAddressFormSchema } from "@/lib/validations/event-address";
 import { useInsertEventAddress } from "@/lib/api/event-address/insert-event-address";
 import { useUpdateEventAddress } from "@/lib/api/event-address/update-event-address";
+import { useTranslation } from "react-i18next";
 
 type EventAddressFormProps = {
   edit?: boolean;
@@ -58,6 +59,7 @@ export default function EventAddressForm({
 
   const province = useGetProvince();
   const district = useGetDistrict(watch("provinceId"));
+  const {t} = useTranslation();
 
   return (
     <FormProvider {...methods}>
@@ -68,12 +70,12 @@ export default function EventAddressForm({
           void onSubmit();
         }}
       >
-        <Input float id="location" label="Location" />
+        <Input float id="location" label={t("Location")} />
         <Dropdown
           filter
           float
           id="provinceId"
-          label="Province"
+          label={t("Province")}
           loading={province.isLoading}
           optionLabel="province"
           optionValue="id"
@@ -83,19 +85,19 @@ export default function EventAddressForm({
           filter
           float
           id="districtId"
-          label="District"
+          label={t("District")}
           loading={district.isLoading}
           optionLabel="district"
           optionValue="id"
           options={district.data}
         />
 
-        <TextArea float id="address" label="Address" />
+        <TextArea float id="address" label={t("Address")} />
 
         <div className="tw-flex tw-justify-between">
           <div className="tw-flex tw-gap-4">
             <Button
-              label="Save"
+              label={t("Save")}
               loading={
                 edit
                   ? updateEventAddress.isPending
@@ -105,7 +107,7 @@ export default function EventAddressForm({
               type="submit"
             />
             <Link href="/data-master/address">
-              <Button label="Cancel" type="button" />
+              <Button label={t("Cancel")} type="button" />
             </Link>
           </div>
         </div>
