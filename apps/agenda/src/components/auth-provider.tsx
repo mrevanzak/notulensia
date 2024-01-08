@@ -63,8 +63,6 @@ export default function AuthProvider({
       if (route !== "public" && pathname !== LOGIN_ROUTE) {
         router.replace(`${LOGIN_ROUTE}?redirect=${pathname}`);
       }
-
-      router.replace(`${LOGIN_ROUTE}`);
     }
   }, [isAuthenticated]);
 

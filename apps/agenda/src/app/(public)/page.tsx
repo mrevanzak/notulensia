@@ -1,32 +1,46 @@
-import Link from "next/link";
+import Image from "next/image";
 import { Button } from "primereact/button";
 import type { ReactElement } from "react";
 import React from "react";
-import LandingHero from "~/svg/landing-hero.svg";
+import Logo from "~/svg/logo.svg";
+import LandingHero from "~/img/landing-hero.png";
 
 export default function LandingPage(): ReactElement {
+
   return (
-    <div className="tw-flex tw-px-8 md:tw-px-20 lg:tw-px-28 tw-flex-1 tw-items-center tw-flex-col-reverse lg:tw-flex-row">
-      <div className="tw-space-y-6 lg:tw-w-1/2 tw-flex-none">
-        <div className="tw-h-3 tw-w-28 tw-rounded-md tw-bg-[#699BF7]" />
-        <h1 className="tw-text-4xl lg:tw-text-7xl hero">
-          Effortless Scheduling, Seamless Meetings.
-        </h1>
-        <p className="tw-text-white tw-w-3/4">
-          This website streamlines your meeting scheduling, making it easy to
-          plan meetings, invite participants, and manage schedules efficiently.
-        </p>
-        <Link href="/auth/sign-in">
-          <Button
-            className="landing-button !tw-mt-16"
-            label="Get Started"
-            pt={{
-              label: { className: "tw-text-lg lg:tw-text-2xl" },
-            }}
-          />
-        </Link>
-      </div>
-      <LandingHero className="" />
-    </div>
+    <>
+    <nav className=" tw-font-exo tw-font-[600] tw-text-[20px] tw-w-full tw-h-[100px] tw-bg-white  tw-z-10 tw-flex tw-fixed tw-items-center">
+      <Logo className="tw-h-[57px] tw-w-[353px] tw-ml-[99px] tw-mr-32" />
+      <nav className="tw-flex tw-space-x-24">
+        <a href="#about">About</a>
+        <a href="#service">Service</a>
+        <a href="#contact">Contact | EN</a>
+      </nav>
+      <Button label="Login" className="tw-ml-auto tw-mr-10 tw-w-32" style={{ borderRadius: "1000px", backgroundColor: "#334798" }} />
+    </nav>
+
+
+    <main className="tw-font-exo tw-w-full tw-bg-white tw-border-blue-400 tw-pt-[110px] tw-pl-10 tw-pr-10 tw-flex tw-flex-col tw-space-y-10">
+        <div className="tw-flex tw-w-full  tw-justify-center tw-items-start">
+          <div className="tw-w-[50%] tw-p-16">
+            <div className="tw-mb-[20%] tw-max-w-[800px]">
+              <h1 className="tw-text-base-purple tw-font-[600] tw-text-[85px] tw-w-full tw-leading-[100px]">Simplify Your Day, Organize Your Schedule</h1>
+              <p className="tw-text-[30px] tw-text-red-500 tw-leading-relaxed">
+                This website streamlines your meeting scheduling,<br/>
+                making it easy<br/>
+                to plan meetings, invite participants,<br/>
+                and manage schedules efficiently.<br/>
+              </p>
+            </div>
+            <Button className="tw-w-[285px] tw-h-[86px]" label="Get Started" style={{ borderRadius: "1000px", fontSize: "25px", fontWeight: "800", backgroundColor: "#334798", }}/>
+          </div>
+          <Image className="tw-object-contain tw-pt-10" src={LandingHero} alt="Hero" />
+        </div>       
+        <div>
+          <h1 className="tw-text-center">Event Management</h1>
+        </div>
+
+    </main>
+  </>
   );
 }
