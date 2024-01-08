@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200;300;400;500;600;700;800&display=swap');
 @layer tailwind-base, primereact, tailwind-utilities;
 
+*{
+  outline: 1px solid red;
+}
 
 @layer tailwind-base {
   @tailwind base;
@@ -23,17 +26,6 @@
     width: 429px;
     height: 491px;
     background-repeat: no-repeat;
-  }
-
-  .layout::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background-image: url('data:image/svg+xml,<svg width="453" height="453" viewBox="0 0 453 453" fill="none" xmlns="http://www.w3.org/2000/svg"><g filter="url(%23filter0_f_41_1337)"><path fill-rule="evenodd" clip-rule="evenodd" d="M141.981 666.925C57.0289 615.4 -6.27565 501.451 22.5462 406.168C50.3848 314.136 198.039 338.405 262.854 267.327C327.201 196.763 283.32 31.5348 377.584 16.8237C468.535 2.62965 492.424 147.31 543.917 223.463C577.05 272.465 620.571 316.839 620.491 376.063C620.413 433.092 579.407 477.308 543.511 521.703C504.279 570.224 466.057 618.386 407.41 639.597C320.411 671.062 220.939 714.815 141.981 666.925Z" fill="%236CC6DB" fill-opacity="0.1"/></g><defs><filter id="filter0_f_41_1337" x="0.486084" y="0.851562" width="635.005" height="702.301" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur stdDeviation="7.5" result="effect1_foregroundBlur_41_1337"/></filter></defs></svg>');
-    background-repeat: no-repeat;
-    width: 453px;
-    height: 453px;
   }
 
   .layout > div {
