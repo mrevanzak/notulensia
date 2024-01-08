@@ -8,8 +8,13 @@ const config: Config = {
         "dark-purple": "#27104E",
         purple: "#9854CB",
         "light-purple": "rgba(221, 172, 245, 0.4)",
+        "base-purple": "#334798",
         // blue: "#4F6DFF",
       },
+      fontFamily: {
+        'exo': ["Exo", "sans-serif"],
+        'notosan' : ["Noto Sans", "sans-serif"],
+      }
     },
   },
   prefix: "tw-",
