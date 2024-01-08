@@ -10,6 +10,7 @@ import { useGetEventListCalendar } from '@/lib/api/event/get-event-list-calendar
 import { useGetEventDetail } from '@/lib/api/event/get-event-detail';
 import moment, { locales } from 'moment';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import i18n from '@/app/i18n';
 import { useTranslation } from 'react-i18next';
 
 interface Event {
@@ -43,6 +44,18 @@ export default function Calendar({ simple = false  }: {simple?:boolean}) : React
         setEvents(simple ? modifiedEvents : data);
   }, [data]);
 
+  const dayNames = [
+    t('Sunday'),
+    t('Monday'),
+    t('Tuesday'),
+    t('Wednesday'),
+    t('Thursday'),
+    t('Friday'),
+    t('Saturday')
+  ];
+
+  const langStore = i18n.language;
+
 
     return (
       <div className="grid">
@@ -51,6 +64,7 @@ export default function Calendar({ simple = false  }: {simple?:boolean}) : React
             {
                 simple ? (
                     <FullCalendar
+                        buttonText={{today: t('Today'), dayGridMonth: t('Month'), timeGridWeek: t('Week'), timeGridDay: t('Day')}}
                         datesSet={(e) => {setViewDate(e.view.currentStart)}}
                         eventClick={eventClick}
                         events={events}
@@ -58,18 +72,22 @@ export default function Calendar({ simple = false  }: {simple?:boolean}) : React
                         initialDate={new Date()}
                         initialView='dayGridMonth'
                         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                        locale={langStore}
                     />
 
                 ) :
                 (
                     <FullCalendar
+                        buttonText={{today: t('Today'), dayGridMonth: t('Month'), timeGridWeek: t('Week'), timeGridDay: t('Day')}}
                         datesSet={(e) => {setViewDate(e.view.currentStart)}}
+                        dayHeaderFormat={{ weekday: 'long' }}
                         dayMaxEvents
                         eventClick={eventClick}
                         events={events}
                         headerToolbar={{ center: 'title', left: 'prev,next today', right: 'dayGridMonth,timeGridWeek,timeGridDay' }}
                         initialDate={new Date()}
                         initialView='dayGridMonth'
+                        locale={langStore}
                         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                         selectable
                     />
