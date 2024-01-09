@@ -32,19 +32,19 @@ export default function LandingPage(): ReactElement {
   }
 
   const startAnim1 = () => {
-    controls1.start({ opacity: 1, transition: { duration: 0.5 } });
+    void controls1.start({ opacity: 1, transition: { duration: 0.5 } });
     setActiveComponent(1);
  
   }
 
   const startAnim2 = () => {
-    controls2.start({ opacity: 1, transition: { duration: 0.5 } });
+    void controls2.start({ opacity: 1, transition: { duration: 0.5 } });
     setActiveComponent(2);
   
   }
 
   const startAnim3 = () => {
-    controls3.start({ opacity: 1, transition: { duration: 0.5 } });
+    void controls3.start({ opacity: 1, transition: { duration: 0.5 } });
     setActiveComponent(3);
   }
 
@@ -135,11 +135,11 @@ export default function LandingPage(): ReactElement {
                 )}
                 {activeComponent === 2 && (
                   <motion.div initial={{ opacity: 0 }} animate={controls2}>
-                    <div className="tw-flex tw-flex-row-reverse tw-justify-between">
+                    <div className="tw-flex tw-flex-row-reverse tw-justify-between tw-gap-4">
                       <Image alt="Hero Invitation" width={576} height={690} src={HeroInvitation} />
-                      <div className="tw-flex tw-flex-col tw-items-end tw-justify-center tw-space-y-8">
+                      <div className="tw-flex tw-flex-col tw-items-end tw-justify-center tw-space-y-8 ">
                         <h1 className="tw-align-top tw-text-[96px] tw-leading-normal tw-max-w-[896px] tw-text-right tw-text-base-purple">Invite Participants with Eases</h1>
-                        <p className="tw-max-w-[958px] tw-text-right tw-text-[24px] tw-leading-normal tw-text-base-purple">
+                        <p className="tw-max-w-[938px] tw-text-right tw-text-[24px] tw-leading-normal tw-text-base-purple">
                           Include a feature for inviting participants, enabling you to send invitations quickly and effortlessly. Notulensia streamlines the invitation process, ensuring the presence of desired participants.
                         </p>
                         <Button className="tw-w-[285px] tw-h-[86px]" outlined onClick={signIn} label="Try It ->" style={{ borderRadius: "1000px", fontSize: "25px", fontWeight: "400", borderColor: "#334798", color: "#334798" }}/>
@@ -173,8 +173,8 @@ export default function LandingPage(): ReactElement {
               <Image alt="Bg Hero Wa" width={797} height={653} src={BgHeroWa} />
               <Image alt="Bg Hero Wa Shadow" className="-tw-mt-2" width={258} height={24} src={BgHeroWaShadow} />
             </div>
-            <div className="tw-space-y-10 tw-w-[741px] tw-flex tw-items-center tw-flex-col">
-              <h1 className="tw-text-[64px] tw-font-[600] tw-text-white tw-text-center">WhatsApp Notifications</h1>
+            <div className="tw-space-y-10 tw-max-w-[741px] tw-flex tw-items-center tw-flex-col">
+              <h1 className="tw-text-[64px] tw-font-[600] tw-text-white tw-leading-normal tw-text-center">WhatsApp Notifications</h1>
               <p className="tw-text-[24px] tw-font-[400] tw-w-[90%] tw-text-white tw-text-center tw-leading-normal">Connect with your participants more closely with notifications through WhatsApp. Receive important information and meeting updates directly in your favorite messaging app.</p>
             </div>
           </div>
@@ -191,10 +191,10 @@ export default function LandingPage(): ReactElement {
           <div className="tw-flex tw-justify-center tw-items-center">
             <LogoFlat className = "tw-w-[450px] tw-h-[73px] tw-pl-[129px]"/>
             <div className="tw-text-center tw-text-[32px] tw-py-10 tw-flex tw-flex-1 tw-justify-center tw-space-x-32">
-              <a>Company</a>
-              <a>Why Notulensia?</a>
-              <a>About</a>
-              <a>Contact</a>
+              <a href="#">Company</a>
+              <a href="#">Why Notulensia?</a>
+              <a href="#">About</a>
+              <a href="#">Contact</a>
             </div>
 
           </div>
