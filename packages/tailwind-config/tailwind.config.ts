@@ -9,6 +9,8 @@ const config: Config = {
         purple: "#9854CB",
         "light-purple": "rgba(221, 172, 245, 0.4)",
         "base-purple": "#334798",
+        "base-pink" : "#E854D3",
+
         // blue: "#4F6DFF",
       },
       fontFamily: {

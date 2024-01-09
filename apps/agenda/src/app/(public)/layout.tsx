@@ -1,9 +1,7 @@
 import AuthProvider from "@/components/auth-provider";
 import type { Metadata } from "next";
-import Link from "next/link";
 import type { ReactElement } from "react";
 import React from "react";
-import { I18nextProvider } from "react-i18next";
 
 interface LandingLayoutProps {
   children: React.ReactNode;
