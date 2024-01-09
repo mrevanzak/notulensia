@@ -2,10 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200;300;400;500;600;700;800&display=swap');
 @layer tailwind-base, primereact, tailwind-utilities;
 
-*{
-  outline: 1px solid red;
-}
-
 @layer tailwind-base {
   @tailwind base;
 

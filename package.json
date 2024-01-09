@@ -23,6 +23,7 @@
   ],
   "dependencies": {
     "date-fns": "^3.0.6",
+    "framer-motion": "^10.17.9",
     "i18next": "^23.7.16",
     "react-i18next": "^14.0.0"
   }
