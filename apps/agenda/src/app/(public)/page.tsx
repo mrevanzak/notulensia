@@ -53,7 +53,7 @@ export default function LandingPage(): ReactElement {
         <p className="tw-leading-normal tw-max-w-[938px] tw-text-[24px] tw-text-base-purple tw-text-right">
           Include a feature for inviting participants, enabling you to send invitations quickly and effortlessly. Notulensia streamlines the invitation process, ensuring the presence of desired participants.
         </p>
-        <Button className="tw-h-[86px] tw-w-[285px]" label="Try It ->" onClick={signIn} style={{ borderColor: "#334798", borderRadius: "1000px", color: "#334798", fontSize: "25px", fontWeight: "400" }} />
+        <Button className="tw-h-[86px] tw-w-[285px]" label="Try It ->" onClick={signIn} outlined style={{ borderColor: "#334798", borderRadius: "1000px", color: "#334798", fontSize: "25px", fontWeight: "400" }} />
       </div>
     </div>
   );
