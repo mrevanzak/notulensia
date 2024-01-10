@@ -71,8 +71,8 @@ export default function Calendar({ simple = false  }: {simple?:boolean}) : React
                         headerToolbar={{ center: 'title', left: 'prev', right: 'next' }}
                         initialDate={new Date()}
                         initialView='dayGridMonth'
-                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                         locale={langStore}
+                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                     />
 
                 ) :

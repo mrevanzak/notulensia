@@ -58,11 +58,8 @@ export default function AuthProvider({
           router.replace(DASHBOARD_ROUTE);
         }
       }
-    } else {
-      // Prevent unauthenticated user from accessing protected pages
-      if (route !== "public" && pathname !== LOGIN_ROUTE) {
-        router.replace(`${LOGIN_ROUTE}?redirect=${pathname}`);
-      }
+    } else if (route !== "public" && pathname !== LOGIN_ROUTE) {
+      router.replace(`${LOGIN_ROUTE}?redirect=${pathname}`);
     }
   }, [isAuthenticated]);
 
