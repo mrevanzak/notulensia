@@ -8,11 +8,7 @@ export const useGetDistrict = (province?: string | null) => {
   return useQuery({
     queryKey: [getDistrictByProvinceKey, province],
     queryFn: async () => {
-      const response = await httpClient.get("/district", {
-        params: {
-          province,
-        },
-      });
+      const response = await httpClient.get(`/district/${province}`);
 
       return districtSchema.array().parse(response.data);
     },
