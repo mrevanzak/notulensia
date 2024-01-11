@@ -128,7 +128,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
 
   const eventCategory = useGetEventCategoryDropdown();
   const province = useGetProvince();
-  const district = useGetDistrict(watch("province"));
+  const district = useGetDistrict(watch("provinceId"));
   const audienceDropdown = useGetAudienceDropdown();
   const [audienceFilter, setAudienceFilter] = useState<AudienceDropdown[]>();
 
@@ -526,21 +526,21 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
             <Dropdown
               filter
               float
-              id="province"
+              id="provinceId"
               label={t("Province")}
               loading={province.isLoading}
               optionLabel="province"
-              optionValue="province"
+              optionValue="id"
               options={province.data}
             />
             <Dropdown
               filter
               float
-              id="district"
+              id="districtId"
               label={t("District")}
               loading={district.isLoading}
               optionLabel="district"
-              optionValue="district"
+              optionValue="id"
               options={district.data}
             />
             <TextArea float id="address" label={t("Address")} />
