@@ -8,7 +8,7 @@ type AudienceState = {
   set: (audience: Audience[]) => void;
   add: (audience: Audience | Audience[]) => void;
   reset: () => void;
-  remove: (name: string) => void;
+  remove: (email: string) => void;
 };
 
 export const useAudienceStore = create<AudienceState>()(
@@ -36,9 +36,9 @@ export const useAudienceStore = create<AudienceState>()(
         audience: [],
       }));
     },
-    remove: (name) => {
+    remove: (email) => {
       set((state) => ({
-        audience: state.audience.filter((audience) => audience.name !== name),
+        audience: state.audience.filter((audience) => audience.email !== email),
         counter: state.counter - 1,
       }));
     },

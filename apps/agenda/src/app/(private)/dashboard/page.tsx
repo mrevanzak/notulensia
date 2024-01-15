@@ -11,91 +11,84 @@ import { useTranslation } from "react-i18next";
 
 export default function Dashboard(): ReactElement {
   const {t} = useTranslation();
+
+  const footerCard = (
+    <>
+    <div className="tw-border"/>
+    <div className="tw-flex tw-justify-end tw-pt-4">
+      <Button className="tw-w-auto tw-h-5" type="button" style={{ backgroundColor: '#DCDFF9', color: '#7580E8', border: 'none'}}>
+        See More
+        </Button> 
+    </div>
+    </>
+  );
+
+  const headerCard = (title:string) => {
+    return (
+      <h4>{title}</h4>
+    );
+  };
+
   return (
     <div className="grid">
-      <div className="col-12 mb-4">
-        <span className="p-input-icon-right tw-w-1/4">
-          <i className="pi pi-search" />
-          <InputText
-            placeholder={t("Search")}
-            pt={{
-              root: { className: "tw-w-full" },
-            }}
-          />
-        </span>
-      </div>
-      <div className="col-12">
-        <div className="card tw-flex tw-justify-between">
-          <div className="tw-space-y-4 tw-flex tw-flex-col tw-min-h-full tw-w-1/2 tw-min-w-max tw-p-6">
-            <p className="h0">{t('Today Task')}</p>
-            <h4 className="font-light">{t('Check your daily tasks and schedules')}</h4>
+      <div className="col-12 -tw-mb-5">
+        <div className="card tw-flex tw-justify-between tw-relative tw-h-[280px]">
+          <div className="tw-space-y-2 tw-flex tw-flex-col tw-min-h-full tw-w-1/4 tw-min-w-max tw-p-6 tw-pt-10">
+            <h1 className="tw-text-[64px]">{t('Hi, Fajar SetiaBudi')}</h1>
+            <h4 className="tw-font-light tw-pt-2">{t('Arrange your meeting plan today!')}</h4>
             <Link className="mt-auto" href="/events/add">
               <Button className="mt-auto w-12rem tw-justify-center">
                 {t("Today's schedule")}
               </Button>
             </Link>
           </div>
-          <TimeManagement className="tw-max-w-xs" />
+          <TimeManagement className="tw-max-w-xs tw-absolute tw-right-10 -tw-top-12 " />
         </div>
       </div>
-      <div className="tw-grid col-12 tw-grid-cols-5 tw-gap-4">
-        {/* {[...Array(3)].map((_, i) => ( */}
-        {/*   <div */}
-        {/*     className={classNames("card tw-space-y-2", i === 0 && "mb-0")} */}
-        {/*     key={Math.random()} */}
-        {/*   > */}
-        {/*     <div className="tw-flex tw-justify-between tw-items-center"> */}
-        {/*       <p className="tw-text-gray-300 tw-font-bold"> */}
-        {/*         {new Date().toLocaleDateString("en-US", { */}
-        {/*           month: "short", */}
-        {/*           day: "numeric", */}
-        {/*           year: "numeric", */}
-        {/*         })} */}
-        {/*       </p> */}
-        {/*       <BiDotsVerticalRounded className="tw-text-gray-300" /> */}
-        {/*     </div> */}
-        {/*     <div className="tw-px-2"> */}
-        {/*       <p className="tw-font-semibold">Title</p> */}
-        {/*       <p className="tw-font-light">Category</p> */}
-        {/*       <ProgressBar */}
-        {/*         className="!tw-h-2 tw-my-2" */}
-        {/*         showValue={false} */}
-        {/*         value={50} */}
-        {/*       /> */}
-        {/*       <div className="tw-flex tw-justify-between"> */}
-        {/*         <p className="tw-text-sm">Progress</p> */}
-        {/*         <p className="tw-text-sm">50%</p> */}
-        {/*       </div> */}
-        {/*     </div> */}
-        {/*     <div className="tw-flex tw-flex-col tw-justify-between tw-items-center tw-border-t"> */}
-        {/*       <div className="tw-flex tw-justify-between tw-items-center tw-w-full tw-p-2"> */}
-        {/*         <div className="tw-flex tw-items-center"> */}
-        {/*           <AvatarGroup> */}
-        {/*             <Avatar */}
-        {/*               image="/layout/images/avatar/avatar.png" */}
-        {/*               shape="circle" */}
-        {/*               size="normal" */}
-        {/*             /> */}
-        {/*             <Avatar */}
-        {/*               image="/layout/images/avatar/avatar1.png" */}
-        {/*               shape="circle" */}
-        {/*               size="normal" */}
-        {/*             /> */}
-        {/*           </AvatarGroup> */}
-        {/*         </div> */}
-        {/*         <Chip label="25 days left" /> */}
-        {/*       </div> */}
-        {/*     </div> */}
-        {/*   </div> */}
-        {/* ))} */}
-        <div className="card xl:tw-col-span-2 md:tw-col-span-5 tw-row-span-2 !tw-p-8 tw-space-y-4 tw-flex tw-flex-col mb-0">
-          <h4 className="tw-text-center">{t('Event Category')}</h4>
-          <EventCategoryChart />
+      <div className="tw-grid col-12 tw-grid-cols-12 tw-gap-2">
+        <div className="card xl:tw-col-span-7 md:tw-col-span-12 tw-p-2 tw-flex tw-flex-col">
+          <div className="tw-grid col-12 tw-row-span-2 tw-grid-cols-6 tw-gap-2 tw-min-h-[160px]">
+              <div className="card tw-col-span-2 tw-shadow-xl" 
+              >
+                {headerCard(t('Upcoming Events'))}
+                <ul className="tw-list-disc tw-ml-4 ">
+                  <li>Event 1</li>
+                  <li>Event 2</li>
+                  <li>Event 3</li>
+                </ul>
+                {footerCard}
+              </div>
+              <div className="card tw-col-span-2 tw-shadow-xl" 
+              >
+                {headerCard(t('Upcoming Events'))}
+                <ul className="tw-list-disc tw-ml-4 ">
+                  <li>Event 1</li>
+                  <li>Event 2</li>
+                  <li>Event 3</li>
+                </ul>
+                {footerCard}
+              </div>
+              <div className="card tw-col-span-2 tw-shadow-xl" 
+              >
+                {headerCard(t('Upcoming Events'))}
+                <ul className="tw-list-disc tw-ml-4 ">
+                  <li>Event 1</li>
+                  <li>Event 2</li>
+                  <li>Event 3</li>
+                </ul>
+                {footerCard}
+              </div>
+          </div>
+          <div className="tw-mt-2">
+            <h4 className="tw-text-center">{t('Event Category')}</h4>
+            <EventCategoryChart />
+          </div>
         </div>
-        <div className="card border-none border-0 xl:tw-col-span-3 md:tw-col-span-5 tw-row-span-2 bg-purple-50">
+        <div className="card xl:tw-col-span-5  md:tw-col-span-12">
           <Calendar simple />
         </div>
       </div>
     </div>
+
   );
 }

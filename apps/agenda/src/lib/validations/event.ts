@@ -122,3 +122,12 @@ export const createLinkGmeetSchema = z.object({
 });
 
 export type CreateLinkGmeet = z.infer<typeof createLinkGmeetSchema>;
+
+
+export const sendEmailNotificationSchema = z.object({
+  eventId : z.string().uuid(),
+  accessToken: z.string().nullable(),
+  eventLink: z.string(),
+});
+
+export type SendEmailNotification = z.infer<typeof sendEmailNotificationSchema>;

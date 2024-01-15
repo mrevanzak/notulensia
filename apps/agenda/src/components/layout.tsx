@@ -12,6 +12,7 @@ import {
 import { PrimeReactContext } from "primereact/api";
 import type { AppTopbarRef, ChildContainerProps } from "@/types/types";
 import { LayoutContext } from "../context/layout-context";
+import AppTopbar from "./topbar/app-topbar";
 import AppSidebar from "./sidebar/app-sidebar";
 import { Button } from "primereact/button";
 
@@ -35,6 +36,14 @@ function Layout(props: ChildContainerProps): ReactElement {
   const searchParams = useSearchParams();
   let timeout: NodeJS.Timeout | null = null;
   const [isOverlay, setIsOverlay] = useState(false);
+  const [topbarMenuActive, setTopbarMenuActive] = useState(false);
+  const [profileMode, setProfileMode] = useState('inline');
+  const [activeTopbarItem, setActiveTopbarItem] = useState(null);
+  const [rotateMenuButton, setRotateMenuButton] = useState(false);
+  const [menuMode, setMenuMode] = useState('static');
+  const [overlayMenuActive, setOverlayMenuActive] = useState(false);
+  const [staticMenuDesktopInactive, setStaticMenuDesktopInactive] = useState(false);
+  const [staticMenuMobileActive, setStaticMenuMobileActive] = useState(false);
 
   const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] =
     useEventListener({
@@ -198,7 +207,60 @@ function Layout(props: ChildContainerProps): ReactElement {
     };
   }, [layoutState.staticMenuDesktopInactive, layoutState.staticMenuMobileActive, isDesktop()])
 
+
+  let menuClick = false;
+  let topbarItemClick = false;
+  const onMenuButtonClick = (event) => {
+    menuClick = true;
+    setRotateMenuButton((prev) => !prev);
+    setTopbarMenuActive(false);
+
+    if (menuMode === 'overlay') {
+        setOverlayMenuActive((prevOverlayMenuActive) => !prevOverlayMenuActive);
+    } else {
+        if (isDesktop()) setStaticMenuDesktopInactive((prevStaticMenuDesktopInactive) => !prevStaticMenuDesktopInactive);
+        else setStaticMenuMobileActive((prevStaticMenuMobileActive) => !prevStaticMenuMobileActive);
+    }
+
+    event.preventDefault();
+  };
+
+  const hideOverlayMenu = () => {
+    setOverlayMenuActive(false);
+    setRotateMenuButton(false);
+    setStaticMenuMobileActive(false);
+  };
+
+  const onTopbarMenuButtonClick = (event) => {
+    topbarItemClick = true;
+    setTopbarMenuActive((prevTopbarMenuActive) => !prevTopbarMenuActive);
+    hideOverlayMenu();
+    event.preventDefault();
+  };
+
+  const onTopbarItemClick = (e) => {
+    topbarItemClick = true;
+
+    if (activeTopbarItem === e.item) setActiveTopbarItem(null);
+    else setActiveTopbarItem(e.item);
+
+    e.originalEvent.preventDefault();
+};
+
   return (
+    <>
+    <div className="layout-wrapper-content">
+      <AppTopbar
+        topbarMenuActive={topbarMenuActive}
+        profileMode={profileMode}
+        horizontal={isHorizontal()}
+        activeTopbarItem={activeTopbarItem}
+        rotateMenuButton={rotateMenuButton}
+        onMenuButtonClick={onMenuButtonClick}
+        onTopbarMenuButtonClick={onTopbarMenuButtonClick}
+        onTopbarItemClick={onTopbarItemClick}
+      ></AppTopbar>
+    </div>
     <div className="layout">
       <div className={classNames("layout-container",  containerClassName)}>
         <div
@@ -219,9 +281,10 @@ function Layout(props: ChildContainerProps): ReactElement {
         <div className="layout-content-wrapper pt-0">
           <div className="layout-content w-full">{props.children}</div>
         </div>
-        <div className="layout-mask" />
+        <div className="layout-mask modal-in" />
       </div>
     </div>
+  </>
   );
 }
 
