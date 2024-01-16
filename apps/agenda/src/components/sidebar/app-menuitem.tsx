@@ -184,7 +184,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
         <a
           className={classNames(
             item?.className,
-            "p-ripple tw-text-xl tw-space-x-8 px-7",
+            `p-ripple tw-text-xl tw-space-x-8 ${(layoutState.sidebarActive || !isDesktop()) && "px-6"}`,
             {
               "active-route": isActiveRoute,
             },
@@ -201,7 +201,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
           tabIndex={0}
           target={item?.target}
         >
-          {item?.icon}
+          <i className="layout-menuitem-icon">{item?.icon}</i>
           <span className="layout-menuitem-text tw-justify-center">
             {item?.label}
           </span>
@@ -216,7 +216,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
         <Link
           className={classNames(
             item?.class,
-            "p-ripple tw-space-x-8 tw-text-xl px-7 tw-my-6",
+            `p-ripple tw-space-x-8 tw-text-xl tw-my-6 ${(layoutState.sidebarActive || !isDesktop()) && "px-6" } `,
             {
               "active-route": isActiveRoute,
             },
@@ -229,9 +229,9 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
           replace={item?.replaceUrl}
           tabIndex={0}
         >
-          {item?.icon}
+          <i className="layout-menuitem-icon">{item?.icon}</i>
           <span className="layout-menuitem-text">{item?.label}</span>
-          {/* {badge} */}
+
           {item?.items ? (
             <i className="pi pi-fw pi-angle-down layout-submenu-toggler" />
           ) : null}

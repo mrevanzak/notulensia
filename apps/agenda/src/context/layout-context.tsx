@@ -17,7 +17,7 @@ export function LayoutProvider(props: ChildContainerProps): ReactElement {
   const [layoutConfig, setLayoutConfig] = useState<LayoutConfig>({
     ripple: true,
     inputStyle: "outlined",
-    menuMode: "static",
+    menuMode: "drawer",
     colorScheme: "light",
     componentTheme: "purple",
     scale: 14,
@@ -135,7 +135,7 @@ export function LayoutProvider(props: ChildContainerProps): ReactElement {
     <LayoutContext.Provider value={value}>
       <>
         <Head>
-          <title>PrimeReact - Avalon</title>
+          <title>Notulensia</title>
           <meta charSet="UTF-8" />
           <meta
             content="The ultimate collection of design-agnostic, flexible and accessible React UI Components."

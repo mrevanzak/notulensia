@@ -14,16 +14,6 @@
     @apply tw-min-h-screen tw-w-full tw-absolute;
   }
 
-  .layout::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 429px;
-    height: 491px;
-    background-repeat: no-repeat;
-  }
-
   .layout > div {
     @apply tw-relative tw-z-10;
   }

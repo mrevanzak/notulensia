@@ -13,8 +13,9 @@ import BgHeroWaShadow from "~/img/bg-hero-wa-shadow.png";
 import BgHeroEvent from "~/img/bg-hero-event.png";
 import LogoFlat from "~/svg/logo-flat.svg";
 import { OverlayPanel } from "primereact/overlaypanel";
-import i18n from "../i18n";
+  import i18n from "../i18n";
 import { AnimatePresence, motion } from "framer-motion";
+import ButtonLanguage from "@/components/ui/button-language";
 
 
 export default function LandingPage(): ReactElement {
@@ -73,13 +74,6 @@ export default function LandingPage(): ReactElement {
   );
 
 
-
-  const changeLanguage = (lang: string) => {
-    void i18n.changeLanguage(lang);
-    localStorage.setItem('lang', lang);
-    op.current?.hide();
-  }
-
   return (
     <>
       <div className="tw-font-exo tw-font-[600] tw-text-[20px] tw-w-full tw-h-[100px] tw-bg-white tw-flex tw-fixed tw-items-center tw-justify-between tw-px-10">
@@ -92,21 +86,7 @@ export default function LandingPage(): ReactElement {
           </nav>
         </div>
         <div className="tw-flex tw-gap-5 tw-justify-center">
-          <Button onClick={(e) => op.current?.toggle(e)} outlined style={{ border: 0, color: 'black', fontFamily: "Exo", fontSize: "20px", fontWeight: 600 }}>
-            En <i className="pi pi-angle-down tw-ml-2" />
-          </Button>
-          <OverlayPanel ref={op}>
-            <div className="tw-flex tw-flex-col tw-mt-4 tw-space-y-4 tw-bg-red tw-border-[#334798]">
-              <Button onClick={() => { changeLanguage('en') }} outlined>
-                <Image alt="Id Flag" height={20} src='/svg/flag/en.svg' width={20} />
-                <span className="tw-ml-4">English</span>
-              </Button>
-              <Button onClick={() => { changeLanguage('id') }} outlined>
-                <Image alt="Id Flag" height={20} src='/svg/flag/id.svg' width={20} />
-                <span className="tw-ml-4">Indonesia</span>
-              </Button>
-            </div>
-          </OverlayPanel>
+          <ButtonLanguage />
           <Button label="Log In" onClick={signIn} style={{ backgroundColor: "#334798", borderRadius: "1000px", fontFamily: "Exo", fontSize: "20px", fontWeight: 600, height: "58px", width: "179px" }} />
         </div>
 
