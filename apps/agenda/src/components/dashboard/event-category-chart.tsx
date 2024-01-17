@@ -79,7 +79,7 @@ export default function EventCategoryChart(): ReactElement {
 
   return (
     <Chart
-      className="tw-w-full tw-flex-1"
+      className="tw-w-full tw-p-4 tw-flex-1"
       data={lineData}
       options={lineOptions}
       type="line"

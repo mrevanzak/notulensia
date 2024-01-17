@@ -5,11 +5,14 @@ import { OverlayPanel } from "primereact/overlaypanel";
 import { useEffect, useRef, useState } from "react";
 import type { ReactElement } from "react";
 import i18n from "@/app/i18n";
+import { Tooltip } from "primereact/tooltip";
+import { useTranslation } from "react-i18next";
 
 export default function ButtonLanguage() : ReactElement {
     const op = useRef<OverlayPanel>(null);
     const [langStore, setLangStore] = useState('en');
     const [isShow, setIsShow] = useState(false);
+    const {t} = useTranslation();
 
     const onButtonClick = (event) => {
         op.current?.toggle(event);
@@ -29,7 +32,8 @@ export default function ButtonLanguage() : ReactElement {
 
     return(
         <>
-        <Button className="tw-flex tw-gap-2 tw-justify-center tw-items-center" onClick={onButtonClick} outlined style={{ border: 0, color: 'black', fontFamily: "Exo", fontSize: "20px", maxWidth: "120px", fontWeight: 600 }}>
+        <Tooltip content={t('Change Language')} position="left" target=".button-change-language"  />
+        <Button className="tw-flex tw-gap-2 tw-justify-center tw-items-center button-change-language" onClick={onButtonClick} outlined style={{ border: 0, color: 'black', fontFamily: "Exo", fontSize: "20px", maxWidth: "120px", fontWeight: 600 }}>
             <Image alt="Flag Logo" height={30} src={langStore === 'en' ? '/svg/flag/en.svg' : '/svg/flag/id.svg'} width={30} />
             <h4>{langStore === 'en' ? 'ENG' : 'IDN'}</h4>
             <i className={`pi ${!isShow ? 'pi-chevron-up' : 'pi-chevron-down'} tw-ml-2`} />

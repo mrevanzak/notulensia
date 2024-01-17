@@ -15,6 +15,7 @@ import { FaLanguage } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import { Button } from "primereact/button";
 import { OverlayPanel } from "primereact/overlaypanel";
+import { truncateText } from "@/utils/string-utils";
 
 function AppMenuProfile(): ReactElement {
   const logout = useAuthStore((state) => state.logout);
@@ -59,13 +60,7 @@ function AppMenuProfile(): ReactElement {
     hidden: layoutConfig.menuMode === "drawer" && !layoutState.sidebarActive,
   });
 
-  function truncateText(text: string | undefined, maxLength: number): string {
-    if (!text) return '';
-    if (text.length > maxLength) {
-      return `${text.substring(0, maxLength)}...`;
-    }
-    return text;
-  }
+  
 
   const toggleMenu = (): void => {
     if (layoutState.menuProfileActive) {

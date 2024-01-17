@@ -19,7 +19,7 @@ function AppSidebar(): ReactElement {
         <MenuProvider>
           <AppMenu />
         </MenuProvider>
-        <AppMenuProfile />
+      <AppMenuProfile />
       </div>
     </div>
   );
