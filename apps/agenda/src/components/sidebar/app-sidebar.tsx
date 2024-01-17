@@ -7,7 +7,6 @@ import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
 import Image from "next/image";
 import { useGetFile } from "@/lib/api/storage/get-file";
 import { LayoutContext } from "@/context/layout-context";
-import { Button } from "primereact/button";
 
 function AppSidebar(): ReactElement {
   let timeout: NodeJS.Timeout | null = null;
@@ -61,7 +60,7 @@ function AppSidebar(): ReactElement {
             src="/svg/logo-small.svg"
             width={40}
           />
-          <Button
+          <button
             className="layout-sidebar-anchor p-link"
             onClick={() => { setLayoutState((prevLayoutState) => ({ ...prevLayoutState, anchored: !prevLayoutState.anchored })); }}
             type="button"

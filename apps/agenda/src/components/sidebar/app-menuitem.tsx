@@ -184,7 +184,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
         <a
           className={classNames(
             item?.className,
-            `p-ripple tw-text-xl tw-space-x-8 ${(layoutState.sidebarActive || !isDesktop()) && "px-6"}`,
+            `p-ripple tw-text-xl tw-space-x-8`,
             {
               "active-route": isActiveRoute,
             },
@@ -216,7 +216,7 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
         <Link
           className={classNames(
             item?.class,
-            `p-ripple tw-space-x-8 tw-text-xl tw-my-6 ${(layoutState.sidebarActive || !isDesktop()) && "px-6" } `,
+            `p-ripple tw-space-x-8 tw-text-xl tw-my-6 `,
             {
               "active-route": isActiveRoute,
             },

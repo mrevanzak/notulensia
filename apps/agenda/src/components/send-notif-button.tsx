@@ -43,6 +43,7 @@ export default function SendNotifButton({linkValue}: {linkValue:string}) {
   useEffect(() => {
     if (accessToken) { 
       sendEmail.mutate({eventId: id as string, accessToken, eventLink: linkValue});
+      localStorage.removeItem(keyStorageCallback);
     }
   }, [accessToken]);
 

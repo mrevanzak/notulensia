@@ -122,7 +122,7 @@ function AppMenuProfile(): ReactElement {
       >
         <Image
           alt="avatar"
-          className={`tw-rounded-full tw-mt-1 ${(layoutState.sidebarActive || !isDesktop() ) && "tw-mx-4"}`}
+          className="tw-rounded-full tw-mt-1"
           height={56}
           src={image ?? "/img/user-default.jpg"}
           width={56}
