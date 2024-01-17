@@ -12,14 +12,11 @@ import {
 import { PrimeReactContext } from "primereact/api";
 import type { AppTopbarRef, ChildContainerProps } from "@/types/types";
 import { LayoutContext } from "../context/layout-context";
-import AppTopbar from "./topbar/app-topbar";
 import AppSidebar from "./sidebar/app-sidebar";
-import { Button } from "primereact/button";
 import AppTobBar from "./topbar/app-topbar";
 
 function Layout(props: ChildContainerProps): ReactElement {
   const {
-    onMenuToggle,
     layoutConfig,
     layoutState,
     setLayoutState,
@@ -198,9 +195,10 @@ function Layout(props: ChildContainerProps): ReactElement {
 
     if (menuMode === 'overlay') {
         setOverlayMenuActive((prevOverlayMenuActive) => !prevOverlayMenuActive);
-    } else {
-        if (isDesktop()) setStaticMenuDesktopInactive((prevStaticMenuDesktopInactive) => !prevStaticMenuDesktopInactive);
-        else setStaticMenuMobileActive((prevStaticMenuMobileActive) => !prevStaticMenuMobileActive);
+    } else if (isDesktop()) {
+        setStaticMenuDesktopInactive((prevStaticMenuDesktopInactive) => !prevStaticMenuDesktopInactive);
+    } else
+        { setStaticMenuMobileActive((prevStaticMenuMobileActive) => !prevStaticMenuMobileActive);
     }
 
     event.preventDefault();
@@ -251,7 +249,6 @@ function Layout(props: ChildContainerProps): ReactElement {
     configClick = false;
   };
   return (
-    <>
     <div className="layout tw-pt-[4rem]">
       <div className={classNames("layout-container layout-topbar-white",  containerClassName)}>
         <AppTobBar />
@@ -262,7 +259,6 @@ function Layout(props: ChildContainerProps): ReactElement {
         <div className="layout-mask modal-in" />
       </div>
     </div>
-  </>
   );
 }
 

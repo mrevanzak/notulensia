@@ -12,8 +12,7 @@ import BgHeroWa from "~/img/bg-hero-wa.png";
 import BgHeroWaShadow from "~/img/bg-hero-wa-shadow.png";
 import BgHeroEvent from "~/img/bg-hero-event.png";
 import LogoFlat from "~/svg/logo-flat.svg";
-import { OverlayPanel } from "primereact/overlaypanel";
-  import i18n from "../i18n";
+import type { OverlayPanel } from "primereact/overlaypanel";
 import { AnimatePresence, motion } from "framer-motion";
 import ButtonLanguage from "@/components/ui/button-language";
 

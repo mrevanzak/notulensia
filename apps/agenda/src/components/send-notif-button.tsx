@@ -2,7 +2,7 @@
 import { useSendEmailNotification } from "@/lib/api/event/send-email-notification";
 import { useSendNotification } from "@/lib/api/event/send-notification";
 import { useAudienceStore } from "@/stores/use-audience-store";
-import { getAccessToken } from "@/utils/oauthUtil";
+import { getAccessToken } from "@/utils/oauth-utils";
 import { useParams } from "next/navigation";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
@@ -25,7 +25,8 @@ export default function SendNotifButton({linkValue}: {linkValue:string}) {
 
   const sendEmailMutation = () => {
     const scope = `https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/gmail.send https://mail.google.com/`;
-    void getAccessToken({redirect_uri: "/events/callback/notification", scope: scope });
+    const redirectUri = "/events/callback/notification";
+    getAccessToken({redirectUri, scope });
   };
 
 
@@ -41,17 +42,17 @@ export default function SendNotifButton({linkValue}: {linkValue:string}) {
 
   useEffect(() => {
     if (accessToken) { 
-      sendEmail.mutate({eventId: id as string, accessToken : accessToken, eventLink: linkValue});
+      sendEmail.mutate({eventId: id as string, accessToken, eventLink: linkValue});
     }
   }, [accessToken]);
 
 
   const footer = (
     <div className="tw-flex tw-gap-3 tw-justify-end">
-      <Button type="button" label="Yes" onClick={sendEmailMutation}/>
-      <Button className="p-" type="button" label="Cancel" outlined/>
+      <Button className="p-" label="Cancel" outlined type="button" />
+      <Button label="Yes" onClick={sendEmailMutation} type="button" />
     </div>
-  );
+  );  
 
   return (
     <>

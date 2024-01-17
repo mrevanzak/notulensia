@@ -1,7 +1,7 @@
 "use client"
-import React from 'react'
+import type { ReactElement } from "react";
 
-const NotificationCallback = () => {
+export default function NotificationCallback() : ReactElement {
 
     const keyStorage = 'accessTokenNotification';
 
@@ -16,12 +16,9 @@ const NotificationCallback = () => {
       };
       
       handleCallback();
-    const accesstoken = localStorage.getItem(keyStorage);
   return (
     <div className='text-white'>
         Close This Page
     </div>
   )
-}
-
-export default NotificationCallback
+};

@@ -7,10 +7,11 @@ import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
 import Image from "next/image";
 import { useGetFile } from "@/lib/api/storage/get-file";
 import { LayoutContext } from "@/context/layout-context";
+import { Button } from "primereact/button";
 
 function AppSidebar(): ReactElement {
   let timeout: NodeJS.Timeout | null = null;
-  const {layoutState, setLayoutState} = useContext(LayoutContext);
+  const { layoutState, setLayoutState } = useContext(LayoutContext);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const { data } = useGetUserDetail();
   const file = useGetFile("asset", data?.logoUrl);
@@ -42,27 +43,30 @@ function AppSidebar(): ReactElement {
   };
 
   return (
-    <div className="layout-sidebar tw-h-full top-0 tw-rounded-r-xl" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} ref={sidebarRef}>  
+    <div className="layout-sidebar tw-h-full top-0 tw-rounded-r-xl" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} ref={sidebarRef}>
       <div className="layout-menu-container tw-mt-2">
         <div className="layout-sidebar-top">
-        <Image
-          alt="Logo Top"
-          className="layout-sidebar-logo"
-          width={280}
-          height={45}
-          src={file.data ? URL.createObjectURL(file.data) : "/svg/logo.svg"}
-          style={{ maxWidth: '280px', maxHeight: '45px', objectFit: 'contain',}} 
-        />
-         <Image
-          alt="Logo Small"
-          className="layout-sidebar-logo-slim tw-mx-auto"
-          width={40}
-          height={40}
-          src={"/svg/logo-small.svg"}
-          /> 
-        <button className="layout-sidebar-anchor p-link" type="button" onClick={() => setLayoutState((prevLayoutState) => ({ ...prevLayoutState, anchored: !prevLayoutState.anchored }))}></button>
+          <Image
+            alt="Logo Top"
+            className="layout-sidebar-logo"
+            height={45}
+            src={file.data ? URL.createObjectURL(file.data) : "/svg/logo.svg"}
+            style={{ maxWidth: '280px', maxHeight: '45px', objectFit: 'contain', }}
+            width={280}
+          />
+          <Image
+            alt="Logo Small"
+            className="layout-sidebar-logo-slim tw-mx-auto"
+            height={40}
+            src="/svg/logo-small.svg"
+            width={40}
+          />
+          <Button
+            className="layout-sidebar-anchor p-link"
+            onClick={() => { setLayoutState((prevLayoutState) => ({ ...prevLayoutState, anchored: !prevLayoutState.anchored })); }}
+            type="button"
+          />
         </div>
-
         <div className="tw-flex tw-flex-col tw-gap-4 tw-flex-1">
           <AppMenuProfile />
           <MenuProvider>

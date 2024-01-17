@@ -2,7 +2,8 @@
 import Image from "next/image";
 import { Button } from "primereact/button";
 import { OverlayPanel } from "primereact/overlaypanel";
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { ReactElement } from "react";
 import i18n from "@/app/i18n";
 
 export default function ButtonLanguage() : ReactElement {
@@ -15,7 +16,7 @@ export default function ButtonLanguage() : ReactElement {
         setIsShow(!isShow);
     }
     const changeLanguage = (lang: string) => {
-        i18n.changeLanguage(lang);
+        void i18n.changeLanguage(lang);
         localStorage.setItem('lang', lang);
         setLangStore(lang);
         op.current?.hide();
@@ -23,7 +24,7 @@ export default function ButtonLanguage() : ReactElement {
 
     useEffect(() => {
       setLangStore(localStorage.getItem('lang') ?? 'en');
-      i18n.changeLanguage(langStore);
+      void i18n.changeLanguage(langStore);
     },[langStore]);
 
     return(

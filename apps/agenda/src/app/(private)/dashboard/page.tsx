@@ -16,7 +16,7 @@ export default function Dashboard(): ReactElement {
     <>
     <div className="tw-border"/>
     <div className="tw-flex tw-justify-end tw-pt-4">
-      <Button className="tw-w-auto tw-h-5" type="button" style={{ backgroundColor: '#DCDFF9', color: '#7580E8', border: 'none'}}>
+      <Button className="tw-w-auto tw-h-5" style={{ backgroundColor: '#DCDFF9', color: '#7580E8', border: 'none'}} type="button">
         See More
         </Button> 
     </div>

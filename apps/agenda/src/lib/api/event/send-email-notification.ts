@@ -1,5 +1,5 @@
 import { httpClient } from "@/lib/http";
-import { SendEmailNotification } from "@/lib/validations/event";
+import type { SendEmailNotification } from "@/lib/validations/event";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 

@@ -1,7 +1,7 @@
 "use client"
-import React from 'react'
+import type { ReactElement } from "react";
 
-const LinkGmeetCallback = () => {
+export default function LinkGmeetCallback() : ReactElement{
 
     const handleCallback = () => {
         const urlParams = new URLSearchParams(window.location.hash.substring(1));
@@ -11,15 +11,13 @@ const LinkGmeetCallback = () => {
           localStorage.setItem('googleAccessToken', accessToken);
           window.close();
         }
-      };
+    };
       
-      handleCallback();
-    const accesstoken = localStorage.getItem('googleAccessToken');
+    handleCallback();
   return (
     <div className='text-white'>
       Please Close This Page
     </div>
   )
-}
-
-export default LinkGmeetCallback
+};
+ 
