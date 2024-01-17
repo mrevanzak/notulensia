@@ -58,9 +58,7 @@ export default function Calendar({ simple = false  }: {simple?:boolean}) : React
 
 
     return (
-      <div className="grid">
-        <div className="col-12">
-          <div className="card">
+        <div className="tw-h-full tw-w-full">
             {
                 simple ? (
                     <FullCalendar
@@ -162,8 +160,6 @@ export default function Calendar({ simple = false  }: {simple?:boolean}) : React
                     )
                 }
             </Dialog>
-            </div>
         </div>
-    </div>
   );
 };

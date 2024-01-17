@@ -1,23 +1,24 @@
 "use client"
 import type { ReactElement } from "react";
 
-export default function LinkGmeetCallback() : ReactElement{
+export default function NotificationCallback() : ReactElement {
+
+    const keyStorage = 'accessTokenNotification';
 
     const handleCallback = () => {
         const urlParams = new URLSearchParams(window.location.hash.substring(1));
         const accessToken = urlParams.get('access_token');
       
         if (accessToken) {
-          localStorage.setItem('googleAccessToken', accessToken);
+          localStorage.setItem(keyStorage, accessToken);
           window.close();
         }
-    };
+      };
       
-    handleCallback();
+      handleCallback();
   return (
     <div className='text-white'>
-      Please Close This Page
+        Close This Page
     </div>
   )
 };
- 

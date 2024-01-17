@@ -51,10 +51,11 @@ function AppSubMenu(props: MenuProps): ReactElement {
 
   return (
     <MenuProvider>
-      <ul className="layout-menu my-auto">
+      <ul className="layout-menu">
         {props.model.map((item, i) => {
           return !item.seperator ? (
             <AppMenuitem
+            className="layout-root-menuitem"
               index={i}
               item={item as AppMenuItem}
               key={item.label}

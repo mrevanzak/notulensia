@@ -23,6 +23,7 @@ function AppMenuProfile(): ReactElement {
   const {
     layoutState,
     layoutConfig,
+    isDesktop,
     isSlim,
     isHorizontal,
     onMenuProfileToggle,
@@ -112,16 +113,16 @@ function AppMenuProfile(): ReactElement {
   
 
   return (
-    <div className="layout-menu-profile border-none tw-relative overflow-visible tw-z-10">
+    <div className="layout-menu-profile border-none tw-relative overflow-visible tw-z-10 tw-mt-8">
       <Tooltip content={tooltipValue("Profile")!} target=".avatar-button" />
       <button
-        className="avatar-button p-link shadow-none pl-6"
+        className="avatar-button p-link"
         onClick={toggleMenu}
         type="button"
       >
         <Image
           alt="avatar"
-          className="tw-rounded-full tw-mt-1 tw-mx-2"
+          className="tw-rounded-full tw-mt-1"
           height={56}
           src={image ?? "/img/user-default.jpg"}
           width={56}
@@ -130,14 +131,6 @@ function AppMenuProfile(): ReactElement {
           <b className="tw-text-xl">{truncateText(data?.name, 17)} </b>
           <p className="tw-text-xs">{data?.phoneNumber}</p>
         </span>
-        <div className="tw-rounded-full tw-h-5 tw-w-5 tw-border tw-absolute tw-right-12">
-          <Image
-            alt="avatar"
-            height={100}
-            src={langStore === 'en'? '/svg/flag/en.svg': '/svg/flag/id.svg'}
-            width={100}
-          />
-        </div>
         <i
           className={classNames(
             "layout-menu-profile-toggler pi pi-fw tw-text-[#4343BF] tw-font-bold tw-text-xl",

@@ -65,9 +65,10 @@ export default function AudienceListCard({readOnly = false, attend = false} : Re
       <Button
         icon="pi pi-trash"
         onClick={() => {
-          removeAudience(rowData.name);
+          removeAudience(rowData.email);
         }}
         severity="danger"
+        type="button"
       />
     );
   };

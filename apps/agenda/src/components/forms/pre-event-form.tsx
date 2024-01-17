@@ -61,6 +61,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   const { id } = useParams();
 
   const { data: values } = useGetEventDetail(id as string);
+  const { t } = useTranslation();
 
   const [showDialog, setShowDialog] = useState(false);
   const [eventState, setEventState] = useState<EventStatus>("ACTIVE");
@@ -217,6 +218,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
           removeScheduleProgram(rowData.position);
         }}
         severity="danger"
+        type="button"
       />
     );
   };
@@ -264,8 +266,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     if (!validateData(data)) {
       toast.warn("Please Fill In All Required Fields");
     } else {
-      const auth =
-        "https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount";
+      const auth = "https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount";
       const queryParams = {
         client_id:
           "898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com",
@@ -296,6 +297,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   };
 
   const createLink = useCreateLinkMeet();
+  
   useEffect(() => {
     if (accessToken) {
       createLink.mutate({
@@ -319,7 +321,6 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     setValue("linkUrl", createLink.data?.link);
   }
 
-  const { t, i18n } = useTranslation();
 
 
   return (
