@@ -49,6 +49,14 @@ export default function EventCategoryChart(): ReactElement {
       legend: {
         display: false,
       },
+      title: {
+        display: true,
+        text: "Event Categories",
+        font: {
+          size: 16,
+        },
+        color: "#000000",
+      }
     },
     scales: {
       x: {
@@ -79,7 +87,7 @@ export default function EventCategoryChart(): ReactElement {
 
   return (
     <Chart
-      className="tw-w-full tw-p-4 tw-flex-1"
+      className="tw-w-full tw-p-4 tw-flex-1 tw-shadow-xl tw-border-2 tw-rounded-xl"
       data={lineData}
       options={lineOptions}
       type="line"
