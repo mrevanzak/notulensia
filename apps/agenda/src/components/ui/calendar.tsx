@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { ReactElement } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -8,7 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { Dialog } from 'primereact/dialog';
 import { useGetEventListCalendar } from '@/lib/api/event/get-event-list-calendar-by-date';
 import { useGetEventDetail } from '@/lib/api/event/get-event-detail';
-import moment, { locales } from 'moment';
+import moment from 'moment';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import i18n from '@/app/i18n';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +24,26 @@ interface Event {
 }
 const defaultValue: Event = { id: '', title: '', start: null, end: null, allDay: null, isOnline: false };
 
-export default function Calendar({ simple = false }: { simple?: boolean }): ReactElement {
+const content  = (eventInfo : any) => {
+        return(
+            <>
+            <Tooltip
+                content="Click to detail"
+                mouseTrack
+                mouseTrackLeft={20}
+                mouseTrackTop={20}
+                position="bottom"
+                target={`#tooltip-${eventInfo.event.id}`}
+            />
+            <div className="tooltip tw-flex tw-justify-center tw-items-center" id={`tooltip-${eventInfo.event.id}`}>
+                <div className="fc-daygrid-event-dot"/>
+                <span className='test'>{eventInfo.timeText}</span>
+            </div>
+        </>
+        );
+}
+
+export default function Calendar({ simple = false }: Readonly<{ simple?: boolean }>): ReactElement {
     const [eventDialog, setEventDialog] = useState<boolean>(false);
     const [clickedEvent, setClickedEvent] = useState<any>(null);
     const [changedEvent, setChangedEvent] = useState<Event>(defaultValue);
@@ -45,52 +64,24 @@ export default function Calendar({ simple = false }: { simple?: boolean }): Reac
         setEvents(simple ? modifiedEvents : data);
     }, [data]);
 
-    const dayNames = [
-        t('Sunday'),
-        t('Monday'),
-        t('Tuesday'),
-        t('Wednesday'),
-        t('Thursday'),
-        t('Friday'),
-        t('Saturday')
-    ];
-
     const langStore = i18n.language;
-
-    const EventTooltip = ({ eventInfo }) => (
-        <>
-          <Tooltip
-            content={t(`Click to detail`)}
-            mouseTrack
-            mouseTrackLeft={20}
-            mouseTrackTop={20}
-            position="bottom"
-            target={`#tooltip-${eventInfo.event.id}`}
-          />
-          <div className="tooltip tw-flex tw-justify-center tw-items-center" id={`tooltip-${eventInfo.event.id}`}>
-            <div className="fc-daygrid-event-dot"></div>
-            <span className='test'>{eventInfo.timeText}</span>
-          </div>
-        </>
-      );
-
 
     return (
         <div className="tw-h-full tw-w-full">
             {
                 simple ? (
-                    <FullCalendar
-                        buttonText={{ today: t('Today'), dayGridMonth: t('Month'), timeGridWeek: t('Week'), timeGridDay: t('Day') }}
-                        datesSet={(e) => { setViewDate(e.view.currentStart) }}
-                        eventClick={eventClick}
-                        eventContent={(eventInfo) => {<EventTooltip eventInfo={eventInfo} />}}
-                        events={events}
-                        headerToolbar={{ center: 'title', left: 'prev', right: 'next' }}
-                        initialDate={new Date()}
-                        initialView='dayGridMonth'
-                        locale={langStore}
-                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                    />
+                        <FullCalendar
+                            buttonText={{ today: t('Today'), dayGridMonth: t('Month'), timeGridWeek: t('Week'), timeGridDay: t('Day') }}
+                            datesSet={(e) => { setViewDate(e.view.currentStart) }}
+                            eventClick={eventClick}
+                            eventContent={(e) =>  content(e)}
+                            events={events}
+                            headerToolbar={{ center: 'title', left: 'prev', right: 'next' }}
+                            initialDate={new Date()}
+                            initialView='dayGridMonth'
+                            locale={langStore}  
+                            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                        />
 
                 ) :
                     (
