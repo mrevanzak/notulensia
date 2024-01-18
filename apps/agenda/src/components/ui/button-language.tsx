@@ -31,25 +31,25 @@ export default function ButtonLanguage() : ReactElement {
     },[langStore]);
 
     return(
-        <>
+      <>
         <Tooltip content={t('Change Language')} position="left" target=".button-change-language"  />
         <Button className="tw-flex tw-gap-2 tw-justify-center tw-items-center button-change-language" onClick={onButtonClick} outlined style={{ border: 0, color: 'black', fontFamily: "Exo", fontSize: "20px", maxWidth: "120px", fontWeight: 600 }}>
             <Image alt="Flag Logo" height={30} src={langStore === 'en' ? '/svg/flag/en.svg' : '/svg/flag/id.svg'} width={30} />
             <h4>{langStore === 'en' ? 'ENG' : 'IDN'}</h4>
-            <i className={`pi ${!isShow ? 'pi-chevron-up' : 'pi-chevron-down'} tw-ml-2`} />
-          </Button>
-          <OverlayPanel ref={op}>
-            <div className="tw-flex tw-flex-col tw-mt-4 tw-space-y-4 tw-border-[#334798]">
-              <Button onClick={() => { changeLanguage('en') }} outlined>
-                <Image alt="Id Flag" height={20} src='/svg/flag/en.svg' width={20} />
-                <b className="tw-ml-4 tw-text-black">ENG</b>
-              </Button>
-              <Button onClick={() => { changeLanguage('id') }} outlined>
-                <Image alt="Id Flag" height={20} src='/svg/flag/id.svg' width={20} />
-                <b className="tw-ml-4 tw-text-black">IDN</b>
-              </Button>
-            </div>
-          </OverlayPanel>
-        </>
+            <i className={`pi ${isShow ? 'pi-chevron-up' : 'pi-chevron-down'} tw-ml-2`} />
+        </Button>
+        <OverlayPanel ref={op}>
+          <div className="tw-flex tw-flex-col tw-mt-4 tw-space-y-4 tw-border-[#334798]">
+            <Button onClick={() => { changeLanguage('en') }} outlined>
+              <Image alt="Id Flag" height={20} src='/svg/flag/en.svg' width={20} />
+              <b className="tw-ml-4 tw-text-black">ENG</b>
+            </Button>
+            <Button onClick={() => { changeLanguage('id') }} outlined>
+              <Image alt="Id Flag" height={20} src='/svg/flag/id.svg' width={20} />
+              <b className="tw-ml-4 tw-text-black">IDN</b>
+            </Button>
+          </div>
+        </OverlayPanel>
+      </>
     );
 }

@@ -21,7 +21,7 @@ export default function Dashboard(): ReactElement {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const dashboardData = useGetDataDashboard();
-  
+
   useEffect(() => {
     void queryClient.refetchQueries({ queryKey: [getDataDashboardKey] });
   }, []);
@@ -86,7 +86,19 @@ export default function Dashboard(): ReactElement {
                       {
                         dashboardData.data?.post?.slice(0, 3).map((event) => (
                           <li key={event.id}>
-                             <a className="p-link" href={`/events/edit/${event.id}`}>
+                            <Tooltip
+                              mouseTrack
+                              mouseTrackLeft={20}
+                              mouseTrackTop={20}
+                              position="bottom"
+                              target={`#eventLink_${event.id}`}
+                            >
+                              {moment(event.endAt).format('DD-MM-YYYY')} {`${truncateText(event.eventName, 50)}`}
+                            </Tooltip>
+                            <a
+                              href={`/events/edit/${event.id}`}
+                              id={`eventLink_${event.id}`}
+                            >
                               {moment(event.endAt).format('DD-MM-YYYY')} {`${truncateText(event.eventName, 12)}`}
                             </a>
                           </li>
@@ -101,7 +113,7 @@ export default function Dashboard(): ReactElement {
                       className="tw-aspect-square tw-p-5 tw-my-auto tw-mx-auto"
                       fill
                       src="/svg/schedule-free.svg"
-                      style={{maxWidth:'16rem'}}
+                      style={{ maxWidth: '16rem' }}
                     />
                   )
               }
@@ -120,8 +132,20 @@ export default function Dashboard(): ReactElement {
                       {
                         dashboardData.data?.onGoing?.slice(0, 3).map((event) => (
                           <li key={event.id}>
-                             <a className="p-link" href={`/events/edit/${event.id}`}>
-                              {moment(event.startAt).format('DD-MM-YYYY')} {`${truncateText(event.eventName, 12)}`}
+                            <Tooltip
+                              mouseTrack
+                              mouseTrackLeft={20}
+                              mouseTrackTop={20}
+                              position="bottom"
+                              target={`#eventLink_${event.id}`}
+                            >
+                              {moment(event.endAt).format('DD-MM-YYYY')} {`${truncateText(event.eventName, 50)}`}
+                            </Tooltip>
+                            <a
+                              href={`/events/edit/${event.id}`}
+                              id={`eventLink_${event.id}`}
+                            >
+                              {moment(event.endAt).format('DD-MM-YYYY')} {`${truncateText(event.eventName, 12)}`}
                             </a>
                           </li>
                         ))
@@ -135,7 +159,7 @@ export default function Dashboard(): ReactElement {
                       className="tw-aspect-square tw-p-5 tw-my-auto tw-mx-auto"
                       fill
                       src="/svg/schedule-free.svg"
-                      style={{maxWidth:'16rem'}}
+                      style={{ maxWidth: '16rem' }}
                     />
                   )
               }
@@ -153,9 +177,21 @@ export default function Dashboard(): ReactElement {
                     <ul className="tw-list-disc tw-ml-4 tw-my-4 tw-z-10 ">
                       {
                         dashboardData.data?.pre?.slice(0, 3).map((event) => (
-                          <li key={event.id}> 
-                            <a className="p-link" href={`/events/edit/${event.id}`}>
-                              {moment(event.startAt).format('DD-MM-YYYY')} {`${truncateText(event.eventName, 12)}`}
+                          <li key={event.id}>
+                            <Tooltip
+                              mouseTrack
+                              mouseTrackLeft={20}
+                              mouseTrackTop={20}
+                              position="bottom"
+                              target={`#eventLink_${event.id}`}
+                            >
+                              {moment(event.endAt).format('DD-MM-YYYY')} {`${truncateText(event.eventName, 50)}`}
+                            </Tooltip>
+                            <a
+                              href={`/events/edit/${event.id}`}
+                              id={`eventLink_${event.id}`}
+                            >
+                              {moment(event.endAt).format('DD-MM-YYYY')} {`${truncateText(event.eventName, 12)}`}
                             </a>
                           </li>
                         ))
@@ -169,27 +205,20 @@ export default function Dashboard(): ReactElement {
                       className="tw-aspect-square tw-p-5 tw-my-auto tw-mx-auto"
                       fill
                       src="/svg/schedule-free.svg"
-                      style={{maxWidth:'16rem'}}
+                      style={{ maxWidth: '16rem' }}
                     />
                   )
               }
 
               {footerCard}
             </div>
-
           </div>
-          <div className="tw-shadow-lg tw-rounded-xl tw-border tw-pt-5 tw-h-full tw-flex-1 tw-mx-2">
-            <h4 className="tw-text-center">{t('Event Category')}</h4>
-            <EventCategoryChart />
-          </div>
+          <EventCategoryChart />
         </div>
         <div className="card xl:tw-col-span-5  md:tw-col-span-12">
           <Calendar simple />
         </div>
       </div>
-
-      <Tooltip  content={t('See Detail')} position="bottom" target="li>a" />
-      <Tooltip  content={t('See Detail')} position="bottom" target=".fc-event" />
     </div>
   );
 }
