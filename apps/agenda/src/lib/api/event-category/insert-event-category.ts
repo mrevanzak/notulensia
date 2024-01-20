@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation";
 import { getEventCategoryKey } from "./get-event-categories";
 import { getDetailEventCategoryKey } from "./get-detail-event-category";
+import { getEventCategoryDropdownKey } from "./get-event-category";
 
 export const useInsertEventCategory = () => {
     const queryClient = useQueryClient();
@@ -16,7 +17,7 @@ export const useInsertEventCategory = () => {
         onSuccess: () => {
             void queryClient.invalidateQueries({queryKey : [getEventCategoryKey]});
             void queryClient.invalidateQueries({queryKey : [getDetailEventCategoryKey]});
-            router.push("/data-master/event-category");
+            void queryClient.invalidateQueries({queryKey : [getEventCategoryDropdownKey]});
         }
     })
 
