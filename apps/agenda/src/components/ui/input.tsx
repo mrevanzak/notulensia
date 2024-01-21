@@ -58,10 +58,9 @@ export default function Input({
       )}
       <Controller
         control={control}
-        defaultValue={null}
+        defaultValue=""
         name={id}
         render={({ field, fieldState }) => {
-          const [inputValue, setInputValue] = useState(field.value || "");
           return (
             <span
               className={classNames("p-input-icon-right block", {
@@ -90,10 +89,9 @@ export default function Input({
                 id={field.name}
                 onChange={(e) => {
                   field.onChange(e.target.value);
-                  setInputValue(e.target.value);
                 }}
                 type={isPassword && !showPassword ? "password" : "text"}
-                value={inputValue}
+                value={field.value}
               />
               {float ? (
                 <label className={classNames("tw-text-white", { "p-error": error, })} htmlFor={field.name}>
