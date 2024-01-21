@@ -7,7 +7,7 @@ export const eventCategoryDropdownSchema = z.object({
 
 export const eventCategorySchema = z.object({
   id: z.string().uuid(),
-  eventCategoryName : z.string().nullish(),
+  eventCategoryName : z.string().min(3),
 })
 export type EventCategorySchema = z.infer<typeof eventCategorySchema>
 

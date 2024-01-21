@@ -12,7 +12,8 @@ export const useInsertEventCategory = () => {
 
     return useMutation({
         mutationFn :async (body: EventCategorySchemaForm) => {
-            await httpClient.post("/event/category", body);
+            const resp = await httpClient.post("/event/category", body);
+            return resp;
         },
         onSuccess: () => {
             void queryClient.invalidateQueries({queryKey : [getEventCategoryKey]});

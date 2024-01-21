@@ -52,6 +52,7 @@ import { useTranslation } from "react-i18next";
 import EventForm from "./event-form";
 import EventCategoryForm from "./event-category-form";
 import { useInsertEventCategory } from "@/lib/api/event-category/insert-event-category";
+import { EventCategorySchemaForm, eventCategorySchemaForm } from "@/lib/validations/event-category";
 import DropdownEventCategory from "./dropdown-event-category";
 
 type EventFormProps = {
@@ -325,10 +326,77 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   }
   const eventCategory = useGetEventCategoryDropdown();
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Mencegah aksi default formulir saat Enter ditekan
+    }
+  };
+
+//   const [showDialogCategory, setShowDialogCategory] = useState(false);
+//   const insertEventCategory = useInsertEventCategory();
+//   const onSubmitDialog = (data) => {
+//     insertEventCategory.mutate(data);
+//     toast.success("Event Category Added");
+//     console.log(insertEventCategory.data);
+//     setShowDialogCategory(false);
+// };
+//   const footerCategory = () => {
+//     return (
+//       <>
+//         <div className="p-2 tw-w-full">
+//           <Button
+//             className="tw-w-full"
+//             label={t("Add Category")}
+//             iconPos="right"
+//             icon="pi pi-plus"
+//             onClick={() => {
+//               setShowDialogCategory(true);
+//             }}
+//             outlined
+//           />
+//         </div>
+//       </>
+//     );
+//   };
+//   const methods1 = useForm<EventCategorySchemaForm>({
+//     resolver: zodResolver(eventCategorySchemaForm),
+//     resetOptions: {
+//         keepDirtyValues: true,
+//     },
+// });
+
+// const DialogForm = () => {
+//   return (
+//       <FormProvider {...methods1} >
+//       <form
+//           id="eventCategoryForm"
+//           className="tw-space-y-8"
+//           onKeyDown={handleKeyPress}
+//       >
+//           <Input autoFocus defaultValue="" float id="eventCategoryName" label="Event Category Name"  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyPress(e)} />
+//           <div className="tw-flex tw-justify-center">
+//               <div className="tw-flex tw-gap-4">
+//                   <Button
+//                       label="Save"
+//                       loading={insertEventCategory.isPending}
+//                       outlined
+//                       onClick={handleSubmit(onSubmitDialog)}
+//                       type="button"
+//                   />
+//                   <Button label="Cancel" onClick={() => setShowDialogCategory(false)} type="button" />
+//               </div>
+//           </div>
+//       </form>
+//       </FormProvider>
+//   );
+// };
+
 
 
   return (
+
     <>
+
       <FormProvider {...methods}>
         <form
           id="preEventForm"
@@ -337,7 +405,9 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
             event.preventDefault();
             void onSubmit();
           }}
+          onKeyDown={handleKeyPress}
         >
+
 
           <DropdownEventCategory />
           <Input float id="name" label={t('Event Name')} required />
