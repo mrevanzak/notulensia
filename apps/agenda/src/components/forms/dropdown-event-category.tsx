@@ -53,7 +53,7 @@ export default function DropdownEventCategory(): ReactElement {
 				setShowDialogCategory(false);
 				toast.success("Event category added");
 			}).catch(() => {
-				toast.error("Error adding event category");
+				toast.error("Error Adding event category");
 			});
 		}
 	};
@@ -94,8 +94,7 @@ export default function DropdownEventCategory(): ReactElement {
 						className="tw-space-y-8"
 						id="eventCategoryForm"
 						onKeyDown={(e) => {
-							e.preventDefault();
-							void handleSaveButtonClick();
+							void handleKeyPress(e);
 						}}
 					>
 						<Input float id="eventCategoryName" label="Event Category Name" />
