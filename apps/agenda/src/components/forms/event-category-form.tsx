@@ -15,10 +15,12 @@ import { useUpdateEventCategory } from "@/lib/api/event-category/update-event-ca
 
 type EventCategoryFormProps = {
   edit?: boolean;
+  dialog?: boolean;
 };
 
 export default function EventCategoryForm({
   edit,
+  dialog,
 }: EventCategoryFormProps): ReactElement {
   const params = useParams<{ id: string }>();
   const id = params?.id ?? "";
@@ -41,41 +43,46 @@ export default function EventCategoryForm({
   const onSubmit = handleSubmit((data) => {
     edit
       ? updateEventCategory.mutate({
-          ...data,
-          id,
-        })
+        ...data,
+        id,
+      })
       : insertEventCategory.mutate(data);
   });
 
   return (
-    <FormProvider {...methods}>
-      <form
-        className="tw-space-y-8 !tw-my-8"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void onSubmit();
-        }}
-      >
-        <Input float id="eventCategoryName" label="Event Category Name" />
+    dialog ? (
+      <div><h1>1</h1></div>
+    ) :
+      (
+        <FormProvider {...methods}>
+          <form
+            className="tw-space-y-8 !tw-my-8"
+            onSubmit={(e) => {
+              e.preventDefault();
+              void onSubmit();
+            }}
+          >
+            <Input float id="eventCategoryName" label="Event Category Name" />
 
-        <div className="tw-flex tw-justify-between">
-          <div className="tw-flex tw-gap-4">
-            <Button
-              label="Save"
-              loading={
-                edit
-                  ? updateEventCategory.isPending
-                  : insertEventCategory.isPending
-              }
-              outlined
-              type="submit"
-            />
-            <Link href="/data-master/event-category">
-              <Button label="Cancel" type="button" />
-            </Link>
-          </div>
-        </div>
-      </form>
-    </FormProvider>
+            <div className="tw-flex tw-justify-between">
+              <div className="tw-flex tw-gap-4">
+                <Button
+                  label="Save"
+                  loading={
+                    edit
+                      ? updateEventCategory.isPending
+                      : insertEventCategory.isPending
+                  }
+                  outlined
+                  type="submit"
+                />
+                <Link href="/data-master/event-category">
+                  <Button label="Cancel" type="button" />
+                </Link>
+              </div>
+            </div>
+          </form>
+        </FormProvider >
+      )
   );
 }

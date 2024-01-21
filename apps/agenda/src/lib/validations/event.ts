@@ -31,6 +31,7 @@ export const eventSchema = z.object({
 export type Event = z.infer<typeof eventSchema>;
 
 export const eventFormSchema = z.object({
+  eventCategoryId: z.string().uuid(),
   eventCategoryName: z.string(),
   name: z.string(),
   topic: z.string(),

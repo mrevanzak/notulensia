@@ -52,52 +52,56 @@ export default function Input({
   return (
     <>
       {!float && (
-        <p className={classNames("block mb-2 tw-text-white", {"p-error": error,})}>
+        <p className={classNames("block mb-2 tw-text-white", { "p-error": error, })}>
           {label}
         </p>
       )}
       <Controller
         control={control}
+        defaultValue=""
         name={id}
-        render={({ field, fieldState }) => (
-          <span
-            className={classNames("p-input-icon-right block", {
-              "p-float-label": float,
-            })}
-          >
-            <i
-              className={classNames(
-                "pi",
-                icon,
-                isPassword && "tw-cursor-pointer",
-                showPassword && isPassword && "pi-eye",
-                !showPassword && isPassword && "pi-eye-slash",
-              )}
-              onClick={() => {
-                if (isPassword) {
-                  setShowPassword(!showPassword);
-                }
-              }}
-            />
-            <InputText
-              className={classNames(
-                { "p-invalid": fieldState.error },
-                "w-full",
-              )}
-              id={field.name}
-              onChange={(e) => {
-                field.onChange(e.target.value);
-              }}
-              type={isPassword && !showPassword ? "password" : "text"}
-              value={field.value}
-            />
-            {float ? (
-              <label className={classNames("tw-text-white", {"p-error": error,})} htmlFor={field.name}>
-                {label} {required ? <span className="tw-text-red-600 tw-text-xs">*</span> : null}
-              </label>
-            ) : null}
-          </span>
-        )}
+        render={({ field, fieldState }) => {
+          return (
+            <span
+              className={classNames("p-input-icon-right block", {
+                "p-float-label": float,
+              })}
+            >
+              <i
+                className={classNames(
+                  "pi",
+                  icon,
+                  isPassword && "tw-cursor-pointer",
+                  showPassword && isPassword && "pi-eye",
+                  !showPassword && isPassword && "pi-eye-slash",
+                )}
+                onClick={() => {
+                  if (isPassword) {
+                    setShowPassword(!showPassword);
+                  }
+                }}
+              />
+              <InputText
+                className={classNames(
+                  { "p-invalid": fieldState.error },
+                  "w-full",
+                )}
+                id={field.name}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                }}
+                type={isPassword && !showPassword ? "password" : "text"}
+                value={field.value}
+              />
+              {float ? (
+                <label className={classNames("tw-text-white", { "p-error": error, })} htmlFor={field.name}>
+                  {label} {required ? <span className="tw-text-red-600 tw-text-xs">*</span> : null}
+                </label>
+              ) : null}
+            </span>
+
+          )
+        }}
         rules={validation}
       />
       {error ? (

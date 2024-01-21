@@ -49,13 +49,17 @@ import { toast } from "react-toastify";
 import Switch from "../ui/switch";
 import SendNotifButton from "../send-notif-button";
 import { useTranslation } from "react-i18next";
+import EventCategoryForm from "./event-category-form";
+import { useInsertEventCategory } from "@/lib/api/event-category/insert-event-category";
+import { EventCategorySchemaForm, eventCategorySchemaForm } from "@/lib/validations/event-category";
+import DropdownEventCategory from "./dropdown-event-category";
 
 type EventFormProps = {
   edit?: boolean;
 };
 export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   let baseUrl = "https://agenda.saranaintegrasi.co.id";
-  if(process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === "development") {
     baseUrl = "http://localhost:3000";
   }
   const { id } = useParams();
@@ -91,18 +95,18 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
     }
     edit
       ? updateEvent.mutate({
-          ...data,
-          id: id as string,
-          schedules: scheduleProgram,
-          status: eventState,
-          audienceUsers: useAudienceStore.getState().audience,
-        })
+        ...data,
+        id: id as string,
+        schedules: scheduleProgram,
+        status: eventState,
+        audienceUsers: useAudienceStore.getState().audience,
+      })
       : insertEvent.mutate({
-          ...data,
-          schedules: scheduleProgram,
-          status: eventState,
-          audienceUsers: useAudienceStore.getState().audience,
-        });
+        ...data,
+        schedules: scheduleProgram,
+        status: eventState,
+        audienceUsers: useAudienceStore.getState().audience,
+      });
   });
 
   const eventAddress = useGetEventAddressDropdown();
@@ -127,7 +131,6 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
 
   const insertEventAddressPreset = useInsertEventAddress();
 
-  const eventCategory = useGetEventCategoryDropdown();
   const province = useGetProvince();
   const district = useGetDistrict(watch("provinceId"));
   const audienceDropdown = useGetAudienceDropdown();
@@ -297,7 +300,7 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   };
 
   const createLink = useCreateLinkMeet();
-  
+
   useEffect(() => {
     if (accessToken) {
       createLink.mutate({
@@ -320,272 +323,272 @@ export default function PreEventForm({ edit }: EventFormProps): ReactElement {
   if (createLink.data?.link) {
     setValue("linkUrl", createLink.data?.link);
   }
+  const eventCategory = useGetEventCategoryDropdown();
 
-
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  };
 
   return (
-    <FormProvider {...methods}>
-      <form
-        className="tw-space-y-8 !tw-my-8 tw-pt-4"
-        onSubmit={(event) => {
-          event.preventDefault();
-          void onSubmit();
-        }}
-      >
-        <Dropdown
-          float
-          id="eventCategoryName"
-          label={t("Event Category")}
-          loading={eventCategory.isLoading}
-          optionLabel="eventCategoryName"
-          optionValue="eventCategoryName"
-          options={eventCategory.data}
-          required
-        />
-        <Input float id="name" label={t('Event Name')} required />
-        <Input float id="topic" label={t("Topic")} required />
-        <Input float id="purpose" label={t("Purpose")} required />
-        <TextArea float id="preparationNotes" label={t("Preparation Notes")} />
-        <div className="tw-flex tw-gap-8">
-          <CalendarInput
-            float
-            icon
-            id="startAt"
-            label={t("Start Date")}
-            required
-            showTime
-            stepMinute={5}
-          />
-          <CalendarInput
-            float
-            icon
-            id="endAt"
-            label={t("End Date")}
-            minDate={watch("startAt")}
-            required
-            showTime
-            stepMinute={5}
-          />
-        </div>
-
-        <div className="card tw-space-y-3">
-          <Dialog
-            className="tw-min-w-fit"
-            draggable={false}
-            header={t("Add Schedule Program")}
-            onHide={() => {
-              setShowDialog(false);
-            }}
-            pt={{
-              content: {
-                className: "border-noround-top pt-5 tw-space-y-8",
-              },
-            }}
-            visible={showDialog}
-          >
-            <AddScheduleProgramForm setShowDialog={setShowDialog} />
-          </Dialog>
-          <div className="tw-flex tw-justify-between tw-items-center">
-            <h4>{t('Schedule Program')}</h4>
-            <Button
-              icon="pi pi-plus"
-              iconPos="right"
-              label={t("Add")}
-              onClick={() => {
-                if (!getValues("startAt") || !getValues("endAt")) {
-                  toast.warn(t("Please Fill In Start Date and End Date"));
-                  return;
-                }
-                setShowDialog(true);
-              }}
-              type="button"
-            />
-          </div>
-          <DataTable
-            editMode="cell"
-            emptyMessage={t("Please add schedule program")}
-            value={scheduleProgram}
-          >
-            <Column
-              body={dateBodyTemplate}
-              editor={(options) => dateEditor(options)}
-              field="date"
-              header={t("Date")}
-              onCellEditComplete={onCellEditComplete}
-              style={{ width: "15%" }}
-            />
-            <Column
-              editor={(options) => textEditor(options)}
-              field="activity"
-              header={t("Activity")}
-              onCellEditComplete={onCellEditComplete}
-            />
-            <Column
-              body={startTimeBodyTemplate}
-              editor={(options) => timeEditor(options)}
-              field="startTime"
-              header={t("Start Time")}
-              onCellEditComplete={onCellEditComplete}
-            />
-            <Column
-              body={endTimeBodyTemplate}
-              editor={(options) => timeEditor(options)}
-              field="endTime"
-              header={t("End Time")}
-              onCellEditComplete={onCellEditComplete}
-            />
-            <Column
-              editor={(options) => textEditor(options)}
-              field="picName"
-              header={t("PIC Name")}
-              onCellEditComplete={onCellEditComplete}
-            />
-            <Column
-              editor={(options) => textEditor(options)}
-              field="note"
-              header={t("Note")}
-              onCellEditComplete={onCellEditComplete}
-            />
-            <Column
-              body={actionBodyTemplate}
-              header={t("Action")}
-              headerStyle={{ width: "2rem" }}
-            />
-          </DataTable>
-        </div>
-        <AutoComplete
-          completeMethod={(e) => {
-            if (!audienceDropdown.data) return [];
-
-            setAudienceFilter(
-              audienceDropdown.data.filter((item) => {
-                return item.audienceName
-                  .toLowerCase()
-                  .includes(e.query.toLowerCase());
-              }),
-            );
+      <FormProvider {...methods}>
+        <form
+          className="tw-space-y-8 !tw-my-8 tw-pt-4"
+          id="preEventForm"
+          onKeyDown={handleKeyPress}
+          onSubmit={(event) => {
+            event.preventDefault();
+            void onSubmit();
           }}
-          field="audienceName"
-          float
-          forceSelection
-          id="audienceNames"
-        label={t("Audience Group")}
-          multiple
-          suggestions={audienceFilter}
-        />
-        <AudienceListCard />
-        <AttachmentFilesCard />
-        <Switch id="isOnline" label={t("Via Online")} />
+        >
 
-        {watch("isOnline") ? (
-          <div className="p-inputgroup">
-            <Input float id="linkUrl" label={t("Online Link")} />
-            <Button
-              className="tw-h-auto"
-              icon={iconMeet}
-              loading={createLink.isPending}
-              onClick={() => {
-                createLinkMeet();
-              }}
-              outlined
-              size="small"
-              type="button"
+
+          <DropdownEventCategory />
+          <Input float id="name" label={t('Event Name')} required />
+          <Input float id="topic" label={t("Topic")} required />
+          <Input float id="purpose" label={t("Purpose")} required />
+          <TextArea float id="preparationNotes" label={t("Preparation Notes")} />
+          <div className="tw-flex tw-gap-8">
+            <CalendarInput
+              float
+              icon
+              id="startAt"
+              label={t("Start Date")}
+              required
+              showTime
+              stepMinute={5}
+            />
+            <CalendarInput
+              float
+              icon
+              id="endAt"
+              label={t("End Date")}
+              minDate={watch("startAt")}
+              required
+              showTime
+              stepMinute={5}
             />
           </div>
-        ) : (
-          <>
-            <div className="tw-relative">
+
+          <div className="card tw-space-y-3">
+            <Dialog
+              className="tw-min-w-fit"
+              draggable={false}
+              header={t("Add Schedule Program")}
+              onHide={() => {
+                setShowDialog(false);
+              }}
+              pt={{
+                content: {
+                  className: "border-noround-top pt-5 tw-space-y-8",
+                },
+              }}
+              visible={showDialog}
+            >
+              <AddScheduleProgramForm setShowDialog={setShowDialog} />
+            </Dialog>
+            <div className="tw-flex tw-justify-between tw-items-center">
+              <h4>{t('Schedule Program')}</h4>
               <Button
-                className="tw-absolute tw-bottom-12 tw-right-0"
-                label={t("Save as preset")}
+                icon="pi pi-plus"
+                iconPos="right"
+                label={t("Add")}
                 onClick={() => {
-                  insertEventAddressPreset.mutate({
-                    address: getValues("address"),
-                    districtId: district.data?.find(
-                      (item) => item.district === getValues("district"),
-                    )?.id,
-                    location: getValues("locationValue"),
-                    provinceId: province.data?.find(
-                      (item) => item.province === getValues("province"),
-                    )?.id,
-                  });
+                  if (!getValues("startAt") || !getValues("endAt")) {
+                    toast.warn(t("Please Fill In Start Date and End Date"));
+                    return;
+                  }
+                  setShowDialog(true);
                 }}
-                outlined
                 type="button"
               />
-              <Dropdown
-                editable
-                float
-                id="locationValue"
-                label={t("Location")}
-                loading={eventAddress.isLoading}
-                optionLabel="location"
-                optionValue="location"
-                options={eventAddress.data}
+            </div>
+            <DataTable
+              editMode="cell"
+              emptyMessage={t("Please add schedule program")}
+              value={scheduleProgram}
+            >
+              <Column
+                body={dateBodyTemplate}
+                editor={(options) => dateEditor(options)}
+                field="date"
+                header={t("Date")}
+                onCellEditComplete={onCellEditComplete}
+                style={{ width: "15%" }}
+              />
+              <Column
+                editor={(options) => textEditor(options)}
+                field="activity"
+                header={t("Activity")}
+                onCellEditComplete={onCellEditComplete}
+              />
+              <Column
+                body={startTimeBodyTemplate}
+                editor={(options) => timeEditor(options)}
+                field="startTime"
+                header={t("Start Time")}
+                onCellEditComplete={onCellEditComplete}
+              />
+              <Column
+                body={endTimeBodyTemplate}
+                editor={(options) => timeEditor(options)}
+                field="endTime"
+                header={t("End Time")}
+                onCellEditComplete={onCellEditComplete}
+              />
+              <Column
+                editor={(options) => textEditor(options)}
+                field="picName"
+                header={t("PIC Name")}
+                onCellEditComplete={onCellEditComplete}
+              />
+              <Column
+                editor={(options) => textEditor(options)}
+                field="note"
+                header={t("Note")}
+                onCellEditComplete={onCellEditComplete}
+              />
+              <Column
+                body={actionBodyTemplate}
+                header={t("Action")}
+                headerStyle={{ width: "2rem" }}
+              />
+            </DataTable>
+          </div>
+          <AutoComplete
+            completeMethod={(e) => {
+              if (!audienceDropdown.data) return [];
+
+              setAudienceFilter(
+                audienceDropdown.data.filter((item) => {
+                  return item.audienceName
+                    .toLowerCase()
+                    .includes(e.query.toLowerCase());
+                }),
+              );
+            }}
+            field="audienceName"
+            float
+            forceSelection
+            id="audienceNames"
+            label={t("Audience Group")}
+            multiple
+            suggestions={audienceFilter}
+          />
+          <AudienceListCard />
+          <AttachmentFilesCard />
+          <Switch id="isOnline" label={t("Via Online")} />
+
+          {watch("isOnline") ? (
+            <div className="p-inputgroup">
+              <Input float id="linkUrl" label={t("Online Link")} />
+              <Button
+                className="tw-h-auto"
+                icon={iconMeet}
+                loading={createLink.isPending}
+                onClick={() => {
+                  createLinkMeet();
+                }}
+                outlined
+                size="small"
+                type="button"
               />
             </div>
-            <Dropdown
-              filter
-              float
-              id="provinceId"
-              label={t("Province")}
-              loading={province.isLoading}
-              optionLabel="province"
-              optionValue="id"
-              options={province.data}
-            />
-            <Dropdown
-              filter
-              float
-              id="districtId"
-              label={t("District")}
-              loading={district.isLoading}
-              optionLabel="district"
-              optionValue="id"
-              options={district.data}
-            />
-            <TextArea float id="address" label={t("Address")} />
-          </>
-        )}
-    
-        <div className="tw-flex tw-justify-between">
-          <div className="tw-flex tw-gap-4">
-            {values?.status !== "ACTIVE" && (
+          ) : (
+            <>
+              <div className="tw-relative">
+                <Button
+                  className="tw-absolute tw-bottom-12 tw-right-0"
+                  label={t("Save as preset")}
+                  onClick={() => {
+                    insertEventAddressPreset.mutate({
+                      address: getValues("address"),
+                      districtId: district.data?.find(
+                        (item) => item.district === getValues("district"),
+                      )?.id,
+                      location: getValues("locationValue"),
+                      provinceId: province.data?.find(
+                        (item) => item.province === getValues("province"),
+                      )?.id,
+                    });
+                  }}
+                  outlined
+                  type="button"
+                />
+                <Dropdown
+                  editable
+                  float
+                  id="locationValue"
+                  label={t("Location")}
+                  loading={eventAddress.isLoading}
+                  optionLabel="location"
+                  optionValue="location"
+                  options={eventAddress.data}
+                />
+              </div>
+              <Dropdown
+                filter
+                float
+                id="provinceId"
+                label={t("Province")}
+                loading={province.isLoading}
+                optionLabel="province"
+                optionValue="id"
+                options={province.data}
+              />
+              <Dropdown
+                filter
+                float
+                id="districtId"
+                label={t("District")}
+                loading={district.isLoading}
+                optionLabel="district"
+                optionValue="id"
+                options={district.data}
+              />
+              <TextArea float id="address" label={t("Address")} />
+            </>
+          )}
+
+          <div className="tw-flex tw-justify-between">
+            <div className="tw-flex tw-gap-4">
+              {values?.status !== "ACTIVE" && (
+                <Button
+                  label={t("Draft")}
+                  onClick={() => {
+                    setEventState("DRAFT");
+                  }}
+                  outlined
+                  type="submit"
+                />
+              )}
+              {edit && values && values.status !== "DRAFT" ? (
+                <div>
+                  <SendNotifButton linkValue={`${baseUrl}/summary/${id.toString()}`} />
+                  <Button
+                    className="tw-ml-4"
+                    icon="pi pi-file-pdf"
+                    label={t("Summary")}
+                    onClick={() => { const url = `${baseUrl}/summary/${id.toString()}`; window.open(url, "_blank") }}
+                    outlined
+                    type="button" />
+                </div>
+              ) : null}
+            </div>
+            <div className="tw-flex tw-gap-4">
               <Button
-                label={t("Draft")}
-                onClick={() => {
-                  setEventState("DRAFT");
-                }}
+                label={t("Save")}
+                loading={insertEvent.isPending}
                 outlined
                 type="submit"
               />
-            )}
-            {edit && values && values.status !== "DRAFT" ? (
-              <div>
-                <SendNotifButton linkValue={`${baseUrl}/summary/${id.toString()}`} />
-                <Button 
-                  className="tw-ml-4" 
-                  icon="pi pi-file-pdf"
-                  label={t("Summary")}
-                  onClick={() => {const url = `${baseUrl}/summary/${id.toString()}`; window.open(url, "_blank")}} 
-                  outlined 
-                  type="button"/>
-              </div>
-            ) : null}
+              <Link href="/events">
+                <Button label={t("Cancel")} type="button" />
+              </Link>
+            </div>
           </div>
-          <div className="tw-flex tw-gap-4">
-            <Button
-              label={t("Save")}
-              loading={insertEvent.isPending}
-              outlined
-              type="submit"
-            />
-            <Link href="/events">
-              <Button label={t("Cancel")} type="button" />
-            </Link>
-          </div>
-        </div>
-      </form>
-    </FormProvider>
+        </form>
+      </FormProvider>
   );
 }

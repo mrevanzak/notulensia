@@ -10,6 +10,8 @@ export class ApiError extends AxiosError {
 
   stringify(): string {
     switch (this.message) {
+      case ErrorEnum.EventCategoryNameExists:
+        return "Event Category Name Already Exists";
       case ErrorEnum.INVALID:
         return "Email or password is invalid.";
       case ErrorEnum.InvalidDate:
