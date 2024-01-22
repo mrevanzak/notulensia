@@ -16,7 +16,7 @@ import { BiCheckCircle, BiTimer, BiXCircle } from "react-icons/bi";
 import { useSearchParams } from "next/navigation";
 import SearchInput from "@/components/ui/search-input";
 import { useExportEvent } from "@/lib/api/export/export-event";
-import ExportButton from "@/components/export-button";
+import ExportButton from "@/components/cards/export-button";
 import { useTranslation } from "react-i18next";
 
 export default function Events(): ReactElement {

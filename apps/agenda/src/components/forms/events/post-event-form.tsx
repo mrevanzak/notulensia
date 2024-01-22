@@ -5,10 +5,10 @@ import { Button } from "primereact/button";
 import { useGetEventDetail } from "@/lib/api/event/get-event-detail";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import AudienceListCard from "../audience-list-card";
+import AudienceListCard from "../../cards/events/audience-list-card";
 import { useAudienceStore } from "@/stores/use-audience-store";
-import AttendanceHistoryCard from "../attendance-history-card";
-import AttachmentFilesCard from "../attachment-files-card";
+import AttendanceHistoryCard from "../../cards/events/attendance-history-card";
+import AttachmentFilesCard from "../../cards/events/attachment-files-card";
 import { FormProvider, useForm, useFieldArray } from "react-hook-form";
 import { useUpdatePostEvent } from "@/lib/api/event/update-post-event";
 

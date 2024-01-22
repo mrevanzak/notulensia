@@ -48,6 +48,7 @@ export default function TextArea({
       )}
       <Controller
         control={control}
+        defaultValue=""
         name={id}
         render={({ field, fieldState }) => (
           <span className={classNames({ "p-float-label": float })}>

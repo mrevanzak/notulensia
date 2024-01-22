@@ -5,10 +5,10 @@ import { Button } from "primereact/button";
 import { useGetEventDetail } from "@/lib/api/event/get-event-detail";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import AudienceListCard from "../audience-list-card";
+import AudienceListCard from "../../cards/events/audience-list-card";
 import { useAudienceStore } from "@/stores/use-audience-store";
 import { useUpdateOngoingEvent } from "@/lib/api/event/update-ongoing-event";
-import AttendanceHistoryCard from "../attendance-history-card";
+import AttendanceHistoryCard from "../../cards/events/attendance-history-card";
 
 export default function OngoingEventForm(): ReactElement {
   const params = useParams<{ id: string }>();
