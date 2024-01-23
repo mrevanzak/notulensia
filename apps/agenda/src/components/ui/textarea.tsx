@@ -48,7 +48,6 @@ export default function TextArea({
       )}
       <Controller
         control={control}
-        defaultValue=""
         name={id}
         render={({ field, fieldState }) => (
           <span className={classNames({ "p-float-label": float })}>
@@ -62,7 +61,7 @@ export default function TextArea({
                 field.onChange(e.target.value);
               }}
               rows={3}
-              value={field.value}
+              value={field.value ?? ""}
             />
             {float ? (
               <label

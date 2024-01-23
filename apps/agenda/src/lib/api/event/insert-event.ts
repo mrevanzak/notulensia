@@ -26,10 +26,7 @@ export const useInsertEvent = () => {
       await httpClient.post("/event", {
         ...data,
         startAt: convertFromDateToIso(data.startAt),
-        endAt : convertFromDateToIso(data.endAt),
-        audienceNames: data?.audienceNames?.map(
-          (audience) => audience.audienceName,
-        ),
+        endAt : convertFromDateToIso(data.endAt)
       });
     },
     onSuccess: () => {

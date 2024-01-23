@@ -31,12 +31,8 @@ import moment from "moment";
 import Link from "next/link";
 import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar";
-import AutoComplete from "../../ui/autocomplete";
-import { useGetAudienceDropdown } from "@/lib/api/audience/get-audience-dropdown";
 import AudienceListCard from "../../cards/events/audience-list-card";
 import { useAudienceStore } from "@/stores/use-audience-store";
-import type { AudienceDropdown } from "@/lib/validations/audience";
-import { useGetAudienceDetail } from "@/lib/api/audience/get-audience-detail";
 import { useGetEventAddressDropdown } from "@/lib/api/event-address/get-event-address-dropdown";
 import { useInsertEventAddress } from "@/lib/api/event-address/insert-event-address";
 import AttachmentFilesCard from "@/components/cards/events/attachment-files-card";
@@ -49,6 +45,7 @@ import Switch from "../../ui/switch";
 import SendNotifButton from "../../cards/send-notif-button";
 import { useTranslation } from "react-i18next";
 import DropdownEventCategoryCard from "@/components/cards/events/dropdown-event-category-card";
+import MultiSelectComponent from "@/components/cards/events/multi-select-audience-group-card";
 
 type EventFormProps = {
   edit?: boolean;
@@ -129,22 +126,10 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
 
   const province = useGetProvince();
   const district = useGetDistrict(watch("provinceId"));
-  const audienceDropdown = useGetAudienceDropdown();
-  const [audienceFilter, setAudienceFilter] = useState<AudienceDropdown[]>();
-
-  const audienceIds = watch("audienceNames")?.map((item) => item.id);
-  const audienceList = useGetAudienceDetail(audienceIds);
-  const loadingAudienceList = audienceList.some((item) => item.isLoading);
-  const audiences = audienceList.flatMap((item) => item.data?.audiences ?? []);
 
   const setAudience = useAudienceStore((state) => state.set);
   const addAudience = useAudienceStore((state) => state.add);
 
-  useEffect(() => {
-    if (!loadingAudienceList) {
-      addAudience(audiences);
-    }
-  }, [audiences.length]);
 
   const scheduleProgram = useScheduleProgramStore(
     (state) => state.scheduleProgram,
@@ -453,26 +438,7 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
           </DataTable>
         </div>
 
-        <AutoComplete
-          completeMethod={(e) => {
-            if (!audienceDropdown.data) return [];
-
-            setAudienceFilter(
-              audienceDropdown.data.filter((item) => {
-                return item.audienceName
-                  .toLowerCase()
-                  .includes(e.query.toLowerCase());
-              }),
-            );
-          }}
-          field="audienceName"
-          float
-          forceSelection
-          id="audienceNames"
-          label={t("Audience Group")}
-          multiple
-          suggestions={audienceFilter}
-        />
+        <MultiSelectComponent />
         <AudienceListCard />
         <AttachmentFilesCard />
         <Switch id="isOnline" label={t("Via Online")} />
@@ -556,6 +522,7 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
                 onClick={() => {
                   setEventState("DRAFT");
                 }}
+                loading={insertEvent.isPending || updateEvent.isPending}
                 outlined
                 type="submit"
               />
