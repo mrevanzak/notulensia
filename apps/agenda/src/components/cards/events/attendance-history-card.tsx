@@ -8,7 +8,7 @@ import { useParams } from "next/navigation";
 import moment, {utc} from "moment";
 import type { AttendHistory } from "@/lib/validations/event";
 import { useExportAttendanceHistory } from "@/lib/api/export/export-attendance-history";
-import ExportButton from "./export-button";
+import ExportButton from "../export-button";
 import { Calendar } from "primereact/calendar";
 import { useTranslation } from "react-i18next";
 

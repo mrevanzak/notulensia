@@ -14,7 +14,7 @@ import { useAudienceStore } from "@/stores/use-audience-store";
 import { useGetAudienceDetail } from "@/lib/api/audience/get-audience-detail";
 import { useInsertAudience } from "@/lib/api/audience/insert-audience";
 import { useUpdateAudience } from "@/lib/api/audience/update-audience";
-import AudienceListCard from "../audience-list-card";
+import AudienceListCard from "../cards/events/audience-list-card";
 
 type AudienceGroupFormProps = {
   edit?: boolean;

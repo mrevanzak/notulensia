@@ -61,7 +61,7 @@ export default function TextArea({
                 field.onChange(e.target.value);
               }}
               rows={3}
-              value={field.value}
+              value={field.value ?? ""}
             />
             {float ? (
               <label

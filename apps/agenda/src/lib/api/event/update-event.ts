@@ -19,9 +19,6 @@ export const useUpdateEvent = () => {
         ...data,
         startAt: convertFromDateToIso(data.startAt),
         endAt : convertFromDateToIso(data.endAt),
-        audienceNames: data?.audienceNames?.map(
-          (audience) => audience.audienceName,
-        ),
       });
     },
     onSuccess: () => {

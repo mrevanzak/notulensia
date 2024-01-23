@@ -9,10 +9,10 @@ import { Checkbox } from "primereact/checkbox";
 import { InputText } from "primereact/inputtext";
 import { useAudienceStore } from "@/stores/use-audience-store";
 import React, { useEffect, useState } from "react";
-import AddAudienceForm from "./forms/add-audience-form";
+import AddAudienceForm from "../../forms/add-audience-form";
 import { useExportAudience } from "@/lib/api/export/export-audience";
 import { useParams } from "next/navigation";
-import ExportButton from "./export-button";
+import ExportButton from "../export-button";
 import { useTranslation } from "react-i18next";
 
 export default function AudienceListCard({readOnly = false, attend = false} : Readonly<{readOnly?:boolean, attend?:boolean}>) {

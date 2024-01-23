@@ -1,6 +1,6 @@
 "use client"
 import { useState, type ReactElement } from "react";
-import Dropdown from "../ui/dropdown";
+import Dropdown from "../../ui/dropdown";
 import { Button } from "primereact/button";
 import { useGetEventCategoryDropdown } from "@/lib/api/event-category/get-event-category";
 import { useTranslation } from "react-i18next";
@@ -11,9 +11,9 @@ import { eventCategorySchemaForm } from "@/lib/validations/event-category";
 import type { EventCategorySchema } from "@/lib/validations/event-category";
 import { useInsertEventCategory } from "@/lib/api/event-category/insert-event-category";
 import { toast } from "react-toastify";
-import Input from "../ui/input";
+import Input from "../../ui/input";
 
-export default function DropdownEventCategory(): ReactElement {
+export default function DropdownEventCategoryCard(): ReactElement {
 	const [showDialogCategory, setShowDialogCategory] = useState(false);
 	const eventCategory = useGetEventCategoryDropdown();
 	const insertEventCategory = useInsertEventCategory();

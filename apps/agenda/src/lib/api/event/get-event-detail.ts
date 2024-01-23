@@ -9,7 +9,6 @@ export const useGetEventDetail = (eventId?: string) => {
     queryKey: [getEventDetailKey, eventId],
     queryFn: async () => {
       const response = await httpClient.get(`/event/${eventId}`);
-
       return updateEventFormSchema.parseAsync(response.data);
     },
     enabled: Boolean(eventId),

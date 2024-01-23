@@ -32,7 +32,6 @@ export type Event = z.infer<typeof eventSchema>;
 
 export const eventFormSchema = z.object({
   eventCategoryId: z.string().uuid(),
-  eventCategoryName: z.string(),
   name: z.string(),
   topic: z.string(),
   purpose: z.string(),
@@ -56,7 +55,7 @@ export const eventFormSchema = z.object({
   province: z.string().nullish(),
   districtId : z.string().uuid().nullish(),
   district: z.string().nullish(),
-  audienceNames: audienceDropdownSchema.array().optional(),
+  audienceGroupIds: z.string().array().optional().nullish(),
   files: storageSchema.array().optional(),
   audienceUsers: audienceFormSchema.array().optional(),
 });
@@ -64,23 +63,8 @@ export const eventFormSchema = z.object({
 export const updateEventFormSchema = eventFormSchema
   .extend({
     status: z.enum(["ACTIVE", "INACTIVE", "DRAFT"]),
-    audiences: z
-      .object({
-        audienceId: z.string(),
-        audienceName: z.string(),
-      })
-      .array()
-      .optional()
-      .nullable(),
     phase: z.enum(["PRE", "ONGOING", "POST"]),
-  })
-  .transform((value) => ({
-    ...value,
-    audienceNames: value.audiences?.map((audience) => ({
-      id: audience.audienceId,
-      audienceName: audience.audienceName,
-    })),
-  }));
+  });
 
 export const eventCalendarSchema = z.object({
   id: z.string().uuid(),
