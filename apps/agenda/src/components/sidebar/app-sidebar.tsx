@@ -62,6 +62,7 @@ function AppSidebar(): ReactElement {
           />
           <button
             className="layout-sidebar-anchor p-link"
+            id="layout-sidebar-anchor"
             onClick={() => { setLayoutState((prevLayoutState) => ({ ...prevLayoutState, anchored: !prevLayoutState.anchored })); }}
             type="button"
           />

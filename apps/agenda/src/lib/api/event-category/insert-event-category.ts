@@ -20,6 +20,8 @@ export const useInsertEventCategory = () => {
             void queryClient.invalidateQueries({queryKey : [getEventCategoryKey]});
             void queryClient.invalidateQueries({queryKey : [getDetailEventCategoryKey]});
             void queryClient.invalidateQueries({queryKey : [getEventCategoryDropdownKey]});
+            toast.success("Event category created successfully");
+            router.push("/data-master/event-category");
         },
     })
 
