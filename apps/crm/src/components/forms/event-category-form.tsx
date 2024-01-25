@@ -17,7 +17,7 @@ type EventCategoryFormProps = {
 
 export default function EventCategoryForm({
   edit = false,
-}: EventCategoryFormProps): ReactElement {
+}: Readonly<EventCategoryFormProps>): ReactElement {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const id = params?.id ?? "";
@@ -61,6 +61,7 @@ export default function EventCategoryForm({
         <div className="tw-flex tw-justify-end tw-gap-2 tw-w-full tw-ms-auto tw-mt-8">
           <Button
             className="tw-w-fit !tw-py-2 !tw-px-8"
+            id="save-event-category"
             label="Submit"
             loading={
               edit
@@ -71,6 +72,7 @@ export default function EventCategoryForm({
           />
           <Button
             className="tw-w-fit !tw-py-2 !tw-px-8"
+            id="cancel-event-category"
             label="Cancel"
             onClick={() => {
               router.back();
