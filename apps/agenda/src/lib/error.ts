@@ -16,8 +16,10 @@ export class ApiError extends AxiosError {
         return "Email or password is invalid.";
       case ErrorEnum.InvalidDate:
         return "Event Date Invalid";
+      case ErrorEnum.EventCategoryRequired:
+        return "Event Category Required";
       default:
-        return "Something went wrong.";
+        return this.message;
     }
   }
 }

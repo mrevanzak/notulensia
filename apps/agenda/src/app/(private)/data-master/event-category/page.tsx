@@ -63,7 +63,7 @@ export default function EventCategories(): ReactElement {
       <div className="tw-flex tw-justify-between">
         <div className="tw-space-x-6">
           <Link href="/data-master/event-category/add">
-            <Button className="border-round-sm" outlined>
+            <Button className="border-round-sm" id="add-event-category" outlined>
               {t("Add Event Category")}
             </Button>
           </Link>
@@ -90,8 +90,10 @@ export default function EventCategories(): ReactElement {
         totalRecords={data?.total}
         value={dataTable}
       >
+
         <Column body={actionBodyTemplate} field="action" header={t("Action")} />
         <Column field="eventCategoryName" header={t("Event Category Name")} />
+        <Column field="countEvents" header={t("Total Event")} />
       </DataTable>
       <ConfirmDialog />
     </div>

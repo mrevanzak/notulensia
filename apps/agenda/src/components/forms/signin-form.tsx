@@ -74,7 +74,7 @@ export default function SignInForm(): ReactElement {
       }}
     >
       <h2 className="tw-text-white tw-text-center">{t('Sign In')}</h2>
-      <p className="p-error tw-text-center tw-mt-1">
+      <p  className="p-error tw-text-center tw-mt-1" id="email-error">
         {isError ? errorMessages(error) : null}
       </p>
       <FormProvider {...methods}>

@@ -1,5 +1,6 @@
 "use client";
 import { useGetEventCategoryGraph } from "@/lib/api/event-category/get-event-category-graph";
+import { truncateText } from "@/utils/string-utils";
 import type { ChartData, ChartOptions, ScriptableContext } from "chart.js";
 import { Chart } from "primereact/chart";
 import type { ReactElement } from "react";
@@ -8,7 +9,7 @@ import React, { useMemo } from "react";
 export default function EventCategoryChart(): ReactElement {
   const { data } = useGetEventCategoryGraph();
   const lineData: ChartData = useMemo(() => {
-    const labels = data?.map((item) => item.name) ?? [];
+    const labels = data?.map((item) => truncateText(item.name, 20)) ?? [];
     const value = data?.map((item) => item.value) ?? [];
 
     return {

@@ -5,6 +5,7 @@ import { storageSchema } from "./storage";
 
 export const eventSchema = z.object({
   id: z.string().uuid(),
+  eventCategoryName: z.string().nullish(),
   eventName: z.string(),
   date: z.string(),
   audienceGroup: z.string(),

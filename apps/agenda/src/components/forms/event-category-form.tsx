@@ -67,6 +67,7 @@ export default function EventCategoryForm({
             <div className="tw-flex tw-justify-between">
               <div className="tw-flex tw-gap-4">
                 <Button
+                  id="save-event-category"
                   label="Save"
                   loading={
                     edit
@@ -77,7 +78,7 @@ export default function EventCategoryForm({
                   type="submit"
                 />
                 <Link href="/data-master/event-category">
-                  <Button label="Cancel" type="button" />
+                  <Button id="cancel-event-category" label="Cancel" type="button" />
                 </Link>
               </div>
             </div>
