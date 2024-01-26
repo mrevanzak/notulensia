@@ -47,19 +47,19 @@ export default function EventAddressForm({
   const onSubmit = handleSubmit((data) => {
     edit
       ? updateEventAddress.mutate({
-          ...data,
-          id,
-        })
+        ...data,
+        id,
+      })
       : insertEventAddress.mutate(data, {
-          onSuccess: () => {
-            router.push("/data-master/address");
-          },
-        });
+        onSuccess: () => {
+          router.push("/data-master/address");
+        },
+      });
   });
 
   const province = useGetProvince();
   const district = useGetDistrict(watch("provinceId"));
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <FormProvider {...methods}>
@@ -97,6 +97,7 @@ export default function EventAddressForm({
         <div className="tw-flex tw-justify-between">
           <div className="tw-flex tw-gap-4">
             <Button
+              id="save-button-address-master"
               label={t("Save")}
               loading={
                 edit
@@ -107,7 +108,7 @@ export default function EventAddressForm({
               type="submit"
             />
             <Link href="/data-master/address">
-              <Button label={t("Cancel")} type="button" />
+              <Button id="cancel-button-address-master" label={t("Cancel")} type="button" />
             </Link>
           </div>
         </div>

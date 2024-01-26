@@ -8,7 +8,7 @@ type SearchInputProps = {
   className?: string;
 };
 
-export default function SearchInput({ className }: SearchInputProps) {
+export default function SearchInput({ className }: Readonly<SearchInputProps>) {
   const searchParams = useSearchParams();
   const pathName = usePathname();
   const router = useRouter();
@@ -26,8 +26,8 @@ export default function SearchInput({ className }: SearchInputProps) {
       }}
     >
       <span className="p-input-icon-right w-full">
-        <i className="pi pi-search" />
         <InputText
+          id="search"
           onChange={(e) => {
             setValue(e.target.value);
           }}
@@ -36,7 +36,8 @@ export default function SearchInput({ className }: SearchInputProps) {
             root: { className: "tw-w-full" },
           }}
           value={value}
-        />
+        /> 
+         <i className="pi pi-search" id="search-button" onClick={(e) => { e.preventDefault(); router.replace(`${pathName}?search=${value}`); }} />
       </span>
     </form>
   );

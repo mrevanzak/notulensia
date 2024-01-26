@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation";
 import { getEventAddressKey } from "./get-event-address";
 import { getDetailEventAddressKey } from "./get-detail-event-address";
+import { toast } from "react-toastify";
 
 export const useUpdateEventAddress = () => {
     const queryClient = useQueryClient();
@@ -17,6 +18,7 @@ export const useUpdateEventAddress = () => {
             void queryClient.invalidateQueries({queryKey: [getEventAddressKey]})
             void queryClient.invalidateQueries({queryKey: [getDetailEventAddressKey]})
             router.push("/data-master/address");
+            toast.success("Address updated successfully");
         },
     });
 }
