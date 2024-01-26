@@ -14,9 +14,7 @@ export default function HelpPage(): ReactElement {
           <HiInformationCircle color="#4343BF" size={100} />
           <h4>Information</h4>
           <p className="tw-w-2/3 tw-text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-            imperdiet elementum libero, sed euismod turpis mollis sit amet. Sed
-            sed interdum ligula, commodo scelerisque lacus.
+            Learn more about Notulensia, the advanced solution for schedule and meeting management. Discover how we streamline your experience in planning and organizing events and meetings.
           </p>
         </div>
       </div>
@@ -27,8 +25,7 @@ export default function HelpPage(): ReactElement {
           </div>
           <h4>Contact</h4>
           <p className="tw-text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-            imperdiet elementum libero, sed euismod turpis mollis sit amet. Sed
+            All you need to know about contacting Notulensia Support and Sales
           </p>
         </div>
         <div className="tw-flex tw-flex-col tw-items-center tw-space-y-1">
@@ -37,8 +34,7 @@ export default function HelpPage(): ReactElement {
           </div>
           <h4>Getting Start</h4>
           <p className="tw-text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-            imperdiet elementum libero, sed euismod turpis mollis sit amet. Sed
+            Understand how Notulensia works efficiently to simplify your daily tasks. With structured meeting governance and seamless integration, we elevate your management experience to the next level.
           </p>
         </div>
         <div className="tw-flex tw-flex-col tw-items-center tw-space-y-1">
@@ -47,8 +43,7 @@ export default function HelpPage(): ReactElement {
           </div>
           <h4>Security</h4>
           <p className="tw-text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-            imperdiet elementum libero, sed euismod turpis mollis sit amet. Sed
+            Read about our security policies and our terms and conditions
           </p>
         </div>
       </div>
