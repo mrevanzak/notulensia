@@ -31,7 +31,7 @@ export default function MultiSelect({
 
     useEffect(() => {
         setValue(id, getValues(id) || []);
-    }, [getValues(id)]);
+    }, [setValue, id]);
 
     return (
         <>
@@ -56,7 +56,6 @@ export default function MultiSelect({
                                 "w-full",
                             )}
                             display='chip'
-                            emptyMessage={loading ? "Loading..." : "No results found"}
                             id={id}
                             onChange={(e) => {
                                 field.onChange(e.value);

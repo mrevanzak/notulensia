@@ -22,7 +22,7 @@ type AudienceGroupFormProps = {
 
 export default function AudienceGroupForm({
   edit,
-}: AudienceGroupFormProps): ReactElement {
+}: Readonly<AudienceGroupFormProps>): ReactElement {
   const params = useParams<{ id: string }>();
   const id = params?.id ?? "";
 
@@ -72,9 +72,9 @@ export default function AudienceGroupForm({
           void onSubmit();
         }}
       >
-        <Input float id="name" label="Name" />
+        <Input float id="name" label="Name" required/>
         <TextArea float id="description" label="Description" />
-        <AudienceListCard />
+        <AudienceListCard withGroup/>
         <div className="tw-flex tw-gap-4 tw-justify-end">
           <Button
             label="Save"
