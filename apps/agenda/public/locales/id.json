@@ -16,6 +16,14 @@
     "Status": "Status",
     "Event Phase": "Fase Acara",
 
+    "Completed Event" : "Acara Selesai",
+    "Ongoing Event" : "Acara Berlangsung",
+    "Upcoming Event": "Acara Mendatang",
+    "Event Categories" : "Kategori Acara",
+    "Please add audience by audience group" : "Silahkan tambahkan peserta berdasarkan grup",
+    "Add Audience By Group" : "Tambahkan Peserta Dengan Grup",
+    "Select Audience Group" : "Pilih Grup Peserta",
+
     "Topic": "Topik",
     "Purpose": "Tujuan",
     "Preparation Notes": "Catatan Persiapan",

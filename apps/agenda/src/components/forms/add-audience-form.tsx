@@ -42,7 +42,7 @@ export default function AddAudienceForm({
         <Input float id="job" label={t("Job")} />
         <Input float id="description" label={t("Description")} />
         <Input float id="phoneNumber" label={t("Phone Number")} />
-        <Input float id="email" label={t("Email")} />
+        <Input float id="email" label={t("Email")} required />
         <div className="tw-flex tw-justify-center tw-gap-4">
           <Button
             className="px-4 py-2 tw-flex-none tw-w-32 tw-self-center"

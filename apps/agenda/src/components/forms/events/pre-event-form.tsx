@@ -438,8 +438,8 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
           </DataTable>
         </div>
 
-        <MultiSelectComponent />
-        <AudienceListCard />
+        {/* <MultiSelectComponent /> */}
+        <AudienceListCard withGroup/>
         <AttachmentFilesCard />
         <Switch id="isOnline" label={t("Via Online")} />
 

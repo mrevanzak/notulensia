@@ -1,4 +1,5 @@
 import type { Audience } from "@/lib/validations/audience";
+import { toast } from "react-toastify";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
@@ -23,7 +24,10 @@ export const useAudienceStore = create<AudienceState>()(
             !state.audience.find((item) => item.email === audience.email),
         );
 
-        if (!isUnique) return state;
+        if (!isUnique) {
+          toast.error("Email Already Exists");
+          return state;
+        }
 
         return {
           audience: [...state.audience, ...newAudience],

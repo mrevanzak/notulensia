@@ -9,46 +9,60 @@ import AudienceListCard from "../../cards/events/audience-list-card";
 import { useAudienceStore } from "@/stores/use-audience-store";
 import { useUpdateOngoingEvent } from "@/lib/api/event/update-ongoing-event";
 import AttendanceHistoryCard from "../../cards/events/attendance-history-card";
+import { FormProvider, useForm } from "react-hook-form";
 
 export default function OngoingEventForm(): ReactElement {
   const params = useParams<{ id: string }>();
   const id = params?.id ?? "";
 
-  const { data } = useGetEventDetail(id);
+  const { data: values } = useGetEventDetail(id);
+
   const { mutate, isPending } = useUpdateOngoingEvent();
+  const methods = useForm({
+    values,
+    resetOptions: {
+      keepDirtyValues: true,
+    },
+  });
+  const { handleSubmit } = methods;
 
   const setAudience = useAudienceStore((state) => state.set);
-
   useEffect(() => {
-    setAudience(data?.audienceUsers ?? []);
-  }, [data]);
+    setAudience(values?.audienceUsers ?? []);
+  }, [values]);
 
-  const onSave = () => {
+  const onSubmit = handleSubmit((data) => {
     mutate({
       audienceUsers: useAudienceStore.getState().audience,
       id,
     });
-  };
+  });
 
   return (
-    <>
-      <AudienceListCard attend/>
-      <AttendanceHistoryCard />
-      <div className="tw-flex tw-justify-end">
-        <div className="tw-flex tw-gap-4">
-          <Button
-            label="Save"
-            loading={isPending}
-            onClick={() => {
-              onSave();
-            }}
-            outlined
-          />
-          <Link href="/events">
-            <Button label="Cancel" type="button" />
-          </Link>
+    <FormProvider {...methods}>
+      <form
+        className="tw-space-y-8 !tw-my-8 tw-pt-4"
+        onSubmit={(event) => {
+          event.preventDefault();
+          void onSubmit();
+        }}
+      >
+        <AudienceListCard attend/>
+        <AttendanceHistoryCard />
+        <div className="tw-flex tw-justify-end">
+          <div className="tw-flex tw-gap-4">
+            <Button
+              label="Save"
+              loading={isPending}
+              outlined
+              type="submit"
+            />
+            <Link href="/events">
+              <Button label="Cancel" type="button" />
+            </Link>
+          </div>
         </div>
-      </div>
-    </>
+      </form>
+    </FormProvider>
   );
 }
