@@ -139,6 +139,7 @@ export default function Events(): ReactElement {
       >
         <Column body={actionBodyTemplate} field="action" header={t("Action")} />
         <Column field="eventName" header={t("Event Name")} />
+        <Column body={(p : Event) => p.eventCategoryName || "-"} field="eventCategoryName" header={t("Category")}  />
         <Column field="startAt" header={t("Start")} />
         <Column field="endAt" header={t("End")} />
         <Column body={statusBodyTemplate} field="status" header={t("Status")} />

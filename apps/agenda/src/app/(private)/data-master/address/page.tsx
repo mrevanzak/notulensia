@@ -64,7 +64,7 @@ export default function EventAddressPage(): ReactElement {
     <div className="card bg-purple-50 tw-space-y-3  tw-min-h-[calc(100vh-4rem)]">
       <div className="tw-flex tw-justify-between">
         <div className="tw-space-x-6">
-          <Link href="/data-master/address/add">
+          <Link href="/data-master/address/add" id="add-address-master">
             <Button className="border-round-sm" outlined>
               {t('Add Event Address')}
             </Button>

@@ -1,7 +1,6 @@
 "use client"
 import type { ReactElement } from "react";
 import React, { useEffect } from "react";
-import { InputText } from "primereact/inputtext";
 import TimeManagement from "~/svg/time-management.svg";
 import { Button } from "primereact/button";
 import Calendar from "@/components/ui/calendar";
@@ -27,11 +26,11 @@ export default function Dashboard(): ReactElement {
   }, []);
 
   const footerCard = (
-    <div className="tw-absolute tw-bottom-5 tw-bg-white tw-w-full tw-right-5">
-      <div className="tw-border" />
-      <div className="tw-flex tw-justify-end tw-pt-4">
-        <Button className="tw-w-auto tw-h-5" onClick={() => { window.open('/events', '_self') }} style={{ backgroundColor: '#DCDFF9', color: '#7580E8', border: 'none' }} type="button">
-          See More
+    <div className="tw-absolute tw-bottom-2 tw-bg-white tw-w-full tw-right-0">
+      <div className="tw-border"/>
+      <div className="tw-flex tw-justify-end tw-pt-2">
+        <Button className="tw-w-auto tw-h-5 tw-mr-[8%]" onClick={() => { window.open('/events', '_self') }} style={{ backgroundColor: '#DCDFF9', color: '#7580E8', border: 'none' }} type="button">
+          <div className=" max-sm:tw-text-[10px]">{t('See More')}</div>
         </Button>
       </div>
     </div>
@@ -45,9 +44,9 @@ export default function Dashboard(): ReactElement {
       tagColor = "p-tag-success";
     }
     return (
-      <div className="tw-flex tw-gap-2 tw-items-center">
-        <h4>{title}</h4>
-        <i className={`tw-h-4 tw-w-4 tw-rounded-full p-tag ${tagColor}`} />
+      <div className="tw-flex tw-gap-2 tw-items-center max-sm:-tw-mb-4">
+        <h4 className="max-sm:tw-text-[11px]">{title}</h4>
+        <i className={`tw-h-4 tw-w-4 tw-rounded-full p-tag max-sm:tw-h-3 max-sm:tw-w-2 ${tagColor}`} />
       </div>
     );
   };
@@ -57,10 +56,10 @@ export default function Dashboard(): ReactElement {
     <div className="grid">
       <div className="col-12 -tw-mb-5">
         <div className="card tw-flex tw-justify-between tw-relative tw-h-[280px]">
-          <div className="tw-space-y-2 tw-flex tw-flex-col tw-min-h-full tw-w-1/4 tw-min-w-max tw-p-6 tw-pt-10">
-            <h1 className="tw-text-[64px]">{t(`Hi, ${truncateText(dashboardData.data?.name, 25)}`)}</h1>
-            <h4 className="tw-font-light tw-pt-2">{t('Arrange your meeting plan today!')}</h4>
-            <Link className="mt-auto" href="/events/add">
+          <div className="tw-space-y-2 tw-flex tw-flex-col tw-min-h-full tw-w-full tw-min-w-max tw-p-6 tw-pt-10 tw-overflow-hidden">
+            <h1 className="tw-text-[64px] max-sm:tw-text-[32px] max-sm:tw-text-center max-xl:tw-text-[38px]">{t(`Hi, ${truncateText(dashboardData.data?.name, 25)}`)}</h1>
+            <h4 className="tw-font-light tw-pt-2 max-sm:tw-text-center">{t('Arrange your meeting plan today!')}</h4>
+            <Link className="mt-auto max-sm:tw-text-center" href="/events/add">
               <Button className="mt-auto w-12rem tw-justify-center">
                 {t("Today's schedule")}
               </Button>
@@ -70,19 +69,19 @@ export default function Dashboard(): ReactElement {
         </div>
       </div>
       <div className="tw-grid col-12 tw-grid-cols-12 tw-gap-4">
-        <div className="card xl:tw-col-span-7 md:tw-col-span-12 tw-flex tw-justify-between tw-flex-col">
-          <div className="tw-grid col-12 tw-row-span-2 tw-grid-cols-6 tw-gap-4 " style={{ minHeight: '250px' }}>
+        <div className="card tw-col-span-12 tw-flex tw-justify-between tw-flex-col">
+          <div className="tw-grid col-12 tw-row-span-2 tw-grid-cols-6 tw-gap-4 max-sm:tw-gap-2" style={{ minHeight: '250px' }}>
 
             {/* post */}
             <div
               className="card tw-col-span-2 tw-shadow-lg tw-relative"
-              style={{ maxHeight: '300px', minWidth: '200px', overflow: 'auto', overflowY: 'auto' }}
+              style={{ maxHeight: '300px', minWidth: '100px', overflow: 'auto', overflowY: 'auto' }}
             >
               {headerCard(t('Completed Event'), 3)}
               {
                 dashboardData.data?.post?.length !== 0 ?
                   (
-                    <ul className="tw-list-disc tw-ml-4 tw-my-4 tw-z-10 ">
+                    <ul className="tw-list-disc tw-ml-4 tw-my-4 tw-z-10 max-sm:tw-text-[10px] ">
                       {
                         dashboardData.data?.post?.slice(0, 3).map((event) => (
                           <li key={event.id}>
@@ -122,13 +121,13 @@ export default function Dashboard(): ReactElement {
             {/* ongoing */}
             <div
               className="card tw-col-span-2 tw-shadow-lg tw-relative"
-              style={{ maxHeight: '300px', minWidth: '200px', overflow: 'auto', overflowY: 'auto' }}
+              style={{ maxHeight: '300px', minWidth: '100px', overflow: 'auto', overflowY: 'auto' }}
             >
               {headerCard(t('Ongoing Event'), 2)}
               {
                 dashboardData.data?.onGoing?.length !== 0 ?
                   (
-                    <ul className="tw-list-disc tw-ml-4 tw-my-4 tw-z-10 ">
+                    <ul className="tw-list-disc tw-ml-4 tw-my-4 tw-z-10 max-sm:tw-text-[10px] ">
                       {
                         dashboardData.data?.onGoing?.slice(0, 3).map((event) => (
                           <li key={event.id}>
@@ -168,13 +167,13 @@ export default function Dashboard(): ReactElement {
             {/* pre */}
             <div
               className="card tw-col-span-2 tw-shadow-lg tw-relative"
-              style={{ maxHeight: '300px', minWidth: '200px', overflow: 'auto', overflowY: 'auto' }}
+              style={{ maxHeight: '300px', minWidth: '100px', overflow: 'auto', overflowY: 'auto' }}
             >
               {headerCard(t('Upcoming Event'), 1)}
               {
                 dashboardData.data?.pre?.length !== 0 ?
                   (
-                    <ul className="tw-list-disc tw-ml-4 tw-my-4 tw-z-10 ">
+                    <ul className="tw-list-disc tw-ml-4 tw-my-4 tw-z-10 max-sm:tw-text-[10px]">
                       {
                         dashboardData.data?.pre?.slice(0, 3).map((event) => (
                           <li key={event.id}>
@@ -215,7 +214,7 @@ export default function Dashboard(): ReactElement {
           </div>
           <EventCategoryChart />
         </div>
-        <div className="card xl:tw-col-span-5  md:tw-col-span-12">
+        <div className="card tw-col-span-12">
           <Calendar simple />
         </div>
       </div>

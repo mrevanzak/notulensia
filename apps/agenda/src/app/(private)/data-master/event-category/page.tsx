@@ -90,6 +90,7 @@ export default function EventCategories(): ReactElement {
         totalRecords={data?.total}
         value={dataTable}
       >
+
         <Column body={actionBodyTemplate} field="action" header={t("Action")} />
         <Column field="eventCategoryName" header={t("Event Category Name")} />
         <Column field="countEvents" header={t("Total Event")} />

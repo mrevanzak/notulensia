@@ -438,8 +438,8 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
           </DataTable>
         </div>
 
-        <MultiSelectComponent />
-        <AudienceListCard />
+        {/* <MultiSelectComponent /> */}
+        <AudienceListCard withGroup/>
         <AttachmentFilesCard />
         <Switch id="isOnline" label={t("Via Online")} />
 
@@ -519,10 +519,10 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
             {values?.status !== "ACTIVE" && (
               <Button
                 label={t("Draft")}
+                loading={insertEvent.isPending || updateEvent.isPending}
                 onClick={() => {
                   setEventState("DRAFT");
                 }}
-                loading={insertEvent.isPending || updateEvent.isPending}
                 outlined
                 type="submit"
               />

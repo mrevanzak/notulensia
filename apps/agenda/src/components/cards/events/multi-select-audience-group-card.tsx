@@ -4,7 +4,6 @@ import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import MultiSelect from '@/components/ui/multi-select';
-import { useFormContext } from 'react-hook-form';
 import { useGetAudienceDropdown } from '@/lib/api/audience/get-audience-dropdown';
 
 export default function MultiSelectComponent() : ReactElement  {
