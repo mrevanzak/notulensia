@@ -22,7 +22,7 @@ export function LayoutProvider(props: ChildContainerProps): ReactElement {
     componentTheme: "purple",
     scale: 14,
     menuTheme: "light",
-    topbarTheme: "purple",
+    topbarTheme: "light",
     menuProfilePosition: "start",
     desktopMenuActive: true,
     mobileMenuActive: false,
@@ -33,15 +33,15 @@ export function LayoutProvider(props: ChildContainerProps): ReactElement {
     staticMenuDesktopInactive: false,
     overlayMenuActive: false,
     configSidebarVisible: false,
-    profileSidebarVisible: false,
+    profileSidebarVisible: true,
     staticMenuMobileActive: false,
     menuHoverActive: false,
     rightMenuActive: false,
     topbarMenuActive: false,
-    sidebarActive: false,
-    anchored: false,
+    sidebarActive: true,
+    anchored: true,
     overlaySubmenuActive: false,
-    menuProfileActive: false,
+    menuProfileActive: true,
     resetMenu: false,
   });
 
@@ -138,22 +138,12 @@ export function LayoutProvider(props: ChildContainerProps): ReactElement {
           <title>Notulensia</title>
           <meta charSet="UTF-8" />
           <meta
-            content="The ultimate collection of design-agnostic, flexible and accessible React UI Components."
+            content="Notulensia Apps - Schedule and Meeting Management"
             name="description"
           />
           <meta content="index, follow" name="robots" />
           <meta content="initial-scale=1, width=device-width" name="viewport" />
           <meta content="website" property="og:type" />
-          <meta content="Avalon by PrimeReact for NextJS" property="og:title" />
-          <meta content="https://apollo.primereact.org/" property="og:url" />
-          <meta
-            content="The ultimate collection of design-agnostic, flexible and accessible React UI Components."
-            property="og:description"
-          />
-          <meta
-            content="https://www.primefaces.org/static/social/avalon-react.png"
-            property="og:image"
-          />
           <meta content="604800" property="og:ttl" />
           <link href="/favicon.ico" rel="icon" type="image/x-icon" />
         </Head>

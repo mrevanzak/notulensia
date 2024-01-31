@@ -1,19 +1,20 @@
 "use client";
-import type { ReactElement } from "react";
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
-import { classNames, DomHandler } from "primereact/utils";
+import type {ReactElement} from "react";
+import React, {useCallback, useContext, useEffect, useRef} from "react";
+import {usePathname, useSearchParams} from "next/navigation";
+import {classNames, DomHandler} from "primereact/utils";
 import {
   useEventListener,
   useMountEffect,
   useResizeListener,
   useUnmountEffect,
 } from "primereact/hooks";
-import { PrimeReactContext } from "primereact/api";
-import type { AppTopbarRef, ChildContainerProps } from "@/types/types";
-import { LayoutContext } from "../context/layout-context";
+import {PrimeReactContext} from "primereact/api";
+import type {AppTopbarRef, ChildContainerProps} from "@/types/types";
+import {LayoutContext} from "@/context/layout-context";
+import AppTopbar from "./topbar/app-topbar";
 import AppSidebar from "./sidebar/app-sidebar";
-import AppTobBar from "./topbar/app-topbar";
+
 
 function Layout(props: ChildContainerProps): ReactElement {
   const {
@@ -27,24 +28,12 @@ function Layout(props: ChildContainerProps): ReactElement {
     isDesktop,
     isSidebarActive,
   } = useContext(LayoutContext);
-  const { setRipple } = useContext(PrimeReactContext);
+  const {setRipple} = useContext(PrimeReactContext);
   const topbarRef = useRef<AppTopbarRef>(null);
- 
+  const sidebarRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const sidebarRef = useRef<HTMLDivElement>(null);
-  const [isOverlay, setIsOverlay] = useState(false);
-  const [topbarMenuActive, setTopbarMenuActive] = useState(false);
-  const [profileMode, setProfileMode] = useState('inline');
-  const [activeTopbarItem, setActiveTopbarItem] = useState(null);
-  const [rotateMenuButton, setRotateMenuButton] = useState(false);
-  const [menuMode, setMenuMode] = useState('static');
-  const [overlayMenuActive, setOverlayMenuActive] = useState(false);
-  const [staticMenuDesktopInactive, setStaticMenuDesktopInactive] = useState(false);
-  const [staticMenuMobileActive, setStaticMenuMobileActive] = useState(false);
-  const [menuActive, setMenuActive] = useState(false);
-  const [configActive, setConfigActive] = useState(false);
-  const copyTooltipRef = useRef();
+  let timeout: NodeJS.Timeout | null = null;
 
   const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] =
     useEventListener({
@@ -98,9 +87,9 @@ function Layout(props: ChildContainerProps): ReactElement {
       document.body.className = document.body.className.replace(
         new RegExp(
           `(^|\\b)${"blocked-scroll".split(" ").join("|")}(\\b|$)`,
-          "gi",
+          "gi"
         ),
-        " ",
+        " "
       );
     }
   };
@@ -108,7 +97,31 @@ function Layout(props: ChildContainerProps): ReactElement {
     setRipple && setRipple(layoutConfig.ripple);
   });
 
+  const onMouseEnter = (): void => {
+    if (!layoutState.anchored) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      setLayoutState((prevLayoutState) => ({
+        ...prevLayoutState,
+        sidebarActive: true,
+      }));
+    }
+  };
 
+  const onMouseLeave = (): void => {
+    if (!layoutState.anchored) {
+      if (!timeout) {
+        timeout = setTimeout(() => {
+          setLayoutState((prevLayoutState) => ({
+            ...prevLayoutState,
+            sidebarActive: false,
+          }));
+        }, 300);
+      }
+    }
+  };
 
   useEffect(() => {
     const onRouteChange = (): void => {
@@ -153,6 +166,7 @@ function Layout(props: ChildContainerProps): ReactElement {
   });
 
   const containerClassName = classNames(
+    `layout-topbar-${layoutConfig.topbarTheme}`,
     `layout-menu-${layoutConfig.menuTheme}`,
     `layout-menu-profile-${layoutConfig.menuProfilePosition}`,
     {
@@ -175,84 +189,14 @@ function Layout(props: ChildContainerProps): ReactElement {
       "layout-menu-profile-active": layoutState.menuProfileActive,
       "layout-sidebar-active": layoutState.sidebarActive,
       "layout-sidebar-anchored": layoutState.anchored,
-    },
+    }
   );
 
-  useEffect(() => {
-    if(!isDesktop()){
-      setIsOverlay(!layoutState.staticMenuMobileActive);
-    };
-  }, [layoutState.staticMenuDesktopInactive, layoutState.staticMenuMobileActive, isDesktop()])
-
-
-  let menuClick = false;
-  let topbarItemClick = false;
-  let configClick = false;
-  const onMenuButtonClick = (event) => {
-    menuClick = true;
-    setRotateMenuButton((prev) => !prev);
-    setTopbarMenuActive(false);
-
-    if (menuMode === 'overlay') {
-        setOverlayMenuActive((prevOverlayMenuActive) => !prevOverlayMenuActive);
-    } else if (isDesktop()) {
-        setStaticMenuDesktopInactive((prevStaticMenuDesktopInactive) => !prevStaticMenuDesktopInactive);
-    } else
-        { setStaticMenuMobileActive((prevStaticMenuMobileActive) => !prevStaticMenuMobileActive);
-    }
-
-    event.preventDefault();
-  };
-
-  const hideOverlayMenu = () => {
-    setOverlayMenuActive(false);
-    setRotateMenuButton(false);
-    setStaticMenuMobileActive(false);
-  };
-
-  const onTopbarMenuButtonClick = (event) => {
-    topbarItemClick = true;
-    setTopbarMenuActive((prevTopbarMenuActive) => !prevTopbarMenuActive);
-    hideOverlayMenu();
-    event.preventDefault();
-  };
-
-  const onTopbarItemClick = (e) => {
-    topbarItemClick = true;
-
-    if (activeTopbarItem === e.item) setActiveTopbarItem(null);
-    else setActiveTopbarItem(e.item);
-
-    e.originalEvent.preventDefault();
-};
-
-  const onDocumentClick = () => {
-    if (!topbarItemClick) {
-        setActiveTopbarItem(null);
-        setTopbarMenuActive(false);
-    }
-
-    if (!menuClick) {
-        if (isHorizontal() || isSlim()) {
-            setMenuActive(false);
-        }
-
-        hideOverlayMenu();
-    }
-
-    if (configActive && !configClick) {
-        setConfigActive(false);
-    }
-
-    menuClick = false;
-    topbarItemClick = false;
-    configClick = false;
-  };
   return (
     <div className="layout tw-pt-[4rem]">
-      <div className={classNames("layout-container layout-topbar-white",  containerClassName)}>
-        <AppTobBar />
-        <AppSidebar />
+      <div className={classNames("layout-container", containerClassName)}>
+        <AppTopbar ref={topbarRef} />
+        <AppSidebar sidebarRef={sidebarRef} />
         <div className="layout-content-wrapper pt-0">
           <div className="layout-content w-full">{props.children}</div>
         </div>

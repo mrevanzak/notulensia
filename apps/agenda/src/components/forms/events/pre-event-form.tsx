@@ -543,7 +543,7 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
           <div className="tw-flex tw-gap-4">
             <Button
               label={t("Save")}
-              loading={insertEvent.isPending}
+              loading={insertEvent.isPending || updateEvent.isPending}
               outlined
               type="submit"
             />

@@ -7,13 +7,15 @@ import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
 import Image from "next/image";
 import { useGetFile } from "@/lib/api/storage/get-file";
 import { LayoutContext } from "@/context/layout-context";
+import { Tooltip } from "primereact/tooltip";
+import { useTranslation } from "react-i18next";
 
-function AppSidebar(): ReactElement {
+function AppSidebar({sidebarRef} : {sidebarRef: React.RefObject<HTMLDivElement>}): ReactElement {
   let timeout: NodeJS.Timeout | null = null;
   const { layoutState, setLayoutState } = useContext(LayoutContext);
-  const sidebarRef = useRef<HTMLDivElement>(null);
   const { data } = useGetUserDetail();
   const file = useGetFile("asset", data?.logoUrl);
+  const {t} = useTranslation();
 
   const onMouseEnter = (): void => {
     if (!layoutState.anchored) {
@@ -60,6 +62,7 @@ function AppSidebar(): ReactElement {
             src="/svg/logo-small.svg"
             width={40}
           />
+          <Tooltip content={t('Sidebar Button')} position="bottom" target="#layout-sidebar-anchor" />
           <button
             className="layout-sidebar-anchor p-link"
             id="layout-sidebar-anchor"

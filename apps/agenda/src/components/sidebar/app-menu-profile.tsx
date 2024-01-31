@@ -111,7 +111,7 @@ function AppMenuProfile(): ReactElement {
     <div className="layout-menu-profile border-none tw-relative overflow-visible tw-z-10 tw-mt-8">
       <Tooltip content={tooltipValue("Profile")!} target=".avatar-button" />
       <button
-        className="avatar-button p-link"
+        className="avatar-button p-link border-noround"
         onClick={toggleMenu}
         type="button"
       >
@@ -123,12 +123,12 @@ function AppMenuProfile(): ReactElement {
           width={56}
         />
         <span>
-          <b className="tw-text-xl">{truncateText(data?.name, 17)} </b>
+          <b className="tw-text-xl">{truncateText(data?.name, 18)} </b>
           <p className="tw-text-xs">{data?.phoneNumber}</p>
         </span>
         <i
           className={classNames(
-            "layout-menu-profile-toggler pi pi-fw tw-text-[#4343BF] tw-font-bold tw-text-xl",
+            "layout-menu-profile-toggler pi pi-fw",
             {
               "pi-angle-down":
                 layoutConfig.menuProfilePosition === "start" || isHorizontal(),
