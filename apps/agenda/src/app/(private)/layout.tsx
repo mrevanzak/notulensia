@@ -2,6 +2,7 @@ import AuthProvider from "@/components/auth-provider";
 import Layout from "@/components/layout";
 import type { Metadata } from "next";
 import type { ReactElement } from "react";
+import '@/styles/main/style.css'
 
 interface MainLayoutProps {
   children: React.ReactNode;

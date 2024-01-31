@@ -15,6 +15,7 @@ import LogoFlat from "~/svg/logo-flat.svg";
 import type { OverlayPanel } from "primereact/overlaypanel";
 import { AnimatePresence, motion } from "framer-motion";
 import ButtonLanguage from "@/components/ui/button-language";
+import '@/styles/landing-page/style.css'
 
 
 export default function LandingPage(): ReactElement {
