@@ -3,15 +3,19 @@ import { LayoutContext } from "@/context/layout-context";
 import { useGetFile } from "@/lib/api/storage/get-file";
 import { useGetUserDetail } from "@/lib/api/user/get-user-detail";
 import Image from "next/image";
-import { useContext, useState } from "react";
-import type { ReactElement } from "react";
+import { forwardRef, useContext, useImperativeHandle, useRef } from "react";
 import ButtonLanguage from "../ui/button-language";
+import type { AppTopbarRef } from "@/types/layout";
 
-export default function AppTobBar(): ReactElement {
+ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     const { onMenuToggle, onTopbarMenuToggle } = useContext(LayoutContext);
     const { data } = useGetUserDetail();
     const file = useGetFile("asset", data?.logoUrl);
-    const [langStore, setLangStore] = useState('en');
+    const menubuttonRef = useRef(null);
+    useImperativeHandle(ref, () => ({
+        menubutton: menubuttonRef.current,
+      }));
+    
     return (
         <div className="layout-topbar">
             <div className="layout-topbar-start">
@@ -35,4 +39,8 @@ export default function AppTobBar(): ReactElement {
             </div>
         </div>
     );
-}
+});
+
+AppTopbar.displayName = "AppTopbar";
+
+export default AppTopbar;

@@ -179,8 +179,8 @@ function AppMenuitem(props: AppMenuItemProps): ReactElement {
       {/* ) : null} */}
 
       {(!item?.to || item?.items) &&
-      item?.visible !== false &&
-      item?.label !== "root" ? (
+        item?.visible !== false &&
+        item?.label !== "root" ? (
         <a
           className={classNames(
             item?.className,

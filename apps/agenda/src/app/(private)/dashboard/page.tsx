@@ -27,11 +27,11 @@ export default function Dashboard(): ReactElement {
 
   const footerCard = (
     <div className="tw-absolute tw-bottom-2 tw-bg-white tw-w-full tw-right-0">
-      <div className="tw-border"/>
+      <div className="tw-border" />
       <div className="tw-flex tw-justify-end tw-pt-2">
-        <Button className="tw-w-auto tw-h-5 tw-mr-[8%]" onClick={() => { window.open('/events', '_self') }} style={{ backgroundColor: '#DCDFF9', color: '#7580E8', border: 'none' }} type="button">
-          <div className=" max-sm:tw-text-[10px]">{t('See More')}</div>
-        </Button>
+        <Link className="tw-w-auto tw-mr-[8%]" href="/events">
+          <Button label={t('See More')} style={{ backgroundColor: '#DCDFF9', color: '#7580E8', border: 'none' }} type="button"/>
+        </Link>
       </div>
     </div>
   );
@@ -57,7 +57,7 @@ export default function Dashboard(): ReactElement {
       <div className="col-12 -tw-mb-5">
         <div className="card tw-flex tw-justify-between tw-relative tw-h-[280px]">
           <div className="tw-space-y-2 tw-flex tw-flex-col tw-min-h-full tw-w-full tw-min-w-max tw-p-6 tw-pt-10 tw-overflow-hidden">
-            <h1 className="tw-text-[64px] max-sm:tw-text-[25px] max-sm:tw-text-center max-xl:tw-text-[38px]">{t(`Hi, ${truncateText(dashboardData.data?.name, 25)}`)}</h1>
+            <h1 className="tw-text-[64px] max-sm:tw-text-[25px] max-sm:tw-text-center max-2xl:tw-text-[38px]">{t(`Hi, ${truncateText(dashboardData.data?.name, 25)}`)}</h1>
             <h4 className="tw-font-light tw-pt-2 max-sm:tw-text-center">{t('Arrange your meeting plan today!')}</h4>
             <Link className="mt-auto max-sm:tw-text-center" href="/events/add">
               <Button className="mt-auto w-12rem tw-justify-center">
@@ -69,7 +69,7 @@ export default function Dashboard(): ReactElement {
         </div>
       </div>
       <div className="tw-grid col-12 tw-grid-cols-12 tw-gap-4">
-        <div className="card tw-col-span-12 tw-flex tw-justify-between tw-flex-col">
+        <div className="card tw-col-span-7 max-lg:tw-col-span-12 tw-flex tw-justify-between tw-flex-col">
           <div className="tw-grid col-12 tw-row-span-2 tw-grid-cols-6 tw-gap-4 max-sm:tw-gap-2" style={{ minHeight: '250px' }}>
 
             {/* post */}
@@ -214,7 +214,7 @@ export default function Dashboard(): ReactElement {
           </div>
           <EventCategoryChart />
         </div>
-        <div className="card tw-col-span-12">
+        <div className="card tw-col-span-5 max-lg:tw-col-span-12">
           <Calendar simple />
         </div>
       </div>
