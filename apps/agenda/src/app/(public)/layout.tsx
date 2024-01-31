@@ -2,6 +2,7 @@ import AuthProvider from "@/components/auth-provider";
 import type { Metadata } from "next";
 import type { ReactElement } from "react";
 import React from "react";
+import '@/styles/landing-page/style.css'
 
 interface LandingLayoutProps {
   children: React.ReactNode;

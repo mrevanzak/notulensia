@@ -57,7 +57,7 @@ export default function Dashboard(): ReactElement {
       <div className="col-12 -tw-mb-5">
         <div className="card tw-flex tw-justify-between tw-relative tw-h-[280px]">
           <div className="tw-space-y-2 tw-flex tw-flex-col tw-min-h-full tw-w-full tw-min-w-max tw-p-6 tw-pt-10 tw-overflow-hidden">
-            <h1 className="tw-text-[64px] max-sm:tw-text-[32px] max-sm:tw-text-center max-xl:tw-text-[38px]">{t(`Hi, ${truncateText(dashboardData.data?.name, 25)}`)}</h1>
+            <h1 className="tw-text-[64px] max-sm:tw-text-[25px] max-sm:tw-text-center max-xl:tw-text-[38px]">{t(`Hi, ${truncateText(dashboardData.data?.name, 25)}`)}</h1>
             <h4 className="tw-font-light tw-pt-2 max-sm:tw-text-center">{t('Arrange your meeting plan today!')}</h4>
             <Link className="mt-auto max-sm:tw-text-center" href="/events/add">
               <Button className="mt-auto w-12rem tw-justify-center">
