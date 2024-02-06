@@ -59,6 +59,7 @@ export const eventFormSchema = z.object({
   audienceGroupIds: z.string().array().optional().nullish(),
   files: storageSchema.array().optional(),
   audienceUsers: audienceFormSchema.array().optional(),
+  note: z.string().optional().nullable(),
 });
 
 export const updateEventFormSchema = eventFormSchema

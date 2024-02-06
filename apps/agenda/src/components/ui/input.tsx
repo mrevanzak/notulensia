@@ -27,6 +27,7 @@ export type InputProps = {
   type?: React.HTMLInputTypeAttribute;
   /** Disables the input and shows defaultValue (can be set from React Hook Form) */
   readOnly?: boolean;
+  useLocalStorage? : boolean;
   /** Manual validation using RHF, it is encouraged to use yup resolver instead */
   validation?: RegisterOptions;
 } & React.ComponentPropsWithoutRef<"input">;
@@ -39,6 +40,7 @@ export default function Input({
   validation,
   float = false,
   required,
+  useLocalStorage
 }: InputProps): ReactElement {
   const {
     formState: { errors },
@@ -48,6 +50,7 @@ export default function Input({
 
   const isPassword = type === "password";
   const [showPassword, setShowPassword] = useState(false);
+
 
   return (
     <>
