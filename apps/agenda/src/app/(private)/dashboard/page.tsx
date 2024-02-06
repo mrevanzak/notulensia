@@ -69,7 +69,7 @@ export default function Dashboard(): ReactElement {
         </div>
       </div>
       <div className="tw-grid col-12 tw-grid-cols-12 tw-gap-4">
-        <div className="card tw-col-span-7 max-lg:tw-col-span-12 tw-flex tw-justify-between tw-flex-col">
+        <div className="card tw-col-span-7 max-2xl:tw-col-span-12 tw-flex tw-justify-between tw-flex-col">
           <div className="tw-grid col-12 tw-row-span-2 tw-grid-cols-6 tw-gap-4 max-sm:tw-gap-2" style={{ minHeight: '250px' }}>
 
             {/* post */}
@@ -214,7 +214,7 @@ export default function Dashboard(): ReactElement {
           </div>
           <EventCategoryChart />
         </div>
-        <div className="card tw-col-span-5 max-lg:tw-col-span-12">
+        <div className="card tw-col-span-5 max-2xl:tw-col-span-12">
           <Calendar simple />
         </div>
       </div>

@@ -8,6 +8,7 @@ import { getAttendHistoryKey } from "./get-attend-history";
 
 type UpdateEventParams = Pick<InsertEventParams, "audienceUsers"> & {
   id: string;
+  note : string | null;
 };
 
 export const useUpdateOngoingEvent = () => {

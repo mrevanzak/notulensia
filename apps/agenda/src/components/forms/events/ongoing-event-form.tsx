@@ -10,6 +10,8 @@ import { useAudienceStore } from "@/stores/use-audience-store";
 import { useUpdateOngoingEvent } from "@/lib/api/event/update-ongoing-event";
 import AttendanceHistoryCard from "../../cards/events/attendance-history-card";
 import { FormProvider, useForm } from "react-hook-form";
+import Editor from "@/components/ui/editor";
+import { t } from "i18next";
 
 export default function OngoingEventForm(): ReactElement {
   const params = useParams<{ id: string }>();
@@ -24,7 +26,7 @@ export default function OngoingEventForm(): ReactElement {
       keepDirtyValues: true,
     },
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch } = methods;
 
   const setAudience = useAudienceStore((state) => state.set);
   useEffect(() => {
@@ -35,6 +37,7 @@ export default function OngoingEventForm(): ReactElement {
     mutate({
       audienceUsers: useAudienceStore.getState().audience,
       id,
+      note: watch("note") ?? null,
     });
   });
 
@@ -47,7 +50,8 @@ export default function OngoingEventForm(): ReactElement {
           void onSubmit();
         }}
       >
-        <AudienceListCard attend/>
+        <Editor id="note" label={t("Note Meeting")} placeHolder={t("You can write your note here")} />
+        <AudienceListCard attend />
         <AttendanceHistoryCard />
         <div className="tw-flex tw-justify-end">
           <div className="tw-flex tw-gap-4">
