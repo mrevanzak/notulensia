@@ -4,6 +4,8 @@ export const eventAddressSchema = z.object({
   id: z.string().uuid(),
   location: z.string(),
   districtName: z.string().nullish(),
+  districtId: z.string().uuid().nullish(),
+  provinceId: z.string().uuid().nullish(),
   provinceName: z.string().nullish(),
   address: z.string().nullish(),
 });

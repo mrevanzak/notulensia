@@ -106,14 +106,14 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
   const watchLocationValue = watch("locationValue");
   useEffect(() => {
     setValue(
-      "province",
+      "provinceId",
       eventAddress.data?.find((item) => item.location === watchLocationValue)
-        ?.provinceName,
+        ?.provinceId,
     );
     setValue(
-      "district",
+      "districtId",
       eventAddress.data?.find((item) => item.location === watchLocationValue)
-        ?.districtName,
+        ?.districtId,
     );
     setValue(
       "address",
