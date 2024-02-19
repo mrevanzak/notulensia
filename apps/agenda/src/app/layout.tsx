@@ -8,7 +8,7 @@ import "@/styles/demo/Demos.scss";
 import "@/styles/globals.css";
 import "~/theme/theme-light/purple/theme.scss";
 import "react-toastify/dist/ReactToastify.min.css";
-import { useEffect, type ReactElement } from "react";
+import { type ReactElement } from "react";
 import { LayoutProvider } from "@/context/layout-context";
 import {
   MutationCache,

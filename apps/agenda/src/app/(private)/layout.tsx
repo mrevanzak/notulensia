@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function MainLayout({
   children,
-}: MainLayoutProps): ReactElement {
+}: Readonly<MainLayoutProps>): ReactElement {
     return (
     <Layout>
       <AuthProvider route="private"> {children}</AuthProvider>
