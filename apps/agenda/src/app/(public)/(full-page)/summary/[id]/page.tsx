@@ -8,6 +8,7 @@ import { Button } from 'primereact/button';
 import { Skeleton } from 'primereact/skeleton';
 import React, { useEffect } from 'react'
 import type { ReactElement } from 'react'
+import { Editor } from 'primereact/editor';
 
 export default function Summary(): ReactElement {
     const params = useParams<{ id: string }>();
@@ -33,7 +34,7 @@ export default function Summary(): ReactElement {
     }
 
     return (
-        <div className='mx-auto tw-w-[21cm] tw-border'>
+        <div className='mx-auto tw-w-[21cm] tw-border tw-bg-white'>
             <div className='tw-fixed tw-top-2 tw-right-2'>
                 <Button className='button' icon='pi pi-home' loading={isPending} onClick={() => { window.open('/events', '_self') }} type='button' />
                 <Button className='button tw-ml-2' icon='pi pi-download' loading={isPending} onClick={() => { mutate() }} type='button' />
@@ -124,23 +125,42 @@ export default function Summary(): ReactElement {
                     <tr className='tw-border tw-border-black'>
                         <th className='tw-w-1/4 tw-border tw-border-black'>Name</th>
                         <th className='tw-w-1/5 tw-border tw-border-black'>Description</th>
-                        <th className='tw-w-full tw-border tw-border-black'>Email</th>
-                        <th className='tw-w-full tw-border tw-border-black'>Job</th>
-                        <th className='tw-w-full tw-border tw-border-black'>Phone Number</th>
+                        <th className='tw-w-1/4 tw-border tw-border-black'>Email</th>
+                        <th className='tw-w-1/4 tw-border tw-border-black'>Job</th>
+                        <th className='tw-w-1/2 tw-border tw-border-black tw-px-2'>Phone Number</th>
+                        <th className='tw-w-full tw-border tw-border-black'>Sig</th>
                     </tr>
                 </thead>
                 <tbody>
                     {getDetail.data?.audienceUsers?.map((user) => (
-                        <tr className='tw-text-center' key={user.email}>
-                            <td className='tw-border tw-border-black'>{user.name}</td>
-                            <td className='tw-border tw-border-black'>{user.description ?? "-"}</td>
-                            <td className='tw-border tw-border-black'>{user.email}</td>
-                            <td className='tw-border tw-border-black'>{user.job}</td>
-                            <td className='tw-border tw-border-black'>{user.phoneNumber}</td>
+                        <tr className='tw-text-center tw-text-sm' key={user.email}>
+                            <td className='tw-border tw-border-black tw-px-2'>{user.name}</td>
+                            <td className='tw-border tw-border-black tw-px-2'>{user.description ?? "-"}</td>
+                            <td className='tw-border tw-border-black tw-px-2'>{user.email}</td>
+                            <td className='tw-border tw-border-black tw-px-2'>{user.job}</td>
+                            <td className='tw-border tw-border-black tw-px-2'>{user.phoneNumber}</td>
+                            <td className='tw-border tw-border-black tw-px-10' />
                         </tr>
                     ))}
                 </tbody>
             </table>
+            {
+                getDetail.data?.phase === "POST" && (
+                    <table className='tw-table tw-border-black tw-border tw-w-full tw-mt-3'>
+                        <thead>
+                            <tr className='tw-border tw-border-black'>
+                                <th className='tw-w-1/4 tw-border tw-border-black'>Meeting Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <Editor readOnly value={getDetail.data?.note ?? ""} showHeader={false} style={{ color: "red" }} />
+                            </tr>
+                        </tbody>
+                    </table>
+                )
+            }
+
         </div>
     )
 }
