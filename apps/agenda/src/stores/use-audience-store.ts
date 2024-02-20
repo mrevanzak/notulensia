@@ -19,22 +19,25 @@ export const useAudienceStore = create<AudienceState>()(
     add: (audience) => {
       set((state) => {
         const newAudience = Array.isArray(audience) ? audience : [audience];
-        const isUnique = newAudience.every(
-          (audience) =>
-            !state.audience.find((item) => item.email === audience.email),
-        );
+        const existingEmails = state.audience.map((item) => item.email);
+        const uniqueAudience = newAudience.filter((item) => !existingEmails.includes(item.email));
 
-        if (!isUnique) {
-          toast.error("Email Already Exists");
-          return state;
+        if (uniqueAudience.length !== newAudience.length) {
+          const duplicateEmails = newAudience.filter((item) => existingEmails.includes(item.email));
+          if (!Array.isArray(audience))
+            toast.error(`Email already exists: ${duplicateEmails.map((item) => item.email).join(', ')}`);
+          else {
+            toast.success("Audience Group added successfully");
+          }
         }
 
         return {
-          audience: [...state.audience, ...newAudience],
-          counter: state.counter + 1,
+          audience: [...state.audience, ...uniqueAudience],
+          counter: state.counter + uniqueAudience.length,
         };
       });
     },
+
     reset: () => {
       set(() => ({
         audience: [],

@@ -11,7 +11,7 @@ import { useUpdateOngoingEvent } from "@/lib/api/event/update-ongoing-event";
 import AttendanceHistoryCard from "../../cards/events/attendance-history-card";
 import { FormProvider, useForm } from "react-hook-form";
 import Editor from "@/components/ui/editor";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 export default function OngoingEventForm(): ReactElement {
   const params = useParams<{ id: string }>();
@@ -40,6 +40,8 @@ export default function OngoingEventForm(): ReactElement {
       note: watch("note") ?? null,
     });
   });
+
+  const {t} = useTranslation();
 
   return (
     <FormProvider {...methods}>

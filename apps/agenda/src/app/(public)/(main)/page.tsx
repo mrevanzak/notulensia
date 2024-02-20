@@ -89,7 +89,6 @@ export default function LandingPage(): ReactElement {
           <ButtonLanguage />
           <Button label="Log In" onClick={signIn} style={{ backgroundColor: "#334798", borderRadius: "1000px", fontFamily: "Exo", fontSize: "20px", fontWeight: 600, height: "58px", width: "179px" }} />
         </div>
-
       </div>
 
 

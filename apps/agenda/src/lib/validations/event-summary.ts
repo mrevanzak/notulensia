@@ -31,6 +31,8 @@ export const getDetailEventSummarySchema = z.object({
     schedules: scheduleSchema.array().optional(),
     province: z.string().nullish(),
     district: z.string().nullish(),
+    note : z.string().nullish(),
+    phase : z.string().nullish(),
     audienceNames: audienceDropdownSchema.array().optional(),
     files: storageSchema.array().optional(),
     audienceUsers: audienceFormSchema.array().optional(),
