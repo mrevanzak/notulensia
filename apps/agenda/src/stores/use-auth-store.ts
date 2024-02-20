@@ -51,7 +51,7 @@ export const useAuthStore = create<AuthState>()(
         }),
         {
           name: "bear-storage",
-          storage: createJSONStorage(() => sessionStorage),
+          storage: createJSONStorage(() => localStorage),
         },
       ),
     ),
