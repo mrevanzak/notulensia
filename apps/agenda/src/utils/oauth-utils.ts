@@ -1,4 +1,4 @@
-let baseUrl = "https://agenda.saranaintegrasi.co.id";
+export let baseUrl = "https://agenda.saranaintegrasi.co.id";
 if (process.env.NODE_ENV === "development") {
   baseUrl = "http://localhost:3000";
 }
