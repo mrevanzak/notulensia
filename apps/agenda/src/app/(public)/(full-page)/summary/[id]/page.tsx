@@ -1,5 +1,4 @@
 "use client"
-import { metadata } from '@/app/(private)/layout';
 import './style.css'
 import { useDownloadSummary } from '@/lib/api/event/download-summary-event';
 import { useGetEventDetailSummary } from '@/lib/api/event/get-event-public-summary';
@@ -154,7 +153,7 @@ export default function Summary(): ReactElement {
                         </thead>
                         <tbody>
                             <tr>
-                                <Editor readOnly value={getDetail.data?.note ?? ""} showHeader={false} style={{ color: "red" }} />
+                                <Editor readOnly showHeader={false} style={{ color: "red" }} value={getDetail.data?.note ?? ""} />
                             </tr>
                         </tbody>
                     </table>

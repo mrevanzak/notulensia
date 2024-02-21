@@ -1,7 +1,4 @@
-export let baseUrl = "https://agenda.saranaintegrasi.co.id";
-if (process.env.NODE_ENV === "development") {
-  baseUrl = "http://localhost:3000";
-}
+export const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://agenda.saranaintegrasi.co.id";
 
 const authLink = "https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount";
 const clientId = "898862951743-ort2u42i3kgdfuhsf9jn1ffi9a39embv.apps.googleusercontent.com";
