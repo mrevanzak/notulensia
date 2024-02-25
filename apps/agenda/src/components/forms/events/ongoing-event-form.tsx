@@ -2,26 +2,17 @@
 import React, { useEffect, useState } from "react";
 import type { ReactElement } from "react";
 import { Button } from "primereact/button";
-import { useGetEventDetail } from "@/lib/api/event/get-event-detail";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import AudienceListCard from "../../cards/events/audience-list-card";
 import { useAudienceStore } from "@/stores/use-audience-store";
-import { useUpdateOngoingEvent } from "@/lib/api/event/update-ongoing-event";
 import AttendanceHistoryCard from "../../cards/events/attendance-history-card";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import Editor from "@/components/ui/editor";
 import { useTranslation } from "react-i18next";
-import { Calendar } from "primereact/calendar";
 import moment from "moment";
-import Dropdown from "@/components/ui/dropdown";
 import { useGetEventOngoingDetail } from "@/lib/api/event/get-event-ongoing-detail";
 import { useUpsertOngoinEvent } from "@/lib/api/event/upsert-ongoing-event";
-import { ProgressSpinner } from "primereact/progressspinner";
-import { Skeleton } from "primereact/skeleton";
-import { useInterval } from "primereact/hooks";
-import { UpdateEventCategorySchemaForm } from "@/lib/validations/event-category";
-import { UpdateEventFormSchema } from "@/lib/validations/event";
 import CalendarInput from "@/components/ui/calendar-input";
 
 type OngoingEventFormProps = {
