@@ -8,6 +8,7 @@ import { Skeleton } from 'primereact/skeleton';
 import React, { useEffect } from 'react'
 import type { ReactElement } from 'react'
 import { Editor } from 'primereact/editor';
+import moment from 'moment';
 
 export default function Summary(): ReactElement {
     const params = useParams<{ id: string }>();
@@ -41,7 +42,13 @@ export default function Summary(): ReactElement {
             <h3 className='tw-border tw-border-black tw-border-b-transparent tw-bg-black tw-text-white tw-text-center tw-p-3' >Meeting Wise Agenda</h3>
             <div className='tw-border tw-border-black tw-text-center'>
                 <h3>{getDetail.data?.name}</h3>
-                <span>{`${getDetail.data?.startAt.toLocaleString()} - ${getDetail.data?.endAt.toLocaleString()}`}</span>
+                {
+                    getDetail.data?.phase === "POST" ? (
+                        <p>{moment().format("dddd, DD MMMM  YYYY")}</p>
+                    ) : (
+                        <span>{`${getDetail.data?.startAt.toLocaleString()} - ${getDetail.data?.endAt.toLocaleString()}`}</span>
+                    )
+                }
                 <p className='tw-mt-3'>{getDetail.data?.isOnline ? "Online Event" : "Offline Event"}</p>
                 <p>{getDetail.data?.isOnline ? getDetail.data.linkUrl : getDetail.data?.address}</p>
             </div>
@@ -57,13 +64,27 @@ export default function Summary(): ReactElement {
                 <b>Meeting Objective :</b>
                 <p>{getDetail.data?.purpose}</p>
             </div>
+            {
+                getDetail.data?.phase === "PRE" && (
+                    <div className='tw-border tw-border-t-transparent tw-border-black tw-px-2'>
+                        <b>To Prepare For This Meeting, Please :</b>
+                        <p>{getDetail.data?.preparationNotes}</p>
+                    </div>
+                )
+            }
             <div className='tw-border tw-border-t-transparent tw-border-black tw-px-2'>
-                <b>To Prepare For This Meeting, Please :</b>
-                <p>{getDetail.data?.preparationNotes}</p>
+                <span>
+                    <b>Schedule :</b> {moment(getDetail.data?.startAt).format("DD MMMM YYYY HH:mm")} - {moment(getDetail.data?.endAt).format("DD MMMM YYYY HH:mm")}
+                </span>
             </div>
-            <div className='tw-border tw-border-t-transparent tw-border-black tw-px-2'>
-                <span><b>Schedule :</b> {getDetail.data?.startAt.toLocaleString()} - {getDetail.data?.endAt.toLocaleString()}</span>
-            </div>
+
+            {getDetail.data?.phase === "POST" && (
+                <div className='tw-border tw-border-t-transparent tw-border-black tw-px-2'>
+                    <span>
+                        <b>Meeting Date :</b> {moment().format("DD MMMM YYYY")}
+                    </span>
+                </div>
+            )}
 
             <table className='tw-table tw-border-black tw-border tw-w-full tw-mt-3'>
                 <thead>
@@ -84,7 +105,7 @@ export default function Summary(): ReactElement {
                         return 0;
                     }).map((schedule) => (
                         <tr className='tw-text-center' key={schedule.position}>
-                            <td className='tw-border tw-border-black'>{schedule.startTime}</td>
+                            <td className='tw-border tw-border-black'>{moment(schedule.startTime).format("DD MMMM YYYY HH:mm")}</td>
                             <td className='tw-border tw-border-black'>{schedule.duration} minutes</td>
                             <td className='tw-border tw-border-black'>{schedule.activity}</td>
                         </tr>
@@ -92,34 +113,38 @@ export default function Summary(): ReactElement {
                 </tbody>
             </table>
 
+            {
+                getDetail.data?.phase === "PRE" && (
+                    <table className='tw-table tw-border-black tw-border tw-w-full tw-mt-3'>
+                        <thead>
+                            <tr className='tw-w-full tw-border tw-border-black'>
+                                <th className='tw-px-2' colSpan={3} >Attachment files</th>
+                            </tr>
+                            <tr className='tw-border tw-border-black'>
+                                <th className='tw-w-1/4 tw-border tw-border-black'>Name</th>
+                                <th className='tw-w-1/5 tw-border tw-border-black'>Format</th>
+                                <th className='tw-w-full tw-border tw-border-black'>Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {getDetail.data?.files?.map((file) => (
+                                <tr className='tw-text-center' key={file.storageId}>
+                                    <td className='tw-border tw-border-black'>{file.name}</td>
+                                    <td className='tw-border tw-border-black'>{file.format}</td>
+                                    <td className='tw-border tw-border-black tw-text-xs'><a className='tw-text-blue-500' href={`https://agenda.saranaintegrasi.co.id/api/v1/storage/agenda/${file.storageId}`}>{`https://agenda.saranaintegrasi.co.id/api/v1/storage/agenda/${file.storageId}`}</a></td>
+                                </tr>
+                            ))}
+
+                        </tbody>
+                    </table>
+                )
+            }
+
 
             <table className='tw-table tw-border-black tw-border tw-w-full tw-mt-3'>
                 <thead>
                     <tr className='tw-w-full tw-border tw-border-black'>
-                        <th className='tw-px-2' colSpan={3} >Attachment files</th>
-                    </tr>
-                    <tr className='tw-border tw-border-black'>
-                        <th className='tw-w-1/4 tw-border tw-border-black'>Name</th>
-                        <th className='tw-w-1/5 tw-border tw-border-black'>Format</th>
-                        <th className='tw-w-full tw-border tw-border-black'>Link</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {getDetail.data?.files?.map((file) => (
-                        <tr className='tw-text-center' key={file.storageId}>
-                            <td className='tw-border tw-border-black'>{file.name}</td>
-                            <td className='tw-border tw-border-black'>{file.format}</td>
-                            <td className='tw-border tw-border-black tw-text-xs'><a className='tw-text-blue-500' href={`https://agenda.saranaintegrasi.co.id/api/v1/storage/agenda/${file.storageId}`}>{`https://agenda.saranaintegrasi.co.id/api/v1/storage/agenda/${file.storageId}`}</a></td>
-                        </tr>
-                    ))}
-
-                </tbody>
-            </table>
-
-            <table className='tw-table tw-border-black tw-border tw-w-full tw-mt-3'>
-                <thead>
-                    <tr className='tw-w-full tw-border tw-border-black'>
-                        <th className='tw-px-2' colSpan={5}>Audience List</th>
+                        <th className='tw-px-2' colSpan={6}>Audience List</th>
                     </tr>
                     <tr className='tw-border tw-border-black'>
                         <th className='tw-w-1/4 tw-border tw-border-black'>Name</th>

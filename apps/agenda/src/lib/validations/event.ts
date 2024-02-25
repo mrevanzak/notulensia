@@ -67,6 +67,7 @@ export const updateEventFormSchema = eventFormSchema
     status: z.enum(["ACTIVE", "INACTIVE", "DRAFT"]),
     phase: z.enum(["PRE", "ONGOING", "POST"]),
   });
+export type UpdateEventFormSchema = z.infer<typeof updateEventFormSchema>
 
 export const eventCalendarSchema = z.object({
   id: z.string().uuid(),

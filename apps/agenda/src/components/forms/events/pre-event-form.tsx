@@ -102,6 +102,9 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
       });
   });
 
+  const province = useGetProvince();
+  const district = useGetDistrict(watch("provinceId"));
+
   const eventAddress = useGetEventAddressDropdown();
   const watchLocationValue = watch("locationValue");
   useEffect(() => {
@@ -120,16 +123,11 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
       eventAddress.data?.find((item) => item.location === watchLocationValue)
         ?.address,
     );
-  }, [watchLocationValue]);
+  }, [watchLocationValue, eventAddress.data]);
 
   const insertEventAddressPreset = useInsertEventAddress();
 
-  const province = useGetProvince();
-  const district = useGetDistrict(watch("provinceId"));
-
   const setAudience = useAudienceStore((state) => state.set);
-  const addAudience = useAudienceStore((state) => state.add);
-
 
   const scheduleProgram = useScheduleProgramStore(
     (state) => state.scheduleProgram,
