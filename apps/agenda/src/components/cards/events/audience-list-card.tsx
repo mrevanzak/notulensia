@@ -21,8 +21,9 @@ import { useFormContext } from "react-hook-form";
 import { getListAudienceKey, useGetListAudience } from "@/lib/api/audience/get-list-audience";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { Skeleton } from "primereact/skeleton";
 
-export default function AudienceListCard({ readOnly = false, attend = false, withGroup }: Readonly<{ readOnly?: boolean, attend?: boolean, withGroup?: boolean }>) {
+export default function AudienceListCard({ readOnly = false, attend = false, withGroup, isLoading }: Readonly<{ readOnly?: boolean, attend?: boolean, withGroup?: boolean, isLoading? : boolean }>) {
 
   const params = useParams<{ id: string }>();
   const eventId = params?.id ?? "";
@@ -129,6 +130,12 @@ export default function AudienceListCard({ readOnly = false, attend = false, wit
         />
       </div>
     )
+  }
+
+  if(isLoading){
+    return(
+      <Skeleton className='tw-mb-3' height='25vh' width='100%' />
+    );
   }
 
 

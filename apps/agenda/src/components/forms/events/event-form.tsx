@@ -16,7 +16,7 @@ type EventFormProps = {
   edit?: boolean;
 };
 
-export default function EventForm({ edit }: EventFormProps): ReactElement {
+export default function EventForm({ edit }: Readonly<EventFormProps>): ReactElement {
   const params = useParams<{ id: string }>();
   const id = params?.id ?? "";
 
@@ -47,7 +47,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
     }
   };
 
-  return (edit && (data && data.status !== "DRAFT")) ? (
+  return edit && data && data.status !== "DRAFT" ? (
     <TabView
       activeIndex={activeIndex()}
       panelContainerClassName="bg-purple-50 p-0 tw-mt-4"
@@ -81,7 +81,7 @@ export default function EventForm({ edit }: EventFormProps): ReactElement {
           },
         }}
       >
-        <OngoingEventForm />
+        <OngoingEventForm endAt={data.endAt} />
       </TabPanel>
       <TabPanel
         disabled={data?.phase !== "POST"}
