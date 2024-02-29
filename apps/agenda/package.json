@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "rm -rf .next .turbo && next dev",
-    "build": "rm -rf .next .turbo && next build",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint --fix"
   },

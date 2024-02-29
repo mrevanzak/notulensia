@@ -14,6 +14,7 @@ import moment from "moment";
 import { useGetEventOngoingDetail } from "@/lib/api/event/get-event-ongoing-detail";
 import { useUpsertOngoinEvent } from "@/lib/api/event/upsert-ongoing-event";
 import CalendarInput from "@/components/ui/calendar-input";
+import { toast } from "react-toastify";
 
 type OngoingEventFormProps = {
   endAt: Date;
@@ -37,7 +38,6 @@ export default function OngoingEventForm({ endAt }: OngoingEventFormProps): Reac
   const { handleSubmit, watch } = methods;
 
   const setAudience = useAudienceStore((state) => state.set);
-
 
   useEffect(() => {
     setAudience(values?.audienceUsers ?? []);
@@ -69,7 +69,11 @@ export default function OngoingEventForm({ endAt }: OngoingEventFormProps): Reac
         className="tw-space-y-8 !tw-my-2 tw-pt-4"
         onSubmit={(event) => {
           event.preventDefault();
-          void onSubmit();
+          onSubmit().then(
+            void refetch()
+          ).catch(
+            (e) => toast.error(e.message)
+          );
         }}
       >
 

@@ -16,14 +16,12 @@ import ExportButton from "../export-button";
 import { useTranslation } from "react-i18next";
 import { useGetAudienceDropdown } from "@/lib/api/audience/get-audience-dropdown";
 import MultiSelect from "@/components/ui/multi-select";
-import { useGetAudienceDetail } from "@/lib/api/audience/get-audience-detail";
 import { useFormContext } from "react-hook-form";
-import { getListAudienceKey, useGetListAudience } from "@/lib/api/audience/get-list-audience";
-import { useQueryClient } from "@tanstack/react-query";
+import { useGetListAudience } from "@/lib/api/audience/get-list-audience";
 import { toast } from "react-toastify";
 import { Skeleton } from "primereact/skeleton";
 
-export default function AudienceListCard({ readOnly = false, attend = false, withGroup, isLoading }: Readonly<{ readOnly?: boolean, attend?: boolean, withGroup?: boolean, isLoading? : boolean }>) {
+export default function AudienceListCard({ readOnly = false, attend = false, withGroup, isLoading }: Readonly<{ readOnly?: boolean, attend?: boolean, withGroup?: boolean, isLoading?: boolean }>) {
 
   const params = useParams<{ id: string }>();
   const eventId = params?.id ?? "";
@@ -93,7 +91,7 @@ export default function AudienceListCard({ readOnly = false, attend = false, wit
   const watchAudienceGroupIds = watch("audienceGroupIds");
   const addAudiences = useAudienceStore((state) => state.add);
   const [audiences, setAudiences] = useState<ListAudience>([]);
-  
+
   const FetchAudiences = async () => {
     const result = await useGetListAudience(watchAudienceGroupIds);
     return result;
@@ -101,8 +99,8 @@ export default function AudienceListCard({ readOnly = false, attend = false, wit
 
   useEffect(() => {
     FetchAudiences()
-        .then((p) => {setAudiences(p)})
-        .catch((err) => {toast.error(err)});
+      .then((p) => { setAudiences(p) })
+      .catch((err) => { toast.error(err) });
   }, [watchAudienceGroupIds]);
 
   const addGroupAudince = () => {
@@ -132,12 +130,24 @@ export default function AudienceListCard({ readOnly = false, attend = false, wit
     )
   }
 
-  if(isLoading){
-    return(
+  const [selectedAudiences, setSelectedAudiences] = useState<Audience[]>();
+
+  useEffect(() => {
+    setSelectedAudiences(audience.map((q) => q).filter((a) => a.isAttend));
+  }, [audience])
+
+  useEffect(() => {
+    audience.map((prev) => {
+      prev.isAttend = selectedAudiences?.includes(prev)
+      return { ...prev, isAttend: prev.isAttend }
+    })
+  }, [selectedAudiences])
+
+  if (isLoading) {
+    return (
       <Skeleton className='tw-mb-3' height='25vh' width='100%' />
     );
   }
-
 
   return (
     <>
@@ -219,7 +229,7 @@ export default function AudienceListCard({ readOnly = false, attend = false, wit
 
 
         <div className="tw-flex tw-justify-between tw-items-center">
-          <h4>{t('Audience List')}</h4>
+          <h4>{attend ? t('Audience Attend List') : t('Audience List')}</h4>
           {
             readOnly !== null && readOnly !== undefined && !readOnly && (
               <div className="tw-space-x-4">
@@ -246,11 +256,33 @@ export default function AudienceListCard({ readOnly = false, attend = false, wit
             )}
 
         </div>
+
         <DataTable
           editMode="cell"
           emptyMessage={t("Please add audience")}
+          onSelectionChange={(e) => {setSelectedAudiences(e.value)}}
+          selection={selectedAudiences!}
+          selectionMode="checkbox"
           value={audience}
         >
+          {
+            Boolean(attend) && (
+              <Column selectionMode="multiple" style={{ width: "4rem" }} />
+            )
+          }
+          {
+            Boolean(attend) && (
+              <Column
+                body={(rowData: Audience) => {
+                  return rowData.isAttend ? t("Yes") : t("No");
+                }}
+                field="isAttend"
+                header={t("Attend")}
+                headerStyle={{ width: "20%" }}
+                onCellEditComplete={onCellEditComplete}
+              />
+            )
+          }
           <Column
             editor={(options) => textEditor(options)}
             field="name"
@@ -286,20 +318,6 @@ export default function AudienceListCard({ readOnly = false, attend = false, wit
             headerStyle={{ width: "20%" }}
             onCellEditComplete={onCellEditComplete}
           />
-          {
-            Boolean(attend) && (
-              <Column
-                body={(rowData: Audience) => {
-                  return rowData.isAttend ? t("Yes") : t("No");
-                }}
-                editor={(options) => checkboxEditor(options)}
-                field="isAttend"
-                header={t("Attend")}
-                headerStyle={{ width: "20%" }}
-                onCellEditComplete={onCellEditComplete}
-              />
-            )
-          }
           {
             readOnly !== null && readOnly !== undefined && !readOnly && (
               <Column
