@@ -8,6 +8,7 @@ export const audienceGroupSchema = z.object({
 });
 
 export const audienceFormSchema = z.object({
+  id : z.string().uuid().optional(),
   name: z.string().nullable(),
   job: z.string().nullable(),
   phoneNumber: z.string().nullable(),
