@@ -7,7 +7,7 @@ import Link from "next/link";
 import AudienceListCard from "../../cards/events/audience-list-card";
 import { useAudienceStore } from "@/stores/use-audience-store";
 import AttendanceHistoryCard from "../../cards/events/attendance-history-card";
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import Editor from "@/components/ui/editor";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
@@ -20,7 +20,7 @@ type OngoingEventFormProps = {
   endAt: Date;
 };
 
-export default function OngoingEventForm({ endAt }: OngoingEventFormProps): ReactElement {
+export default function OngoingEventForm({ endAt }: Readonly<OngoingEventFormProps>): ReactElement {
   const params = useParams<{ id: string }>();
   const id = params?.id ?? "";
 

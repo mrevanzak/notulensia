@@ -18,8 +18,11 @@
     "Status": "Status",
     "Event Phase": "Fase Acara",
 
-    "Completed Event" : "Acara Selesai",
+    "Pre Event" : "Pra Acara",
     "Ongoing Event" : "Acara Berlangsung",
+    "Post Event" : "Pasca Acara",
+
+    "Completed Event" : "Acara Selesai",
     "Upcoming Event": "Acara Mendatang",
     "Event Categories" : "Kategori Acara",
     "Please add audience by audience group" : "Silahkan tambahkan peserta berdasarkan grup",
