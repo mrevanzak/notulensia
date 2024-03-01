@@ -11,6 +11,7 @@ import { TabPanel, TabView } from "primereact/tabview";
 import { BiTimer } from "react-icons/bi";
 import { RiTodoFill } from "react-icons/ri";
 import { AiOutlineFileDone } from "react-icons/ai";
+import { useTranslation } from "react-i18next";
 
 type EventFormProps = {
   edit?: boolean;
@@ -21,6 +22,8 @@ export default function EventForm({ edit }: Readonly<EventFormProps>): ReactElem
   const id = params?.id ?? "";
 
   const { data, isLoading } = useGetEventDetail(id);
+
+  const { t } = useTranslation();
 
   if (isLoading)
     return (
@@ -59,7 +62,7 @@ export default function EventForm({ edit }: Readonly<EventFormProps>): ReactElem
       }}
     >
       <TabPanel
-        header="Pre Event"
+        header={t("Pre Event")}
         leftIcon={<RiTodoFill size={28} />}
         pt={{
           headerAction: {
@@ -72,7 +75,7 @@ export default function EventForm({ edit }: Readonly<EventFormProps>): ReactElem
       </TabPanel>
       <TabPanel
         disabled={data?.phase === "PRE"}
-        header="Ongoing Event"
+        header={t("Ongoing Event")}
         leftIcon={<BiTimer size={28} />}
         pt={{
           headerAction: {
@@ -85,7 +88,7 @@ export default function EventForm({ edit }: Readonly<EventFormProps>): ReactElem
       </TabPanel>
       <TabPanel
         disabled={data?.phase !== "POST"}
-        header="Post Event"
+        header={t("Post Event")}
         leftIcon={<AiOutlineFileDone size={28} />}
         pt={{
           headerAction: {
