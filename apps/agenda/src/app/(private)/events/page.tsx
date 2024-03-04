@@ -1,10 +1,10 @@
 "use client";
 import type { ReactElement } from "react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "primereact/button";
-import type { DataTablePageEvent } from "primereact/datatable";
+import type { DataTableFilterMeta, DataTablePageEvent } from "primereact/datatable";
 import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
+import { Column, type ColumnFilterElementTemplateOptions } from "primereact/column";
 import type { Event } from "@/lib/validations/event";
 import Link from "next/link";
 import { useGetEvent } from "@/lib/api/event/get-event";
@@ -18,21 +18,47 @@ import SearchInput from "@/components/ui/search-input";
 import { useExportEvent } from "@/lib/api/export/export-event";
 import ExportButton from "@/components/cards/export-button";
 import { useTranslation } from "react-i18next";
+import { Dropdown, type DropdownChangeEvent } from "primereact/dropdown";
+import { Tag } from "primereact/tag";
+import { FilterMatchMode } from "primereact/api";
 
 export default function Events(): ReactElement {
   const searchParams = useSearchParams();
   const search = searchParams?.get("search");
+  const phase = searchParams?.get("phase");
   const [tableState, setTableState] = useState<DataTablePageEvent>({
     first: 0,
     page: 0,
     rows: 10,
   });
 
-  const { data, isLoading, isFetching } = useGetEvent({
+  const [filters, setFilters] = useState<DataTableFilterMeta>({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    phase: { value: null, matchMode: FilterMatchMode.EQUALS },
+  });
+
+  const phaseValue = (filters.phase as any).value;
+  const filter = { phase: phaseValue };
+
+  const { data, isLoading, isFetching, refetch } = useGetEvent({
     pageIndex: tableState.page,
     limit: tableState.rows,
     search: search ?? "",
+    filterBy: JSON.stringify(filter),
   });
+
+  useEffect(() => {
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      phase: { value: phase, matchMode: FilterMatchMode.EQUALS }
+    }));
+  }, [])
+
+  useEffect(() => {
+    void refetch();
+  }, [filters]);
+
+
   const dataTable = data?.data;
   const deleteEvent = useDeleteEvent();
   const exportEvent = useExportEvent({
@@ -40,7 +66,53 @@ export default function Events(): ReactElement {
     limit: tableState.rows,
     search: search ?? "",
   });
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+
+
+  const getSeverity = (status: string) => {
+    switch (status) {
+      case 'PRE':
+        return 'warning';
+
+      case 'ONGOING':
+        return 'info';
+
+      case 'POST':
+        return 'success';
+
+      case 'renewal':
+        return null;
+    }
+  };
+  const statusItemTemplate = (option: string) => {
+    return <Tag
+      severity={getSeverity(option)}
+      value={option}
+    />;
+  };
+
+  const statusRowFilterTemplate = (options: ColumnFilterElementTemplateOptions) => {
+    return (
+      <Dropdown
+        className="p-column-filter"
+        itemTemplate={statusItemTemplate}
+        onChange={(e: DropdownChangeEvent) => {
+          setFilters(prevFilters => ({
+            ...prevFilters,
+            phase: { matchMode: FilterMatchMode.EQUALS, value: e.value }
+          }));
+          options.filterApplyCallback(e.value);
+        }}
+        options={["PRE", "ONGOING", "POST"]}
+        placeholder="Select One"
+        showClear
+        style={{ minWidth: '7rem' }}
+        value={options.value}
+      />
+
+    );
+  };
+
 
   const statusBodyTemplate = (rowData: Event) => {
     const status = () => {
@@ -118,6 +190,7 @@ export default function Events(): ReactElement {
         <SearchInput className="tw-w-1/4" />
       </div>
       <DataTable
+        filters={filters}
         first={tableState.first}
         lazy
         loading={isLoading || isFetching}
@@ -139,11 +212,24 @@ export default function Events(): ReactElement {
       >
         <Column body={actionBodyTemplate} field="action" header={t("Action")} />
         <Column field="eventName" header={t("Event Name")} />
-        <Column body={(p : Event) => p.eventCategoryName || "-"} field="eventCategoryName" header={t("Category")}  />
-        <Column field="startAt" header={t("Start")} />
+        <Column body={(p: Event) => p.eventCategoryName || "-"} field="eventCategoryName" header={t("Category")} />
+        <Column body={(p: Event) => p.startAt} field="startAt" header={t("Start")} />
         <Column field="endAt" header={t("End")} />
         <Column body={statusBodyTemplate} field="status" header={t("Status")} />
-        <Column body={statusPhase} field="phase" header={t("Event Phase")} />
+        <Column
+          body={statusPhase}
+          field="phase"
+          filter
+          filterElement={statusRowFilterTemplate}
+          filterField="phase"
+          filterMenuStyle={{ width: '14rem' }}
+          filterPlaceholder="Phase"
+          header={t("Event Phase")}
+          showClearButton={false}
+          showFilterMatchModes={false}
+          showFilterMenuOptions={false}
+        />
+
       </DataTable>
       <ConfirmDialog />
     </div>

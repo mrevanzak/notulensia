@@ -25,16 +25,18 @@ export default function Dashboard(): ReactElement {
     void queryClient.refetchQueries({ queryKey: [getDataDashboardKey] });
   }, []);
 
-  const footerCard = (
-    <div className="tw-absolute tw-bottom-2 tw-bg-white tw-w-full tw-right-0">
-      <div className="tw-border" />
-      <div className="tw-flex tw-justify-end tw-pt-2">
-        <Link className="tw-w-auto tw-mr-[8%]" href="/events">
-          <Button label={t('See More')} style={{ backgroundColor: '#DCDFF9', color: '#7580E8', border: 'none' }} type="button"/>
-        </Link>
+  const footerCard = (phase: string) => {
+    return (
+      <div className="tw-absolute tw-bottom-2 tw-bg-white tw-w-full tw-right-0">
+        <div className="tw-border" />
+        <div className="tw-flex tw-justify-end tw-pt-2">
+          <Link className="tw-w-auto tw-mr-[8%]" href={`/events?phase=${phase}`}>
+            <Button label={t('See More')} style={{ backgroundColor: '#DCDFF9', color: '#7580E8', border: 'none' }} type="button" />
+          </Link>
+        </div>
       </div>
-    </div>
-  );
+    )
+  };
 
   const headerCard = (title: string, no: number) => {
     let tagColor = "p-tag-warning";
@@ -116,7 +118,7 @@ export default function Dashboard(): ReactElement {
                     />
                   )
               }
-              {footerCard}
+              {footerCard('POST')}
             </div>
             {/* ongoing */}
             <div
@@ -162,7 +164,7 @@ export default function Dashboard(): ReactElement {
                     />
                   )
               }
-              {footerCard}
+              {footerCard("ONGOING")}
             </div>
             {/* pre */}
             <div
@@ -209,7 +211,7 @@ export default function Dashboard(): ReactElement {
                   )
               }
 
-              {footerCard}
+              {footerCard("PRE")}
             </div>
           </div>
           <EventCategoryChart />
