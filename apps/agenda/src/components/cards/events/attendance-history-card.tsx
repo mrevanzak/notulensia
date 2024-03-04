@@ -80,16 +80,16 @@ export default function AttendaceHistoryCard() {
         totalRecords={data?.total}
         value={dataTable}
       >
-        <Column field="name" header={t("Name")} />
-        <Column field="job" header={t("Job")} />
-        <Column field="description" header={t("Description")}/>
-        <Column field="phoneNumber" header={t("Phone Number")}/>
-        <Column field="email" header={t("Email")}/>
         <Column
           body={dateBodyTemplate}
           field="attendedAt"
           header={t("Attended At")}
         />
+        <Column field="name" header={t("Name")} />
+        <Column field="email" header={t("Email")}/>
+        <Column field="phoneNumber" header={t("Phone Number")}/>
+        <Column field="job" header={t("Job")} />
+        <Column field="description" header={t("Description")}/>
       </DataTable>
     </div>
   );
