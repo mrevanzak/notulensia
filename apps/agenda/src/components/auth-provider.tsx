@@ -16,7 +16,7 @@ const LOGIN_ROUTE = "/auth/sign-in";
 export default function AuthProvider({
   children,
   route,
-}: AuthProviderProps): ReactElement {
+}: Readonly<AuthProviderProps>): ReactElement {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams?.get("redirect");

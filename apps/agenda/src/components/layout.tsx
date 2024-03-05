@@ -1,17 +1,17 @@
 "use client";
-import type {ReactElement} from "react";
-import React, {useCallback, useContext, useEffect, useRef} from "react";
-import {usePathname, useSearchParams} from "next/navigation";
-import {classNames, DomHandler} from "primereact/utils";
+import type { ReactElement } from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { classNames, DomHandler } from "primereact/utils";
 import {
   useEventListener,
   useMountEffect,
   useResizeListener,
   useUnmountEffect,
 } from "primereact/hooks";
-import {PrimeReactContext} from "primereact/api";
-import type {AppTopbarRef, ChildContainerProps} from "@/types/types";
-import {LayoutContext} from "@/context/layout-context";
+import { PrimeReactContext } from "primereact/api";
+import type { AppTopbarRef, ChildContainerProps } from "@/types/types";
+import { LayoutContext } from "@/context/layout-context";
 import AppTopbar from "./topbar/app-topbar";
 import AppSidebar from "./sidebar/app-sidebar";
 
@@ -28,7 +28,7 @@ function Layout(props: ChildContainerProps): ReactElement {
     isDesktop,
     isSidebarActive,
   } = useContext(LayoutContext);
-  const {setRipple} = useContext(PrimeReactContext);
+  const { setRipple } = useContext(PrimeReactContext);
   const topbarRef = useRef<AppTopbarRef>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();

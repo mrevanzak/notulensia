@@ -94,19 +94,23 @@ export default function OngoingEventForm({ endAt }: Readonly<OngoingEventFormPro
         <Editor id="note" isLoading={(isLoading || isRefetching)} label={t("Note Meeting")} placeHolder={t("You can write your note here")} />
         <AudienceListCard attend isLoading={(isLoading || isRefetching)} />
         <AttendanceHistoryCard />
-        <div className="tw-flex tw-justify-end">
-          <div className="tw-flex tw-gap-4">
-            <Button
-              label="Save"
-              loading={isPending}
-              outlined
-              type="submit"
-            />
-            <Link href="/events">
-              <Button label="Cancel" type="button" />
-            </Link>
+
+        <div className="tw-sticky tw-bottom-5 tw-bg-[#f8f6fb] tw-p-2">
+          <div className="tw-flex tw-justify-end">
+            <div className="tw-flex tw-gap-4">
+              <Button
+                label="Save"
+                loading={isPending}
+                outlined
+                type="submit"
+              />
+              <Link href="/events">
+                <Button label="Cancel" type="button" />
+              </Link>
+            </div>
           </div>
         </div>
+
       </form>
     </FormProvider>
   );
