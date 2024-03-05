@@ -11,7 +11,6 @@ import AttendanceHistoryCard from "../../cards/events/attendance-history-card";
 import AttachmentFilesCard from "../../cards/events/attachment-files-card";
 import { FormProvider, useForm, useFieldArray } from "react-hook-form";
 import { useUpdatePostEvent } from "@/lib/api/event/update-post-event";
-import SendNotifButton from "@/components/cards/send-notif-button";
 import { baseUrl } from "@/utils/oauth-utils";
 import { useTranslation } from "react-i18next";
 
@@ -62,22 +61,25 @@ export default function PostEventForm(): ReactElement {
         <AudienceListCard readOnly />
         <AttendanceHistoryCard />
         <AttachmentFilesCard post />
-        <div className="tw-flex tw-justify-between">
-          {values && values.status !== "DRAFT" ? (
-            <div>
-              <Button
-                className="tw-ml-4"
-                icon="pi pi-file-pdf"
-                label={t("Summary")}
-                onClick={() => { const url = `${baseUrl}/summary/${id.toString()}`; window.open(url, "_blank") }}
-                type="button" />
+
+        <div className="tw-sticky tw-bottom-5 tw-bg-[#f8f6fb] tw-p-2">
+          <div className="tw-flex tw-justify-between">
+            {values && values.status !== "DRAFT" ? (
+              <div>
+                <Button
+                  className="tw-ml-4"
+                  icon="pi pi-file-pdf"
+                  label={t("Summary")}
+                  onClick={() => { const url = `${baseUrl}/summary/${id.toString()}`; window.open(url, "_blank") }}
+                  type="button" />
+              </div>
+            ) : null}
+            <div className="tw-flex tw-gap-4">
+              <Button label="Save" loading={isPending} outlined type="submit" />
+              <Link href="/events">
+                <Button label="Cancel" type="button" />
+              </Link>
             </div>
-          ) : null}
-          <div className="tw-flex tw-gap-4">
-            <Button label="Save" loading={isPending} outlined type="submit" />
-            <Link href="/events">
-              <Button label="Cancel" type="button" />
-            </Link>
           </div>
         </div>
       </form>

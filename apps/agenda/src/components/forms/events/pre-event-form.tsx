@@ -302,7 +302,7 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
   if (createLink.data?.link) {
     setValue("linkUrl", createLink.data?.link);
   }
-  
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -320,8 +320,6 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
           void onSubmit();
         }}
       >
-
-
         <DropdownEventCategoryCard />
         <Input float id="name" label={t('Event Name')} required />
         <Input float id="topic" label={t("Topic")} required />
@@ -437,7 +435,7 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
         </div>
 
         {/* <MultiSelectComponent /> */}
-        <AudienceListCard withGroup/>
+        <AudienceListCard withGroup />
         <AttachmentFilesCard />
         <Switch id="isOnline" label={t("Via Online")} />
 
@@ -512,42 +510,44 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
           </>
         )}
 
-        <div className="tw-flex tw-justify-between">
-          <div className="tw-flex tw-gap-4">
-            {values?.status !== "ACTIVE" && (
+        <div className="tw-sticky tw-bottom-5 tw-bg-[#f8f6fb] tw-p-2">
+          <div className="tw-flex tw-justify-between">
+            <div className="tw-flex tw-gap-4">
+              {values?.status !== "ACTIVE" && (
+                <Button
+                  label={t("Draft")}
+                  loading={insertEvent.isPending || updateEvent.isPending}
+                  onClick={() => {
+                    setEventState("DRAFT");
+                  }}
+                  outlined
+                  type="submit"
+                />
+              )}
+              {edit && values && values.status !== "DRAFT" ? (
+                <div>
+                  <SendNotifButton linkValue={`${baseUrl}/summary/${id.toString()}`} />
+                  <Button
+                    className="tw-ml-4"
+                    icon="pi pi-file-pdf"
+                    label={t("Summary")}
+                    onClick={() => { const url = `${baseUrl}/summary/${id.toString()}`; window.open(url, "_blank") }}
+                    outlined
+                    type="button" />
+                </div>
+              ) : null}
+            </div>
+            <div className="tw-flex tw-gap-4">
               <Button
-                label={t("Draft")}
+                label={t("Save")}
                 loading={insertEvent.isPending || updateEvent.isPending}
-                onClick={() => {
-                  setEventState("DRAFT");
-                }}
                 outlined
                 type="submit"
               />
-            )}
-            {edit && values && values.status !== "DRAFT" ? (
-              <div>
-                <SendNotifButton linkValue={`${baseUrl}/summary/${id.toString()}`} />
-                <Button
-                  className="tw-ml-4"
-                  icon="pi pi-file-pdf"
-                  label={t("Summary")}
-                  onClick={() => { const url = `${baseUrl}/summary/${id.toString()}`; window.open(url, "_blank") }}
-                  outlined
-                  type="button" />
-              </div>
-            ) : null}
-          </div>
-          <div className="tw-flex tw-gap-4">
-            <Button
-              label={t("Save")}
-              loading={insertEvent.isPending || updateEvent.isPending}
-              outlined
-              type="submit"
-            />
-            <Link href="/events">
-              <Button label={t("Cancel")} type="button" />
-            </Link>
+              <Link href="/events">
+                <Button label={t("Cancel")} type="button" />
+              </Link>
+            </div>
           </div>
         </div>
       </form>
