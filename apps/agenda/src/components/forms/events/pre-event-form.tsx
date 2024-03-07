@@ -520,7 +520,6 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
                   onClick={() => {
                     setEventState("DRAFT");
                   }}
-                  outlined
                   type="submit"
                 />
               )}

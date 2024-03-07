@@ -17,6 +17,8 @@
     "End": "Selesai",
     "Status": "Status",
     "Event Phase": "Fase Acara",
+    "Create Schedule Event" : "Buat Jadwal Acara",
+    "Phase" : "Fase",
 
     "Pre Event" : "Pra Acara",
     "Ongoing Event" : "Acara Berlangsung",

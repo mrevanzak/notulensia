@@ -62,8 +62,8 @@ export default function Dashboard(): ReactElement {
             <h1 className="tw-text-[64px] max-sm:tw-text-[25px] max-sm:tw-text-center max-2xl:tw-text-[38px]">{t(`Hi, ${truncateText(dashboardData.data?.name, 25)}`)}</h1>
             <h4 className="tw-font-light tw-pt-2 max-sm:tw-text-center">{t('Arrange your meeting plan today!')}</h4>
             <Link className="mt-auto max-sm:tw-text-center" href="/events/add">
-              <Button className="mt-auto w-12rem tw-justify-center">
-                {t("Today's schedule")}
+              <Button className="mt-auto w-14rem tw-justify-center">
+                {t("Create Schedule Event")}
               </Button>
             </Link>
           </div>
