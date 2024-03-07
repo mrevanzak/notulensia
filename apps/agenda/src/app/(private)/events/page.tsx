@@ -21,6 +21,7 @@ import { useTranslation } from "react-i18next";
 import { Dropdown, type DropdownChangeEvent } from "primereact/dropdown";
 import { Tag } from "primereact/tag";
 import { FilterMatchMode } from "primereact/api";
+import moment from "moment";
 
 export default function Events(): ReactElement {
   const searchParams = useSearchParams();
@@ -213,8 +214,8 @@ export default function Events(): ReactElement {
         <Column body={actionBodyTemplate} field="action" header={t("Action")} />
         <Column field="eventName" header={t("Event Name")} />
         <Column body={(p: Event) => p.eventCategoryName || "-"} field="eventCategoryName" header={t("Category")} />
-        <Column body={(p: Event) => p.startAt} field="startAt" header={t("Start")} />
-        <Column field="endAt" header={t("End")} />
+        <Column body={(p: Event) => moment(p.startAt).format("DD-MM-YYYY, HH:mm")} field="startAt" header={t("Start")} style={{ minWidth: "12rem" }} />
+        <Column body={(p: Event) => moment(p.endAt).format("DD-MM-YYYY, HH:mm")} field="endAt" header={t("End")} style={{ minWidth: "12rem" }} />
         <Column body={statusBodyTemplate} field="status" header={t("Status")} />
         <Column
           body={statusPhase}
@@ -224,7 +225,7 @@ export default function Events(): ReactElement {
           filterField="phase"
           filterMenuStyle={{ width: '14rem' }}
           filterPlaceholder="Phase"
-          header={t("Event Phase")}
+          header={t("Phase")}
           showClearButton={false}
           showFilterMatchModes={false}
           showFilterMenuOptions={false}

@@ -11,20 +11,10 @@ export const eventSchema = z.object({
   audienceGroup: z.string(),
   startAt: z
     .string()
-    .datetime({ offset: true })
-    .transform((value) =>
-      new Date(value).toLocaleString("id-ID", {
-        timeZone: "Asia/Jakarta",
-      }),
-    ),
+    .datetime({ offset: true }),
   endAt: z
     .string()
-    .datetime({ offset: true })
-    .transform((value) =>
-      new Date(value).toLocaleString("id-ID", {
-        timeZone: "Asia/Jakarta",
-      }),
-    ),
+    .datetime({ offset: true }),
   status: z.enum(["ACTIVE", "INACTIVE", "DRAFT"]),
   phase: z.string().nullish(),
 });
@@ -52,9 +42,9 @@ export const eventFormSchema = z.object({
   locationValue: z.string().nullish(),
   address: z.string().nullish(),
   schedules: scheduleProgramSchema.array().optional(),
-  provinceId : z.string().uuid().nullish(),
+  provinceId: z.string().uuid().nullish(),
   province: z.string().nullish(),
-  districtId : z.string().uuid().nullish(),
+  districtId: z.string().uuid().nullish(),
   district: z.string().nullish(),
   audienceGroupIds: z.string().array().optional().nullish(),
   files: storageSchema.array().optional(),
@@ -113,7 +103,7 @@ export type CreateLinkGmeet = z.infer<typeof createLinkGmeetSchema>;
 
 
 export const sendEmailNotificationSchema = z.object({
-  eventId : z.string().uuid(),
+  eventId: z.string().uuid(),
   accessToken: z.string().nullable(),
   eventLink: z.string(),
 });
