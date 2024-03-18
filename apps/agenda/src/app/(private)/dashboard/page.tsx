@@ -83,7 +83,7 @@ export default function Dashboard(): ReactElement {
               {
                 dashboardData.data?.post?.length !== 0 ?
                   (
-                    <ul className="tw-list-disc tw-ml-4 tw-my-4 tw-z-10 max-sm:tw-text-[10px] ">
+                    <ul className="tw-list-disc tw-ml-4 tw-pb-10 tw-my-4 tw-z-10 max-sm:tw-text-[10px] ">
                       {
                         dashboardData.data?.post?.slice(0, 3).map((event) => (
                           <li key={event.id}>
@@ -100,7 +100,7 @@ export default function Dashboard(): ReactElement {
                               href={`/events/edit/${event.id}`}
                               id={`eventLink_${event.id}`}
                             >
-                              {moment(event.endAt).format('DD-MM-YYYY')} {`${truncateText(event.eventName, 12)}`}
+                              {`${truncateText(event.eventName, 12)}`}
                             </a>
                           </li>
                         ))
