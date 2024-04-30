@@ -42,14 +42,14 @@ export default function AudienceGroupForm({
   const onSubmit = handleSubmit((data) => {
     edit
       ? updateAudience.mutate({
-          ...data,
-          id,
-          audiences: audience,
-        })
+        ...data,
+        id,
+        audiences: audience,
+      })
       : insertAudience.mutate({
-          ...data,
-          audiences: audience,
-        });
+        ...data,
+        audiences: audience,
+      });
   });
 
   const audience = useAudienceStore((state) => state.audience);
@@ -72,9 +72,9 @@ export default function AudienceGroupForm({
           void onSubmit();
         }}
       >
-        <Input float id="name" label="Name" required/>
+        <Input float id="name" label="Name" required />
         <TextArea float id="description" label="Description" />
-        <AudienceListCard withGroup/>
+        <AudienceListCard />
         <div className="tw-flex tw-gap-4 tw-justify-end">
           <Button
             label="Save"
