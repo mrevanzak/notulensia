@@ -21,7 +21,7 @@ import { useGetListAudience } from "@/lib/api/audience/get-list-audience";
 import { toast } from "react-toastify";
 import { Skeleton } from "primereact/skeleton";
 
-export default function AudienceListCard({ readOnly = false, attend = false, withGroup, isLoading }: Readonly<{ readOnly?: boolean, attend?: boolean, withGroup?: boolean, isLoading?: boolean }>) {
+export default function AudienceListCard({ readOnly = false, attend = false, withExport, isLoading }: Readonly<{ readOnly?: boolean, attend?: boolean, withExport?: boolean, isLoading?: boolean }>) {
 
   const params = useParams<{ id: string }>();
   const eventId = params?.id ?? "";
@@ -251,7 +251,9 @@ export default function AudienceListCard({ readOnly = false, attend = false, wit
                   }}
                   type="button"
                 />
-                <ExportButton action={exportAudience.mutate} outlined />
+                {withExport &&
+                  <ExportButton action={exportAudience.mutate} outlined />
+                }
               </div>
             )}
 
@@ -260,7 +262,7 @@ export default function AudienceListCard({ readOnly = false, attend = false, wit
         <DataTable
           editMode="cell"
           emptyMessage={t("Please add audience")}
-          onSelectionChange={(e) => {setSelectedAudiences(e.value)}}
+          onSelectionChange={(e) => { setSelectedAudiences(e.value) }}
           selection={selectedAudiences!}
           selectionMode="checkbox"
           value={audience}
