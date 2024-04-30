@@ -12,16 +12,16 @@ export const useInsertEventCategory = () => {
     const router = useRouter();
 
     return useMutation({
-        mutationFn : async (body: EventCategorySchemaForm) => {
+        mutationFn: async (body: EventCategorySchemaForm) => {
             const resp = await httpClient.post("/event/category", body);
             return resp;
         },
         onSuccess: () => {
-            void queryClient.invalidateQueries({queryKey : [getEventCategoryKey]});
-            void queryClient.invalidateQueries({queryKey : [getDetailEventCategoryKey]});
-            void queryClient.invalidateQueries({queryKey : [getEventCategoryDropdownKey]});
+            void queryClient.invalidateQueries({ queryKey: [getEventCategoryKey] });
+            void queryClient.invalidateQueries({ queryKey: [getDetailEventCategoryKey] });
+            void queryClient.invalidateQueries({ queryKey: [getEventCategoryDropdownKey] });
             toast.success("Event category created successfully");
-            router.push("/data-master/event-category");
+            // router.push("/data-master/event-category");
         },
     })
 

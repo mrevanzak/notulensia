@@ -45,16 +45,13 @@ import Switch from "../../ui/switch";
 import SendNotifButton from "../../cards/send-notif-button";
 import { useTranslation } from "react-i18next";
 import DropdownEventCategoryCard from "@/components/cards/events/dropdown-event-category-card";
-import MultiSelectComponent from "@/components/cards/events/multi-select-audience-group-card";
+import { baseUrl } from "@/utils/oauth-utils";
 
 type EventFormProps = {
   edit?: boolean;
 };
 export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactElement {
-  let baseUrl = "https://agenda.saranaintegrasi.co.id";
-  if (process.env.NODE_ENV === "development") {
-    baseUrl = "http://localhost:3000";
-  }
+
   const { id } = useParams();
 
   const { data: values } = useGetEventDetail(id as string);
