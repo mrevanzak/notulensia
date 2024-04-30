@@ -11,7 +11,7 @@ type ExportButtonProps = {
 
 export default function ExportButton({ action, ...props }: ExportButtonProps) {
   const menuRef = useRef<Menu>(null);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const exportMenu = [
     {
       label: "CSV",
@@ -31,7 +31,7 @@ export default function ExportButton({ action, ...props }: ExportButtonProps) {
 
   return (
     <>
-      <Button onClick={(event) => menuRef?.current?.toggle(event)} {...props}>
+      <Button onClick={(event) => menuRef?.current?.toggle(event)} {...props} type="button">
         {t('Export')}
       </Button>
       <Menu model={exportMenu} popup ref={menuRef} />

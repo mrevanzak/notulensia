@@ -432,7 +432,7 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
         </div>
 
         {/* <MultiSelectComponent /> */}
-        <AudienceListCard withGroup />
+        <AudienceListCard withExport={edit} />
         <AttachmentFilesCard />
         <Switch id="isOnline" label={t("Via Online")} />
 
