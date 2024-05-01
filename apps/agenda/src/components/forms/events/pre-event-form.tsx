@@ -311,7 +311,7 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
       <form
         className="tw-space-y-8 !tw-my-8 tw-pt-4"
         id="preEventForm"
-        onKeyDown={handleKeyPress}
+        // onKeyDown={handleKeyPress}
         onSubmit={(event) => {
           event.preventDefault();
           void onSubmit();
@@ -507,7 +507,7 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
           </>
         )}
 
-        <div className="tw-sticky tw-bottom-5 tw-bg-[#f8f6fb] tw-p-2">
+        <div className="tw-sticky tw-bottom-10 tw-bg-[#f8f6fb] tw-p-2">
           <div className="tw-flex tw-justify-between">
             <div className="tw-flex tw-gap-4">
               {values?.status !== "ACTIVE" && (

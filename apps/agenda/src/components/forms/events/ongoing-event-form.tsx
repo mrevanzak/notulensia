@@ -95,7 +95,7 @@ export default function OngoingEventForm({ endAt }: Readonly<OngoingEventFormPro
         <AudienceListCard attend isLoading={(isLoading || isRefetching)} />
         <AttendanceHistoryCard />
 
-        <div className="tw-sticky tw-bottom-5 tw-bg-[#f8f6fb] tw-p-2">
+        <div className="tw-sticky tw-bottom-10 tw-bg-[#f8f6fb] tw-p-2">
           <div className="tw-flex tw-justify-end">
             <div className="tw-flex tw-gap-4">
               <Button

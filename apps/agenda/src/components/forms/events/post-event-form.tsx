@@ -62,7 +62,7 @@ export default function PostEventForm(): ReactElement {
         <AttendanceHistoryCard />
         <AttachmentFilesCard post />
 
-        <div className="tw-sticky tw-bottom-5 tw-bg-[#f8f6fb] tw-p-2">
+        <div className="tw-sticky tw-bottom-10 tw-bg-[#f8f6fb] tw-p-2">
           <div className="tw-flex tw-justify-between">
             {values && values.status !== "DRAFT" ? (
               <div>

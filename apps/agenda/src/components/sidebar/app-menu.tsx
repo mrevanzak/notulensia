@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 function AppMenu(): ReactElement {
   const size = 32;
   const subSize = 30;
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const model: MenuModel[] = [
     {
       label: "root",
@@ -35,24 +35,24 @@ function AppMenu(): ReactElement {
         },
         {
           icon: <GoDatabase color="#4343BF" size={size} />,
-          label : "Data Master",
+          label: "Data Master",
           items: [
             {
-              icon: <FaRegAddressCard className="tw-ml-5" color="#4343BF"  size={subSize} />,
+              icon: <FaRegAddressCard className="tw-ml-5" color="#4343BF" size={subSize} />,
               label: t("Address"),
               to: "/data-master/address",
             },
             {
-              icon: <TbCategory2 className="tw-ml-5"  color="#4343BF" size={subSize} />,
+              icon: <MdGroups className="tw-ml-5" color="#4343BF" size={subSize} />,
+              label: t("Audience Group"),
+              to: "/audience-group",
+            },
+            {
+              icon: <TbCategory2 className="tw-ml-5" color="#4343BF" size={subSize} />,
               label: t("Event Category"),
               to: "/data-master/event-category",
-            }
+            },
           ]
-        },
-        {
-          icon: <MdGroups color="#4343BF" size={size} />,
-          label: t("Audience Group"),
-          to: "/audience-group",
         },
         {
           icon: <MdOutlineSettings color="#4343BF" size={size} />,
