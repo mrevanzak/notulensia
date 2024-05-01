@@ -1,5 +1,6 @@
 import type { DropdownProps as PrimeDropdownProps } from "primereact/dropdown";
 import { Dropdown as PrimeDropdown } from "primereact/dropdown";
+import { Skeleton } from "primereact/skeleton";
 
 import { classNames } from "primereact/utils";
 import type { ReactElement } from "react";
@@ -8,22 +9,13 @@ import type { RegisterOptions } from "react-hook-form";
 import { Controller, get, useFormContext } from "react-hook-form";
 
 export type DropdownProps = {
-  /** Input label */
   label: string;
-  /**
-   * id to be initialized with React Hook Form,
-   * must be the same with the pre-defined types.
-   */
   id: string;
-  /** Input placeholder */
   placeholder?: string;
-  /** Float label */
   float?: boolean;
-  /** Disables the input and shows loading indicator */
   loading?: boolean;
-  /** Disables the input and shows defaultValue (can be set from React Hook Form) */
+  isLoading?: boolean;
   readOnly?: boolean;
-  /** Manual validation using RHF, it is encouraged to use yup resolver instead */
   validation?: RegisterOptions;
 } & PrimeDropdownProps;
 
@@ -35,6 +27,7 @@ export default function Dropdown({
   options,
   required,
   loading,
+  isLoading,
   ...props
 }: DropdownProps): ReactElement {
   const {
@@ -42,6 +35,12 @@ export default function Dropdown({
     control,
   } = useFormContext();
   const error = get(errors, id);
+
+  if (isLoading) {
+    return (
+      <Skeleton className='tw-mb-3' height='5vh' width='100%' />
+    );
+  }
 
   return (
     <>

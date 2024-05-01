@@ -27,7 +27,7 @@ export default function SignInForm(): ReactElement {
     const timeoutId = setTimeout(() => {
       setIsErrorState(false);
     }, 5000);
-    return () => {clearTimeout(timeoutId);}
+    return () => { clearTimeout(timeoutId); }
   }, [isErrorGoogle]);
 
   const methods = useForm<SignInFormValues>({
@@ -36,6 +36,7 @@ export default function SignInForm(): ReactElement {
   const { handleSubmit } = methods;
   const onSubmit = handleSubmit((data) => {
     mutate({ ...data });
+    setIsLoading(true);
   });
 
   const hash = typeof window !== 'undefined' ? window.location.hash : null;
@@ -95,7 +96,7 @@ export default function SignInForm(): ReactElement {
           <Button
             className="w-full !tw-p-4 !tw-mt-8"
             label={t('Login')}
-            loading={isPending}
+            loading={isPending || isLoading}
             severity="secondary"
             type="submit"
           />

@@ -28,7 +28,6 @@ export default function DropdownEventCategoryCard(): ReactElement {
 		}
 	};
 
-
 	const methods = useForm<EventCategorySchema>({
 		resolver: zodResolver(eventCategorySchemaForm),
 		resetOptions: {
@@ -120,6 +119,7 @@ export default function DropdownEventCategoryCard(): ReactElement {
 			<Dropdown
 				float
 				id="eventCategoryId"
+				isLoading={eventCategory.isLoading}
 				label={t("Event Category")}
 				loading={eventCategory.isLoading}
 				optionLabel="eventCategoryName"
@@ -128,6 +128,7 @@ export default function DropdownEventCategoryCard(): ReactElement {
 				panelFooterTemplate={footerCategory}
 				required
 			/>
+
 		</>
 	);
 }
