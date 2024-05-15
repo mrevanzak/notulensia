@@ -16,10 +16,10 @@ export const metadata: Metadata = {
 
 export default function LandingLayout({
   children,
-}: LandingLayoutProps): ReactElement {
-    return (
-        <div className="layout tw-min-h-screen tw-flex tw-items-center tw-flex-col">
-          <AuthProvider route="public">{children}</AuthProvider>
-        </div>
+}: Readonly<LandingLayoutProps>): ReactElement {
+  return (
+    <div className="layout tw-min-h-screen tw-flex tw-items-center tw-flex-col">
+      <AuthProvider route="public">{children}</AuthProvider>
+    </div>
   );
 }
