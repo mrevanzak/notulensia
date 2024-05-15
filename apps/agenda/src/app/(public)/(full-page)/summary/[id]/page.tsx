@@ -9,6 +9,7 @@ import React, { useEffect } from 'react'
 import type { ReactElement } from 'react'
 import { Editor } from 'primereact/editor';
 import moment from 'moment';
+import { API_URL } from '@/lib/http';
 
 export default function Summary(): ReactElement {
     const params = useParams<{ id: string }>();
@@ -131,7 +132,7 @@ export default function Summary(): ReactElement {
                                 <tr className='tw-text-center' key={file.storageId}>
                                     <td className='tw-border tw-border-black'>{file.name}</td>
                                     <td className='tw-border tw-border-black'>{file.format}</td>
-                                    <td className='tw-border tw-border-black tw-text-xs'><a className='tw-text-blue-500' href={`https://agenda.saranaintegrasi.co.id/api/v1/storage/agenda/${file.storageId}`}>{`https://agenda.saranaintegrasi.co.id/api/v1/storage/agenda/${file.storageId}`}</a></td>
+                                    <td className='tw-border tw-border-black tw-text-xs'><a className='tw-text-blue-500' href={`${API_URL}/storage/agenda/${file.storageId}`}>{`${API_URL}/storage/agenda/${file.storageId}`}</a></td>
                                 </tr>
                             ))}
 

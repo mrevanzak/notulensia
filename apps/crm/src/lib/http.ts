@@ -2,8 +2,8 @@ import { useAuthStore } from "@/stores/use-auth-store";
 import axios from "axios";
 import { ApiError } from "@/lib/error";
 
-export const API_URL = "https://agenda.saranaintegrasi.co.id/api/v1/crm";
-export const STORAGE_URL = "https://agenda.saranaintegrasi.co.id/api/v1";
+export const API_URL = "https://notulensia.id/api/v1/crm";
+export const STORAGE_URL = "https://notulensia.id/api/v1";
 
 export const httpClient = axios.create({
   baseURL: API_URL,
