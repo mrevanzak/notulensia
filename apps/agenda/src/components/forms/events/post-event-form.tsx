@@ -70,7 +70,7 @@ export default function PostEventForm(): ReactElement {
                   className="tw-ml-4"
                   icon="pi pi-file-pdf"
                   label={t("Summary")}
-                  onClick={() => { const url = `${baseUrl}/summary/${id.toString()}`; window.open(url, "_blank") }}
+                  onClick={() => { const url = `${baseUrl}/summary/post/${id.toString()}`; window.open(url, "_blank") }}
                   type="button" />
               </div>
             ) : null}
