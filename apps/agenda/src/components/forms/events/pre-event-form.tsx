@@ -524,7 +524,7 @@ export default function PreEventForm({ edit }: Readonly<EventFormProps>): ReactE
                     className="tw-ml-4"
                     icon="pi pi-file-pdf"
                     label={t("Summary")}
-                    onClick={() => { const url = `${baseUrl}/summary/${id.toString()}`; window.open(url, "_blank") }}
+                    onClick={() => { const url = `${baseUrl}/summary/pre/${id.toString()}`; window.open(url, "_blank") }}
                     outlined
                     type="button" />
                 </div>
