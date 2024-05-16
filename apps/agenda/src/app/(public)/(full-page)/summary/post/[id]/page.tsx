@@ -135,9 +135,25 @@ export default function Summary(): ReactElement {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <Editor readOnly showHeader={false} style={{ color: "red" }} value={getDetail.data?.note ?? ""} />
-                    </tr>
+                    <table className='tw-table tw-border-black tw-border tw-w-full tw-mt-3'>
+                        <thead>
+                            <tr className='tw-border tw-border-black'>
+                                <th className='tw-w-1/4 tw-border tw-border-black'>Meeting Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                getDetail.data?.notes?.map((note) => (
+                                    <tr key={note.eventAt}>
+                                        <div className='tw-m-2 tw-border-black tw-border'>
+                                            <p className='tw-text-center'>{moment(note.eventAt).format("dddd, DD MMMM YYYY")}</p>
+                                            <Editor readOnly showHeader={false} style={{ color: "red" }} value={note.note} />
+                                        </div>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
                 </tbody>
             </table>
 
